@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, User, Clock, MessageCircle, Laptop } from "lucide-react";
+import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import ProjectCard from "@/components/ProjectCard";
 import Timeline from "@/components/Timeline";
@@ -36,8 +36,12 @@ const Index = () => {
         {/* Hero Section */}
         <section className="mb-20 text-center">
           <div className="mb-8">
-            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
-              <User className="h-16 w-16 text-primary-foreground" />
+            <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-primary/20">
+              <img 
+                src="https://avatars.githubusercontent.com/u/69475128?v=4" 
+                alt="Bernardo Gomes"
+                className="w-full h-full object-cover"
+              />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               Bernardo Gomes
@@ -159,7 +163,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Skills & Interests */}
+        {/* Skills & Technologies */}
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-8 text-center">Skills & Technologies</h2>
           <div className="grid md:grid-cols-2 gap-8">
