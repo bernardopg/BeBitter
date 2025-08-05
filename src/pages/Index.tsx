@@ -135,7 +135,7 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Phone className="mr-2 h-5 w-5" />
+                <MessageCircle className="mr-2 h-5 w-5" />
                 WhatsApp
               </a>
             </Button>
