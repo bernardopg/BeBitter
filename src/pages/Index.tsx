@@ -322,7 +322,7 @@ const Index = () => {
                     <Mail className="h-5 w-5 text-primary" />
                     <div>
                       <div className="font-medium">{t('contact.email')}</div>
-                      <div className="text-sm text-muted-foreground">bernardopg@outlook.com</div>
+                      <div className="text-sm text-muted-foreground">bernardo.gomes@bebitterbebetter.com.br</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
