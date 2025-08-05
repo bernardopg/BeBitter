@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop, Star, Users, Coffee } from "lucide-react";
+import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop, Star, Users, Coffee, Palette, Monitor } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import ProjectCard from "@/components/ProjectCard";
 import Timeline from "@/components/Timeline";
@@ -23,9 +23,9 @@ const Index = () => {
       githubUrl: "https://github.com/bernardopg"
     },
     {
-      title: "Open Source Contributions",
-      description: "Various contributions to open source projects and community-driven development initiatives.",
-      technologies: ["JavaScript", "Python", "TypeScript", "React", "Node.js"],
+      title: "UI/UX Design Projects",
+      description: "Modern website designs and user interfaces with focus on user experience and visual appeal.",
+      technologies: ["Figma", "UI/UX", "Responsive Design", "Prototyping"],
       githubUrl: "https://github.com/bernardopg"
     }
   ];
@@ -47,7 +47,7 @@ const Index = () => {
               Bernardo Gomes
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-2">
-              Full Stack Developer
+              Full Stack Developer & Website Designer
             </p>
             <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
               <div className="flex items-center gap-1">
@@ -93,13 +93,14 @@ const Index = () => {
             <div className="lg:col-span-2 space-y-6">
               <div className="prose prose-lg max-w-none">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Sou um desenvolvedor apaixonado por tecnologia, sempre em busca de criar 
+                  Sou um desenvolvedor e designer apaixonado por tecnologia, sempre em busca de criar 
                   experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web 
-                  full-stack, combino habilidades técnicas com visão inovadora.
+                  full-stack e design de interfaces, combino habilidades técnicas com visão criativa.
                 </p>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Quando não estou programando, gosto de explorar novas tecnologias, contribuir para 
-                  projetos open source e compartilhar conhecimento com a comunidade de desenvolvedores.
+                  Quando não estou programando ou criando designs, gosto de explorar novas tecnologias, 
+                  contribuir para projetos open source e compartilhar conhecimento com a comunidade de 
+                  desenvolvedores e designers.
                 </p>
               </div>
               
@@ -112,8 +113,16 @@ const Index = () => {
                     <span className="font-medium">Full Stack Development</span>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
+                    <Palette className="h-5 w-5 text-primary" />
+                    <span className="font-medium">UI/UX Design</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
+                    <Monitor className="h-5 w-5 text-primary" />
+                    <span className="font-medium">Website Development</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
                     <Laptop className="h-5 w-5 text-primary" />
-                    <span className="font-medium">Web Applications</span>
+                    <span className="font-medium">Responsive Design</span>
                   </div>
                 </div>
               </div>
@@ -143,10 +152,10 @@ const Index = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Github className="h-4 w-4 text-primary" />
-                      <span className="text-sm">Commits</span>
+                      <Palette className="h-4 w-4 text-primary" />
+                      <span className="text-sm">Designs</span>
                     </div>
-                    <span className="font-bold text-primary">100+</span>
+                    <span className="font-bold text-primary">30+</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -183,14 +192,14 @@ const Index = () => {
 
           {/* Tech Stack */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-center">Tech Stack</h3>
+            <h3 className="text-xl font-semibold text-center">Tech Stack & Design Tools</h3>
             <div className="flex flex-wrap justify-center gap-2">
               <Badge variant="secondary" className="text-sm py-1 px-3">JavaScript</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">TypeScript</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">React</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">Node.js</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">Python</Badge>
-              <Badge variant="secondary" className="text-sm py-1 px-3">Git</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">Figma</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">Tailwind CSS</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">Next.js</Badge>
             </div>
@@ -233,12 +242,12 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle>Frontend Development</CardTitle>
+                <CardTitle>Development Skills</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Core Technologies</h4>
+                    <h4 className="font-medium mb-2">Frontend Technologies</h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">React</Badge>
                       <Badge variant="outline">TypeScript</Badge>
@@ -248,12 +257,13 @@ const Index = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Tools & Frameworks</h4>
+                    <h4 className="font-medium mb-2">Backend & Tools</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">Vite</Badge>
-                      <Badge variant="outline">Next.js</Badge>
-                      <Badge variant="outline">Responsive Design</Badge>
-                      <Badge variant="outline">Component Libraries</Badge>
+                      <Badge variant="outline">Node.js</Badge>
+                      <Badge variant="outline">Python</Badge>
+                      <Badge variant="outline">APIs</Badge>
+                      <Badge variant="outline">Git</Badge>
+                      <Badge variant="outline">Database</Badge>
                     </div>
                   </div>
                 </div>
@@ -262,26 +272,27 @@ const Index = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Backend & Tools</CardTitle>
+                <CardTitle>Design & Creative</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Backend Technologies</h4>
+                    <h4 className="font-medium mb-2">Design Tools</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">Node.js</Badge>
-                      <Badge variant="outline">Python</Badge>
-                      <Badge variant="outline">APIs</Badge>
-                      <Badge variant="outline">Database</Badge>
+                      <Badge variant="outline">Figma</Badge>
+                      <Badge variant="outline">Adobe Creative Suite</Badge>
+                      <Badge variant="outline">Sketch</Badge>
+                      <Badge variant="outline">Prototyping</Badge>
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Development Tools</h4>
+                    <h4 className="font-medium mb-2">Design Skills</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">Git</Badge>
-                      <Badge variant="outline">VS Code</Badge>
-                      <Badge variant="outline">Terminal</Badge>
-                      <Badge variant="outline">Package Managers</Badge>
+                      <Badge variant="outline">UI/UX Design</Badge>
+                      <Badge variant="outline">Responsive Design</Badge>
+                      <Badge variant="outline">User Research</Badge>
+                      <Badge variant="outline">Wireframing</Badge>
+                      <Badge variant="outline">Visual Design</Badge>
                     </div>
                   </div>
                 </div>

@@ -11,20 +11,20 @@ interface TimelineItem {
 const timelineItems: TimelineItem[] = [
   {
     year: "2024",
-    title: "Full Stack Developer",
-    description: "Desenvolvendo aplicações web modernas com React, Node.js e tecnologias cloud",
+    title: "Full Stack Developer & Designer",
+    description: "Desenvolvendo aplicações web modernas e criando designs únicos com foco na experiência do usuário",
     type: "work"
   },
   {
     year: "2023",
-    title: "Open Source Contributions",
-    description: "Contribuindo para projetos open source e desenvolvendo ferramentas para a comunidade",
+    title: "UI/UX Design Focus",
+    description: "Expandindo habilidades em design de interfaces e experiência do usuário, criando protótipos e wireframes",
     type: "project"
   },
   {
     year: "2018",
     title: "Web Development Journey",
-    description: "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript e React",
+    description: "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript, React e princípios de design",
     type: "education"
   }
 ];
