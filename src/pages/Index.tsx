@@ -15,23 +15,22 @@ const Index = () => {
 
   const featuredProjects = [
     {
-      title: "Personal Portfolio Website",
-      description: "Modern, responsive portfolio built with React and TypeScript, featuring clean design, smooth animations, and multilingual support.",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Vite", "i18n"],
-      githubUrl: "https://github.com/bernardopg/portfolio",
-      liveUrl: "https://bernardogomes.dev",
+      title: t('projects.portfolio.title'),
+      description: t('projects.portfolio.description'),
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+      githubUrl: "https://github.com/bernardopg",
       featured: true
     },
     {
-      title: "Web Development Tools & Scripts",
-      description: "Collection of utility scripts and automation tools for web development workflow optimization, including deployment scripts and development helpers.",
-      technologies: ["Node.js", "Python", "Bash", "Automation", "DevOps"],
+      title: t('projects.tools.title'),
+      description: t('projects.tools.description'),
+      technologies: ["Node.js", "Python", "Automation", "Javascript"],
       githubUrl: "https://github.com/bernardopg"
     },
     {
-      title: "React Component Library",
-      description: "Reusable React components built with modern practices, TypeScript support, and comprehensive documentation for rapid development.",
-      technologies: ["React", "TypeScript", "Storybook", "CSS Modules", "Jest"],
+      title: t('projects.design.title'),
+      description: t('projects.design.description'),
+      technologies: ["Figma", "UI/UX", "Responsive Design", "Prototyping"],
       githubUrl: "https://github.com/bernardopg"
     }
   ];
