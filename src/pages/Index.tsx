@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop } from "lucide-react";
+import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop, Star, Users, Coffee } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import ProjectCard from "@/components/ProjectCard";
 import Timeline from "@/components/Timeline";
@@ -75,7 +75,7 @@ const Index = () => {
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <a href="mailto:bernardo.gomes@bebitterbebetter.com.br">
+              <a href="mailto:bernardopg@outlook.com">
                 <Mail className="mr-2 h-5 w-5" />
                 Contact
               </a>
@@ -85,50 +85,114 @@ const Index = () => {
 
         {/* About Section */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-8 text-center">About Me</h2>
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6">
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Sou um desenvolvedor apaixonado por tecnologia, sempre em busca de criar 
-                experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web 
-                full-stack, combino habilidades técnicas com visão inovadora.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Quando não estou programando, gosto de explorar novas tecnologias, contribuir para 
-                projetos open source e compartilhar conhecimento com a comunidade de desenvolvedores.
-              </p>
-              <div className="flex gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">3+</div>
-                  <div className="text-sm text-muted-foreground">Years Coding</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">50+</div>
-                  <div className="text-sm text-muted-foreground">Projects</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">100+</div>
-                  <div className="text-sm text-muted-foreground">Commits</div>
+          <h2 className="text-3xl font-bold mb-12 text-center">About Me</h2>
+          
+          {/* Main About Content */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            {/* Text Content */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="prose prose-lg max-w-none">
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Sou um desenvolvedor apaixonado por tecnologia, sempre em busca de criar 
+                  experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web 
+                  full-stack, combino habilidades técnicas com visão inovadora.
+                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Quando não estou programando, gosto de explorar novas tecnologias, contribuir para 
+                  projetos open source e compartilhar conhecimento com a comunidade de desenvolvedores.
+                </p>
+              </div>
+              
+              {/* Core Skills */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">Core Expertise</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
+                    <Code className="h-5 w-5 text-primary" />
+                    <span className="font-medium">Full Stack Development</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
+                    <Laptop className="h-5 w-5 text-primary" />
+                    <span className="font-medium">Web Applications</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Code className="h-5 w-5 text-primary" />
-                <span className="font-medium">Full Stack Development</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Laptop className="h-5 w-5 text-primary" />
-                <span className="font-medium">Web Applications</span>
-              </div>
-              <div className="flex flex-wrap gap-2 mt-4">
-                <Badge variant="secondary">JavaScript</Badge>
-                <Badge variant="secondary">TypeScript</Badge>
-                <Badge variant="secondary">React</Badge>
-                <Badge variant="secondary">Node.js</Badge>
-                <Badge variant="secondary">Python</Badge>
-                <Badge variant="secondary">Git</Badge>
-              </div>
+
+            {/* Stats & Quick Info */}
+            <div className="space-y-6">
+              {/* Stats Card */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Quick Stats</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      <span className="text-sm">Experience</span>
+                    </div>
+                    <span className="font-bold text-primary">3+ Years</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 text-primary" />
+                      <span className="text-sm">Projects</span>
+                    </div>
+                    <span className="font-bold text-primary">50+</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Github className="h-4 w-4 text-primary" />
+                      <span className="text-sm">Commits</span>
+                    </div>
+                    <span className="font-bold text-primary">100+</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Coffee className="h-4 w-4 text-primary" />
+                      <span className="text-sm">Coffee Cups</span>
+                    </div>
+                    <span className="font-bold text-primary">∞</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Current Status */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Current Status</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm">Available for projects</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Based in Brazil</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Open to collaboration</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Tech Stack */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-center">Tech Stack</h3>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Badge variant="secondary" className="text-sm py-1 px-3">JavaScript</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">TypeScript</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">React</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">Node.js</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">Python</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">Git</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">Tailwind CSS</Badge>
+              <Badge variant="secondary" className="text-sm py-1 px-3">Next.js</Badge>
             </div>
           </div>
         </section>
