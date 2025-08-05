@@ -75,7 +75,7 @@ const Index = () => {
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <a href="mailto:bernardopg@outlook.com">
+              <a href="mailto:bernardo.gomes@bebitterbebetter.com.br">
                 <Mail className="mr-2 h-5 w-5" />
                 Contact
               </a>
