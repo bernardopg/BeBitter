@@ -16,13 +16,7 @@ const timelineItems: TimelineItem[] = [
     type: "work"
   },
   {
-    year: "2023",
-    title: "Photography Portfolio Launch",
-    description: "Lancei meu portfolio de fotografia no Instagram, focando em street photography",
-    type: "project"
-  },
-  {
-    year: "2022",
+    year: "2018",
     title: "Web Development Journey",
     description: "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript e React",
     type: "education"
