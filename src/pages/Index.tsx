@@ -8,6 +8,7 @@ import Timeline from "@/components/Timeline";
 import ContactForm from "@/components/ContactForm";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -36,7 +37,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <LanguageToggle />
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         {/* Hero Section */}
         <section className="mb-20 text-center">
