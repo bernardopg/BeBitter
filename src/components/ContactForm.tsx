@@ -21,7 +21,7 @@ const ContactForm = () => {
     // Create mailto link
     const subject = `Contact from ${formData.name}`;
     const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-    const mailtoLink = `mailto:bernardopg@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:bernardo.gomes@bebitterbebetter.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     window.location.href = mailtoLink;
     showSuccess("Email client opened! Thank you for reaching out.");
