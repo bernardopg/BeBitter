@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Instagram, Mail, MapPin, Calendar, Code, Camera, ExternalLink, User, Clock, MessageCircle } from "lucide-react";
+import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, User, Clock, MessageCircle, Laptop } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import ProjectCard from "@/components/ProjectCard";
 import Timeline from "@/components/Timeline";
@@ -21,6 +21,12 @@ const Index = () => {
       description: "Collection of utility scripts and tools for web development workflow optimization.",
       technologies: ["Node.js", "Python", "Automation"],
       githubUrl: "https://github.com/bernardopg"
+    },
+    {
+      title: "Open Source Contributions",
+      description: "Various contributions to open source projects and community-driven development initiatives.",
+      technologies: ["JavaScript", "TypeScript", "React", "Node.js"],
+      githubUrl: "https://github.com/bernardopg"
     }
   ];
 
@@ -37,7 +43,7 @@ const Index = () => {
               Bernardo Gomes
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-2">
-              Full Stack Developer & Photography Enthusiast
+              Full Stack Developer
             </p>
             <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
               <div className="flex items-center gap-1">
@@ -79,13 +85,13 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Sou um desenvolvedor apaixonado por tecnologia e fotografia, sempre em busca de criar 
+                Sou um desenvolvedor apaixonado por tecnologia, sempre em busca de criar 
                 experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web 
-                full-stack, combino habilidades técnicas com visão criativa.
+                full-stack, combino habilidades técnicas com visão inovadora.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Quando não estou programando, você me encontrará explorando o mundo através das lentes 
-                da minha câmera, capturando momentos e histórias que merecem ser contadas.
+                Quando não estou programando, gosto de explorar novas tecnologias, contribuir para 
+                projetos open source e compartilhar conhecimento com a comunidade de desenvolvedores.
               </p>
               <div className="flex gap-4">
                 <div className="text-center">
@@ -97,8 +103,8 @@ const Index = () => {
                   <div className="text-sm text-muted-foreground">Projects</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">1K+</div>
-                  <div className="text-sm text-muted-foreground">Photos Taken</div>
+                  <div className="text-2xl font-bold text-primary">100+</div>
+                  <div className="text-sm text-muted-foreground">Commits</div>
                 </div>
               </div>
             </div>
@@ -108,8 +114,8 @@ const Index = () => {
                 <span className="font-medium">Full Stack Development</span>
               </div>
               <div className="flex items-center gap-3">
-                <Camera className="h-5 w-5 text-primary" />
-                <span className="font-medium">Photography & Visual Arts</span>
+                <Laptop className="h-5 w-5 text-primary" />
+                <span className="font-medium">Web Applications</span>
               </div>
               <div className="flex flex-wrap gap-2 mt-4">
                 <Badge variant="secondary">JavaScript</Badge>
@@ -117,7 +123,7 @@ const Index = () => {
                 <Badge variant="secondary">React</Badge>
                 <Badge variant="secondary">Node.js</Badge>
                 <Badge variant="secondary">Python</Badge>
-                <Badge variant="secondary">Photography</Badge>
+                <Badge variant="secondary">Git</Badge>
               </div>
             </div>
           </div>
@@ -155,16 +161,16 @@ const Index = () => {
 
         {/* Skills & Interests */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-8 text-center">Skills & Interests</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center">Skills & Technologies</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle>Technical Skills</CardTitle>
+                <CardTitle>Frontend Development</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Frontend Development</h4>
+                    <h4 className="font-medium mb-2">Core Technologies</h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">React</Badge>
                       <Badge variant="outline">TypeScript</Badge>
@@ -174,13 +180,12 @@ const Index = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Backend & Tools</h4>
+                    <h4 className="font-medium mb-2">Tools & Frameworks</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">Node.js</Badge>
-                      <Badge variant="outline">Python</Badge>
-                      <Badge variant="outline">Git</Badge>
-                      <Badge variant="outline">APIs</Badge>
-                      <Badge variant="outline">Database</Badge>
+                      <Badge variant="outline">Vite</Badge>
+                      <Badge variant="outline">Next.js</Badge>
+                      <Badge variant="outline">Responsive Design</Badge>
+                      <Badge variant="outline">Component Libraries</Badge>
                     </div>
                   </div>
                 </div>
@@ -189,26 +194,26 @@ const Index = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Creative Interests</CardTitle>
+                <CardTitle>Backend & Tools</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Photography</h4>
+                    <h4 className="font-medium mb-2">Backend Technologies</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">Street Photography</Badge>
-                      <Badge variant="outline">Portraits</Badge>
-                      <Badge variant="outline">Landscapes</Badge>
-                      <Badge variant="outline">Urban Exploration</Badge>
+                      <Badge variant="outline">Node.js</Badge>
+                      <Badge variant="outline">Python</Badge>
+                      <Badge variant="outline">APIs</Badge>
+                      <Badge variant="outline">Database</Badge>
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Design & Visual Arts</h4>
+                    <h4 className="font-medium mb-2">Development Tools</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">UI/UX Design</Badge>
-                      <Badge variant="outline">Visual Storytelling</Badge>
-                      <Badge variant="outline">Creative Direction</Badge>
-                      <Badge variant="outline">Photo Editing</Badge>
+                      <Badge variant="outline">Git</Badge>
+                      <Badge variant="outline">VS Code</Badge>
+                      <Badge variant="outline">Terminal</Badge>
+                      <Badge variant="outline">Package Managers</Badge>
                     </div>
                   </div>
                 </div>
@@ -229,7 +234,7 @@ const Index = () => {
                 <CardHeader>
                   <CardTitle>Get In Touch</CardTitle>
                   <CardDescription>
-                    I'm always excited to discuss new projects, creative ideas, or opportunities to collaborate.
+                    I'm always excited to discuss new projects, development opportunities, or collaborate on interesting ideas.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">

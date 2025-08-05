@@ -16,6 +16,12 @@ const timelineItems: TimelineItem[] = [
     type: "work"
   },
   {
+    year: "2023",
+    title: "Open Source Contributions",
+    description: "Contribuindo para projetos open source e desenvolvendo ferramentas para a comunidade",
+    type: "project"
+  },
+  {
     year: "2018",
     title: "Web Development Journey",
     description: "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript e React",

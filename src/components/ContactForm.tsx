@@ -43,7 +43,7 @@ const ContactForm = () => {
           Send me a message
         </CardTitle>
         <CardDescription>
-          I'd love to hear about your project or just say hello!
+          I'd love to hear about your project or discuss development opportunities!
         </CardDescription>
       </CardHeader>
       <CardContent>
