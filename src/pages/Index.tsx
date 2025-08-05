@@ -15,22 +15,23 @@ const Index = () => {
 
   const featuredProjects = [
     {
-      title: t('projects.portfolio.title'),
-      description: t('projects.portfolio.description'),
+      title: t('projects.p1.title'),
+      description: t('projects.p1.description'),
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
       githubUrl: "https://github.com/bernardopg",
       featured: true
     },
     {
-      title: t('projects.tools.title'),
-      description: t('projects.tools.description'),
-      technologies: ["Node.js", "Python", "Automation", "Javascript"],
-      githubUrl: "https://github.com/bernardopg"
+      title: t('projects.p2.title'),
+      description: t('projects.p2.description'),
+      technologies: ["React", "Node.js", "Express", "MongoDB"],
+      githubUrl: "https://github.com/bernardopg",
+      liveUrl: "https://github.com/bernardopg"
     },
     {
-      title: t('projects.design.title'),
-      description: t('projects.design.description'),
-      technologies: ["Figma", "UI/UX", "Responsive Design", "Prototyping"],
+      title: t('projects.p3.title'),
+      description: t('projects.p3.description'),
+      technologies: ["Next.js", "TypeScript", "shadcn/ui", "Vercel"],
       githubUrl: "https://github.com/bernardopg"
     }
   ];
