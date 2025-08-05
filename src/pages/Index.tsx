@@ -25,7 +25,7 @@ const Index = () => {
     {
       title: "Open Source Contributions",
       description: "Various contributions to open source projects and community-driven development initiatives.",
-      technologies: ["JavaScript", "TypeScript", "React", "Node.js"],
+      technologies: ["JavaScript", "Python", "TypeScript", "React", "Node.js"],
       githubUrl: "https://github.com/bernardopg"
     }
   ];
