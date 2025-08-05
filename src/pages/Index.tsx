@@ -6,25 +6,29 @@ import { MadeWithDyad } from "@/components/made-with-dyad";
 import ProjectCard from "@/components/ProjectCard";
 import Timeline from "@/components/Timeline";
 import ContactForm from "@/components/ContactForm";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
   const featuredProjects = [
     {
-      title: "Personal Portfolio Website",
-      description: "Modern, responsive portfolio built with React and TypeScript, featuring clean design and smooth animations.",
+      title: t('projects.portfolio.title'),
+      description: t('projects.portfolio.description'),
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
       githubUrl: "https://github.com/bernardopg",
       featured: true
     },
     {
-      title: "Web Development Tools",
-      description: "Collection of utility scripts and tools for web development workflow optimization.",
+      title: t('projects.tools.title'),
+      description: t('projects.tools.description'),
       technologies: ["Node.js", "Python", "Automation", "Javascript"],
       githubUrl: "https://github.com/bernardopg"
     },
     {
-      title: "UI/UX Design Projects",
-      description: "Modern website designs and user interfaces with focus on user experience and visual appeal.",
+      title: t('projects.design.title'),
+      description: t('projects.design.description'),
       technologies: ["Figma", "UI/UX", "Responsive Design", "Prototyping"],
       githubUrl: "https://github.com/bernardopg"
     }
@@ -32,6 +36,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <LanguageToggle />
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         {/* Hero Section */}
         <section className="mb-20 text-center">
@@ -44,19 +49,19 @@ const Index = () => {
               />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Bernardo Gomes
+              {t('hero.title')}
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-2">
-              Full Stack Developer & Website Designer
+              {t('hero.subtitle')}
             </p>
             <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
               <div className="flex items-center gap-1">
                 <MapPin className="h-4 w-4" />
-                <span>Brazil</span>
+                <span>{t('hero.location')}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                <span>Available for projects</span>
+                <span>{t('hero.availability')}</span>
               </div>
             </div>
           </div>
@@ -65,19 +70,19 @@ const Index = () => {
             <Button asChild size="lg">
               <a href="https://github.com/bernardopg" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-5 w-5" />
-                GitHub
+                {t('hero.github')}
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
               <a href="https://instagram.com/be.pgomes" target="_blank" rel="noopener noreferrer">
                 <Instagram className="mr-2 h-5 w-5" />
-                Instagram
+                {t('hero.instagram')}
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
               <a href="mailto:bernardopg@outlook.com">
                 <Mail className="mr-2 h-5 w-5" />
-                Contact
+                {t('hero.contact')}
               </a>
             </Button>
           </div>
@@ -85,7 +90,7 @@ const Index = () => {
 
         {/* About Section */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-12 text-center">About Me</h2>
+          <h2 className="text-3xl font-bold mb-12 text-center">{t('about.title')}</h2>
           
           {/* Main About Content */}
           <div className="grid lg:grid-cols-3 gap-8 mb-12">
@@ -93,36 +98,32 @@ const Index = () => {
             <div className="lg:col-span-2 space-y-6">
               <div className="prose prose-lg max-w-none">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Sou um desenvolvedor e designer apaixonado por tecnologia, sempre em busca de criar 
-                  experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web 
-                  full-stack e design de interfaces, combino habilidades técnicas com visão criativa.
+                  {t('about.description1')}
                 </p>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Quando não estou programando ou criando designs, gosto de explorar novas tecnologias, 
-                  contribuir para projetos open source e compartilhar conhecimento com a comunidade de 
-                  desenvolvedores e designers.
+                  {t('about.description2')}
                 </p>
               </div>
               
               {/* Core Skills */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Core Expertise</h3>
+                <h3 className="text-xl font-semibold">{t('about.expertise')}</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
                     <Code className="h-5 w-5 text-primary" />
-                    <span className="font-medium">Full Stack Development</span>
+                    <span className="font-medium">{t('about.fullstack')}</span>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
                     <Palette className="h-5 w-5 text-primary" />
-                    <span className="font-medium">UI/UX Design</span>
+                    <span className="font-medium">{t('about.uiux')}</span>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
                     <Monitor className="h-5 w-5 text-primary" />
-                    <span className="font-medium">Website Development</span>
+                    <span className="font-medium">{t('about.website')}</span>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
                     <Laptop className="h-5 w-5 text-primary" />
-                    <span className="font-medium">Responsive Design</span>
+                    <span className="font-medium">{t('about.responsive')}</span>
                   </div>
                 </div>
               </div>
@@ -133,36 +134,36 @@ const Index = () => {
               {/* Stats Card */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Quick Stats</CardTitle>
+                  <CardTitle className="text-lg">{t('about.stats')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-primary" />
-                      <span className="text-sm">Experience</span>
+                      <span className="text-sm">{t('about.experience')}</span>
                     </div>
-                    <span className="font-bold text-primary">3+ Years</span>
+                    <span className="font-bold text-primary">{t('about.years')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Star className="h-4 w-4 text-primary" />
-                      <span className="text-sm">Projects</span>
+                      <span className="text-sm">{t('about.projects')}</span>
                     </div>
-                    <span className="font-bold text-primary">50+</span>
+                    <span className="font-bold text-primary">{t('about.projectsCount')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Palette className="h-4 w-4 text-primary" />
-                      <span className="text-sm">Designs</span>
+                      <span className="text-sm">{t('about.designs')}</span>
                     </div>
-                    <span className="font-bold text-primary">30+</span>
+                    <span className="font-bold text-primary">{t('about.designsCount')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Coffee className="h-4 w-4 text-primary" />
-                      <span className="text-sm">Coffee Cups</span>
+                      <span className="text-sm">{t('about.coffee')}</span>
                     </div>
-                    <span className="font-bold text-primary">∞</span>
+                    <span className="font-bold text-primary">{t('about.coffeeCount')}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -170,20 +171,20 @@ const Index = () => {
               {/* Current Status */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Current Status</CardTitle>
+                  <CardTitle className="text-lg">{t('about.status')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm">Available for projects</span>
+                    <span className="text-sm">{t('about.available')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">Based in Brazil</span>
+                    <span className="text-sm text-muted-foreground">{t('about.location')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">Open to collaboration</span>
+                    <span className="text-sm text-muted-foreground">{t('about.collaboration')}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -192,7 +193,7 @@ const Index = () => {
 
           {/* Tech Stack */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-center">Tech Stack & Design Tools</h3>
+            <h3 className="text-xl font-semibold text-center">{t('about.techstack')}</h3>
             <div className="flex flex-wrap justify-center gap-2">
               <Badge variant="secondary" className="text-sm py-1 px-3">JavaScript</Badge>
               <Badge variant="secondary" className="text-sm py-1 px-3">TypeScript</Badge>
@@ -208,7 +209,7 @@ const Index = () => {
 
         {/* Featured Projects */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-8 text-center">Featured Projects</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center">{t('projects.title')}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {featuredProjects.map((project, index) => (
               <ProjectCard key={index} {...project} />
@@ -218,7 +219,7 @@ const Index = () => {
             <Button asChild variant="outline">
               <a href="https://github.com/bernardopg" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-4 w-4" />
-                View All Projects
+                {t('projects.viewAll')}
                 <ExternalLink className="ml-2 h-4 w-4" />
               </a>
             </Button>
@@ -229,7 +230,7 @@ const Index = () => {
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-8 text-center flex items-center justify-center gap-2">
             <Clock className="h-6 w-6" />
-            My Journey
+            {t('timeline.title')}
           </h2>
           <div className="max-w-3xl mx-auto">
             <Timeline />
@@ -238,16 +239,16 @@ const Index = () => {
 
         {/* Skills & Technologies */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-8 text-center">Skills & Technologies</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center">{t('skills.title')}</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle>Development Skills</CardTitle>
+                <CardTitle>{t('skills.development')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Frontend Technologies</h4>
+                    <h4 className="font-medium mb-2">{t('skills.frontend')}</h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">React</Badge>
                       <Badge variant="outline">TypeScript</Badge>
@@ -257,7 +258,7 @@ const Index = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Backend & Tools</h4>
+                    <h4 className="font-medium mb-2">{t('skills.backend')}</h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">Node.js</Badge>
                       <Badge variant="outline">Python</Badge>
@@ -272,12 +273,12 @@ const Index = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Design & Creative</CardTitle>
+                <CardTitle>{t('skills.design')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Design Tools</h4>
+                    <h4 className="font-medium mb-2">{t('skills.designTools')}</h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">Figma</Badge>
                       <Badge variant="outline">Adobe Creative Suite</Badge>
@@ -286,7 +287,7 @@ const Index = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Design Skills</h4>
+                    <h4 className="font-medium mb-2">{t('skills.designSkills')}</h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">UI/UX Design</Badge>
                       <Badge variant="outline">Responsive Design</Badge>
@@ -305,36 +306,36 @@ const Index = () => {
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-8 text-center flex items-center justify-center gap-2">
             <MessageCircle className="h-6 w-6" />
-            Let's Connect
+            {t('contact.title')}
           </h2>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Get In Touch</CardTitle>
+                  <CardTitle>{t('contact.getInTouch')}</CardTitle>
                   <CardDescription>
-                    I'm always excited to discuss new projects, development opportunities, or collaborate on interesting ideas.
+                    {t('contact.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-3">
                     <Mail className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium">Email</div>
+                      <div className="font-medium">{t('contact.email')}</div>
                       <div className="text-sm text-muted-foreground">bernardopg@outlook.com</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Github className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium">GitHub</div>
+                      <div className="font-medium">{t('contact.github')}</div>
                       <div className="text-sm text-muted-foreground">@bernardopg</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Instagram className="h-5 w-5 text-primary" />
                     <div>
-                      <div className="font-medium">Instagram</div>
+                      <div className="font-medium">{t('contact.instagram')}</div>
                       <div className="text-sm text-muted-foreground">@be.pgomes</div>
                     </div>
                   </div>

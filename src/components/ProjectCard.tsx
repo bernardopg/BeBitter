@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Github, ExternalLink } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProjectCardProps {
   title: string;
@@ -13,6 +14,8 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ title, description, technologies, githubUrl, liveUrl, featured }: ProjectCardProps) => {
+  const { t } = useLanguage();
+
   return (
     <Card className={`hover:shadow-lg transition-all duration-300 ${featured ? 'ring-2 ring-primary/20' : ''}`}>
       <CardHeader>
@@ -39,7 +42,7 @@ const ProjectCard = ({ title, description, technologies, githubUrl, liveUrl, fea
             <Button asChild variant="outline" size="sm">
               <a href={githubUrl} target="_blank" rel="noopener noreferrer">
                 <Github className="mr-1 h-3 w-3" />
-                Code
+                {t('projects.code')}
               </a>
             </Button>
           )}
@@ -47,7 +50,7 @@ const ProjectCard = ({ title, description, technologies, githubUrl, liveUrl, fea
             <Button asChild variant="outline" size="sm">
               <a href={liveUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1 h-3 w-3" />
-                Live
+                {t('projects.live')}
               </a>
             </Button>
           )}

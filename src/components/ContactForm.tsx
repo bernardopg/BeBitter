@@ -5,8 +5,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Send } from "lucide-react";
 import { showSuccess, showError } from "@/utils/toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ContactForm = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -40,10 +42,10 @@ const ContactForm = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Mail className="h-5 w-5" />
-          Send me a message
+          {t('contact.form.title')}
         </CardTitle>
         <CardDescription>
-          I'd love to hear about your project or discuss development opportunities!
+          {t('contact.form.description')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -52,7 +54,7 @@ const ContactForm = () => {
             <div>
               <Input
                 name="name"
-                placeholder="Your name"
+                placeholder={t('contact.form.name')}
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -62,7 +64,7 @@ const ContactForm = () => {
               <Input
                 name="email"
                 type="email"
-                placeholder="Your email"
+                placeholder={t('contact.form.email')}
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -72,7 +74,7 @@ const ContactForm = () => {
           <div>
             <Textarea
               name="message"
-              placeholder="Your message..."
+              placeholder={t('contact.form.message')}
               rows={4}
               value={formData.message}
               onChange={handleChange}
@@ -81,7 +83,7 @@ const ContactForm = () => {
           </div>
           <Button type="submit" className="w-full">
             <Send className="mr-2 h-4 w-4" />
-            Send Message
+            {t('contact.form.send')}
           </Button>
         </form>
       </CardContent>

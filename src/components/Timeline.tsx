@@ -1,35 +1,38 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface TimelineItem {
   year: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   type: 'work' | 'education' | 'project';
 }
 
 const timelineItems: TimelineItem[] = [
   {
     year: "2024",
-    title: "Full Stack Developer & Designer",
-    description: "Desenvolvendo aplicações web modernas e criando designs únicos com foco na experiência do usuário",
+    titleKey: 'timeline.2024.title',
+    descriptionKey: 'timeline.2024.description',
     type: "work"
   },
   {
     year: "2023",
-    title: "UI/UX Design Focus",
-    description: "Expandindo habilidades em design de interfaces e experiência do usuário, criando protótipos e wireframes",
+    titleKey: 'timeline.2023.title',
+    descriptionKey: 'timeline.2023.description',
     type: "project"
   },
   {
     year: "2018",
-    title: "Web Development Journey",
-    description: "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript, React e princípios de design",
+    titleKey: 'timeline.2018.title',
+    descriptionKey: 'timeline.2018.description',
     type: "education"
   }
 ];
 
 const Timeline = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-6">
       {timelineItems.map((item, index) => (
@@ -48,11 +51,11 @@ const Timeline = () => {
                   item.type === 'work' ? 'default' : 
                   item.type === 'education' ? 'outline' : 'secondary'
                 }>
-                  {item.type}
+                  {t(`timeline.${item.type}`)}
                 </Badge>
               </div>
-              <h3 className="font-semibold mb-1">{item.title}</h3>
-              <p className="text-sm text-muted-foreground">{item.description}</p>
+              <h3 className="font-semibold mb-1">{t(item.titleKey)}</h3>
+              <p className="text-sm text-muted-foreground">{t(item.descriptionKey)}</p>
             </CardContent>
           </Card>
         </div>
