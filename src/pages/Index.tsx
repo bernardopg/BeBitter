@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop, Star, Users, Coffee, Palette, Monitor } from "lucide-react";
+import { Github, Instagram, Mail, MapPin, Calendar, Code, ExternalLink, Clock, MessageCircle, Laptop, Star, Users, Coffee, Palette, Monitor, Phone } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import ProjectCard from "@/components/ProjectCard";
 import Timeline from "@/components/Timeline";
@@ -337,6 +337,13 @@ const Index = () => {
                     <div>
                       <div className="font-medium">{t('contact.instagram')}</div>
                       <div className="text-sm text-muted-foreground">@be.pgomes</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <div>
+                      <div className="font-medium">{t('contact.whatsapp')}</div>
+                      <a href="https://wa.me/5531984916431" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:underline">+55 (31) 98491-6431</a>
                     </div>
                   </div>
                 </CardContent>
