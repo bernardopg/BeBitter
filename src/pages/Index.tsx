@@ -19,7 +19,7 @@ const Index = () => {
     {
       title: "Web Development Tools",
       description: "Collection of utility scripts and tools for web development workflow optimization.",
-      technologies: ["Node.js", "Python", "Automation"],
+      technologies: ["Node.js", "Python", "Automation", "Javascript"],
       githubUrl: "https://github.com/bernardopg"
     },
     {
