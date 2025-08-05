@@ -17,13 +17,6 @@ const Index = () => {
       featured: true
     },
     {
-      title: "Photography Gallery",
-      description: "Interactive photo gallery showcasing street photography and landscapes with responsive grid layout.",
-      technologies: ["JavaScript", "CSS Grid", "Lightbox"],
-      githubUrl: "https://github.com/bernardopg",
-      liveUrl: "https://instagram.com/be.pgomes"
-    },
-    {
       title: "Web Development Tools",
       description: "Collection of utility scripts and tools for web development workflow optimization.",
       technologies: ["Node.js", "Python", "Automation"],
