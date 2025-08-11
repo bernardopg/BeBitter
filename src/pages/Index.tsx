@@ -12,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Image from "@/components/ui/image";
+import { IMAGES } from "@/constants/images";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Calendar,
@@ -78,10 +80,11 @@ const Index = () => {
         <section className="mb-20 text-center">
           <div className="mb-8">
             <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-primary/20">
-              <img
-                src="https://avatars.githubusercontent.com/u/69475128?v=4"
+              <Image
+                src={IMAGES.GITHUB_AVATAR}
                 alt="Bernardo Gomes"
                 className="w-full h-full object-cover"
+                lazy={false}
               />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
