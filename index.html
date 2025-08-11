@@ -32,14 +32,30 @@
     content="Personal portfolio of Bernardo Gomes - Software Developer specializing in JavaScript, automation, and web development." />
   <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/bebitter-logo.png" />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJHKLMHN8X"></script>
+  <!-- Resource Hints para melhor performance -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical assets -->
+  <link rel="modulepreload" href="/src/main.tsx">
+  <link rel="preload" href="/images/logos/bebitter-logo.png" as="image" type="image/png">
+
+  <!-- Google tag (gtag.js) com carregamento otimizado -->
   <script>
+    // Carregamento diferido do Google Analytics
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-YJHKLMHN8X');
+
+    // Carrega o script após o load da página
+    window.addEventListener('load', function () {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YJHKLMHN8X';
+      document.head.appendChild(script);
+    });
   </script>
 </head>
 

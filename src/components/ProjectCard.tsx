@@ -1,8 +1,14 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useLanguage } from "@/hooks/useLanguage";
+import { ExternalLink, Github } from "lucide-react";
 
 interface ProjectCardProps {
   title: string;
@@ -13,16 +19,31 @@ interface ProjectCardProps {
   featured?: boolean;
 }
 
-const ProjectCard = ({ title, description, technologies, githubUrl, liveUrl, featured }: ProjectCardProps) => {
+const ProjectCard = ({
+  title,
+  description,
+  technologies,
+  githubUrl,
+  liveUrl,
+  featured,
+}: ProjectCardProps) => {
   const { t } = useLanguage();
 
   return (
-    <Card className={`hover:shadow-lg transition-all duration-300 ${featured ? 'ring-2 ring-primary/20' : ''}`}>
+    <Card
+      className={`hover:shadow-lg transition-all duration-300 ${
+        featured ? "ring-2 ring-primary/20" : ""
+      }`}
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
             <CardTitle className="text-lg">{title}</CardTitle>
-            {featured && <Badge variant="secondary" className="mt-1">Featured</Badge>}
+            {featured && (
+              <Badge variant="secondary" className="mt-1">
+                Featured
+              </Badge>
+            )}
           </div>
         </div>
         <CardDescription className="text-sm leading-relaxed">
@@ -42,7 +63,7 @@ const ProjectCard = ({ title, description, technologies, githubUrl, liveUrl, fea
             <Button asChild variant="outline" size="sm">
               <a href={githubUrl} target="_blank" rel="noopener noreferrer">
                 <Github className="mr-1 h-3 w-3" />
-                {t('projects.code')}
+                {t("projects.code")}
               </a>
             </Button>
           )}
@@ -50,7 +71,7 @@ const ProjectCard = ({ title, description, technologies, githubUrl, liveUrl, fea
             <Button asChild variant="outline" size="sm">
               <a href={liveUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1 h-3 w-3" />
-                {t('projects.live')}
+                {t("projects.live")}
               </a>
             </Button>
           )}

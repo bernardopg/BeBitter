@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /assets/
+Disallow: *.js$
+Disallow: *.css$
+
+Sitemap: https://bebitterbebetter.com.br/sitemap.xml

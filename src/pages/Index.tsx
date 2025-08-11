@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 import { IMAGES } from "@/constants/images";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   Calendar,
   Clock,

@@ -7,12 +7,14 @@
 Se você está usando Vercel para hospedar seu site:
 
 #### ✅ SSL Automático
+
 O Vercel fornece certificados SSL **gratuitamente e automaticamente** para todos os domínios. Não é necessária nenhuma configuração adicional!
 
-#### 📋 Passos para configurar domínio no Vercel:
+#### 📋 Passos para configurar domínio no Vercel
 
 1. **Acesse o Dashboard do Vercel**
-   ```
+
+   ```text
    https://vercel.com/dashboard
    ```
 
@@ -30,14 +32,16 @@ O Vercel fornece certificados SSL **gratuitamente e automaticamente** para todos
    Adicione um dos seguintes registros DNS:
 
    **Opção A - CNAME (Recomendado):**
-   ```
+
+   ```text
    Tipo: CNAME
    Nome: www
    Valor: cname.vercel-dns.com
    ```
 
    **Opção B - A Record:**
-   ```
+
+   ```text
    Tipo: A
    Nome: @
    Valor: 76.76.21.21
@@ -52,10 +56,11 @@ O Vercel fornece certificados SSL **gratuitamente e automaticamente** para todos
 
 Se você está usando Hostinger:
 
-#### 📋 Passos para ativar SSL no Hostinger:
+#### 📋 Passos para ativar SSL no Hostinger
 
 1. **Acesse o hPanel da Hostinger**
-   ```
+
+   ```text
    https://hpanel.hostinger.com/
    ```
 
@@ -82,10 +87,11 @@ Se você está usando Hostinger:
 
 Para adicionar SSL e melhorar a performance:
 
-#### 📋 Configuração do Cloudflare:
+#### 📋 Configuração do Cloudflare
 
 1. **Crie uma conta no Cloudflare**
-   ```
+
+   ```text
    https://www.cloudflare.com/
    ```
 
@@ -107,10 +113,11 @@ Para adicionar SSL e melhorar a performance:
 
 ## 🔍 Verificando o Certificado SSL
 
-### Como verificar se está funcionando:
+### Como verificar se está funcionando
 
 1. **Acesse seu site com HTTPS**
-   ```
+
+   ```text
    https://bebitterbebetter.com.br
    ```
 
@@ -119,12 +126,13 @@ Para adicionar SSL e melhorar a performance:
    - Verifique "Conexão segura"
 
 3. **Use ferramentas online**
-   - SSL Checker: https://www.sslshopper.com/ssl-checker.html
-   - SSL Labs: https://www.ssllabs.com/ssltest/
+   - SSL Checker: <https://www.sslshopper.com/ssl-checker.html>
+   - SSL Labs: <https://www.ssllabs.com/ssltest/>
 
 ## ⚠️ Redirecionamento HTTP → HTTPS
 
-### Para Vercel:
+### Para Vercel
+
 Adicione ao `vercel.json`:
 
 ```json
@@ -143,7 +151,8 @@ Adicione ao `vercel.json`:
 }
 ```
 
-### Para Hostinger:
+### Para Hostinger
+
 Adicione ao `.htaccess`:
 
 ```apache
@@ -167,23 +176,26 @@ Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains
 ## 🆘 Troubleshooting
 
 ### Problema: "Conexão não é privada"
+
 - **Solução**: Aguarde propagação do DNS (até 48h)
 - Limpe o cache do navegador
 
 ### Problema: Conteúdo misto (Mixed Content)
+
 - **Solução**: Certifique-se que todos os recursos usam HTTPS
 - Atualize links de HTTP para HTTPS no código
 
 ### Problema: Certificado expirado
+
 - **Solução**:
   - Vercel/Cloudflare: Renovação automática
   - Hostinger: Verifique renovação do Let's Encrypt
 
 ## 📞 Suporte
 
-- **Vercel**: https://vercel.com/support
-- **Hostinger**: https://www.hostinger.com.br/contato
-- **Cloudflare**: https://support.cloudflare.com/
+- **Vercel**: <https://vercel.com/support>
+- **Hostinger**: <https://www.hostinger.com.br/contato>
+- **Cloudflare**: <https://support.cloudflare.com/>
 
 ---
 

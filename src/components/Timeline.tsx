@@ -1,33 +1,33 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface TimelineItem {
   year: string;
   titleKey: string;
   descriptionKey: string;
-  type: 'work' | 'education' | 'project';
+  type: "work" | "education" | "project";
 }
 
 const timelineItems: TimelineItem[] = [
   {
     year: "2024",
-    titleKey: 'timeline.2024.title',
-    descriptionKey: 'timeline.2024.description',
-    type: "work"
+    titleKey: "timeline.2024.title",
+    descriptionKey: "timeline.2024.description",
+    type: "work",
   },
   {
     year: "2023",
-    titleKey: 'timeline.2023.title',
-    descriptionKey: 'timeline.2023.description',
-    type: "project"
+    titleKey: "timeline.2023.title",
+    descriptionKey: "timeline.2023.description",
+    type: "project",
   },
   {
     year: "2018",
-    titleKey: 'timeline.2018.title',
-    descriptionKey: 'timeline.2018.description',
-    type: "education"
-  }
+    titleKey: "timeline.2018.title",
+    descriptionKey: "timeline.2018.description",
+    type: "education",
+  },
 ];
 
 const Timeline = () => {
@@ -47,15 +47,22 @@ const Timeline = () => {
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="secondary">{item.year}</Badge>
-                <Badge variant={
-                  item.type === 'work' ? 'default' : 
-                  item.type === 'education' ? 'outline' : 'secondary'
-                }>
+                <Badge
+                  variant={
+                    item.type === "work"
+                      ? "default"
+                      : item.type === "education"
+                      ? "outline"
+                      : "secondary"
+                  }
+                >
                   {t(`timeline.${item.type}`)}
                 </Badge>
               </div>
               <h3 className="font-semibold mb-1">{t(item.titleKey)}</h3>
-              <p className="text-sm text-muted-foreground">{t(item.descriptionKey)}</p>
+              <p className="text-sm text-muted-foreground">
+                {t(item.descriptionKey)}
+              </p>
             </CardContent>
           </Card>
         </div>

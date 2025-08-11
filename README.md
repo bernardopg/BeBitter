@@ -31,9 +31,20 @@ pnpm preview
 
 O site está disponível em: [bebitterbebetter.com.br](https://bebitterbebetter.com.br)
 
+### Hostinger
+
+Este projeto está configurado para deploy no Hostinger. Para fazer deploy:
+
+```bash
+# Build e criar pacote para deploy
+./deploy.sh
+```
+
+Para instruções detalhadas, consulte: [HOSTINGER_DEPLOY_GUIDE.md](./HOSTINGER_DEPLOY_GUIDE.md)
+
 ## 📱 Contato
 
-- **Email:** bernardo.gomes@bebitterbebetter.com.br
+- **Email:** <bernardo.gomes@bebitterbebetter.com.br>
 - **GitHub:** [@bernardopg](https://github.com/bernardopg)
 - **Instagram:** [@be.pgomes](https://instagram.com/be.pgomes)
 
