@@ -2,12 +2,12 @@
 
 Portfolio pessoal de Bernardo Gomes - Desenvolvedor Full-Stack e Designer.
 
-## � Screenshots
+## Screenshots
 
 ![Home](public/images/home-screenshot.png)
 ![Projetos](public/images/projects-screenshot.png)
 
-## �🚀 Tecnologias
+## 🚀 Tecnologias
 
 - React 18
 - TypeScript
@@ -44,8 +44,6 @@ Este projeto está configurado para deploy no Hostinger. Para fazer deploy:
 # Build e criar pacote para deploy
 ./deploy.sh
 ```
-
-Para instruções detalhadas, consulte: [HOSTINGER_DEPLOY_GUIDE.md](./HOSTINGER_DEPLOY_GUIDE.md)
 
 ## 📱 Contato
 
