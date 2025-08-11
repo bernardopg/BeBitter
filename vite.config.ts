@@ -8,6 +8,14 @@ export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
+    // Fix MIME type issues for development
+    fs: {
+      strict: false,
+    },
+    middlewareMode: false,
+    headers: {
+      "Cache-Control": "no-cache",
+    },
   },
   plugins: [
     dyadComponentTagger(),

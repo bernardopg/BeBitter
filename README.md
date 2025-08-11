@@ -2,7 +2,12 @@
 
 Portfolio pessoal de Bernardo Gomes - Desenvolvedor Full-Stack e Designer.
 
-## 🚀 Tecnologias
+## � Screenshots
+
+![Home](public/images/home-screenshot.png)
+![Projetos](public/images/projects-screenshot.png)
+
+## �🚀 Tecnologias
 
 - React 18
 - TypeScript

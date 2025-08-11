@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Service Worker Cleanup</title>
+</head>
+
+<body>
+  <h1>Service Worker Cleanup Utility</h1>
+  <p>This page helps clear service workers that might be interfering with development.</p>
+
+  <button onclick="clearServiceWorkers()">Clear All Service Workers</button>
+
+  <div id="status"></div>
+
+  <script>
+    async function clearServiceWorkers() {
+      const status = document.getElementById('status');
+
+      if ('serviceWorker' in navigator) {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+
+          status.innerHTML = `<p>Found ${registrations.length} service worker(s)</p>`;
+
+          for (const registration of registrations) {
+            await registration.unregister();
+            status.innerHTML += `<p>✅ Unregistered: ${registration.scope}</p>`;
+          }
+
+          // Clear all caches
+          const cacheNames = await caches.keys();
+          await Promise.all(
+            cacheNames.map(cacheName => caches.delete(cacheName))
+          );
+
+          status.innerHTML += `<p>✅ Cleared ${cacheNames.length} cache(s)</p>`;
+          status.innerHTML += `<p>🎉 All done! You can now go back to your app.</p>`;
+
+        } catch (error) {
+          status.innerHTML = `<p>❌ Error: ${error.message}</p>`;
+        }
+      } else {
+        status.innerHTML = '<p>❌ Service workers not supported</p>';
+      }
+    }
+
+    // Auto-run on page load
+    window.addEventListener('load', clearServiceWorkers);
+  </script>
+</body>
+
+</html>

@@ -55,6 +55,22 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Skip module scripts and development files to avoid MIME type issues
+  const url = event.request.url;
+  if (
+    url.includes("/src/") ||
+    url.includes(".tsx") ||
+    url.includes(".ts") ||
+    url.includes(".jsx") ||
+    url.includes("@vite") ||
+    url.includes("@fs") ||
+    url.includes("?") ||
+    (event.request.destination === "script" && url.includes("/src/"))
+  ) {
+    // Let these requests pass through to Vite dev server
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       // Return cached version if available
@@ -74,16 +90,16 @@ self.addEventListener("fetch", (event) => {
             return response;
           }
 
-          // Cache successful responses for static assets
+          // Cache successful responses for static assets only
           const responseToCache = response.clone();
           const url = event.request.url;
 
-          // Cache images, fonts, and JS/CSS files
+          // Only cache specific static assets, not module files
           if (
             url.includes("/images/") ||
-            url.includes("/assets/") ||
-            url.includes(".js") ||
-            url.includes(".css") ||
+            (url.includes("/assets/") && !url.includes("/src/")) ||
+            (url.includes(".js") && !url.includes("/src/")) ||
+            (url.includes(".css") && !url.includes("/src/")) ||
             url.includes(".woff") ||
             url.includes(".woff2")
           ) {

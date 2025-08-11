@@ -1,6 +1,34 @@
 # Configuração para Hostinger - Apache
 RewriteEngine On
 
+# MIME type fixes for ES modules and modern web apps
+<IfModule mod_mime.c>
+    # JavaScript modules
+    AddType application/javascript .js
+    AddType application/javascript .mjs
+    AddType text/javascript .js
+
+    # TypeScript (for development)
+    AddType application/javascript .ts
+    AddType application/javascript .tsx
+
+    # JSON
+    AddType application/json .json
+
+    # Fonts
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType application/font-woff .woff
+    AddType application/font-woff2 .woff2
+
+    # Images
+    AddType image/webp .webp
+    AddType image/avif .avif
+
+    # Source maps
+    AddType application/json .map
+</IfModule>
+
 # Forçar HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
