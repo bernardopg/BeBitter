@@ -32,6 +32,33 @@
     content="Personal portfolio of Bernardo Gomes - Software Developer specializing in JavaScript, automation, and web development." />
   <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/bebitter-logo.png" />
 
+  <!-- Service Worker Cleanup Script for Development -->
+  <script>
+    // This script runs only in development to prevent service worker conflicts.
+    // A lingering service worker can cause "module script" MIME type errors with Vite.
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '8080') {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          if (registrations.length > 0) {
+            console.log('🧹 Development mode: Clearing service workers...');
+            let unregistered = false;
+            for (let registration of registrations) {
+              registration.unregister();
+              unregistered = true;
+            }
+            if (unregistered) {
+              // Reload the page to ensure the service worker is no longer in control.
+              console.log('✅ Service workers cleared. Reloading page...');
+              window.location.reload();
+            }
+          }
+        }).catch(function(err) {
+          console.error('Service worker cleanup failed:', err);
+        });
+      }
+    }
+  </script>
+
   <!-- Resource Hints para melhor performance -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>

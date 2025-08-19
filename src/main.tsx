@@ -3,32 +3,9 @@ import App from "./App.tsx";
 import "./globals.css";
 import { initPerformanceMonitoring } from "./utils/performance";
 
-// Development mode: Clear any existing service workers that might interfere
-if (import.meta.env.DEV) {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
-      if (registrations.length > 0) {
-        console.log(
-          "🧹 Development mode: Clearing existing service workers to prevent MIME type issues..."
-        );
-        registrations.forEach((registration) => {
-          registration.unregister().then(() => {
-            console.log("✅ Service worker unregistered:", registration.scope);
-          });
-        });
-
-        // Clear caches
-        caches.keys().then((cacheNames) => {
-          cacheNames.forEach((cacheName) => {
-            caches.delete(cacheName).then(() => {
-              console.log("✅ Cache cleared:", cacheName);
-            });
-          });
-        });
-      }
-    });
-  }
-}
+// The development mode service worker cleanup has been moved to an inline script
+// in index.html to run before any module scripts are loaded. This prevents
+// a lingering service worker from interfering with Vite's dev server.
 
 // Register Service Worker para melhor performance e cache
 // Only register in production to avoid development issues
