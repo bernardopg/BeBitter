@@ -1,7 +1,6 @@
 // Service Worker para cache e performance
-const CACHE_NAME = "bebitter-v1";
+const CACHE_NAME = "bebitter-v2";
 const STATIC_ASSETS = [
-  "/",
   "/images/logos/bebitter-logo.png",
   "/images/logos/bebitter-logo-alt.png",
   "/images/icons/favicon-32x32.png",
@@ -68,6 +67,14 @@ self.addEventListener("fetch", (event) => {
     (event.request.destination === "script" && url.includes("/src/"))
   ) {
     // Let these requests pass through to Vite dev server
+    return;
+  }
+
+  // Network-first for navigation requests to avoid serving stale HTML
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match("/"))
+    );
     return;
   }
 

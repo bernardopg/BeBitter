@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, lazy } from "react";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Lazy loading das páginas para reduzir bundle inicial
@@ -36,7 +37,9 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <BrowserRouter
+            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+          >
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Index />} />
@@ -45,6 +48,22 @@ const App = () => (
               </Routes>
             </Suspense>
           </BrowserRouter>
+          <FloatingWhatsApp
+            phoneNumber="5531984916431"
+            accountName="Bernardo Gomes - Support"
+            chatMessage="Olá! Como podemos ajudá-lo hoje?"
+            statusMessage="Geralmente responde instantaneamente"
+            placeholder="Digite uma mensagem..."
+            avatar="/images/icons/android-chrome-512x512.png"
+            darkMode={true}
+            notification={true}
+            notificationDelay={30}
+            notificationSound={true}
+            notificationLoop={1}
+            allowClickAway={true}
+            allowEsc={true}
+            chatboxHeight={350}
+          />
         </TooltipProvider>
       </LanguageProvider>
     </ThemeProvider>
