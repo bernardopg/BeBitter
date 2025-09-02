@@ -6,7 +6,7 @@
 export const IMAGES = {
   // Logos
   BEBITTER_LOGO: "/images/logos/BeBitter.svg",
-  BEBITTER_LOGO_ALT: "/images/logos/BeBitter-Alt.svg",
+  BEBITTER_LOGO_ALT: "/images/logos/BeBitter_Alt.svg",
 
   // Icons and Favicons
   FAVICON: "/favicon.ico",
