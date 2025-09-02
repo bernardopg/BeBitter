@@ -43,13 +43,14 @@ const App = () => (
         <LanguageProvider>
           <TooltipProvider>
             <ServiceWorkerManager />
-            <Analytics />
             <WebVitals />
             <Toaster />
             <Sonner />
             <BrowserRouter
               future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
             >
+              {/* Analytics precisa estar dentro do Router para usar useLocation */}
+              <Analytics />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
                   <Route element={<Layout />}>

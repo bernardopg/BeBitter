@@ -1,5 +1,6 @@
 // Service Worker básico para cache de assets
-const CACHE_NAME = 'bebitter-v1.0.0';
+// Bump this version to invalidate old cached assets after deployments
+const CACHE_NAME = 'bebitter-v1.0.1';
 const STATIC_ASSETS = [
   '/',
   '/now',
