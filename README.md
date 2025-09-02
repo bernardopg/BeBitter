@@ -1,6 +1,6 @@
 # 🚀 BeBitter - Portfolio Profissional
 
-Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer especializado em aplicações web modernas, rápidas e acessíveis.
+Portfolio pessoal de **Bernardo Gomes** — Desenvolvedor Full-Stack e Designer. Site moderno, rápido, acessível e monitorado em produção.
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://bebitterbebetter.com.br)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/bernardopg/BeBitter)
@@ -18,48 +18,51 @@ Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer es
 
 ## ⚡ Stack Tecnológica
 
-### **Frontend Core**
+### Frontend Core
 
-- **React 18** - Interface moderna com Concurrent Features
-- **TypeScript** - Type safety e developer experience
-- **Vite 6** - Build tool ultra-rápido com HMR
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animações fluidas e responsivas
+- React 18 — UI com hooks e Suspense
+- TypeScript — Type safety e DX
+- Vite 6 — Dev server rápido + build otimizado
+- Tailwind CSS — Utility-first
+- Framer Motion — Animações fluídas
 
-### **UI & Design System**
+### Empacotamento Mobile (opcional)
 
-- **Radix UI** - Componentes acessíveis e unstyled
-- **shadcn/ui** - Design system consistente
-- **Lucide React** - Ícones modernos e otimizados
-- **Dark/Light Mode** - Tema dinâmico com next-themes
+- Capacitor (iOS/Android) — Estrutura pronta para empacotar o app web como app nativo
 
-### **Routing & Estado**
+### UI & Design System
 
-- **React Router 6** - Roteamento SPA com lazy loading
-- **TanStack Query** - Cache inteligente e gerenciamento de estado servidor
-- **React Hook Form** - Formulários performáticos com validação
+- Radix UI — Primitivos acessíveis
+- shadcn/ui — Camada de design consistente
+- Lucide React — Ícones modernos
+- next-themes — Tema claro/escuro persistido
 
-### **Analytics & Monitoring**
+### Roteamento & Estado
 
-- **Google Analytics 4** - Tracking avançado de eventos personalizados
-- **Web Vitals** - Monitoring de Core Web Vitals em tempo real
-- **Error Boundary** - Captura automática de erros com reporting
-- **Performance Observer** - Métricas customizadas de performance
+- React Router 6 — SPA + lazy routes
+- TanStack Query — Cache de dados do servidor
+- React Hook Form — Formulários performáticos
 
-### **Performance & SEO**
+### Analytics & Monitoring
 
-- **Service Worker** - Cache inteligente de assets estáticos
-- **Code Splitting** - Lazy loading automático de páginas
-- **Meta Tags Dinâmicas** - SEO otimizado por rota
-- **Schema.org** - Dados estruturados completos
-- **Compression** - Gzip e Brotli para assets
+- Google Analytics 4 — Eventos personalizados
+- Web Vitals — CLS, INP, LCP, FCP, TTFB
+- Error Boundary — Captura e exibição de erros em produção
+- Performance Observer — Métricas customizadas
 
-### **DevOps & Qualidade**
+### Performance & SEO
 
-- **ESLint** - Linting com regras TypeScript
-- **Prettier** - Formatação consistente de código
-- **Conventional Commits** - Padronização de commits
-- **FTP Deploy** - Deploy automático para Hostinger
+- Service Worker — Cache de assets estáticos
+- Code Splitting — Lazy de páginas e componentes
+- Meta Tags Dinâmicas — SEO por rota
+- Schema.org — Dados estruturados
+- Compression — Gzip e Brotli
+
+### DevOps & Qualidade
+
+- ESLint — Lint e boas práticas
+- Conventional Commits — Padrão de commits
+- FTP Deploy — Deploy para Hostinger via script
 
 ---
 
@@ -69,9 +72,9 @@ Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer es
 src/
 ├── components/           # Componentes reutilizáveis
 │   ├── ui/              # Design system (shadcn/ui)
-│   ├── Analytics.tsx    # Sistema de tracking avançado
-│   ├── WebVitals.tsx    # Monitoring de performance
-│   ├── ErrorBoundary.tsx # Error handling
+│   ├── Analytics.tsx    # GA4 (dentro do BrowserRouter)
+│   ├── WebVitals.tsx    # Monitoramento de performance
+│   ├── ErrorBoundary.tsx # Captura e exibe erros
 │   ├── SEOHead.tsx      # Meta tags dinâmicas
 │   └── ServiceWorkerManager.tsx # Cache management
 ├── pages/               # Páginas da aplicação
@@ -89,7 +92,7 @@ src/
 
 ## 📊 Funcionalidades Implementadas
 
-### 🎯 **Analytics & Tracking**
+### 🎯 Analytics & Tracking
 
 - **Page Views** - Tracking de navegação entre páginas
 - **User Interactions** - Clicks em botões, links externos
@@ -98,15 +101,14 @@ src/
 - **Performance Metrics** - Web Vitals e métricas customizadas
 - **Error Reporting** - Captura automática de JavaScript errors
 
-### 🚀 **Performance**
+### 🚀 Performance
 
 - **Service Worker** - Cache offline-first para assets críticos
 - **Lazy Loading** - Carregamento sob demanda de páginas
-- **GitHub API Cache** - Cache local (1h) com fallback robusto
 - **Bundle Splitting** - Otimização automática de chunks
 - **Image Optimization** - Lazy loading e error handling
 
-### 🔍 **SEO & Acessibilidade**
+### 🔍 SEO & Acessibilidade
 
 - **Meta Tags Dinâmicas** - Customização por página
 - **Schema.org** - Dados estruturados completos
@@ -115,14 +117,14 @@ src/
 - **ARIA Labels** - Suporte completo a leitores de tela
 - **Keyboard Navigation** - Navegação por teclado
 
-### 🛡️ **Error Handling & Recovery**
+### 🛡️ Error Handling & Recovery
 
 - **Error Boundary** - Captura de errors React
 - **Graceful Degradation** - Fallbacks para APIs
 - **User-Friendly Errors** - Interface elegante para erros
 - **Automatic Recovery** - Botões de reload e navegação
 
-### 🌐 **Internacionalização**
+### 🌐 Internacionalização
 
 - **PT-BR / EN** - Suporte completo a dois idiomas
 - **Dynamic Language** - Troca sem reload
@@ -133,12 +135,12 @@ src/
 
 ## 🛠️ Instalação e Desenvolvimento
 
-### **Pré-requisitos**
+### Pré-requisitos
 
-- **Node.js** 18+
-- **pnpm** (recomendado) ou npm
+- Node.js 18+
+- pnpm (recomendado) ou npm
 
-### **Setup do Projeto**
+### Setup do Projeto
 
 ```bash
 # Clonar repositório
@@ -151,11 +153,12 @@ pnpm install
 # Rodar em desenvolvimento
 pnpm dev
 
-# Acessar aplicação
-open http://localhost:8080
+# Acessar a aplicação
+# Vite usa a porta padrão 5173
+# Abra: http://localhost:5173
 ```
 
-### **Scripts Disponíveis**
+### Scripts Disponíveis
 
 ```bash
 # Desenvolvimento
@@ -171,25 +174,24 @@ pnpm preview:network       # Preview na rede
 
 # Qualidade de Código
 pnpm lint                  # Executar ESLint
-pnpm type-check           # Verificar tipos TypeScript
 
 # Performance
 pnpm analyze:bundle        # Analisar tamanho do bundle
-pnpm performance:audit     # Executar audit de performance
+pnpm performance:audit     # Lembrete: Rode Lighthouse no site publicado
 ```
 
 ---
 
 ## 🚀 Deploy
 
-### **Automático (Recomendado)**
+### Automático (Recomendado)
 
 ```bash
 # Deploy completo para produção
 ./deploy.sh
 ```
 
-### **Manual**
+### Manual
 
 ```bash
 # 1. Build do projeto
@@ -199,12 +201,20 @@ pnpm build
 # para o servidor via FTP ou painel do hosting
 ```
 
-### **Configuração FTP (deploy.sh)**
+### Configuração FTP (deploy.sh)
 
-- **Host:** ftp.bebitterbebetter.com.br
-- **Diretório:** public_html
-- **Compressão:** Gzip + Brotli automático
-- **Limpeza:** Remove arquivos antigos automaticamente
+- Host: ftp.bebitterbebetter.com.br
+- Diretório remoto: public_html (ajuste conforme hospedagem)
+- Observação: o script contém credenciais em texto plano — considere usar variáveis de ambiente/segredos
+- Limpeza: mirror com --delete (remove arquivos antigos)
+
+#### Dica: Service Worker e cache após deploy
+
+Se após o deploy você ainda ver uma tela de erro antiga ou conteúdo desatualizado, pode ser cache do Service Worker:
+
+1) Acesse <https://bebitterbebetter.com.br/clear-sw.html> e aguarde a confirmação
+2) Faça um hard refresh (Ctrl+F5) na página principal
+3) Se necessário, no DevTools > Application > Service Workers, clique em Unregister e limpe o cache
 
 ---
 
@@ -212,19 +222,18 @@ pnpm build
 
 ### **Google Analytics 4**
 
-```javascript
-// Eventos rastreados automaticamente:
-• page_view              - Navegação entre páginas
-• button_click           - Interações com CTAs
-• external_link_click    - Links externos (GitHub, LinkedIn)
-• contact_attempt        - Tentativas de contato
-• project_view          - Visualizações de projetos
-• web_vitals            - Core Web Vitals
-• javascript_error      - Erros capturados
-• performance_metric    - Métricas customizadas
-```
+Eventos rastreados (exemplos):
 
-### **Web Vitals Monitorados**
+- page_view — Navegação entre páginas
+- button_click — Interações com CTAs
+- external_link_click — Links externos
+- contact_attempt — Tentativas de contato
+- project_view — Visualizações de projetos
+- web_vitals — Core Web Vitals
+- javascript_error — Erros capturados
+- performance_metric — Métricas customizadas
+
+### Web Vitals Monitorados
 
 - **CLS** - Cumulative Layout Shift
 - **INP** - Interaction to Next Paint
@@ -232,7 +241,7 @@ pnpm build
 - **LCP** - Largest Contentful Paint
 - **TTFB** - Time to First Byte
 
-### **Performance Monitoring**
+### Performance Monitoring
 
 - **DNS Lookup Time** - Tempo de resolução DNS
 - **Connection Time** - Tempo de estabelecimento de conexão
@@ -243,52 +252,50 @@ pnpm build
 
 ## 🔧 Configuração Avançada
 
-### **Variáveis de Ambiente**
+### Variáveis de Ambiente
+
+As variáveis expostas no cliente devem começar com `VITE_` (padrão Vite) e são acessadas via `import.meta.env`.
 
 ```env
-# Google Analytics (já configurado)
-VITE_GA_TRACKING_ID=G-YJHKLMHN8X
-
-# Modo de desenvolvimento
-NODE_ENV=development|production
+# Google Analytics (exemplo)
+VITE_GA_TRACKING_ID=G-XXXXXXXXXX
 ```
 
-### **Service Worker**
+### Service Worker
 
 ```javascript
-// Configuração automática em produção
+// Registro automático em produção
 // Cache de assets estáticos
-// Fallback offline
 // Limpeza automática de cache antigo
+// Página utilitária para limpar SW: /clear-sw.html
 ```
 
-### **Error Boundary**
+### Error Boundary
 
 ```tsx
-// Uso automático em toda aplicação
-// Fallback customizável por componente
-// Reporting automático para Analytics
-// Interface de recovery user-friendly
+// Uso automático na árvore principal
+// Exibe detalhes técnicos (nome/mensagem) em produção para diagnóstico
+// Envia eventos para GA4 (javascript_error)
 ```
 
 ---
 
 ## 🎨 Personalização
 
-### **Temas**
+### Temas
 
 - **Sistema** - Detecta preferência do OS
 - **Claro** - Tema light mode
 - **Escuro** - Tema dark mode
 - **Persistência** - Salva preferência do usuário
 
-### **Idiomas**
+### Idiomas
 
 - **Português (PT-BR)** - Idioma padrão
 - **English (EN)** - Idioma alternativo
 - **Detecção Automática** - Baseada no browser
 
-### **Cores & Design**
+### Cores & Design
 
 ```css
 /* Customização via CSS variables */
@@ -303,40 +310,22 @@ NODE_ENV=development|production
 
 ## 📈 Performance
 
-### **Lighthouse Scores**
+Observação: métricas variam por dispositivo e rede. Use o script de análise e o Lighthouse para medir.
 
-- **Performance:** 95+ ⚡
-- **Accessibility:** 100 ♿
-- **Best Practices:** 100 ✅
-- **SEO:** 100 🔍
+### Como medir
 
-### **Bundle Size**
-
-- **JavaScript:** ~443KB (gzipped: ~264KB)
-- **CSS:** ~74KB (gzipped: ~12KB)
-- **Total:** Otimizado com code splitting
-
-### **Core Web Vitals**
-
-- **LCP:** < 2.5s ⚡
-- **FID/INP:** < 100ms ⚡
-- **CLS:** < 0.1 ⚡
+- pnpm analyze:bundle — Tamanho do bundle
+- pnpm performance:audit — Abra o Lighthouse e avalie Performance/A11y/SEO
 
 ---
 
 ## 🔒 Segurança
 
-### **Content Security Policy**
+Recomendações gerais de front-end:
 
-- **HTTPS Enforced** - Redirecionamento automático
-- **XSS Protection** - Headers de segurança
-- **CSRF Protection** - Validação de formulários
-
-### **Privacy**
-
-- **GDPR Compliant** - Analytics anônimo
-- **No Tracking** - Sem cookies de terceiros
-- **Data Minimization** - Coleta mínima necessária
+- Use sempre HTTPS
+- Evite inserir segredos no client (ex.: credenciais FTP no repositório)
+- Minimize dados de rastreamento; GA4 configurado sem PII
 
 ---
 
@@ -347,9 +336,6 @@ NODE_ENV=development|production
 ```bash
 # Linting
 pnpm lint                 # ESLint + TypeScript rules
-
-# Type Checking
-pnpm type-check          # Verificação completa de tipos
 
 # Performance
 pnpm analyze:bundle      # Análise de bundle size

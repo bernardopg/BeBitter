@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -14,35 +14,35 @@ interface State {
 
 // Função para enviar erro para Analytics
 const logErrorToAnalytics = (error: Error, errorInfo: ErrorInfo) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'exception', {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "exception", {
       description: error.message,
       fatal: true,
       custom_parameters: {
-        error_stack: error.stack || 'No stack trace',
+        error_stack: error.stack || "No stack trace",
         component_stack: errorInfo.componentStack,
         page_path: window.location.pathname,
         user_agent: navigator.userAgent,
-        timestamp: new Date().toISOString()
-      }
+        timestamp: new Date().toISOString(),
+      },
     });
 
     // Também enviar como evento personalizado
-    window.gtag('event', 'javascript_error', {
-      event_category: 'Error',
+    window.gtag("event", "javascript_error", {
+      event_category: "Error",
       event_label: error.name,
       custom_parameters: {
         error_message: error.message,
-        error_stack: error.stack?.substring(0, 500) || 'No stack', // Limitar tamanho
-        page_path: window.location.pathname
-      }
+        error_stack: error.stack?.substring(0, 500) || "No stack", // Limitar tamanho
+        page_path: window.location.pathname,
+      },
     });
   }
 
   // Log para desenvolvimento
-  if (process.env.NODE_ENV === 'development') {
-    console.error('🚨 Error Boundary caught an error:', error);
-    console.error('📍 Error Info:', errorInfo);
+  if (import.meta.env.DEV) {
+    console.error("🚨 Error Boundary caught an error:", error);
+    console.error("📍 Error Info:", errorInfo);
   }
 };
 
@@ -50,28 +50,28 @@ class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
     error: null,
-    errorInfo: null
+    errorInfo: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
     return {
       hasError: true,
       error,
-      errorInfo: null
+      errorInfo: null,
     };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
 
     // Log do erro para Analytics
     logErrorToAnalytics(error, errorInfo);
 
     // Log para serviços de erro externos (se configurado)
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Exemplo para Sentry, LogRocket, etc.
       // window.Sentry?.captureException(error, { extra: errorInfo });
     }
@@ -108,7 +108,8 @@ class ErrorBoundary extends Component<Props, State> {
                 Oops! Algo deu errado
               </h1>
               <p className="text-muted-foreground mb-6">
-                Encontramos um erro inesperado. Nossa equipe foi notificada e está trabalhando para resolver o problema.
+                Encontramos um erro inesperado. Nossa equipe foi notificada e
+                está trabalhando para resolver o problema.
               </p>
             </div>
 
@@ -121,31 +122,34 @@ class ErrorBoundary extends Component<Props, State> {
               </button>
 
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={() => (window.location.href = "/")}
                 className="w-full px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md transition-colors duration-200"
               >
                 Voltar ao Início
               </button>
             </div>
 
-            {/* Detalhes do erro para desenvolvimento */}
-            {process.env.NODE_ENV === 'development' && this.state.error && (
-              <details className="mt-8 text-left">
-                <summary className="cursor-pointer text-sm font-medium mb-2">
-                  Detalhes do Erro (Dev Mode)
-                </summary>
-                <div className="text-xs bg-muted p-3 rounded-md overflow-auto">
-                  <p className="font-medium mb-2">Error: {this.state.error.message}</p>
-                  <pre className="whitespace-pre-wrap text-xs">
-                    {this.state.error.stack}
-                  </pre>
-                  {this.state.errorInfo && (
-                    <pre className="whitespace-pre-wrap text-xs mt-2">
-                      {this.state.errorInfo.componentStack}
+            {/* Detalhes do erro compactos para diagnóstico */}
+            {this.state.error && (
+              <div className="mt-6 text-left text-xs text-muted-foreground">
+                <p className="font-semibold mb-1">Detalhes técnicos:</p>
+                <p className="mb-1">
+                  {this.state.error.name}: {this.state.error.message}
+                </p>
+                {import.meta.env.DEV && (
+                  <details className="mt-2">
+                    <summary className="cursor-pointer">Stack trace</summary>
+                    <pre className="whitespace-pre-wrap text-xs">
+                      {this.state.error.stack}
                     </pre>
-                  )}
-                </div>
-              </details>
+                    {this.state.errorInfo && (
+                      <pre className="whitespace-pre-wrap text-xs mt-2">
+                        {this.state.errorInfo.componentStack}
+                      </pre>
+                    )}
+                  </details>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -158,7 +162,10 @@ class ErrorBoundary extends Component<Props, State> {
 
 // Hook para capturar erros em componentes funcionais
 export const useErrorHandler = () => {
-  const handleError = (error: Error, errorInfo?: { componentStack?: string }) => {
+  const handleError = (
+    error: Error,
+    errorInfo?: { componentStack?: string }
+  ) => {
     logErrorToAnalytics(error, errorInfo as ErrorInfo);
   };
 
@@ -176,7 +183,9 @@ export const withErrorBoundary = <P extends object>(
     </ErrorBoundary>
   );
 
-  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
+  WrappedComponent.displayName = `withErrorBoundary(${
+    Component.displayName || Component.name
+  })`;
   return WrappedComponent;
 };
 

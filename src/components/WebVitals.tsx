@@ -1,39 +1,42 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useEffect } from 'react';
-import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
+import { useEffect } from "react";
+import { onCLS, onFCP, onINP, onLCP, onTTFB } from "web-vitals";
 
 // Tipos para métricas Web Vitals
 interface VitalMetric {
   name: string;
   value: number;
-  rating: 'good' | 'needs-improvement' | 'poor';
+  rating: "good" | "needs-improvement" | "poor";
   id: string;
   delta: number;
 }
 
 // Função para determinar rating baseado nos thresholds do Google
-const getMetricRating = (name: string, value: number): 'good' | 'needs-improvement' | 'poor' => {
+const getMetricRating = (
+  name: string,
+  value: number
+): "good" | "needs-improvement" | "poor" => {
   const thresholds = {
     CLS: { good: 0.1, poor: 0.25 },
     FID: { good: 100, poor: 300 },
     FCP: { good: 1800, poor: 3000 },
     LCP: { good: 2500, poor: 4000 },
-    TTFB: { good: 800, poor: 1800 }
+    TTFB: { good: 800, poor: 1800 },
   };
 
   const threshold = thresholds[name as keyof typeof thresholds];
-  if (!threshold) return 'good';
+  if (!threshold) return "good";
 
-  if (value <= threshold.good) return 'good';
-  if (value <= threshold.poor) return 'needs-improvement';
-  return 'poor';
+  if (value <= threshold.good) return "good";
+  if (value <= threshold.poor) return "needs-improvement";
+  return "poor";
 };
 
 // Função para enviar métricas para Analytics
 const sendVitalToAnalytics = (metric: VitalMetric) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'web_vitals', {
-      event_category: 'Web Vitals',
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "web_vitals", {
+      event_category: "Web Vitals",
       event_label: metric.name,
       value: Math.round(metric.value),
       custom_parameters: {
@@ -41,18 +44,20 @@ const sendVitalToAnalytics = (metric: VitalMetric) => {
         metric_id: metric.id,
         metric_delta: metric.delta,
         page_path: window.location.pathname,
-        connection_type: (navigator as Navigator & { connection?: { effectiveType?: string } })?.connection?.effectiveType || 'unknown'
-      }
+        connection_type:
+          (navigator as Navigator & { connection?: { effectiveType?: string } })
+            ?.connection?.effectiveType || "unknown",
+      },
     });
   }
 
   // Log para desenvolvimento
-  if (process.env.NODE_ENV === 'development') {
-    console.log('📊 Web Vital:', {
+  if (import.meta.env.DEV) {
+    console.log("📊 Web Vital:", {
       name: metric.name,
       value: metric.value,
       rating: metric.rating,
-      page: window.location.pathname
+      page: window.location.pathname,
     });
   }
 };
@@ -61,16 +66,16 @@ const sendVitalToAnalytics = (metric: VitalMetric) => {
 const WebVitals = () => {
   useEffect(() => {
     // Só executar no browser
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     // CLS - Cumulative Layout Shift
     onCLS((metric) => {
       const vital: VitalMetric = {
-        name: 'CLS',
+        name: "CLS",
         value: metric.value,
-        rating: getMetricRating('CLS', metric.value),
+        rating: getMetricRating("CLS", metric.value),
         id: metric.id,
-        delta: metric.delta
+        delta: metric.delta,
       };
       sendVitalToAnalytics(vital);
     });
@@ -78,11 +83,11 @@ const WebVitals = () => {
     // INP - Interaction to Next Paint (substitui FID)
     onINP((metric) => {
       const vital: VitalMetric = {
-        name: 'INP',
+        name: "INP",
         value: metric.value,
-        rating: getMetricRating('FID', metric.value), // Usa FID thresholds
+        rating: getMetricRating("FID", metric.value), // Usa FID thresholds
         id: metric.id,
-        delta: metric.delta
+        delta: metric.delta,
       };
       sendVitalToAnalytics(vital);
     });
@@ -90,11 +95,11 @@ const WebVitals = () => {
     // FCP - First Contentful Paint
     onFCP((metric) => {
       const vital: VitalMetric = {
-        name: 'FCP',
+        name: "FCP",
         value: metric.value,
-        rating: getMetricRating('FCP', metric.value),
+        rating: getMetricRating("FCP", metric.value),
         id: metric.id,
-        delta: metric.delta
+        delta: metric.delta,
       };
       sendVitalToAnalytics(vital);
     });
@@ -102,11 +107,11 @@ const WebVitals = () => {
     // LCP - Largest Contentful Paint
     onLCP((metric) => {
       const vital: VitalMetric = {
-        name: 'LCP',
+        name: "LCP",
         value: metric.value,
-        rating: getMetricRating('LCP', metric.value),
+        rating: getMetricRating("LCP", metric.value),
         id: metric.id,
-        delta: metric.delta
+        delta: metric.delta,
       };
       sendVitalToAnalytics(vital);
     });
@@ -114,15 +119,14 @@ const WebVitals = () => {
     // TTFB - Time to First Byte
     onTTFB((metric) => {
       const vital: VitalMetric = {
-        name: 'TTFB',
+        name: "TTFB",
         value: metric.value,
-        rating: getMetricRating('TTFB', metric.value),
+        rating: getMetricRating("TTFB", metric.value),
         id: metric.id,
-        delta: metric.delta
+        delta: metric.delta,
       };
       sendVitalToAnalytics(vital);
     });
-
   }, []);
 
   return null;
@@ -132,48 +136,59 @@ const WebVitals = () => {
 export const useWebVitals = () => {
   useEffect(() => {
     // Performance Observer para métricas adicionais
-    if ('PerformanceObserver' in window) {
+    if ("PerformanceObserver" in window) {
       try {
         // Observer para Navigation Timing
         const navObserver = new PerformanceObserver((list) => {
           list.getEntries().forEach((entry) => {
-            if (entry.entryType === 'navigation') {
+            if (entry.entryType === "navigation") {
               const navEntry = entry as PerformanceNavigationTiming;
 
               // DNS Lookup Time
-              const dnsTime = navEntry.domainLookupEnd - navEntry.domainLookupStart;
-              if (dnsTime > 0 && typeof window !== 'undefined' && window.gtag) {
-                window.gtag('event', 'performance_metric', {
-                  event_category: 'Performance',
-                  event_label: 'DNS Lookup Time',
-                  value: Math.round(dnsTime)
+              const dnsTime =
+                navEntry.domainLookupEnd - navEntry.domainLookupStart;
+              if (dnsTime > 0 && typeof window !== "undefined" && window.gtag) {
+                window.gtag("event", "performance_metric", {
+                  event_category: "Performance",
+                  event_label: "DNS Lookup Time",
+                  value: Math.round(dnsTime),
                 });
               }
 
               // Connection Time
-              const connectionTime = navEntry.connectEnd - navEntry.connectStart;
-              if (connectionTime > 0 && typeof window !== 'undefined' && window.gtag) {
-                window.gtag('event', 'performance_metric', {
-                  event_category: 'Performance',
-                  event_label: 'Connection Time',
-                  value: Math.round(connectionTime)
+              const connectionTime =
+                navEntry.connectEnd - navEntry.connectStart;
+              if (
+                connectionTime > 0 &&
+                typeof window !== "undefined" &&
+                window.gtag
+              ) {
+                window.gtag("event", "performance_metric", {
+                  event_category: "Performance",
+                  event_label: "Connection Time",
+                  value: Math.round(connectionTime),
                 });
               }
 
               // Server Response Time
-              const responseTime = navEntry.responseEnd - navEntry.responseStart;
-              if (responseTime > 0 && typeof window !== 'undefined' && window.gtag) {
-                window.gtag('event', 'performance_metric', {
-                  event_category: 'Performance',
-                  event_label: 'Server Response Time',
-                  value: Math.round(responseTime)
+              const responseTime =
+                navEntry.responseEnd - navEntry.responseStart;
+              if (
+                responseTime > 0 &&
+                typeof window !== "undefined" &&
+                window.gtag
+              ) {
+                window.gtag("event", "performance_metric", {
+                  event_category: "Performance",
+                  event_label: "Server Response Time",
+                  value: Math.round(responseTime),
                 });
               }
             }
           });
         });
 
-        navObserver.observe({ entryTypes: ['navigation'] });
+        navObserver.observe({ entryTypes: ["navigation"] });
 
         // Observer para Resource Timing (recursos lentos)
         const resourceObserver = new PerformanceObserver((list) => {
@@ -182,17 +197,21 @@ export const useWebVitals = () => {
             const duration = resourceEntry.duration;
 
             // Log recursos que demoram mais que 1 segundo
-            if (duration > 1000 && typeof window !== 'undefined' && window.gtag) {
-              window.gtag('event', 'slow_resource', {
-                event_category: 'Performance Issues',
+            if (
+              duration > 1000 &&
+              typeof window !== "undefined" &&
+              window.gtag
+            ) {
+              window.gtag("event", "slow_resource", {
+                event_category: "Performance Issues",
                 event_label: resourceEntry.name,
-                value: Math.round(duration)
+                value: Math.round(duration),
               });
             }
           });
         });
 
-        resourceObserver.observe({ entryTypes: ['resource'] });
+        resourceObserver.observe({ entryTypes: ["resource"] });
 
         // Cleanup observers
         return () => {
@@ -200,21 +219,25 @@ export const useWebVitals = () => {
           resourceObserver.disconnect();
         };
       } catch (error) {
-        console.warn('Performance Observer not supported or failed:', error);
+        console.warn("Performance Observer not supported or failed:", error);
       }
     }
   }, []);
 
   // Função para tracking manual de performance
-  const trackCustomPerformance = (name: string, value: number, category: string = 'Custom Performance') => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'custom_performance', {
+  const trackCustomPerformance = (
+    name: string,
+    value: number,
+    category: string = "Custom Performance"
+  ) => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "custom_performance", {
         event_category: category,
         event_label: name,
         value: Math.round(value),
         custom_parameters: {
-          page_path: window.location.pathname
-        }
+          page_path: window.location.pathname,
+        },
       });
     }
   };
