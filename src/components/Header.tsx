@@ -53,7 +53,7 @@ const Header = () => {
             </SheetTrigger>
             <SheetContent side="left">
               <Link to="/" className="mr-6 flex items-center space-x-2 mb-6">
-                 <Image imageKey="BEBITTER_LOGO" alt="BeBitter Logo" className="h-6 w-auto" />
+                 <Image imageKey="BEBITTER_LOGO_ALT" alt="BeBitter Logo" className="h-6 w-auto" />
                 <span className="font-bold">{t("hero.title")}</span>
               </Link>
               <div className="flex flex-col space-y-4">
