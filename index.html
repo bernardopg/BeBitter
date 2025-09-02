@@ -4,11 +4,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BeBitter - Bernardo Gomes | Software Developer</title>
+  <title>Bernardo Gomes — Desenvolvedor de Software </title>
   <meta name="description"
-    content="Personal portfolio of Bernardo Gomes - Software Developer specializing in JavaScript, automation, and web development." />
-  <meta name="keywords" content="software developer, javascript, automation, web development, portfolio" />
+    content="Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis. Crio soluções com Next.js, Node.js e AWS. Vamos construir algo incrível juntos!" />
+  <meta name="keywords"
+    content="desenvolvedor, software, web, cloud, nextjs, node, aws, react, typescript, portfolio" />
   <meta name="author" content="Bernardo Gomes" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://bebitterbebetter.com.br/" />
+
+  <!-- Hreflang for internationalization -->
+  <link rel="alternate" hreflang="pt-br" href="https://bebitterbebetter.com.br/" />
+  <link rel="alternate" hreflang="en" href="https://bebitterbebetter.com.br/?lang=en" />
+  <link rel="alternate" hreflang="x-default" href="https://bebitterbebetter.com.br/" />
 
   <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -18,19 +27,50 @@
   <link rel="manifest" href="/site.webmanifest" />
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="BeBitter - Bernardo Gomes | Software Developer" />
+  <meta property="og:title" content="Bernardo Gomes — Desenvolvedor de Software (Web/Cloud)" />
   <meta property="og:description"
-    content="Personal portfolio of Bernardo Gomes - Software Developer specializing in JavaScript, automation, and web development." />
+    content="Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis. Crio soluções com Next.js, Node.js e AWS." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bebitterbebetter.com.br" />
   <meta property="og:image" content="https://bebitterbebetter.com.br/images/logos/bebitter-logo.png" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="BeBitter - Bernardo Gomes | Software Developer" />
+  <meta name="twitter:title" content="Bernardo Gomes — Desenvolvedor de Software" />
   <meta name="twitter:description"
-    content="Personal portfolio of Bernardo Gomes - Software Developer specializing in JavaScript, automation, and web development." />
+    content="Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis. Crio soluções com Next.js, Node.js e AWS." />
   <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/bebitter-logo.png" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Bernardo Gomes",
+    "jobTitle": "Desenvolvedor de Software",
+    "description": "Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis com Next.js, Node.js e AWS",
+    "url": "https://bebitterbebetter.com.br",
+    "sameAs": [
+      "https://github.com/bernardopg",
+      "https://linkedin.com/in/bernardopg",
+      "https://instagram.com/be.pgomes"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "BR"
+    },
+    "knowsAbout": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Node.js",
+      "AWS",
+      "Web Development",
+      "UI/UX Design"
+    ]
+  }
+  </script>
 
   <!-- Service Worker Cleanup Script for Development -->
   <script>
@@ -38,7 +78,7 @@
     // A lingering service worker can cause "module script" MIME type errors with Vite.
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '8080') {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
           if (registrations.length > 0) {
             console.log('🧹 Development mode: Clearing service workers...');
             let unregistered = false;
@@ -52,7 +92,7 @@
               window.location.reload();
             }
           }
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.error('Service worker cleanup failed:', err);
         });
       }
@@ -63,6 +103,14 @@
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Font optimization -->
+  <style>
+    /* Ensure text is visible during font load */
+    body {
+      font-display: swap;
+    }
+  </style>
 
   <!-- Preload critical assets -->
   <!-- Removed: <link rel="preload" href="/images/logos/bebitter-logo.png" as="image" type="image/png"> -->

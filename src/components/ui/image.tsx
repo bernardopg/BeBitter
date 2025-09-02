@@ -14,6 +14,12 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallback?: ImageKey | string;
   /** Whether to use lazy loading */
   lazy?: boolean;
+  /** Image width for proper sizing */
+  width?: number;
+  /** Image height for proper sizing */
+  height?: number;
+  /** Priority loading for above-the-fold images */
+  priority?: boolean;
 }
 
 /**
@@ -26,6 +32,9 @@ const Image: React.FC<ImageProps> = ({
   className,
   alt = "",
   src,
+  width,
+  height,
+  priority = false,
   ...props
 }) => {
   // If imageKey is provided, use it; otherwise use the src prop
@@ -43,7 +52,10 @@ const Image: React.FC<ImageProps> = ({
       src={imageSrc}
       alt={alt}
       className={cn("object-cover", className)}
-      loading={lazy ? "lazy" : "eager"}
+      loading={priority ? "eager" : lazy ? "lazy" : "eager"}
+      width={width}
+      height={height}
+      decoding="async"
       {...props}
     />
   );

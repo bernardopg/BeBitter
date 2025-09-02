@@ -15,6 +15,7 @@ import {
 import Image from "@/components/ui/image";
 import { IMAGES } from "@/constants/images";
 import { useLanguage } from "@/hooks/useLanguage";
+import { showSuccess } from "@/utils/toast";
 import {
   Calendar,
   Clock,
@@ -24,6 +25,7 @@ import {
   Github,
   Instagram,
   Laptop,
+  Linkedin,
   Mail,
   MapPin,
   MessageCircle,
@@ -71,20 +73,39 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+      {/* Skip to content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
+        {t("hero.skipToContent")}
+      </a>
+
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-4">
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          aria-label="Ver página 'O que estou fazendo agora'"
+        >
+          <a href="/now">/now</a>
+        </Button>
         <LanguageToggle />
         <ThemeToggle />
       </div>
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         {/* Hero Section */}
-        <section className="mb-20 text-center">
+        <section className="mb-20 text-center" id="main-content" role="main">
           <div className="mb-8">
             <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-primary/20">
               <Image
                 src={IMAGES.GITHUB_AVATAR}
-                alt="Bernardo Gomes"
+                alt="Foto de perfil de Bernardo Gomes, desenvolvedor de software"
                 className="w-full h-full object-cover"
                 lazy={false}
+                width={128}
+                height={128}
+                priority={true}
               />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
@@ -106,39 +127,76 @@ const Index = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <Button asChild size="lg">
+            <Button asChild size="lg" aria-label="Visitar perfil no GitHub">
               <a
                 href="https://github.com/bernardopg"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visitar perfil no GitHub de Bernardo Gomes"
               >
-                <Github className="mr-2 h-5 w-5" />
+                <Github className="mr-2 h-5 w-5" aria-hidden="true" />
                 {t("hero.github")}
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              aria-label="Visitar perfil no LinkedIn"
+            >
+              <a
+                href="https://linkedin.com/in/bernardopg"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visitar perfil no LinkedIn de Bernardo Gomes"
+              >
+                <Linkedin className="mr-2 h-5 w-5" aria-hidden="true" />
+                LinkedIn
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              aria-label="Visitar perfil no Instagram"
+            >
               <a
                 href="https://instagram.com/be.pgomes"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visitar perfil no Instagram de Bernardo Gomes"
               >
-                <Instagram className="mr-2 h-5 w-5" />
+                <Instagram className="mr-2 h-5 w-5" aria-hidden="true" />
                 {t("hero.instagram")}
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="mailto:bernardo.gomes@bebitterbebetter.com.br">
-                <Mail className="mr-2 h-5 w-5" />
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              aria-label="Enviar e-mail"
+            >
+              <a
+                href="mailto:bernardo.gomes@bebitterbebetter.com.br"
+                aria-label="Enviar e-mail para Bernardo Gomes"
+              >
+                <Mail className="mr-2 h-5 w-5" aria-hidden="true" />
                 {t("hero.contact")}
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              aria-label="Conversar no WhatsApp"
+            >
               <a
                 href="https://wa.me/5531984916431"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Iniciar conversa no WhatsApp com Bernardo Gomes"
               >
-                <MessageCircle className="mr-2 h-5 w-5" />
+                <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
                 WhatsApp
               </a>
             </Button>
@@ -424,14 +482,21 @@ const Index = () => {
                     <div>
                       <div className="font-medium">{t("contact.email")}</div>
                       <div className="text-sm text-muted-foreground">
-                        <a
-                          href="mailto:bernardo.gomes@bebitterbebetter.com.br"
-                          className="text-sm text-muted-foreground hover:underline"
-                          rel="noopener noreferrer"
-                        >
-                          bernardo.gomes@bebitterbebetter.com.br
-                        </a>
+                        bernardo.gomes@bebitterbebetter.com.br
                       </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            "bernardo.gomes@bebitterbebetter.com.br"
+                          );
+                          showSuccess(t("contact.copyEmail"));
+                        }}
+                      >
+                        Copiar e-mail
+                      </Button>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -441,6 +506,22 @@ const Index = () => {
                       <div className="text-sm text-muted-foreground">
                         <a
                           href="https://github.com/bernardopg"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-muted-foreground hover:underline"
+                        >
+                          @bernardopg
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Linkedin className="h-5 w-5 text-primary" />
+                    <div>
+                      <div className="font-medium">LinkedIn</div>
+                      <div className="text-sm text-muted-foreground">
+                        <a
+                          href="https://linkedin.com/in/bernardopg"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm text-muted-foreground hover:underline"
@@ -479,6 +560,20 @@ const Index = () => {
                         className="text-sm text-muted-foreground hover:underline"
                       >
                         +55 (31) 98491-6431
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <div>
+                      <div className="font-medium">Calendly</div>
+                      <a
+                        href="https://calendly.com/bernardopg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-muted-foreground hover:underline"
+                      >
+                        Agendar reunião
                       </a>
                     </div>
                   </div>

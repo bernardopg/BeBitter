@@ -33,6 +33,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.bebitterbebetter\.com\.br [NC]
+RewriteRule ^(.*)$ https://bebitterbebetter.com.br/$1 [L,R=301]
+
 # Handle Angular and React Router - SPA
 # If the requested resource doesn't exist as a file or directory
 # Serve the index.html file instead
