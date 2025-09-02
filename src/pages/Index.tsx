@@ -1,7 +1,5 @@
 import ContactForm from "@/components/ContactForm";
-import LanguageToggle from "@/components/LanguageToggle";
 import ProjectCard from "@/components/ProjectCard";
-import ThemeToggle from "@/components/ThemeToggle";
 import Timeline from "@/components/Timeline";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -81,18 +79,6 @@ const Index = () => {
         {t("hero.skipToContent")}
       </a>
 
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-4">
-        <Button
-          asChild
-          variant="outline"
-          size="sm"
-          aria-label="Ver página 'O que estou fazendo agora'"
-        >
-          <a href="/now">/now</a>
-        </Button>
-        <LanguageToggle />
-        <ThemeToggle />
-      </div>
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         {/* Hero Section */}
         <section className="mb-20 text-center" id="main-content" role="main">
