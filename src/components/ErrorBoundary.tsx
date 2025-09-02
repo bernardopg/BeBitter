@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {

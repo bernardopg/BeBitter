@@ -19,6 +19,7 @@ Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer es
 ## ⚡ Stack Tecnológica
 
 ### **Frontend Core**
+
 - **React 18** - Interface moderna com Concurrent Features
 - **TypeScript** - Type safety e developer experience
 - **Vite 6** - Build tool ultra-rápido com HMR
@@ -26,23 +27,27 @@ Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer es
 - **Framer Motion** - Animações fluidas e responsivas
 
 ### **UI & Design System**
+
 - **Radix UI** - Componentes acessíveis e unstyled
 - **shadcn/ui** - Design system consistente
 - **Lucide React** - Ícones modernos e otimizados
 - **Dark/Light Mode** - Tema dinâmico com next-themes
 
 ### **Routing & Estado**
+
 - **React Router 6** - Roteamento SPA com lazy loading
 - **TanStack Query** - Cache inteligente e gerenciamento de estado servidor
 - **React Hook Form** - Formulários performáticos com validação
 
 ### **Analytics & Monitoring**
+
 - **Google Analytics 4** - Tracking avançado de eventos personalizados
 - **Web Vitals** - Monitoring de Core Web Vitals em tempo real
 - **Error Boundary** - Captura automática de erros com reporting
 - **Performance Observer** - Métricas customizadas de performance
 
 ### **Performance & SEO**
+
 - **Service Worker** - Cache inteligente de assets estáticos
 - **Code Splitting** - Lazy loading automático de páginas
 - **Meta Tags Dinâmicas** - SEO otimizado por rota
@@ -50,6 +55,7 @@ Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer es
 - **Compression** - Gzip e Brotli para assets
 
 ### **DevOps & Qualidade**
+
 - **ESLint** - Linting com regras TypeScript
 - **Prettier** - Formatação consistente de código
 - **Conventional Commits** - Padronização de commits
@@ -59,7 +65,7 @@ Portfolio pessoal de **Bernardo Gomes** - Desenvolvedor Full-Stack e Designer es
 
 ## 🏗️ Arquitetura do Projeto
 
-```
+``` text
 src/
 ├── components/           # Componentes reutilizáveis
 │   ├── ui/              # Design system (shadcn/ui)
@@ -84,6 +90,7 @@ src/
 ## 📊 Funcionalidades Implementadas
 
 ### 🎯 **Analytics & Tracking**
+
 - **Page Views** - Tracking de navegação entre páginas
 - **User Interactions** - Clicks em botões, links externos
 - **Lead Generation** - Tentativas de contato por diferentes canais
@@ -92,6 +99,7 @@ src/
 - **Error Reporting** - Captura automática de JavaScript errors
 
 ### 🚀 **Performance**
+
 - **Service Worker** - Cache offline-first para assets críticos
 - **Lazy Loading** - Carregamento sob demanda de páginas
 - **GitHub API Cache** - Cache local (1h) com fallback robusto
@@ -99,6 +107,7 @@ src/
 - **Image Optimization** - Lazy loading e error handling
 
 ### 🔍 **SEO & Acessibilidade**
+
 - **Meta Tags Dinâmicas** - Customização por página
 - **Schema.org** - Dados estruturados completos
 - **Sitemap XML** - Indexação otimizada
@@ -107,12 +116,14 @@ src/
 - **Keyboard Navigation** - Navegação por teclado
 
 ### 🛡️ **Error Handling & Recovery**
+
 - **Error Boundary** - Captura de errors React
 - **Graceful Degradation** - Fallbacks para APIs
 - **User-Friendly Errors** - Interface elegante para erros
 - **Automatic Recovery** - Botões de reload e navegação
 
 ### 🌐 **Internacionalização**
+
 - **PT-BR / EN** - Suporte completo a dois idiomas
 - **Dynamic Language** - Troca sem reload
 - **Translated Routes** - URLs amigáveis
@@ -123,10 +134,12 @@ src/
 ## 🛠️ Instalação e Desenvolvimento
 
 ### **Pré-requisitos**
+
 - **Node.js** 18+
 - **pnpm** (recomendado) ou npm
 
 ### **Setup do Projeto**
+
 ```bash
 # Clonar repositório
 git clone https://github.com/bernardopg/BeBitter.git
@@ -143,6 +156,7 @@ open http://localhost:8080
 ```
 
 ### **Scripts Disponíveis**
+
 ```bash
 # Desenvolvimento
 pnpm dev                    # Servidor de desenvolvimento
@@ -169,12 +183,14 @@ pnpm performance:audit     # Executar audit de performance
 ## 🚀 Deploy
 
 ### **Automático (Recomendado)**
+
 ```bash
 # Deploy completo para produção
 ./deploy.sh
 ```
 
 ### **Manual**
+
 ```bash
 # 1. Build do projeto
 pnpm build
@@ -184,6 +200,7 @@ pnpm build
 ```
 
 ### **Configuração FTP (deploy.sh)**
+
 - **Host:** ftp.bebitterbebetter.com.br
 - **Diretório:** public_html
 - **Compressão:** Gzip + Brotli automático
@@ -194,6 +211,7 @@ pnpm build
 ## 📊 Analytics & Monitoring
 
 ### **Google Analytics 4**
+
 ```javascript
 // Eventos rastreados automaticamente:
 • page_view              - Navegação entre páginas
@@ -207,6 +225,7 @@ pnpm build
 ```
 
 ### **Web Vitals Monitorados**
+
 - **CLS** - Cumulative Layout Shift
 - **INP** - Interaction to Next Paint
 - **FCP** - First Contentful Paint
@@ -214,6 +233,7 @@ pnpm build
 - **TTFB** - Time to First Byte
 
 ### **Performance Monitoring**
+
 - **DNS Lookup Time** - Tempo de resolução DNS
 - **Connection Time** - Tempo de estabelecimento de conexão
 - **Server Response Time** - Tempo de resposta do servidor
@@ -224,6 +244,7 @@ pnpm build
 ## 🔧 Configuração Avançada
 
 ### **Variáveis de Ambiente**
+
 ```env
 # Google Analytics (já configurado)
 VITE_GA_TRACKING_ID=G-YJHKLMHN8X
@@ -233,6 +254,7 @@ NODE_ENV=development|production
 ```
 
 ### **Service Worker**
+
 ```javascript
 // Configuração automática em produção
 // Cache de assets estáticos
@@ -241,6 +263,7 @@ NODE_ENV=development|production
 ```
 
 ### **Error Boundary**
+
 ```tsx
 // Uso automático em toda aplicação
 // Fallback customizável por componente
@@ -253,17 +276,20 @@ NODE_ENV=development|production
 ## 🎨 Personalização
 
 ### **Temas**
+
 - **Sistema** - Detecta preferência do OS
 - **Claro** - Tema light mode
 - **Escuro** - Tema dark mode
 - **Persistência** - Salva preferência do usuário
 
 ### **Idiomas**
+
 - **Português (PT-BR)** - Idioma padrão
 - **English (EN)** - Idioma alternativo
 - **Detecção Automática** - Baseada no browser
 
 ### **Cores & Design**
+
 ```css
 /* Customização via CSS variables */
 :root {
@@ -278,17 +304,20 @@ NODE_ENV=development|production
 ## 📈 Performance
 
 ### **Lighthouse Scores**
+
 - **Performance:** 95+ ⚡
 - **Accessibility:** 100 ♿
 - **Best Practices:** 100 ✅
 - **SEO:** 100 🔍
 
 ### **Bundle Size**
+
 - **JavaScript:** ~443KB (gzipped: ~264KB)
 - **CSS:** ~74KB (gzipped: ~12KB)
 - **Total:** Otimizado com code splitting
 
 ### **Core Web Vitals**
+
 - **LCP:** < 2.5s ⚡
 - **FID/INP:** < 100ms ⚡
 - **CLS:** < 0.1 ⚡
@@ -298,11 +327,13 @@ NODE_ENV=development|production
 ## 🔒 Segurança
 
 ### **Content Security Policy**
+
 - **HTTPS Enforced** - Redirecionamento automático
 - **XSS Protection** - Headers de segurança
 - **CSRF Protection** - Validação de formulários
 
 ### **Privacy**
+
 - **GDPR Compliant** - Analytics anônimo
 - **No Tracking** - Sem cookies de terceiros
 - **Data Minimization** - Coleta mínima necessária
@@ -312,6 +343,7 @@ NODE_ENV=development|production
 ## 🧪 Testes & Qualidade
 
 ### **Code Quality**
+
 ```bash
 # Linting
 pnpm lint                 # ESLint + TypeScript rules
@@ -324,6 +356,7 @@ pnpm analyze:bundle      # Análise de bundle size
 ```
 
 ### **Accessibility Testing**
+
 - **Keyboard Navigation** - Navegação completa por teclado
 - **Screen Readers** - Compatibilidade com NVDA, JAWS
 - **Color Contrast** - WCAG 2.1 AA compliant
@@ -334,21 +367,25 @@ pnpm analyze:bundle      # Análise de bundle size
 ## 🚀 Funcionalidades Avançadas
 
 ### **💬 WhatsApp Integration**
+
 - **Floating Widget** - Chat direto no site
 - **Configuração Inteligente** - Dark mode automático
 - **Notificações** - Alertas de novas mensagens
 
 ### **📊 GitHub Integration**
+
 - **API Dinâmica** - Projetos carregados automaticamente
 - **Fallback Robusto** - Cache local + dados estáticos
 - **Error Handling** - Graceful degradation
 
 ### **🎯 Contact System**
+
 - **Múltiplos Canais** - Email, WhatsApp, Calendly, Social
 - **Form Validation** - Validação em tempo real
 - **Success Feedback** - Confirmações visuais
 
 ### **⚡ Performance Features**
+
 - **Critical CSS** - Inlining de CSS crítico
 - **Resource Hints** - DNS prefetch, preconnect
 - **Lazy Loading** - Componentes e imagens
@@ -359,12 +396,14 @@ pnpm analyze:bundle      # Análise de bundle size
 ## 🔍 SEO & Marketing
 
 ### **Technical SEO**
+
 - **Sitemap XML** - Todas as páginas indexadas
 - **Robots.txt** - Configuração otimizada para crawlers
 - **Meta Tags** - Open Graph + Twitter Cards
 - **Canonical URLs** - Prevenção de conteúdo duplicado
 
 ### **Structured Data**
+
 ```json
 {
   "@type": "Person",
@@ -379,6 +418,7 @@ pnpm analyze:bundle      # Análise de bundle size
 ```
 
 ### **International SEO**
+
 - **Hreflang Tags** - PT-BR e EN
 - **Language Detection** - Automática baseada no browser
 - **URL Structure** - URLs amigáveis e semânticas
@@ -388,12 +428,14 @@ pnpm analyze:bundle      # Análise de bundle size
 ## 📊 Analytics Dashboard
 
 ### **Métricas Disponíveis**
+
 - **User Behavior** - Page views, clicks, scroll depth
 - **Performance** - Core Web Vitals, loading times
 - **Conversions** - Contact attempts, project views
 - **Technical** - JavaScript errors, API failures
 
 ### **Acesso ao Dashboard**
+
 1. [Google Analytics 4](https://analytics.google.com/analytics/web/#/p413934562/reports/intelligenthome)
 2. **Eventos Customizados** - Filtrar por categoria/label
 3. **Real-time Monitoring** - Métricas ao vivo
@@ -403,6 +445,7 @@ pnpm analyze:bundle      # Análise de bundle size
 ## 🛠️ Desenvolvimento
 
 ### **Estrutura de Commits**
+
 ```bash
 # Padrão: Conventional Commits
 feat: nova funcionalidade
@@ -415,6 +458,7 @@ chore: tarefas de manutenção
 ```
 
 ### **Workflow de Deploy**
+
 1. **Desenvolvimento** - `pnpm dev`
 2. **Build** - `pnpm build`
 3. **Preview** - `pnpm preview`
@@ -422,6 +466,7 @@ chore: tarefas de manutenção
 5. **Deploy** - `./deploy.sh`
 
 ### **Environment Variables**
+
 ```bash
 # .env.local (opcional)
 VITE_GA_TRACKING_ID=G-YJHKLMHN8X
@@ -433,11 +478,13 @@ VITE_DEBUG_MODE=false
 ## 📁 Componentes Principais
 
 ### **Páginas**
+
 - **`/`** - Homepage com portfolio completo
 - **`/now`** - Página "now" com status atual e projetos
 - **`/404`** - Página de erro personalizada
 
 ### **Componentes Core**
+
 - **`Layout`** - Layout base com Header/Footer
 - **`Analytics`** - Sistema de tracking
 - **`WebVitals`** - Performance monitoring
@@ -445,6 +492,7 @@ VITE_DEBUG_MODE=false
 - **`SEOHead`** - Meta tags dinâmicas
 
 ### **Hooks Customizados**
+
 - **`useLanguage`** - Gerenciamento de idioma
 - **`useAnalytics`** - Tracking de eventos
 - **`useWebVitals`** - Performance metrics
@@ -455,6 +503,7 @@ VITE_DEBUG_MODE=false
 ## 🌐 Deploy & Hosting
 
 ### **Hostinger Configuration**
+
 ```bash
 # Configurações do servidor
 Domain: bebitterbebetter.com.br
@@ -464,6 +513,7 @@ Compression: Gzip + Brotli enabled
 ```
 
 ### **Performance Optimizations**
+
 - **Asset Compression** - Gzip (-83%) + Brotli (-58%)
 - **CDN Distribution** - Assets servidos via CDN
 - **Cache Headers** - Cache otimizado para diferentes tipos
@@ -474,12 +524,14 @@ Compression: Gzip + Brotli enabled
 ## 📞 Contato & Suporte
 
 ### **Desenvolvedor**
+
 - **Nome:** Bernardo Gomes
 - **Email:** [bernardo.gomes@bebitterbebetter.com.br](mailto:bernardo.gomes@bebitterbebetter.com.br)
 - **WhatsApp:** [+55 (31) 98491-6431](https://wa.me/5531984916431)
 - **LinkedIn:** [@bernardopg](https://linkedin.com/in/bernardopg)
 
 ### **Links Importantes**
+
 - **Portfolio:** [bebitterbebetter.com.br](https://bebitterbebetter.com.br)
 - **GitHub:** [@bernardopg](https://github.com/bernardopg)
 - **Instagram:** [@be.pgomes](https://instagram.com/be.pgomes)
@@ -490,6 +542,7 @@ Compression: Gzip + Brotli enabled
 ## 📈 Status do Projeto
 
 ### **Últimas Atualizações**
+
 - ✅ **Sistema de Analytics** - Tracking completo implementado
 - ✅ **Web Vitals Monitoring** - Performance em tempo real
 - ✅ **Error Boundary** - Error handling robusto
@@ -497,6 +550,7 @@ Compression: Gzip + Brotli enabled
 - ✅ **SEO Otimizado** - Meta tags dinâmicas + Schema.org
 
 ### **Próximas Features**
+
 - 🔄 **Blog System** - Artigos técnicos
 - 🔄 **Testimonials** - Depoimentos de clientes
 - 🔄 **Newsletter** - Sistema de captura de leads
