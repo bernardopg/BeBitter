@@ -95,6 +95,39 @@ export const translations = {
     "contact.form.email": "Seu email",
     "contact.form.message": "Sua mensagem...",
     "contact.form.send": "Enviar Mensagem",
+
+    // Now Page
+    "now.title": "O que estou fazendo agora",
+    "now.description":
+      "Uma atualização em tempo real sobre meus projetos atuais, aprendizados e foco profissional. Atualizado em",
+    "now.currentFocus": "Foco Atual",
+    "now.focus1.title": "Desenvolvimento de Apps Web",
+    "now.focus1.description":
+      "Trabalhando em aplicações React/Next.js com foco em performance e acessibilidade",
+    "now.focus1.status": "Ativo",
+    "now.focus2.title": "Aprendizado Contínuo",
+    "now.focus2.description":
+      "Estudando novas tecnologias como Web Components e arquitetura de microsserviços",
+    "now.focus2.status": "Em andamento",
+    "now.focus3.title": "Projetos Pessoais",
+    "now.focus3.description":
+      "Desenvolvendo ferramentas de automação e scripts para otimizar workflows",
+    "now.focus3.status": "Ativo",
+    "now.achievements": "Conquistas Recentes",
+    "now.achievement1": "🚀 Lançou portfolio responsivo com React + TypeScript",
+    "now.achievement2": "📚 Concluiu curso avançado de Next.js",
+    "now.achievement3": "🎯 Alcançou 500+ usuários em projetos open source",
+    "now.achievement4": "☕ Manteve rotina de aprendizado diário",
+    "now.personalNote": "Nota Pessoal",
+    "now.note1":
+      "Atualmente estou focado em criar experiências web excepcionais enquanto continuo aprendendo e contribuindo para a comunidade de desenvolvedores. Acredito que a combinação de tecnologia e criatividade pode resolver problemas reais e melhorar vidas.",
+    "now.note2":
+      "Quando não estou codando, gosto de explorar novas ferramentas, contribuir para projetos open source e compartilhar conhecimento. Estou sempre aberto a novas oportunidades e colaborações interessantes.",
+    "now.contact.title": "Vamos conversar?",
+    "now.contact.description":
+      "Se você tem um projeto interessante ou quer discutir oportunidades, adoraria ouvir de você!",
+    "now.contact.email": "Enviar e-mail",
+    "now.contact.whatsapp": "WhatsApp",
   },
   en: {
     // Hero Section
@@ -192,5 +225,39 @@ export const translations = {
     "contact.form.email": "Your email",
     "contact.form.message": "Your message...",
     "contact.form.send": "Send Message",
+
+    // Now Page
+    "now.title": "What I'm doing now",
+    "now.description":
+      "A real-time update on my current projects, learnings, and professional focus. Updated on",
+    "now.currentFocus": "Current Focus",
+    "now.focus1.title": "Web App Development",
+    "now.focus1.description":
+      "Working on React/Next.js applications with focus on performance and accessibility",
+    "now.focus1.status": "Active",
+    "now.focus2.title": "Continuous Learning",
+    "now.focus2.description":
+      "Studying new technologies like Web Components and microservices architecture",
+    "now.focus2.status": "In progress",
+    "now.focus3.title": "Personal Projects",
+    "now.focus3.description":
+      "Developing automation tools and scripts to optimize workflows",
+    "now.focus3.status": "Active",
+    "now.achievements": "Recent Achievements",
+    "now.achievement1":
+      "🚀 Launched responsive portfolio with React + TypeScript",
+    "now.achievement2": "📚 Completed advanced Next.js course",
+    "now.achievement3": "🎯 Reached 500+ users in open source projects",
+    "now.achievement4": "☕ Maintained daily learning routine",
+    "now.personalNote": "Personal Note",
+    "now.note1":
+      "Currently I'm focused on creating exceptional web experiences while continuing to learn and contribute to the developer community. I believe that the combination of technology and creativity can solve real problems and improve lives.",
+    "now.note2":
+      "When I'm not coding, I enjoy exploring new tools, contributing to open source projects, and sharing knowledge. I'm always open to new opportunities and interesting collaborations.",
+    "now.contact.title": "Let's talk?",
+    "now.contact.description":
+      "If you have an interesting project or want to discuss opportunities, I'd love to hear from you!",
+    "now.contact.email": "Send email",
+    "now.contact.whatsapp": "WhatsApp",
   },
 };

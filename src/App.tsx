@@ -3,6 +3,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import ServiceWorkerManager from "@/components/ServiceWorkerManager";
+import Analytics from "@/components/Analytics";
+import WebVitals from "@/components/WebVitals";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, lazy } from "react";
 import { FloatingWhatsApp } from "react-floating-whatsapp";
@@ -33,46 +37,51 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter
-            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-          >
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route element={<Layout />}>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/now" element={<Now />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Route>
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-          <FloatingWhatsApp
-            phoneNumber="5531984916431"
-            accountName="Bernardo Gomes - Support"
-            chatMessage="Olá! Como podemos ajudá-lo hoje?"
-            statusMessage="Geralmente responde instantaneamente"
-            placeholder="Digite uma mensagem..."
-            avatar="/images/icons/android-chrome-512x512.png"
-            darkMode={true}
-            notification={true}
-            notificationDelay={30}
-            notificationSound={true}
-            notificationLoop={1}
-            allowClickAway={true}
-            allowEsc={true}
-            chatboxHeight={350}
-          />
-        </TooltipProvider>
-      </LanguageProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <LanguageProvider>
+          <TooltipProvider>
+            <ServiceWorkerManager />
+            <Analytics />
+            <WebVitals />
+            <Toaster />
+            <Sonner />
+            <BrowserRouter
+              future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+            >
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route element={<Layout />}>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/now" element={<Now />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Route>
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+            <FloatingWhatsApp
+              phoneNumber="5531984916431"
+              accountName="Bernardo Gomes - Support"
+              chatMessage="Olá! Como podemos ajudá-lo hoje?"
+              statusMessage="Geralmente responde instantaneamente"
+              placeholder="Digite uma mensagem..."
+              avatar="/images/icons/android-chrome-512x512.png"
+              darkMode={true}
+              notification={true}
+              notificationDelay={30}
+              notificationSound={true}
+              notificationLoop={1}
+              allowClickAway={true}
+              allowEsc={true}
+              chatboxHeight={350}
+            />
+          </TooltipProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
