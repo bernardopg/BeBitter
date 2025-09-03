@@ -77,13 +77,15 @@
   "devDependencies": {
     "@dyad-sh/react-vite-component-tagger": "^0.8.0",
     "@eslint/js": "^9.9.0",
+    "@eslint/plugin-kit": "^0.3.4",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^22.5.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.9.0",
+    "brace-expansion": "^2.0.2",
+    "eslint": "^9.34.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
@@ -93,13 +95,12 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^6.3.4",
-    "vite-plugin-compression": "^0.5.1",
-    "@eslint/plugin-kit": "^0.3.4",
-    "brace-expansion": "^2.0.2"
+    "vite-plugin-compression": "^0.5.1"
   },
   "overrides": {
     "brace-expansion": "2.0.2",
     "@eslint/plugin-kit": "0.3.4",
+    "minimatch": "10.0.3",
     "minimatch>brace-expansion": "1.1.12",
     "minimatch@3.1.2>brace-expansion": "1.1.12",
     "eslint>@eslint/plugin-kit": "0.3.5",
