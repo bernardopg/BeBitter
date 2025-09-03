@@ -93,6 +93,16 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^6.3.4",
-    "vite-plugin-compression": "^0.5.1"
+    "vite-plugin-compression": "^0.5.1",
+    "@eslint/plugin-kit": "^0.3.4",
+    "brace-expansion": "^2.0.2"
+  },
+  "overrides": {
+    "brace-expansion": "2.0.2",
+    "@eslint/plugin-kit": "0.3.4",
+    "minimatch>brace-expansion": "1.1.12",
+    "minimatch@3.1.2>brace-expansion": "1.1.12",
+    "eslint>@eslint/plugin-kit": "0.3.5",
+    "eslint>minimatch>brace-expansion": "1.1.12"
   }
 }
