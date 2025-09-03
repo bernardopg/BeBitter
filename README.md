@@ -314,4 +314,4 @@ VITE_DEBUG_MODE=false
 
 Construído com ❤️ em **Belo Horizonte, MG** usando as melhores tecnologias e práticas do mercado.
 
-**Última atualização:** Março 2025 - **Site em produção e funcionando perfeitamente!**
+**Última atualização:** Setembro 2025 - **Site em produção e funcionando perfeitamente!**
