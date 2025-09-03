@@ -98,7 +98,6 @@ const Index = () => {
     "Figma",
     "Tailwind CSS",
     "Next.js",
-    "GraphQL",
     "Docker",
   ], []);
 
@@ -995,23 +994,23 @@ const Index = () => {
                 <CardContent className="space-y-4">
                   {/* Enhanced Email */}
                   <motion.div
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-200">
                       <Mail className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium">{t("contact.email")}</div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-muted-foreground truncate" title="bernardo.gomes@bebitterbebetter.com.br">
                         bernardo.gomes@bebitterbebetter.com.br
                       </div>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
-                      className={`transition-all duration-200 ${copiedEmail ? 'bg-green-500 text-white border-green-500' : ''}`}
+                      className={`flex-shrink-0 transition-all duration-200 ${copiedEmail ? 'bg-green-500 text-white border-green-500' : ''}`}
                       onClick={handleCopyEmail}
                     >
                       {copiedEmail ? 'Copiado!' : 'Copiar'}
@@ -1023,16 +1022,16 @@ const Index = () => {
                     href="https://github.com/bernardopg"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-200">
                       <Github className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium">{t("contact.github")}</div>
-                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
+                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         @bernardopg
                       </div>
                     </div>
@@ -1044,16 +1043,16 @@ const Index = () => {
                     href="https://linkedin.com/in/bernardopg"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-200">
                       <Linkedin className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium">LinkedIn</div>
-                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
+                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         @bernardopg
                       </div>
                     </div>
@@ -1065,16 +1064,16 @@ const Index = () => {
                     href="https://instagram.com/be.pgomes"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-200">
                       <Instagram className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium">{t("contact.instagram")}</div>
-                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
+                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         @be.pgomes
                       </div>
                     </div>
@@ -1086,16 +1085,16 @@ const Index = () => {
                     href="https://wa.me/5531984916431"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-200">
                       <Phone className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium">{t("contact.whatsapp")}</div>
-                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
+                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         +55 (31) 98491-6431
                       </div>
                     </div>
@@ -1107,16 +1106,16 @@ const Index = () => {
                     href="https://calendly.com/bernardopg"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-200">
                       <Calendar className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium">Calendly</div>
-                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200">
+                      <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         Agendar reunião
                       </div>
                     </div>
