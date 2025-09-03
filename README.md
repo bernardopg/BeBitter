@@ -12,7 +12,7 @@ Portfolio pessoal de **Bernardo Gomes** — Desenvolvedor Full-Stack e Designer.
 
 | Home Page | Página Now |
 |-----------|------------|
-| ![Home](public/images/home-screenshot.png) | ![Projetos](public/images/projects-screenshot.png) |
+| ![Home](public/images/home-page-full.png) | ![Projetos](public/images/now-page-full.png) |
 
 ---
 
