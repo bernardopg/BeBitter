@@ -182,12 +182,36 @@ src/
 - **Script**: `deploy.sh` (bash script with lftp)
 - **Flow**: 
   1. Runs `pnpm build`
-  2. Uploads `dist/` to `public_html`
-  3. Uses mirror with --delete (cleans old files)
+  2. Uploads `dist/` to FTP root (Hostinger FTP lands directly in `public_html`)
+  3. Supports safe test mode and deletion mode
+
+### Deployment Commands
+```bash
+# Safe test deploy (no file deletion)
+DELETE=false ./deploy.sh
+
+# Production deploy (with file deletion)
+DELETE=true ./deploy.sh
+# or simply:
+./deploy.sh  # DELETE=true is the default
+```
+
+### FTP Configuration
+Create `.env.deploy` (not committed) with:
+```bash
+FTP_HOST="ftp.yourdomain.com"
+FTP_USER="your_ftp_user"
+FTP_PASS="your_ftp_password"
+FTP_PORT="21"
+FTP_REMOTE_DIR="."  # Use "." since Hostinger FTP lands in public_html
+LFTP_PARALLEL="5"   # Number of parallel transfers
+```
+
+**Important**: Hostinger FTP accounts typically land directly in the `public_html` directory, so `FTP_REMOTE_DIR` should be set to `"."` to avoid creating nested directories.
 
 ### Environment Variables
 ```bash
-# .env.local (not committed)
+# .env.local (not committed) - for app runtime
 VITE_GA_TRACKING_ID=G-XXXXXXXXXX
 ```
 

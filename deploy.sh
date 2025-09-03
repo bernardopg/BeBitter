@@ -2,23 +2,29 @@
 set -euo pipefail
 
 # BeBitter - Deploy script (Hostinger FTP)
-# Flow:
-#  1. pnpm build
-#  2. Upload dist/ to remote via lftp mirror --delete
+# Improved version that properly handles FTP directory structure
 #
-# Required environment variables (do NOT hardcode secrets):
+# Required environment variables:
 #  - FTP_HOST
-#  - FTP_USER
+#  - FTP_USER  
 #  - FTP_PASS
 # Optional:
 #  - FTP_PORT        (default: 21)
-#  - FTP_REMOTE_DIR  (default: .)  # e.g., "public_html"
+#  - FTP_REMOTE_DIR  (default: public_html)
 #  - LFTP_PARALLEL   (default: 4)
-#  - LFTP_SSL        (default: no) # set to "yes" to try FTPS
-#  - LFTP_EXTRA      (additional lftp commands; optional)
+#  - DELETE          (default: true) - set to false for safe test runs
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
+
+# Load environment variables
+if [[ -f ".env.deploy" ]]; then
+  set -a
+  source ./.env.deploy
+  set +a
+else
+  echo "Warning: .env.deploy not found, using environment variables" >&2
+fi
 
 # Dependencies
 if ! command -v pnpm >/dev/null 2>&1; then
@@ -35,9 +41,9 @@ fi
 : "${FTP_USER:?Missing FTP_USER}"
 : "${FTP_PASS:?Missing FTP_PASS}"
 FTP_PORT="${FTP_PORT:-21}"
-FTP_REMOTE_DIR="${FTP_REMOTE_DIR:-.}"
+FTP_REMOTE_DIR="${FTP_REMOTE_DIR:-.}"  # Default to current directory since FTP lands in public_html
 LFTP_PARALLEL="${LFTP_PARALLEL:-4}"
-LFTP_SSL="${LFTP_SSL:-no}"
+DELETE="${DELETE:-true}"
 
 echo "==> Building production bundle (pnpm build)"
 pnpm build
@@ -47,29 +53,53 @@ if [[ ! -d "$DIST_DIR" ]]; then
   exit 1
 fi
 
-echo "==> Deploying dist/ to $FTP_USER@$FTP_HOST:$FTP_REMOTE_DIR (port $FTP_PORT)"
-
-# Prepare remote directory commands if needed
-REMOTE_DIR_CMDS=""
-if [[ "$FTP_REMOTE_DIR" != "." && -n "$FTP_REMOTE_DIR" ]]; then
-  # Use mkdir -p and cd into target dir
-  REMOTE_DIR_CMDS=$(printf 'mkdir -p "%s"\ncd "%s"\n' "$FTP_REMOTE_DIR" "$FTP_REMOTE_DIR")
+# Determine deletion flag for mirror command
+if [[ "$DELETE" == "true" ]]; then
+  DELETE_FLAG="--delete"
+  echo "==> DELETE mode: Will remove files not in dist/"
+else
+  DELETE_FLAG=""
+  echo "==> SAFE mode: Will NOT delete remote files (test mode)"
 fi
 
-# Execute lftp with strict failure on command errors
+echo "==> Deploying dist/ to $FTP_USER@$FTP_HOST:$FTP_REMOTE_DIR (port $FTP_PORT)"
+
+# Build the cd command if needed
+CD_CMD=""
+if [[ "$FTP_REMOTE_DIR" != "." ]]; then
+  CD_CMD="cd $FTP_REMOTE_DIR"
+fi
+
+# Execute lftp with proper directory handling
 lftp -u "$FTP_USER","$FTP_PASS" -p "$FTP_PORT" "$FTP_HOST" <<LFTP_CMDS
 set cmd:fail-exit yes
-set ftp:ssl-allow $LFTP_SSL
+set ftp:ssl-allow no
 set ssl:verify-certificate no
 set ftp:passive-mode on
 set net:max-retries 2
 set net:reconnect-interval-base 5
 set net:timeout 60
-${LFTP_EXTRA:-}
-${REMOTE_DIR_CMDS}
-# Mirror local dist/ to remote dir, removing files not present locally
-mirror -R --verbose --delete --parallel=$LFTP_PARALLEL "$DIST_DIR" .
+set xfer:clobber yes
+
+# Show current directory (should be public_html on Hostinger)
+echo "Current FTP directory:"
+pwd
+
+# Navigate if needed
+$CD_CMD
+
+# Show final directory
+echo "Deploying to:"
+pwd
+
+# Mirror local dist/ to remote directory
+mirror -R --verbose $DELETE_FLAG --parallel=$LFTP_PARALLEL "$DIST_DIR" .
+
 bye
 LFTP_CMDS
 
 echo "==> Deploy completed successfully"
+if [[ "$DELETE" != "true" ]]; then
+  echo "==> This was a SAFE test run. To deploy with deletion:"
+  echo "    DELETE=true ./deploy.sh"
+fi
