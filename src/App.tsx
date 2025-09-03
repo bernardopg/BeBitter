@@ -8,8 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import WebVitals from "@/components/WebVitals";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Suspense, lazy, useEffect, useState } from "react";
-import { FloatingWhatsApp } from "react-floating-whatsapp";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 
@@ -38,10 +37,62 @@ const PageLoader = () => (
 
 const App = () => {
   const [isClient, setIsClient] = useState(false);
+  type WhatsAppProps = {
+    phoneNumber: string;
+    accountName?: string;
+    chatMessage?: string;
+    statusMessage?: string;
+    placeholder?: string;
+    avatar?: string;
+    darkMode?: boolean;
+    notification?: boolean;
+    notificationDelay?: number;
+    notificationSound?: boolean;
+    notificationLoop?: number;
+    allowClickAway?: boolean;
+    allowEsc?: boolean;
+    chatboxHeight?: number;
+  };
+
+  const [WhatsAppComp, setWhatsAppComp] =
+    useState<React.ComponentType<WhatsAppProps> | null>(null);
+  const prefersReducedData = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 480px)").matches; // treat small screens as constrained
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Lazy-load the WhatsApp widget after the app is interactive to reduce TBT/INP impact
+  useEffect(() => {
+    if (!isClient) return;
+
+    const load = () => {
+      import("react-floating-whatsapp").then((mod) => {
+        const m = mod as unknown as {
+          FloatingWhatsApp?: React.ComponentType<WhatsAppProps>;
+          default?: React.ComponentType<WhatsAppProps>;
+        };
+        setWhatsAppComp(() => m.FloatingWhatsApp || m.default || null);
+      });
+    };
+
+    const ric = (
+      window as Window & {
+        requestIdleCallback?: (
+          cb: IdleRequestCallback,
+          opts?: { timeout?: number }
+        ) => number;
+      }
+    ).requestIdleCallback;
+    if (typeof ric === "function") {
+      ric(load, { timeout: 3000 });
+    } else {
+      setTimeout(load, 1500);
+    }
+  }, [isClient]);
 
   return (
     <ErrorBoundary>
@@ -72,8 +123,8 @@ const App = () => {
                   </Routes>
                 </Suspense>
               </BrowserRouter>
-              {isClient && (
-                <FloatingWhatsApp
+              {isClient && WhatsAppComp && !prefersReducedData && (
+                <WhatsAppComp
                   phoneNumber="5531984916431"
                   accountName="Bernardo Gomes - Support"
                   chatMessage="Olá! Como podemos ajudá-lo hoje?"
@@ -81,13 +132,10 @@ const App = () => {
                   placeholder="Digite uma mensagem..."
                   avatar="/images/icons/android-chrome-512x512.png"
                   darkMode={true}
-                  notification={true}
-                  notificationDelay={30}
-                  notificationSound={true}
-                  notificationLoop={1}
+                  notification={false}
                   allowClickAway={true}
                   allowEsc={true}
-                  chatboxHeight={350}
+                  chatboxHeight={320}
                 />
               )}
             </TooltipProvider>

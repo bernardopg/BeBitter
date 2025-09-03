@@ -7,4 +7,7 @@ Disallow: /src/
 Disallow: /node_modules/
 Disallow: /.git/
 
+User-agent: Googlebot
+Allow: /
+
 Sitemap: https://bebitterbebetter.com.br/sitemap.xml

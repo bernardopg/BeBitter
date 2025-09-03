@@ -1,9 +1,10 @@
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion } from "framer-motion";
 import { ArrowLeft, Ghost, Home, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
 
 const NotFound = () => {
   const location = useLocation();
@@ -23,9 +24,9 @@ const NotFound = () => {
       opacity: 1,
       transition: {
         delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -33,8 +34,8 @@ const NotFound = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   return (
@@ -44,6 +45,13 @@ const NotFound = () => {
       initial="hidden"
       animate="visible"
     >
+      <SEOHead
+        title="Página Não Encontrada - 404"
+        canonical="https://bebitterbebetter.com.br/"
+        robots="noindex, follow"
+        publisher="Bernardo Gomes"
+      />
+
       <div className="text-center max-w-md w-full">
         <motion.div variants={itemVariants}>
           <Ghost className="h-24 w-24 mx-auto mb-6 text-primary animate-pulse" />
@@ -67,14 +75,16 @@ const NotFound = () => {
           className="text-muted-foreground mb-8 max-w-md mx-auto"
           variants={itemVariants}
         >
-          Ops! A página que você está procurando parece ter se perdido no ciberespaço. Vamos te ajudar a voltar ao caminho certo.
+          Ops! A página que você está procurando parece ter se perdido no
+          ciberespaço. Vamos te ajudar a voltar ao caminho certo.
         </motion.p>
 
-        <motion.div
-          className="space-y-4 mb-12"
-          variants={itemVariants}
-        >
-          <Button asChild size="lg" className="w-full group relative overflow-hidden">
+        <motion.div className="space-y-4 mb-12" variants={itemVariants}>
+          <Button
+            asChild
+            size="lg"
+            className="w-full group relative overflow-hidden"
+          >
             <a
               href="/"
               className="flex items-center justify-center gap-2"

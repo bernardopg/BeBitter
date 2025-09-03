@@ -15,6 +15,9 @@ RewriteEngine On
     # JSON
     AddType application/json .json
 
+    # XML
+    AddType application/xml .xml
+
     # Fonts
     AddType font/woff .woff
     AddType font/woff2 .woff2
@@ -60,6 +63,14 @@ RewriteRule . /index.html [L]
 
     # Referrer Policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # X-Robots-Tag for SEO
+    Header always set X-Robots-Tag "index, follow"
+
+    # Performance headers
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
 </IfModule>
 
 # Enable compression for better performance

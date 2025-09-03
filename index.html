@@ -4,12 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bernardo Gomes — Desenvolvedor de Software </title>
+  <title>Bernardo Gomes — Desenvolvedor de Software</title>
   <meta name="description"
-    content="Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis. Crio soluções com Next.js, Node.js e AWS. Vamos construir algo incrível juntos!" />
+    content="Desenvolvedor full-stack em aplicações web rápidas e acessíveis. Especializado em Next.js, Node.js e AWS. Vamos construir juntos!" />
   <meta name="keywords"
     content="desenvolvedor, software, web, cloud, nextjs, node, aws, react, typescript, portfolio" />
   <meta name="author" content="Bernardo Gomes" />
+  <meta name="robots" content="index, follow" />
+  <meta name="publisher" content="Bernardo Gomes" />
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://bebitterbebetter.com.br/" />
@@ -26,20 +28,32 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 
+  <!-- Performance Optimizations -->
+  <!-- Preconnect to critical origins -->
+  <link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin />
+
+  <!-- DNS prefetch for analytics (non-blocking) -->
+  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+
+  <!-- Let Vite handle injecting modulepreload links at build time to avoid stale hashes -->
+
+  <!-- Optional: the router will code-split; avoid manual prefetch to keep initial network quiet -->
+
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Bernardo Gomes — Desenvolvedor de Software (Web/Cloud)" />
+  <meta property="og:title" content="Bernardo Gomes — Desenvolvedor de Software" />
   <meta property="og:description"
-    content="Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis. Crio soluções com Next.js, Node.js e AWS." />
+    content="Desenvolvedor full-stack em aplicações web rápidas e acessíveis. Especializado em Next.js, Node.js e AWS. Vamos construir juntos!" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bebitterbebetter.com.br" />
-  <meta property="og:image" content="https://bebitterbebetter.com.br/images/logos/bebitter-logo.png" />
+  <meta property="og:image" content="https://bebitterbebetter.com.br/images/logos/BeBitter.svg" />
+  <meta property="article:author" content="Bernardo Gomes" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Bernardo Gomes — Desenvolvedor de Software" />
   <meta name="twitter:description"
-    content="Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis. Crio soluções com Next.js, Node.js e AWS." />
-  <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/bebitter-logo.png" />
+    content="Desenvolvedor full-stack em aplicações web rápidas e acessíveis. Especializado em Next.js, Node.js e AWS. Vamos construir juntos!" />
+  <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/BeBitter.svg" />
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -48,7 +62,7 @@
     "@type": "Person",
     "name": "Bernardo Gomes",
     "jobTitle": "Desenvolvedor de Software",
-    "description": "Desenvolvedor full-stack especializado em aplicações web rápidas e acessíveis com Next.js, Node.js e AWS",
+    "description": "Desenvolvedor full-stack em aplicações web rápidas e acessíveis. Especializado em Next.js, Node.js e AWS. Vamos construir juntos!",
     "url": "https://bebitterbebetter.com.br",
     "email": "bernardo.gomes@bebitterbebetter.com.br",
     "telephone": "+55-31-98491-6431",
@@ -143,16 +157,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Font optimization -->
-  <style>
-    /* Ensure text is visible during font load */
-    body {
-      font-display: swap;
-    }
-  </style>
+  <!-- Font optimization: rely on system fonts; if webfonts are added, configure font-display in @font-face -->
 
-  <!-- Preload critical assets -->
-  <!-- Removed: <link rel="preload" href="/images/logos/bebitter-logo.png" as="image" type="image/png"> -->
+  <!-- Preload likely LCP image (avatar) from GitHub to speed up first paint -->
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/69475128?v=4" crossorigin>
 
   <!-- Google tag (gtag.js) com carregamento otimizado -->
   <script>

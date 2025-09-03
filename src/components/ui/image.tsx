@@ -20,6 +20,8 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   height?: number;
   /** Priority loading for above-the-fold images */
   priority?: boolean;
+  /** Native fetch priority hint */
+  fetchPriority?: "high" | "auto" | "low";
 }
 
 /**
@@ -35,6 +37,7 @@ const Image: React.FC<ImageProps> = ({
   width,
   height,
   priority = false,
+  fetchPriority = "auto",
   ...props
 }) => {
   // If imageKey is provided, use it; otherwise use the src prop
@@ -56,6 +59,7 @@ const Image: React.FC<ImageProps> = ({
       width={width}
       height={height}
       decoding="async"
+      fetchPriority={fetchPriority}
       {...props}
     />
   );

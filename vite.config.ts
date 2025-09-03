@@ -78,9 +78,13 @@ export default defineConfig(() => ({
         entryFileNames: "assets/js/[name]-[hash].js",
       },
     },
+    assetsInlineLimit: 4096,
     // Configurações de compressão
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000,
+    // Otimizações adicionais de performance
+    sourcemap: false, // Desabilitar sourcemaps em produção para reduzir tamanho
+    cssCodeSplit: true, // Dividir CSS para melhor cache
   },
   publicDir: "public",
   // Otimizações de dependências
