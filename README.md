@@ -2,7 +2,6 @@
 
 Portfolio pessoal de **Bernardo Gomes** — Desenvolvedor Full-Stack e Designer. Site moderno, rápido, acessível e monitorado em produção.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://bebitterbebetter.com.br)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/bernardopg/BeBitter)
 [![License](https://img.shields.io/badge/License-Private-red?style=for-the-badge)](LICENSE)
 [![Performance](https://img.shields.io/badge/Performance-95%2F100-green?style=for-the-badge)](REVISAO_COMPLETA.md)
@@ -290,7 +289,7 @@ VITE_DEBUG_MODE=false
 ### ✅ **Em Produção e Funcionando**
 
 - **Status:** ✅ **100% Funcional**
-- **Última Atualização:** Março 2025
+- **Última Atualização:** Setembro 2025
 - **Performance:** Excelente
 - **SEO:** Otimizado
 - **Acessibilidade:** WCAG 2.1 compliant
@@ -313,5 +312,3 @@ VITE_DEBUG_MODE=false
 ## 🙏 Agradecimentos
 
 Construído com ❤️ em **Belo Horizonte, MG** usando as melhores tecnologias e práticas do mercado.
-
-**Última atualização:** Setembro 2025 - **Site em produção e funcionando perfeitamente!**
