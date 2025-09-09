@@ -209,6 +209,11 @@ pnpm build
 - **CDN:** CloudFlare integrado
 - **Compression:** Gzip + Brotli ativado
 
+### Sitemap Automático
+- O sitemap é gerado em `prebuild` por `scripts/generate-sitemap.ts` para as rotas públicas (ex.: `/` e `/now`).
+- Saída: `public/sitemap.xml` (ignorado no git) e copiado para `dist/sitemap.xml` no build.
+- Envie `https://bebitterbebetter.com.br/sitemap.xml` no Google Search Console após deploy.
+
 ---
 
 ## 📊 Analytics Dashboard
@@ -254,10 +259,15 @@ dist/
 ### Variáveis de Ambiente
 
 ```bash
-# .env.local (opcional)
-VITE_GA_TRACKING_ID=G-YJHKLMHN8X
+# .env.local (recomendado em desenvolvimento/CI)
+VITE_SITE_URL=https://bebitterbebetter.com.br
+VITE_GA_TRACKING_ID=G-XXXXXXXXXX
+VITE_GSC_VERIFICATION=google-site-verification-token
 VITE_DEBUG_MODE=false
 ```
+
+- VITE_SITE_URL, VITE_GA_TRACKING_ID e VITE_GSC_VERIFICATION também são usados em `index.html` via substituição `%VITE_*%` no build. Se não definir, ficarão vazios no HTML gerado.
+- Em produção (Hostinger), exporte as variáveis antes do deploy ou use `.env.local` localmente e rode `./deploy.sh` na sua máquina.
 
 ### Service Worker
 

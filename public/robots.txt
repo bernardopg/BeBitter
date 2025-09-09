@@ -1,13 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /assets/
-Disallow: *.js$
-Disallow: *.css$
-Disallow: /src/
-Disallow: /node_modules/
-Disallow: /.git/
 
-User-agent: Googlebot
-Allow: /
-
+# Point to the sitemap (generated at build)
 Sitemap: https://bebitterbebetter.com.br/sitemap.xml

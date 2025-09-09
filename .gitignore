@@ -34,3 +34,15 @@ dist-ssr
 backup*
 *_backup
 *_bak
+
+# Env files
+.env.local
+.env.*
+!.env.example
+
+# Generated sitemap (built at prebuild)
+public/sitemap.xml
+
+# Additional backup patterns
+*.bak
+*~

@@ -13,6 +13,9 @@
   <meta name="robots" content="index, follow" />
   <meta name="publisher" content="Bernardo Gomes" />
 
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="%VITE_GSC_VERIFICATION%" />
+
   <!-- Canonical URL -->
   <link rel="canonical" href="https://bebitterbebetter.com.br/" />
 
@@ -46,6 +49,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bebitterbebetter.com.br" />
   <meta property="og:image" content="https://bebitterbebetter.com.br/images/logos/BeBitter.svg" />
+  <meta property="og:site_name" content="BeBitter" />
+  <meta property="og:locale" content="pt_BR" />
   <meta property="article:author" content="Bernardo Gomes" />
 
   <!-- Twitter Card Meta Tags -->
@@ -55,7 +60,7 @@
     content="Desenvolvedor full-stack em aplicações web rápidas e acessíveis. Especializado em Next.js, Node.js e AWS. Vamos construir juntos!" />
   <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/BeBitter.svg" />
 
-  <!-- Structured Data (JSON-LD) -->
+  <!-- Structured Data (JSON-LD) Person -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -84,43 +89,21 @@
     "alumniOf": {
       "@type": "EducationalOrganization",
       "name": "Ciências Medicas de Minas Gerais"
-    },
-    "knowsAbout": [
-      "JavaScript",
-      "TypeScript",
-      "React",
-      "Next.js",
-      "Node.js",
-      "AWS",
-      "Web Development",
-      "UI/UX Design",
-      "Full Stack Development",
-      "Frontend Development",
-      "Backend Development",
-      "Responsive Design",
-      "Performance Optimization"
-    ],
-    "hasOccupation": {
-      "@type": "Occupation",
-      "name": "Desenvolvedor Full-Stack",
-      "occupationLocation": {
-        "@type": "City",
-        "name": "Belo Horizonte, MG, Brasil"
-      },
-      "skills": [
-        "React.js",
-        "TypeScript",
-        "Node.js",
-        "Next.js",
-        "AWS",
-        "UI/UX Design",
-        "Database Design",
-        "API Development"
-      ]
-    },
-    "nationality": {
-      "@type": "Country",
-      "name": "Brasil"
+    }
+  }
+  </script>
+
+  <!-- Structured Data (JSON-LD) WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "BeBitter",
+    "url": "%VITE_SITE_URL%",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "%VITE_SITE_URL%/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
     }
   }
   </script>
@@ -162,21 +145,13 @@
   <!-- Preload likely LCP image (avatar) from GitHub to speed up first paint -->
   <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/69475128?v=4" crossorigin>
 
-  <!-- Google tag (gtag.js) com carregamento otimizado -->
+  <!-- Google tag (gtag.js) via env -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_TRACKING_ID%"></script>
   <script>
-    // Carregamento diferido do Google Analytics
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-YJHKLMHN8X');
-
-    // Carrega o script após o load da página
-    window.addEventListener('load', function () {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YJHKLMHN8X';
-      document.head.appendChild(script);
-    });
+    // Do not call gtag('config', ...) here; handled in Analytics.tsx
   </script>
 </head>
 
