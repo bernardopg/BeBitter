@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { defineConfig } from "vite";
 import viteCompression from "vite-plugin-compression";
+import type { IncomingMessage, ServerResponse } from "http";
 
 export default defineConfig(() => ({
   server: {
@@ -16,6 +17,55 @@ export default defineConfig(() => ({
     headers: {
       "Cache-Control": "no-cache",
     },
+    // Configure middleware to prevent conflicts with public directory files
+    middlewares: [
+      // Custom middleware to handle public directory file serving and HTML files
+      (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+        const url = req.url;
+        
+        // Prevent serving files that start with 'public' but aren't in the public directory
+        if (url && url.startsWith('/public') && !url.startsWith('/public/')) {
+          res.statusCode = 404;
+          res.end('Not Found');
+          return;
+        }
+        
+        // Ensure proper MIME types for all static assets including HTML
+        if (url) {
+          const mimeTypes: Record<string, string> = {
+            '.html': 'text/html; charset=utf-8',
+            '.htm': 'text/html; charset=utf-8',
+            '.svg': 'image/svg+xml',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.gif': 'image/gif',
+            '.webp': 'image/webp',
+            '.css': 'text/css; charset=utf-8',
+            '.js': 'application/javascript; charset=utf-8',
+            '.mjs': 'application/javascript; charset=utf-8',
+            '.json': 'application/json; charset=utf-8',
+            '.xml': 'application/xml; charset=utf-8',
+            '.txt': 'text/plain; charset=utf-8'
+          };
+          
+          const ext = url.includes('?') ? url.split('?')[0].substring(url.split('?')[0].lastIndexOf('.')) : url.substring(url.lastIndexOf('.'));
+          const mimeType = mimeTypes[ext];
+          
+          if (mimeType) {
+            res.setHeader('Content-Type', mimeType);
+            
+            // Apply fs.strict settings for HTML files specifically
+            if (ext === '.html' || ext === '.htm') {
+              res.setHeader('X-Content-Type-Options', 'nosniff');
+              res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            }
+          }
+        }
+        
+        next();
+      }
+    ],
   },
   plugins: [
     dyadComponentTagger(),
