@@ -1,26 +1,33 @@
 export const translations = {
   pt: {
     // Hero Section
+    "hero.greeting": "Olá, eu sou",
     "hero.title": "Bernardo Gomes",
-    "hero.subtitle":
-      "Eu construo apps web rápidos e acessíveis (Next.js, Node, AWS)",
+    "hero.subtitle": "Desenvolvedor Full-Stack",
+    "hero.subtitle1": "Criando experiências digitais excepcionais",
+    "hero.subtitle2": "Transformando ideias em realidade",
+    "hero.subtitle3": "Desenvolvendo o futuro da web",
+    "hero.description": "Especializado em React, Node.js e tecnologias modernas. Construo aplicações web performáticas, acessíveis e que geram resultados reais para negócios.",
     "hero.location": "Brasil",
     "hero.availability": "Disponível para projetos",
     "hero.github": "GitHub",
     "hero.instagram": "Instagram",
     "hero.contact": "Fale comigo",
+    "hero.cta.primary": "Vamos conversar",
+    "hero.cta.secondary": "Ver projetos",
+    "hero.profileAlt": "Foto de perfil do Bernardo Gomes",
     "hero.skipToContent": "Pular para o conteúdo principal",
 
     // About Section
+    "about.subtitle": "Conheça mais",
     "about.title": "Sobre Mim",
-    "about.description1":
-      "Sou um desenvolvedor e designer apaixonado por tecnologia, sempre em busca de criar experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web full-stack e design de interfaces, combino habilidades técnicas com visão criativa.",
-    "about.description2":
-      "Quando não estou programando ou criando designs, gosto de explorar novas tecnologias, contribuir para projetos open source e compartilhar conhecimento com a comunidade de desenvolvedores e designers.",
-    "about.expertise": "Principais Especialidades",
+    "about.description": "Com mais de 5 anos de experiência, especializo-me em criar aplicações web modernas que combinam design excepcional com performance otimizada. Minha paixão é resolver problemas complexos através de código limpo e arquiteturas escaláveis.",
+    "about.description1": "Sou um desenvolvedor e designer apaixonado por tecnologia, sempre buscando criar experiências digitais únicas e memoráveis. Com experiência em desenvolvimento web full-stack e design de interfaces, combino habilidades técnicas com visão criativa.",
+    "about.description2": "Quando não estou programando ou criando designs, gosto de explorar novas tecnologias, contribuir para projetos open source e compartilhar conhecimento com a comunidade de desenvolvedores e designers.",
+    "about.expertise": "Expertise Principal",
     "about.fullstack": "Desenvolvimento Full Stack",
-    "about.uiux": "UI/UX Design",
-    "about.website": "Desenvolvimento de Websites",
+    "about.uiux": "Design UI/UX",
+    "about.website": "Desenvolvimento de Sites",
     "about.responsive": "Design Responsivo",
     "about.stats": "Estatísticas Rápidas",
     "about.experience": "Experiência",
@@ -34,11 +41,33 @@ export const translations = {
     "about.status": "Status Atual",
     "about.available": "Disponível para projetos",
     "about.location": "Baseado no Brasil",
-    "about.collaboration": "Aberto a colaborações",
-    "about.techstack": "Stack Tecnológica & Ferramentas de Design",
+    "about.collaboration": "Aberto para colaboração",
+    "about.techstack": "Stack Tecnológico & Ferramentas de Design",
+    "about.stats.projects": "Projetos Concluídos",
+    "about.stats.experience": "Anos de Experiência", 
+    "about.stats.clients": "Clientes Satisfeitos",
+    "about.skills.title": "Tecnologias & Ferramentas",
+    "about.skills.github": "Tecnologias dos meus repositórios",
+    "about.values.title": "Meus Valores",
+    "about.values.quality.title": "Qualidade Excepcional",
+    "about.values.quality.description": "Cada linha de código é escrita com atenção aos detalhes, seguindo as melhores práticas e padrões da indústria.",
+    "about.values.collaboration.title": "Colaboração Efetiva",
+    "about.values.collaboration.description": "Trabalho em estreita parceria com clientes e equipes, garantindo comunicação clara e resultados alinhados.",
+    "about.values.passion.title": "Paixão por Inovação",
+    "about.values.passion.description": "Sempre explorando novas tecnologias e metodologias para entregar soluções que superem expectativas.",
 
     // Projects Section
+    "projects.subtitle": "Meu trabalho",
     "projects.title": "Projetos em Destaque",
+    "projects.description": "Uma seleção dos meus projetos mais impactantes, demonstrando expertise em desenvolvimento full-stack e soluções inovadoras.",
+    "projects.stats.total": "Total de Projetos",
+    "projects.stats.stars": "GitHub Stars",
+    "projects.stats.featured": "Em Destaque",
+    "projects.error": "Desculpe, não foi possível carregar os projetos no momento.",
+    "projects.empty.title": "Nenhum projeto encontrado",
+    "projects.empty.description": "Os projetos aparecerão aqui assim que estiverem disponíveis.",
+    "projects.showAll": "Ver Todos os Projetos",
+    "projects.showLess": "Mostrar Apenas Destaques",
     "projects.p1.title": "Prime Video Enhancer",
     "projects.p1.description":
       "Problema: Usuários reclamavam de anúncios intrusivos e interface confusa no Prime Video. Solução: Desenvolvi um userscript que oculta automaticamente o X-Ray, pula anúncios e adiciona atalhos de teclado. Impacto: Mais de 500 usuários instalaram, reduzindo tempo de navegação em 40%.",
@@ -72,11 +101,13 @@ export const translations = {
     "skills.development": "Habilidades de Desenvolvimento",
     "skills.frontend": "Tecnologias Frontend",
     "skills.backend": "Backend & Ferramentas",
-    "skills.design": "Design & Criativo",
+    "skills.tools": "DevOps & Ferramentas",
+    "skills.design": "Design & UX",
     "skills.designTools": "Ferramentas de Design",
     "skills.designSkills": "Habilidades de Design",
 
     // Contact Section
+    "contact.subtitle": "Entre em contato",
     "contact.title": "Vamos nos Conectar",
     "contact.getInTouch": "Entre em Contato",
     "contact.description":
@@ -88,6 +119,7 @@ export const translations = {
     "contact.linkedin": "LinkedIn",
     "contact.calendly": "Calendly",
     "contact.copyEmail": "E-mail copiado para a área de transferência!",
+    "contact.emailCopied": "E-mail copiado!",
     "contact.form.title": "Me envie uma mensagem",
     "contact.form.description":
       "Adoraria ouvir sobre seu projeto ou discutir oportunidades de desenvolvimento!",
@@ -95,6 +127,12 @@ export const translations = {
     "contact.form.email": "Seu email",
     "contact.form.message": "Sua mensagem...",
     "contact.form.send": "Enviar Mensagem",
+    "contact.methods.title": "Métodos de Contato",
+    "contact.methods.description": "Escolha a forma mais conveniente para entrar em contato comigo",
+    "contact.responseTime": "Tempo médio de resposta: 24h",
+    "contact.cta.title": "Pronto para começar seu projeto?",
+    "contact.cta.description": "Vamos discutir como podemos dar vida às suas ideias com tecnologias web modernas.",
+    "contact.cta.button": "Iniciar Conversa",
 
     // Now Page
     "now.title": "O que estou fazendo agora",
@@ -131,9 +169,16 @@ export const translations = {
   },
   en: {
     // Hero Section
+    "hero.greeting": "Hello, I'm",
     "hero.title": "Bernardo Gomes",
-    "hero.subtitle":
-      "I build fast and accessible web apps (Next.js, Node, AWS)",
+    "hero.subtitle": "I build fast and accessible web apps (Next.js, Node, AWS)",
+    "hero.subtitle1": "Creating exceptional digital experiences",
+    "hero.subtitle2": "Transforming ideas into reality",
+    "hero.subtitle3": "Developing the future of the web",
+    "hero.description": "Specialized in React, Node.js and modern technologies. I build performant, accessible web applications that generate real results for businesses.",
+    "hero.cta.primary": "Let's talk",
+    "hero.cta.secondary": "View projects",
+    "hero.profileAlt": "Bernardo Gomes profile photo",
     "hero.location": "Brazil",
     "hero.availability": "Available for projects",
     "hero.github": "GitHub",
@@ -142,7 +187,9 @@ export const translations = {
     "hero.skipToContent": "Skip to main content",
 
     // About Section
+    "about.subtitle": "Learn more",
     "about.title": "About Me",
+    "about.description": "With over 5 years of experience, I specialize in creating modern web applications that combine exceptional design with optimized performance. My passion is solving complex problems through clean code and scalable architectures.",
     "about.description1":
       "I am a developer and designer passionate about technology, always seeking to create unique and memorable digital experiences. With experience in full-stack web development and interface design, I combine technical skills with creative vision.",
     "about.description2":
@@ -166,9 +213,31 @@ export const translations = {
     "about.location": "Based in Brazil",
     "about.collaboration": "Open to collaboration",
     "about.techstack": "Tech Stack & Design Tools",
+    "about.stats.projects": "Completed Projects",
+    "about.stats.experience": "Years of Experience",
+    "about.stats.clients": "Satisfied Clients",
+    "about.skills.title": "Technologies & Tools",
+    "about.skills.github": "Technologies from my repositories",
+    "about.values.title": "My Values",
+    "about.values.quality.title": "Exceptional Quality",
+    "about.values.quality.description": "Every line of code is written with attention to detail, following industry best practices and standards.",
+    "about.values.collaboration.title": "Effective Collaboration",
+    "about.values.collaboration.description": "I work in close partnership with clients and teams, ensuring clear communication and aligned results.",
+    "about.values.passion.title": "Passion for Innovation",
+    "about.values.passion.description": "Always exploring new technologies and methodologies to deliver solutions that exceed expectations.",
 
     // Projects Section
+    "projects.subtitle": "My work",
     "projects.title": "Featured Projects",
+    "projects.description": "A selection of my most impactful projects, demonstrating expertise in full-stack development and innovative solutions.",
+    "projects.stats.total": "Total Projects",
+    "projects.stats.stars": "GitHub Stars",
+    "projects.stats.featured": "Featured",
+    "projects.error": "Sorry, couldn't load projects at the moment.",
+    "projects.empty.title": "No projects found",
+    "projects.empty.description": "Projects will appear here once they're available.",
+    "projects.showAll": "View All Projects",
+    "projects.showLess": "Show Only Featured",
     "projects.p1.title": "Prime Video Enhancer",
     "projects.p1.description":
       "Problem: Users complained about intrusive ads and confusing interface on Prime Video. Solution: Developed a userscript that automatically hides X-Ray, skips ads, and adds keyboard shortcuts. Impact: Over 500 users installed, reducing navigation time by 40%.",
@@ -207,6 +276,7 @@ export const translations = {
     "skills.designSkills": "Design Skills",
 
     // Contact Section
+    "contact.subtitle": "Get in touch",
     "contact.title": "Let's Connect",
     "contact.getInTouch": "Get In Touch",
     "contact.description":
@@ -218,6 +288,7 @@ export const translations = {
     "contact.linkedin": "LinkedIn",
     "contact.calendly": "Calendly",
     "contact.copyEmail": "Email copied to clipboard!",
+    "contact.emailCopied": "Email copied!",
     "contact.form.title": "Send me a message",
     "contact.form.description":
       "I'd love to hear about your project or discuss development opportunities!",
@@ -225,6 +296,12 @@ export const translations = {
     "contact.form.email": "Your email",
     "contact.form.message": "Your message...",
     "contact.form.send": "Send Message",
+    "contact.methods.title": "Contact Methods",
+    "contact.methods.description": "Choose the most convenient way to get in touch with me",
+    "contact.responseTime": "Average response time: 24h",
+    "contact.cta.title": "Ready to start your project?",
+    "contact.cta.description": "Let's discuss how we can bring your ideas to life with modern web technologies.",
+    "contact.cta.button": "Start Conversation",
 
     // Now Page
     "now.title": "What I'm doing now",

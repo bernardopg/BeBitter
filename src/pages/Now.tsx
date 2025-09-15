@@ -152,7 +152,7 @@ const Now = () => {
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent"
+              className="text-5xl md:text-6xl font-bold mb-6 gradient-text"
               initial={{ opacity: 0, y: 20 }}
               animate={
                 headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -178,7 +178,7 @@ const Now = () => {
 
             {/* Real-time clock */}
             <motion.div
-              className="relative p-8 rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 mb-8"
+              className="relative p-8 rounded-2xl glass pulse-glow mb-8"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={
                 headerInView
@@ -191,10 +191,7 @@ const Now = () => {
                 <Clock className="h-6 w-6 text-primary" />
                 <span className="text-lg font-semibold">Agora no Brasil</span>
               </div>
-              <div
-                className="text-4xl md:text-6xl font-mono font-bold text-primary"
-                style={{ textShadow: "0 0 20px rgba(59, 130, 246, 0.3)" }}
-              >
+              <div className="text-4xl md:text-6xl font-mono font-bold gradient-text">
                 {currentTime.toLocaleTimeString(
                   language === "pt" ? "pt-BR" : "en-US",
                   { hour: "2-digit", minute: "2-digit", second: "2-digit" }
@@ -219,11 +216,11 @@ const Now = () => {
               }
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent flex items-center justify-center gap-2">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text flex items-center justify-center gap-2">
                 <Zap className="h-8 w-8 text-primary" />
                 {t("now.currentFocus")}
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+              <div className="w-24 h-1 gradient-primary mx-auto rounded-full" />
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -239,10 +236,10 @@ const Now = () => {
                   transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                   whileHover={{ scale: 1.03, y: -5 }}
                 >
-                  <Card className="h-full hover:shadow-xl transition-all duration-300 border-primary/10 group">
+                  <Card className="h-full card-enhanced group">
                     <CardHeader className="text-center pb-4">
                       <motion.div
-                        className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white`}
+                        className={`w-16 h-16 mx-auto mb-4 rounded-full gradient-primary flex items-center justify-center text-white float`}
                         whileHover={{ scale: 1.1, rotate: 5 }}
                         transition={{ duration: 0.3 }}
                       >
@@ -289,11 +286,11 @@ const Now = () => {
               }
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent flex items-center justify-center gap-2">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text flex items-center justify-center gap-2">
                 <Award className="h-8 w-8 text-primary" />
                 {t("now.achievements")}
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+              <div className="w-24 h-1 gradient-primary mx-auto rounded-full" />
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -309,11 +306,11 @@ const Now = () => {
                   transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                   whileHover={{ scale: 1.02, y: -3 }}
                 >
-                  <Card className="hover:shadow-lg transition-all duration-300 border-primary/10 group">
+                  <Card className="card-enhanced group">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         <motion.div
-                          className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-2xl group-hover:bg-primary/20 transition-colors duration-200"
+                          className="w-12 h-12 rounded-full gradient-secondary flex items-center justify-center flex-shrink-0 text-2xl group-hover:gradient-primary transition-all duration-200"
                           whileHover={{ scale: 1.1, rotate: 10 }}
                           transition={{ duration: 0.3 }}
                         >
@@ -352,11 +349,11 @@ const Now = () => {
               }
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent flex items-center justify-center gap-2">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text flex items-center justify-center gap-2">
                 <Coffee className="h-8 w-8 text-primary" />
                 {t("now.personalNote")}
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+              <div className="w-24 h-1 gradient-primary mx-auto rounded-full" />
             </motion.div>
 
             <motion.div
@@ -367,7 +364,7 @@ const Now = () => {
               }
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <Card className="hover:shadow-xl transition-all duration-300 border-primary/10">
+              <Card className="card-enhanced">
                 <CardContent className="p-8">
                   <div className="prose prose-lg max-w-none">
                     <motion.p
@@ -410,11 +407,11 @@ const Now = () => {
               }
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent flex items-center justify-center gap-2">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text flex items-center justify-center gap-2">
                 <Heart className="h-8 w-8 text-primary" />
                 {t("now.contact.title")}
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+              <div className="w-24 h-1 gradient-primary mx-auto rounded-full" />
             </motion.div>
 
             <motion.div
@@ -426,7 +423,7 @@ const Now = () => {
               }
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <Card className="bg-gradient-to-br from-primary/5 via-primary/3 to-transparent border-primary/20 hover:shadow-xl transition-all duration-300 max-w-2xl mx-auto">
+              <Card className="glass card-enhanced max-w-2xl mx-auto">
                 <CardContent className="p-8">
                   <motion.h3
                     className="text-2xl font-bold mb-4"
@@ -471,7 +468,7 @@ const Now = () => {
                       <Button
                         asChild
                         size="lg"
-                        className="group relative overflow-hidden"
+                        className="group btn-enhanced gradient-primary text-white border-0"
                       >
                         <a
                           href="mailto:bernardo.gomes@bebitterbebetter.com.br"
@@ -493,7 +490,7 @@ const Now = () => {
                         asChild
                         variant="outline"
                         size="lg"
-                        className="group relative overflow-hidden"
+                        className="group btn-enhanced border-primary/20 hover:border-primary/40 hover:bg-primary/5"
                       >
                         <a
                           href="https://wa.me/5531984916431"
