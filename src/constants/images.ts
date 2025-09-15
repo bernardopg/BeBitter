@@ -16,10 +16,18 @@ export const IMAGES = {
   ANDROID_CHROME_192: "/images/icons/android-chrome-192x192.png",
   ANDROID_CHROME_512: "/images/icons/android-chrome-512x512.png",
 
+  // Profile images
+  PROFILE_IMAGE: "/images/profile/profile.jpg",
+  PROFILE_IMAGE_WEBP: "/images/profile/profile.webp",
+  PROFILE_IMAGE_AVIF: "/images/profile/profile.avif",
+  PROFILE_IMAGE_SMALL: "/images/profile/profile-small.jpg",
+  PROFILE_IMAGE_MEDIUM: "/images/profile/profile-medium.jpg",
+  PROFILE_IMAGE_LARGE: "/images/profile/profile-large.jpg",
+
   // Other assets
   PLACEHOLDER: "/placeholder.svg",
 
-  // External images
+  // Legacy external images (deprecated)
   GITHUB_AVATAR: "https://avatars.githubusercontent.com/u/69475128?v=4",
 } as const;
 

@@ -20,7 +20,7 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   height?: number;
   /** Priority loading for above-the-fold images */
   priority?: boolean;
-  /** Native fetch priority hint */
+  /** Native fetch priority hint (applied as lowercase attribute) */
   fetchPriority?: "high" | "auto" | "low";
 }
 
@@ -50,8 +50,17 @@ const Image: React.FC<ImageProps> = ({
         )
     : src;
 
+  const imgRef = React.useRef<HTMLImageElement | null>(null);
+
+  React.useEffect(() => {
+    if (imgRef.current && fetchPriority) {
+      imgRef.current.setAttribute("fetchpriority", fetchPriority);
+    }
+  }, [fetchPriority]);
+
   return (
     <img
+      ref={imgRef}
       src={imageSrc}
       alt={alt}
       className={cn("object-cover", className)}
@@ -59,7 +68,6 @@ const Image: React.FC<ImageProps> = ({
       width={width}
       height={height}
       decoding="async"
-      fetchPriority={fetchPriority}
       {...props}
     />
   );

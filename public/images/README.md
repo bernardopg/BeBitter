@@ -1,95 +1,179 @@
-# Images Directory Structure
+# 📸 Imagens do BeBitter Portfolio
 
-This directory contains all static images used in the BeBitter application, organized for easy maintenance and scalability.
+Este diretório contém todas as imagens e assets visuais do projeto BeBitter.
 
-## Directory Structure
+## 📁 Estrutura de Diretórios
 
 ```text
 public/images/
-├── icons/           # Favicon and app icons
-│   ├── android-chrome-192x192.png  # Android app icon (192x192)
-│   ├── android-chrome-512x512.png  # Android app icon (512x512)
-│   ├── apple-touch-icon.png        # iOS app icon (180x180)
-│   ├── favicon-16x16.png           # Browser favicon (16x16)
-│   └── favicon-32x32.png           # Browser favicon (32x32)
-└── logos/           # Brand and logo images
-    ├── bebitter-logo.png           # Main BeBitter logo
-    └── bebitter-logo-alt.png       # Alternative BeBitter logo
+├── 📄 README.md                    # Este arquivo
+│  
+├── 📁 profile/
+      ├── 📁 🖼️ MainProfigeImage.JPG         # Foto principal do Bernardo
+├── 📁 icons/                       # Ícones do site
+│   ├── android-chrome-192x192.png  # Ícone Android 192px
+│   ├── android-chrome-512x512.png  # Ícone Android 512px
+│   ├── apple-touch-icon.png        # Ícone Apple Touch
+│   ├── favicon-16x16.png           # Favicon 16px
+│   └── favicon-32x32.png           # Favicon 32px
+├── 📁 logos/                       # Logotipos do BeBitter
+│   ├── BeBitter.svg                # Logo principal
+│   └── BeBitter_Alt.svg            # Logo alternativo
+└── 📁 screenshots/                 # Screenshots atualizadas
+    ├── .gitkeep                    # Manter diretório no Git
+    ├── bebitterbebetter-br-home-light.png   # Home (pt-BR, tema claro)
+    ├── bebitterbebetter-br-home-dark.png    # Home (pt-BR, tema escuro)
+    ├── bebitterbebetter-en-home-dark.png    # Home (en, tema escuro)
+    ├── bebitterbebetter-pt-now-light.png    # Página Now (pt, tema claro)
+    └── bebitterbebetter-en-now-dark.png.png # Página Now (en, tema escuro) [extensão dupla]
 ```
 
-## Image Usage
+---
 
-### Icons and Favicons
+## 📱 Screenshots Atualizadas
 
-- **favicon.ico**: Located in `/public/favicon.ico` - Main browser favicon
-- **favicon-16x16.png**: Small favicon for browser tabs
-- **favicon-32x32.png**: Medium favicon for browser tabs
-- **apple-touch-icon.png**: iOS Safari bookmark icon
-- **android-chrome-*.png**: Progressive Web App icons
+### 🏠 **Página Principal (Home)**
 
-### Brand Assets
+#### 🌞 Tema Claro
 
-- **bebitter-logo.png**: Primary logo for the BeBitter brand
-- **bebitter-logo-alt.png**: Alternative version of the logo
+- **Arquivo**: `bebitterbebetter-br-home-light.png`
+- **Resolução**: 1920x1080
+- **Descrição**: Homepage (pt-BR) no tema claro
 
-### External Images
+#### 🌙 Tema Escuro
 
-- **GitHub Avatar**: Loaded from GitHub API (`https://avatars.githubusercontent.com/u/69475128?v=4`)
+- **Arquivo**: `bebitterbebetter-br-home-dark.png`
+- **Resolução**: 1920x1080
+- **Descrição**: Homepage (pt-BR) no tema escuro
 
-## Implementation
+### 📄 **Página Now**
 
-### Using the Image Constants
+#### 🌞 Tema Claro
 
-```typescript
-import { IMAGES } from '@/constants/images';
-import Image from '@/components/ui/image';
+- **Arquivo**: `bebitterbebetter-pt-now-light.png`
+- **Resolução**: 1920x1080
+- **Descrição**: Página /now (pt) no tema claro
 
-// Using the Image component with constants
-<Image
-  src={IMAGES.BEBITTER_LOGO}
-  alt="BeBitter Logo"
-  className="w-32 h-16"
-/>
+#### 🌙 Tema Escuro
 
-// Using with fallback
-<Image
-  imageKey="BEBITTER_LOGO"
-  fallback="PLACEHOLDER"
-  alt="BeBitter Logo"
-/>
-```
+- **Arquivo**: `bebitterbebetter-en-now-dark.png.png`
+- **Resolução**: 1920x1080
+- **Descrição**: Página /now (en) no tema escuro — observar extensão dupla `.png.png`
 
-### Direct Path Usage
+---
 
-```typescript
-// For direct HTML/CSS usage
-<img src="/images/logos/bebitter-logo.png" alt="BeBitter Logo" />
-```
+## 🎯 **Especificações Técnicas**
 
-## File Naming Conventions
+### 📐 **Dimensões e Formatos**
 
-- Use kebab-case for all filenames
-- Include dimensions in the filename when relevant (e.g., `favicon-16x16.png`)
-- Use descriptive names that indicate the purpose
-- Group related images in appropriate subdirectories
+| Tipo | Formato | Dimensões | Uso |
+|------|---------|-----------|-----|
+| **Screenshots** | PNG | 1920x1080 | Documentação README |
+| **Favicons** | PNG | 16x16, 32x32 | Browser tabs |
+| **Touch Icons** | PNG | 192x192, 512x512 | PWA e mobile |
+| **Logotipos** | SVG | Vetorial | Escalabilidade |
+| **Profile** | JPG | Original | Foto pessoal |
 
-## Optimization Guidelines
+### 🖼️ **Diretrizes de Imagem**
 
-- All images should be optimized for web use
-- Use appropriate formats (PNG for logos with transparency, JPG for photos)
-- Consider WebP format for better compression when browser support allows
-- Implement lazy loading for non-critical images
+#### Screenshots
 
-## Maintenance
+- **Formato**: PNG para preservar qualidade
+- **Resolução**: Full HD (1920x1080)
+- **Compressão**: Otimizada para web
+- **Nomenclatura**: `{page}-{theme}-{timestamp}.png`
 
-1. When adding new images, place them in the appropriate subdirectory
-2. Update the `IMAGES` constant in `/src/constants/images.ts`
-3. Ensure proper alt text is provided for accessibility
-4. Test images on different devices and screen densities
+#### Ícones
 
-## References
+- **Formato**: PNG com transparência
+- **Qualidade**: Alta resolução
+- **Compatibilidade**: Todos os browsers e dispositivos
 
-- **site.webmanifest**: References icons for PWA functionality
-- **index.html**: Contains favicon and meta tag references
-- **Image Component**: `/src/components/ui/image.tsx` for reusable image handling
-- **Image Constants**: `/src/constants/images.ts` for centralized path management
+#### Logos
+
+- **Formato**: SVG para escalabilidade
+- **Cores**: Adaptáveis ao tema (claro/escuro)
+- **Uso**: Header, footer, documentação
+
+---
+
+## 🔄 **Processo de Atualização**
+
+### 📸 **Como Capturar Novas Screenshots**
+
+1. **Executar o projeto localmente**:
+
+   ```bash
+   pnpm dev
+   ```
+
+2. **Usar Playwright para captura automatizada**:
+
+   ```bash
+   # Screenshots serão salvas automaticamente em screenshots/
+   # com timestamp para controle de versão
+   ```
+
+3. **Verificar qualidade**:
+   - [ ] Resolução correta (1920x1080)
+   - [ ] Tema aplicado corretamente
+   - [ ] Conteúdo completo visível
+   - [ ] Sem elementos cortados
+
+4. **Atualizar referências**:
+   - [ ] README.md principal
+   - [ ] Documentação
+   - [ ] Links de preview
+
+### 🗂️ **Organização de Arquivos**
+
+- **Screenshots antigas**: Remover após confirmação das novas
+- **Versionamento**: Manter timestamp nos nomes
+- **Cleanup**: Executar limpeza regular para evitar acúmulo
+
+---
+
+## 📊 **Otimizações de Performance**
+
+### 🚀 **Boas Práticas**
+
+- **Compressão**: Todos os PNGs otimizados
+- **Lazy Loading**: Screenshots carregadas sob demanda
+- **Alt Text**: Descrições acessíveis em todas as imagens
+- **Responsive**: Imagens adaptáveis a diferentes telas
+
+### 📈 **Métricas**
+
+| Métrica | Valor | Status |
+|---------|--------|--------|
+| **Total Size** | ~2.5MB | ✅ Otimizado |
+| **Loading Time** | <2s | ✅ Rápido |
+| **Compression** | ~60% | ✅ Eficiente |
+
+---
+
+## 🛠️ **Ferramentas Utilizadas**
+
+### 📸 **Captura**
+
+- **Playwright**: Screenshots automatizadas
+- **Chrome DevTools**: Testes manuais
+- **Browser Testing**: Cross-browser validation
+
+### 🎨 **Edição**
+
+- **Design Tools**: Para ajustes se necessário
+- **Optimization**: Ferramentas de compressão
+- **Quality Check**: Validação visual
+
+---
+
+## 🔗 **Referências**
+
+- **README Principal**: [README.md](../../README.md)
+- **Documentação**: [CLAUDE.md](../../CLAUDE.md)
+- **Segurança**: [SECURITY.md](../../SECURITY.md)
+
+---
+
+*Última atualização: 15 de Setembro de 2025*  

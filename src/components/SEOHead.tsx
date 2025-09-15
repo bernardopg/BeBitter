@@ -1,4 +1,5 @@
 import { useLanguage } from "@/hooks/useLanguage";
+import { IMAGES } from "@/constants/images";
 import { useEffect } from "react";
 
 interface SEOHeadProps {
@@ -27,7 +28,7 @@ const SEOHead = ({
     "typescript",
     "portfolio",
   ],
-  ogImage = "https://bebitterbebetter.com.br/images/logos/bebitter-logo.png",
+  ogImage = `${window.location.origin}${IMAGES.PROFILE_IMAGE}`,
   canonical,
   type = "website",
   robots = "index, follow",

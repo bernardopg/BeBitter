@@ -56,7 +56,8 @@ graph TD
 **BeBitter** is a modern, performant portfolio website for Bernardo Gomes - Full-Stack Developer & Designer.
 
 ### Key Characteristics
-- **Production URL**: https://bebitterbebetter.com.br
+
+- **Production URL**: <https://bebitterbebetter.com.br>
 - **Performance Target**: Lighthouse 95+/100
 - **Stack**: React 18 + TypeScript + Vite + Tailwind CSS
 - **Package Manager**: pnpm (REQUIRED - do not use npm/yarn)
@@ -64,6 +65,7 @@ graph TD
 - **Hosting**: Hostinger with FTP deployment
 
 ### Project Goals
+
 1. Showcase portfolio with excellent UX
 2. Maintain sub-2.5s LCP on 4G networks
 3. Full accessibility (WCAG 2.1 AA)
@@ -132,9 +134,11 @@ src/
 ### State Management
 
 **Patterns**:
+
 - **Local State**: useState for component-level state
 - **Global State**: React Context (Language, Theme)
 - **Server State**: TanStack Query with these settings:
+
   ```typescript
   {
     staleTime: 5 * 60 * 1000,        // 5 minutes
@@ -154,6 +158,7 @@ src/
 ### Internationalization
 
 **Custom i18n implementation** (not using i18next):
+
 - **Languages**: Portuguese (pt) default, English (en)
 - **Implementation**: `src/contexts/LanguageContext.tsx`
 - **Translations**: `src/constants/translations.ts`
@@ -163,6 +168,7 @@ src/
 ### Build Configuration
 
 **Vite Config** (`vite.config.ts`):
+
 - Port: 8080 (dev server)
 - Host: "::" (IPv6 all interfaces)
 - Alias: `@/` → `src/`
@@ -185,7 +191,7 @@ pnpm --version  # Required package manager
 
 | Command | Purpose | When to Use |
 |---------|---------|------------|
-| `pnpm dev` | Start dev server on http://localhost:8080 | Daily development |
+| `pnpm dev` | Start dev server on <http://localhost:8080> | Daily development |
 | `pnpm dev --host` | Expose on network | Mobile testing |
 | `pnpm build` | Production build | Before deployment |
 | `pnpm build:dev` | Development build | Debug production issues |
@@ -256,6 +262,7 @@ export function process(data: any) { // Avoid any
 ```
 
 **Configuration Notes**:
+
 - `noImplicitAny: false` in tsconfig (legacy, don't rely on it)
 - Prefer explicit types for new code
 - Use `@/` import alias for src imports
@@ -317,6 +324,7 @@ import './styles.css';
 Format: `scope: description`
 
 Examples:
+
 - `feat: add contact form validation`
 - `fix: correct mobile menu z-index`
 - `perf: lazy load project images`
@@ -346,6 +354,7 @@ Examples:
 **Reference**: `/context/design-principles-example.md`
 
 Core principles:
+
 1. **Users First**: Prioritize UX in every decision
 2. **Meticulous Craft**: Pixel-perfect implementation
 3. **Speed**: Fast interactions and load times
@@ -396,6 +405,7 @@ Core principles:
 ### Component Examples
 
 **Themed Button with shadcn/ui**:
+
 ```typescript
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -421,6 +431,7 @@ export function CTAButton({
 ```
 
 **Responsive Image**:
+
 ```typescript
 <img
   src="/images/project.webp"
@@ -435,6 +446,7 @@ export function CTAButton({
 ### Spacing Scale
 
 Use consistent spacing based on 8px unit:
+
 - `space-1` = 4px
 - `space-2` = 8px
 - `space-3` = 12px
@@ -460,18 +472,21 @@ Use consistent spacing based on 8px unit:
 Before merging any UI changes:
 
 #### Visual Consistency
+
 - [ ] Follows design tokens (colors, spacing, typography)
 - [ ] Consistent with existing patterns
 - [ ] Proper dark mode implementation
 - [ ] Icons from Lucide React only
 
 #### Responsive Design
+
 - [ ] Mobile (375px) - Touch-optimized
 - [ ] Tablet (768px) - Proper layout
 - [ ] Desktop (1440px) - Full experience
 - [ ] No horizontal scroll at any breakpoint
 
 #### Accessibility
+
 - [ ] Color contrast ≥ 4.5:1 (WCAG AA)
 - [ ] Keyboard navigable
 - [ ] Focus states visible
@@ -479,12 +494,14 @@ Before merging any UI changes:
 - [ ] Alt text for images
 
 #### Performance
+
 - [ ] Images optimized (WebP preferred)
 - [ ] Lazy loading implemented
 - [ ] No layout shift (CLS < 0.1)
 - [ ] Bundle size acceptable
 
 #### States
+
 - [ ] Loading state
 - [ ] Empty state
 - [ ] Error state
@@ -493,6 +510,7 @@ Before merging any UI changes:
 ### Visual QA Process
 
 1. **Build and Preview**:
+
    ```bash
    pnpm build && pnpm preview
    ```
@@ -525,6 +543,7 @@ Before merging any UI changes:
 ### PR Visual Documentation
 
 Include in PR description:
+
 ```markdown
 ## Visual Changes
 
@@ -551,6 +570,7 @@ Include in PR description:
 ### Current State
 
 The project uses **Vitest** with **React Testing Library**. Tests exist for:
+
 - `ProjectsContext`
 - `useGitHubProjects` hook
 
@@ -573,7 +593,9 @@ pnpm test -- --watch
 ### Testing Standards
 
 #### Unit Tests
+
 Test pure functions and utilities:
+
 ```typescript
 // src/utils/__tests__/performance.test.ts
 import { describe, it, expect } from 'vitest';
@@ -587,7 +609,9 @@ describe('formatMetric', () => {
 ```
 
 #### Component Tests
+
 Test critical UI components:
+
 ```typescript
 // src/components/__tests__/ProjectCard.test.tsx
 import { render, screen } from '@testing-library/react';
@@ -600,7 +624,9 @@ test('renders project title', () => {
 ```
 
 #### Integration Tests
+
 Test user flows:
+
 ```typescript
 test('language switch updates UI', async () => {
   const { user } = render(<App />);
@@ -613,12 +639,14 @@ test('language switch updates UI', async () => {
 ### Test Coverage Goals
 
 Minimum coverage targets:
+
 - **Lines**: 70%
 - **Functions**: 70%
 - **Branches**: 60%
 - **Statements**: 70%
 
 Priority areas:
+
 1. Error boundaries
 2. Analytics events
 3. Form validation
@@ -642,6 +670,7 @@ Priority areas:
 ### Code Splitting Strategy
 
 **Routes** (automatic with React.lazy):
+
 ```typescript
 const Index = lazy(() => import('@/pages/Index'));
 const Now = lazy(() => import('@/pages/Now'));
@@ -649,6 +678,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 ```
 
 **Manual Chunks** (vite.config.ts):
+
 - `vendor`: React, ReactDOM
 - `ui`: Radix UI components
 - `router`: React Router
@@ -657,6 +687,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 ### Asset Optimization
 
 #### Images
+
 ```typescript
 // ✅ GOOD: Optimized loading
 <img
@@ -674,8 +705,10 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 ```
 
 #### Fonts
+
 - Use system fonts when possible
 - Preload critical fonts:
+
   ```html
   <link rel="preload" href="/fonts/inter.woff2" as="font" crossorigin>
   ```
@@ -683,6 +716,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 ### React Performance
 
 #### Memoization
+
 ```typescript
 // Expensive component
 const ExpensiveChart = React.memo(({ data }) => {
@@ -703,6 +737,7 @@ const handleClick = useCallback(() => {
 ```
 
 #### Defer Non-Critical Work
+
 ```typescript
 useEffect(() => {
   // Critical: Run immediately
@@ -719,6 +754,7 @@ useEffect(() => {
 ### Measuring Performance
 
 1. **Build Analysis**:
+
    ```bash
    pnpm build:analyze
    # Opens visual bundle analyzer
@@ -730,6 +766,7 @@ useEffect(() => {
    - Chrome DevTools Performance tab
 
 3. **Lighthouse Audit**:
+
    ```bash
    pnpm build && pnpm preview
    # Open Chrome DevTools
@@ -739,6 +776,7 @@ useEffect(() => {
 ### Bundle Size Optimization
 
 Check impact before merging:
+
 ```bash
 # Before changes
 pnpm build
@@ -753,6 +791,7 @@ pnpm analyze:bundle
 ```
 
 Red flags:
+
 - Bundle > 200KB (gzipped)
 - Single dependency > 50KB
 - Unused exports
@@ -765,6 +804,7 @@ Red flags:
 ### Accessibility Checklist
 
 #### Keyboard Navigation
+
 - [ ] All interactive elements reachable via Tab
 - [ ] Focus order logical
 - [ ] Focus visible (never `outline: none` without alternative)
@@ -772,6 +812,7 @@ Red flags:
 - [ ] Escape closes modals
 
 #### Screen Readers
+
 - [ ] Semantic HTML used
 - [ ] ARIA labels where needed
 - [ ] Form inputs labeled
@@ -779,6 +820,7 @@ Red flags:
 - [ ] Live regions for updates
 
 #### Visual
+
 - [ ] Color contrast ≥ 4.5:1 (text)
 - [ ] Color contrast ≥ 3:1 (UI elements)
 - [ ] Text resizable to 200%
@@ -786,6 +828,7 @@ Red flags:
 - [ ] Animations respect `prefers-reduced-motion`
 
 #### Forms
+
 ```typescript
 // ✅ GOOD: Accessible form
 <form onSubmit={handleSubmit}>
@@ -811,6 +854,7 @@ Red flags:
 ### SEO Implementation
 
 #### Meta Tags (via SEOHead component)
+
 ```typescript
 <SEOHead
   title="Bernardo Gomes - Full-Stack Developer"
@@ -822,6 +866,7 @@ Red flags:
 ```
 
 #### Structured Data
+
 ```html
 <script type="application/ld+json">
 {
@@ -835,6 +880,7 @@ Red flags:
 ```
 
 #### Technical SEO
+
 - [ ] Canonical URLs set
 - [ ] Language tags: `<html lang="pt-BR">`
 - [ ] Sitemap.xml generated (automatic in prebuild)
@@ -843,6 +889,7 @@ Red flags:
 - [ ] Clean URLs (no .html)
 
 #### External Links
+
 ```typescript
 // ✅ GOOD: Safe external link
 <a 
@@ -861,6 +908,7 @@ Red flags:
 ### Global Error Boundary
 
 Catches React errors application-wide:
+
 ```typescript
 // Already implemented in src/components/ErrorBoundary.tsx
 // Wraps entire app in src/main.tsx
@@ -869,6 +917,7 @@ Catches React errors application-wide:
 ### Network Error Handling
 
 Using TanStack Query:
+
 ```typescript
 const { data, error, isLoading } = useQuery({
   queryKey: ['projects'],
@@ -980,6 +1029,7 @@ console.log('Login attempt for user ID:', userId);
 ### Google Analytics 4 Setup
 
 **Configuration**:
+
 - Component: `src/components/Analytics.tsx`
 - Environment Variable: `VITE_GA_TRACKING_ID`
 - Auto-tracks: Page views, Web Vitals
@@ -1029,6 +1079,7 @@ gtag('event', 'exception', {
 ### Web Vitals Monitoring
 
 Automatically tracked via `src/components/WebVitals.tsx`:
+
 - CLS (Cumulative Layout Shift)
 - INP (Interaction to Next Paint)
 - LCP (Largest Contentful Paint)
@@ -1066,9 +1117,10 @@ gtag('event', 'user_action', {
 
 ## Deployment Process
 
-### Prerequisites
+### Deployment Prerequisites
 
 Create `.env.deploy` (never commit):
+
 ```bash
 FTP_HOST="ftp.yourdomain.com"
 FTP_USER="your_ftp_user"
@@ -1100,6 +1152,7 @@ DELETE=true ./deploy.sh
    - [ ] Visual QA completed
 
 2. **Deploy Process**:
+
    ```bash
    # The deploy.sh script:
    # 1. Runs pnpm build
@@ -1118,18 +1171,21 @@ DELETE=true ./deploy.sh
 ### Service Worker Management
 
 **Cache Versioning**:
+
 ```javascript
 // public/sw.js
 const CACHE_NAME = 'bebitter-v1.0.1'; // Increment on updates
 ```
 
 **Clear Cache**:
+
 - Visit `/clear-sw.html` to force clear
 - Increment version for auto-update
 
 ### SPA Routing Setup
 
 Ensure `.htaccess` exists in Hostinger root:
+
 ```apache
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1140,6 +1196,7 @@ RewriteRule . /index.html [L]
 ### Rollback Process
 
 If issues after deployment:
+
 1. Keep previous `dist/` backup locally
 2. Re-upload previous version via FTP
 3. Clear CDN cache if applicable
@@ -1217,6 +1274,7 @@ echo "Deploying..."  # Never echo secrets
 ### Security Headers
 
 Add via Hostinger control panel or `.htaccess`:
+
 ```apache
 # Security headers
 Header set X-Content-Type-Options "nosniff"
@@ -1304,6 +1362,7 @@ pnpm build && pnpm preview
 ### Maintenance Triggers
 
 Update CLAUDE.md when:
+
 - [ ] Adding new npm scripts
 - [ ] Changing build/deploy process
 - [ ] Adding environment variables
@@ -1319,6 +1378,7 @@ Update CLAUDE.md when:
 ### A. Quick Code Snippets
 
 #### i18n Usage
+
 ```typescript
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -1337,6 +1397,7 @@ export function MyComponent() {
 ```
 
 #### React Query with Error Handling
+
 ```typescript
 const { data, error, isLoading, refetch } = useQuery({
   queryKey: ['projects', filter],
@@ -1355,6 +1416,7 @@ return <ProjectGrid projects={data} />;
 ```
 
 #### GA Event Helper
+
 ```typescript
 export function trackEvent(
   action: string,
@@ -1376,6 +1438,7 @@ trackEvent('click', 'navigation', 'header_logo');
 ```
 
 #### Themed Component with cn()
+
 ```typescript
 import { cn } from '@/lib/utils';
 
@@ -1513,6 +1576,7 @@ pnpm audit                # Security audit
 #### Example: Adding a Blog Page
 
 1. **Create the page component**:
+
    ```typescript
    // src/pages/Blog.tsx
    import { useLanguage } from '@/contexts/LanguageContext';
@@ -1528,6 +1592,7 @@ pnpm audit                # Security audit
    ```
 
 2. **Add translations**:
+
    ```typescript
    // src/constants/translations.ts
    export const translations = {
@@ -1543,6 +1608,7 @@ pnpm audit                # Security audit
    ```
 
 3. **Add route**:
+
    ```typescript
    // src/App.tsx
    const Blog = lazy(() => import('@/pages/Blog'));
@@ -1552,12 +1618,14 @@ pnpm audit                # Security audit
    ```
 
 4. **Update navigation**:
+
    ```typescript
    // src/components/Header.tsx
    <Link to="/blog">{t('nav.blog')}</Link>
    ```
 
 5. **Add analytics**:
+
    ```typescript
    // Track page view (automatic)
    // Track specific interactions
@@ -1574,6 +1642,7 @@ pnpm audit                # Security audit
    - Run `pnpm build` to ensure no errors
 
 7. **Deploy**:
+
    ```bash
    pnpm lint
    pnpm build
@@ -1601,14 +1670,15 @@ Version: 1.0.0
 ## Contact & Support
 
 **Project Owner**: Bernardo Gomes
-- Email: bernardo.gomes@bebitterbebetter.com.br
+
+- Email: <bernardo.gomes@bebitterbebetter.com.br>
 - WhatsApp: +55 31 98491-6431
 - GitHub: [@bernardopg](https://github.com/bernardopg)
 - LinkedIn: [@bernardopg](https://linkedin.com/in/bernardopg)
 - Instagram: [@be.pgomes](https://instagram.com/be.pgomes)
 
-**Repository**: https://github.com/bernardopg/BeBitter
-**Production**: https://bebitterbebetter.com.br
+**Repository**: <https://github.com/bernardopg/BeBitter>
+**Production**: <https://bebitterbebetter.com.br>
 
 ---
 
@@ -1621,4 +1691,4 @@ Version: 1.0.0
 
 ---
 
-*Built with ❤️ in Belo Horizonte, MG - Following the best practices for modern web development*
+### Built with ❤️ in Belo Horizonte, MG - Following the best practices for modern web development

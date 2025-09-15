@@ -1,8 +1,8 @@
 import { useAnalytics } from "@/components/Analytics";
 import { Button } from "@/components/ui/button";
-import Image from "@/components/ui/image";
+import { ProfileImage } from "@/components/ui/ProfileImage";
+import { useProfileImagePreload } from "@/hooks/useProfileImagePreload";
 import { CONFIG } from "@/constants/config";
-import { IMAGES } from "@/constants/images";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
@@ -21,12 +21,18 @@ export const HeroSection = () => {
   const { t } = useLanguage();
   const { trackButtonClick, trackExternalLink } = useAnalytics();
   const { registerElement, isVisible, getAnimationProps } = useScrollAnimation();
+  const { preloadProfileImage } = useProfileImagePreload();
 
   const heroRef = useRef<HTMLElement>(null);
   const [displayText, setDisplayText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
 
   const heroInView = isVisible('hero');
+
+  // Preload da imagem crítica
+  useEffect(() => {
+    preloadProfileImage();
+  }, [preloadProfileImage]);
 
   useEffect(() => {
     if (heroRef.current) {
@@ -260,11 +266,11 @@ export const HeroSection = () => {
                 
                 {/* Profile image */}
                 <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-primary/20 shadow-2xl">
-                  <Image
-                    src="https://avatars.githubusercontent.com/u/69475128?v=4"
+                  <ProfileImage
                     alt={t("hero.profileAlt")}
                     className="w-full h-full object-cover"
-                    priority
+                    priority={true}
+                    sizes="(max-width: 768px) 288px, (max-width: 1024px) 320px, 384px"
                   />
                 </div>
                 

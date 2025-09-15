@@ -76,18 +76,37 @@ const FALLBACK_PROJECTS: Project[] = [
   },
 ];
 
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined;
+
+const waitForIdle = () =>
+  new Promise<void>((resolve) => {
+    if (typeof window === 'undefined') return resolve();
+    const ric = (window as Window & { requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout?: number }) => number }).requestIdleCallback;
+    if (typeof ric === 'function') {
+      ric(() => resolve(), { timeout: 2000 });
+    } else {
+      setTimeout(() => resolve(), 1000);
+    }
+  });
+
 const fetchGitHubRepos = async (): Promise<GitHubRepo[]> => {
+  await waitForIdle();
   const response = await fetch(
     `${CONFIG.GITHUB_API_BASE}/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=${CONFIG.MAX_REPOS_FETCH}`,
     {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
+        ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
       },
       signal: AbortSignal.timeout(CONFIG.API_TIMEOUT),
     }
   );
 
   if (!response.ok) {
+    // Avoid spamming unauthenticated 403s
+    if (response.status === 403) {
+      throw new Error('GitHub API error: 403');
+    }
     throw new Error(`GitHub API error: ${response.status}`);
   }
 
@@ -100,6 +119,7 @@ const fetchRepoLanguages = async (repoName: string): Promise<GitHubLanguageRespo
     {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
+        ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
       },
       signal: AbortSignal.timeout(CONFIG.API_TIMEOUT),
     }
@@ -173,11 +193,25 @@ export const useGitHubProjects = () => {
   return useQuery({
     queryKey: ['github-projects', CONFIG.GITHUB_USERNAME],
     queryFn: async () => {
+      if (!GITHUB_TOKEN) {
+        // Sem token, ir direto ao fallback para evitar 403 e custo de rede
+        const allTechnologies = new Set<string>();
+        FALLBACK_PROJECTS.forEach(project => {
+          project.technologies.forEach(tech => allTechnologies.add(tech));
+        });
+        return {
+          projects: FALLBACK_PROJECTS,
+          techStack: Array.from(allTechnologies).sort(),
+        };
+      }
       try {
         const repos = await fetchGitHubRepos();
         return processRepoData(repos);
       } catch (error) {
-        console.warn('GitHub API failed, using fallback projects:', error);
+        // Silencia erros 403 comuns de rate-limit quando sem token
+        if (import.meta.env.DEV) {
+          console.warn('GitHub API failed, using fallback projects:', error);
+        }
         
         // Usar projetos de fallback quando a API falha
         const allTechnologies = new Set<string>();
@@ -191,10 +225,9 @@ export const useGitHubProjects = () => {
         };
       }
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 1, // Reduzir tentativas para usar fallback mais rapidamente
-    retryDelay: 1000,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 20 * 60 * 1000, // 20 minutes
+    retry: 0, // Evita múltiplas tentativas quando rate-limited
   });
 };
 
@@ -202,11 +235,24 @@ export const useGitHubStats = () => {
   return useQuery({
     queryKey: ['github-stats', CONFIG.GITHUB_USERNAME],
     queryFn: async () => {
+      if (!GITHUB_TOKEN) {
+        // Evita chamada sem token e retorna dados mínimos
+        return {
+          publicRepos: undefined,
+          followers: undefined,
+          following: undefined,
+          location: undefined,
+          bio: undefined,
+          avatarUrl: undefined,
+        };
+      }
+      await waitForIdle();
       const response = await fetch(
         `${CONFIG.GITHUB_API_BASE}/users/${CONFIG.GITHUB_USERNAME}`,
         {
           headers: {
             'Accept': 'application/vnd.github.v3+json',
+            ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
           },
           signal: AbortSignal.timeout(CONFIG.API_TIMEOUT),
         }
@@ -228,6 +274,6 @@ export const useGitHubStats = () => {
       };
     },
     staleTime: 10 * 60 * 1000, // 10 minutes
-    retry: 1,
+    retry: 0,
   });
 };

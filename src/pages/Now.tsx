@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Award,
   Clock,
@@ -22,13 +22,15 @@ import {
   Target,
   Zap,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 const Now = () => {
   const { t, language } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
 
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isInteractive, setIsInteractive] = useState(false);
   const [headerRef, headerInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -51,12 +53,36 @@ const Now = () => {
   });
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timer);
+    let timer: number | undefined;
+    const start = () => {
+      timer = window.setInterval(() => {
+        setCurrentTime(new Date());
+      }, 1000);
+    };
+    const ric = (window as Window & { requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout?: number }) => number }).requestIdleCallback;
+    if (typeof ric === 'function') {
+      ric(() => start(), { timeout: 2000 });
+    } else {
+      setTimeout(() => start(), 1200);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
   }, []);
+
+  useEffect(() => {
+    const ric = (window as Window & { requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout?: number }) => number }).requestIdleCallback;
+    if (typeof ric === 'function') {
+      ric(() => setIsInteractive(true), { timeout: 2000 });
+    } else {
+      const t = setTimeout(() => setIsInteractive(true), 1200);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  const MotionDiv = useMemo<React.ElementType>(() => (isInteractive ? motion.div : 'div'), [isInteractive]);
+  const MotionH1 = useMemo<React.ElementType>(() => (isInteractive ? motion.h1 : 'h1'), [isInteractive]);
+  const MotionP = useMemo<React.ElementType>(() => (isInteractive ? motion.p : 'p'), [isInteractive]);
 
   const currentFocus = [
     {
@@ -89,26 +115,10 @@ const Now = () => {
   ];
 
   const recentAchievements = [
-    {
-      text: t("now.achievement1"),
-      icon: "🚀",
-      color: "text-blue-600",
-    },
-    {
-      text: t("now.achievement2"),
-      icon: "📚",
-      color: "text-purple-600",
-    },
-    {
-      text: t("now.achievement3"),
-      icon: "🎯",
-      color: "text-green-600",
-    },
-    {
-      text: t("now.achievement4"),
-      icon: "☕",
-      color: "text-orange-600",
-    },
+    { text: t("now.achievement1"), icon: "🚀", color: "text-blue-600" },
+    { text: t("now.achievement2"), icon: "📚", color: "text-purple-600" },
+    { text: t("now.achievement3"), icon: "🎯", color: "text-green-600" },
+    { text: t("now.achievement4"), icon: "☕", color: "text-orange-600" },
   ];
 
   return (
@@ -141,52 +151,18 @@ const Now = () => {
 
         <div className="container mx-auto px-4 py-16 max-w-4xl">
           {/* Enhanced Header */}
-          <motion.div
-            ref={headerRef}
-            id="main-content"
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 20 }}
-            animate={
-              headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-            }
-            transition={{ duration: 0.8 }}
-          >
-            <motion.h1
-              className="text-5xl md:text-6xl font-bold mb-6 gradient-text"
-              initial={{ opacity: 0, y: 20 }}
-              animate={
-                headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-              }
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
+          <MotionDiv ref={headerRef} id="main-content" className="text-center mb-20">
+            <MotionH1 className="text-5xl md:text-6xl font-bold mb-6 gradient-text">
               {t("now.title")}
-            </motion.h1>
+            </MotionH1>
 
-            <motion.p
-              className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={
-                headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-              }
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              {t("now.description")}{" "}
-              {currentTime.toLocaleDateString(
+            <MotionP className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+              {t("now.description")} {currentTime.toLocaleDateString(
                 language === "pt" ? "pt-BR" : "en-US"
               )}
-            </motion.p>
+            </MotionP>
 
-            {/* Real-time clock */}
-            <motion.div
-              className="relative p-8 rounded-2xl glass pulse-glow mb-8"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={
-                headerInView
-                  ? { opacity: 1, scale: 1 }
-                  : { opacity: 0, scale: 0.9 }
-              }
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
+            <MotionDiv className="relative p-8 rounded-2xl mb-8 border border-primary/10 bg-background/70">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <Clock className="h-6 w-6 text-primary" />
                 <span className="text-lg font-semibold">Agora no Brasil</span>
@@ -197,16 +173,17 @@ const Now = () => {
                   { hour: "2-digit", minute: "2-digit", second: "2-digit" }
                 )}
               </div>
-            </motion.div>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
 
           {/* Current Focus */}
           <motion.section
             ref={focusRef}
             className="mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            animate={focusInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.8 }}
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '800px' }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={focusInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
           >
             <motion.div
               className="text-center mb-12"
@@ -227,14 +204,9 @@ const Now = () => {
               {currentFocus.map((item, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                  animate={
-                    focusInView
-                      ? { opacity: 1, scale: 1, y: 0 }
-                      : { opacity: 0, scale: 0.8, y: 30 }
-                  }
-                  transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.03, y: -5 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                  animate={focusInView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.25, delay: prefersReducedMotion ? 0 : 0.1 + index * 0.05 }}
                 >
                   <Card className="h-full card-enhanced group">
                     <CardHeader className="text-center pb-4">
@@ -270,11 +242,10 @@ const Now = () => {
           <motion.section
             ref={achievementsRef}
             className="mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            animate={
-              achievementsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-            }
-            transition={{ duration: 0.8 }}
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '700px' }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={achievementsInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
           >
             <motion.div
               className="text-center mb-12"
@@ -297,14 +268,9 @@ const Now = () => {
               {recentAchievements.map((achievement, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  animate={
-                    achievementsInView
-                      ? { opacity: 1, x: 0 }
-                      : { opacity: 0, x: index % 2 === 0 ? -30 : 30 }
-                  }
-                  transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.02, y: -3 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                  animate={achievementsInView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.25, delay: prefersReducedMotion ? 0 : 0.1 + index * 0.05 }}
                 >
                   <Card className="card-enhanced group">
                     <CardContent className="p-6">
@@ -337,9 +303,10 @@ const Now = () => {
           <motion.section
             ref={noteRef}
             className="mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            animate={noteInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.8 }}
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '600px' }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={noteInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
           >
             <motion.div
               className="text-center mb-12"
@@ -358,11 +325,9 @@ const Now = () => {
 
             <motion.div
               className="max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              animate={
-                noteInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-              }
-              transition={{ duration: 0.8, delay: 0.3 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={noteInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.25, delay: prefersReducedMotion ? 0 : 0.1 }}
             >
               <Card className="card-enhanced">
                 <CardContent className="p-8">
@@ -393,19 +358,16 @@ const Now = () => {
           <motion.section
             ref={contactRef}
             className="text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={
-              contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-            }
-            transition={{ duration: 0.8 }}
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '520px' }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={contactInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
           >
             <motion.div
               className="text-center mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={
-                contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-              }
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={contactInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.25, delay: prefersReducedMotion ? 0 : 0.1 }}
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text flex items-center justify-center gap-2">
                 <Heart className="h-8 w-8 text-primary" />
@@ -415,13 +377,9 @@ const Now = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={
-                contactInView
-                  ? { opacity: 1, scale: 1 }
-                  : { opacity: 0, scale: 0.95 }
-              }
-              transition={{ duration: 0.8, delay: 0.3 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={contactInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.25, delay: prefersReducedMotion ? 0 : 0.1 }}
             >
               <Card className="glass card-enhanced max-w-2xl mx-auto">
                 <CardContent className="p-8">
