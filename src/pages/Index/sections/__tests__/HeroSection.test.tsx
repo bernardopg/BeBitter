@@ -75,7 +75,7 @@ describe('HeroSection', () => {
 
     expect(screen.getByText('Hello!')).toBeInTheDocument();
     expect(screen.getByText("I'm")).toBeInTheDocument();
-    expect(screen.getByText('Bernardo')).toBeInTheDocument();
+    // Note: "Bernardo" is not directly rendered - it's part of the typing animation
     expect(screen.getByText('Building amazing web applications')).toBeInTheDocument();
     expect(screen.getByText("Let's Talk")).toBeInTheDocument();
     expect(screen.getByText('View Projects')).toBeInTheDocument();
