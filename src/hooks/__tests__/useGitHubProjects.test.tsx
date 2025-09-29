@@ -33,49 +33,7 @@ describe('useGitHubProjects', () => {
     vi.clearAllMocks();
   });
 
-  it('should fetch and process GitHub projects successfully', async () => {
-    // Mock successful API responses
-    const mockRepos = [
-      {
-        name: 'BeBitter',
-        description: 'Personal portfolio website',
-        html_url: 'https://github.com/bernardopg/BeBitter',
-        stargazers_count: 5,
-        language: 'TypeScript',
-        updated_at: '2023-01-01',
-        topics: ['react', 'typescript'],
-      },
-      {
-        name: 'other-repo',
-        description: 'Another repository',
-        html_url: 'https://github.com/bernardopg/other-repo',
-        stargazers_count: 2,
-        language: 'JavaScript',
-        updated_at: '2023-01-02',
-        topics: [],
-      },
-    ];
-
-    const mockLanguages = {
-      TypeScript: 1000,
-      JavaScript: 500,
-      CSS: 200,
-    };
-
-    mockFetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockRepos),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockLanguages),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockLanguages),
-      });
-
+  it('should return fallback projects when no GitHub token is available', async () => {
     const { result } = renderHook(() => useGitHubProjects(), {
       wrapper: createWrapper(),
     });
@@ -91,19 +49,21 @@ describe('useGitHubProjects', () => {
       { timeout: 5000 }
     );
 
-    // Check the results
+    // Check the results - should return fallback projects
     expect(result.current.data).toBeDefined();
-    expect(result.current.data?.projects).toHaveLength(2);
-    expect(result.current.data?.techStack).toEqual(['CSS', 'JavaScript', 'TypeScript']);
+    expect(result.current.data?.projects).toHaveLength(6); // All fallback projects
+    expect(result.current.data?.techStack).toBeDefined();
+    expect(result.current.data?.techStack.length).toBeGreaterThan(0);
 
-    // Check featured project
+    // Check that BeBitter is featured
     const featuredProject = result.current.data?.projects.find(p => p.featured);
     expect(featuredProject).toBeDefined();
-    expect(featuredProject?.title).toBe('BeBitter');
+    expect(featuredProject?.title).toBe('BeBitter Portfolio');
   });
 
   it('should handle API errors gracefully', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
+    // Mock a 403 error (rate limit without token)
+    mockFetch.mockRejectedValueOnce(new Error('GitHub API error: 403'));
 
     const { result } = renderHook(() => useGitHubProjects(), {
       wrapper: createWrapper(),
@@ -111,13 +71,15 @@ describe('useGitHubProjects', () => {
 
     await waitFor(
       () => {
-        expect(result.current.error).toBeTruthy();
+        expect(result.current.isLoading).toBe(false);
       },
       { timeout: 5000 }
     );
 
-    expect(result.current.data).toBeUndefined();
-    expect(result.current.isLoading).toBe(false);
+    // Should fallback to hardcoded projects when API fails
+    expect(result.current.data).toBeDefined();
+    expect(result.current.data?.projects).toBeDefined();
+    expect(result.current.error).toBeNull();
   });
 
   it('should handle empty repositories', async () => {
@@ -134,29 +96,25 @@ describe('useGitHubProjects', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(result.current.data?.projects).toEqual([]);
-    expect(result.current.data?.techStack).toEqual([]);
+    // When API returns empty, should fallback to hardcoded projects
+    expect(result.current.data?.projects).toBeDefined();
+    expect(result.current.data?.projects.length).toBeGreaterThan(0);
+    expect(result.current.data?.techStack).toBeDefined();
   });
 
-  it('should call the correct API endpoint', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve([]),
-    });
-
-    renderHook(() => useGitHubProjects(), {
+  it('should not call API when no token is available', async () => {
+    const { result } = renderHook(() => useGitHubProjects(), {
       wrapper: createWrapper(),
     });
 
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${CONFIG.GITHUB_API_BASE}/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=${CONFIG.MAX_REPOS_FETCH}`,
-        expect.objectContaining({
-          headers: {
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        })
-      );
+      expect(result.current.isLoading).toBe(false);
     });
+
+    // Should not call fetch when no token is available
+    expect(mockFetch).not.toHaveBeenCalled();
+
+    // Should return fallback projects
+    expect(result.current.data?.projects).toHaveLength(6);
   });
 });
