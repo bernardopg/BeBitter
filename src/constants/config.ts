@@ -1,6 +1,6 @@
 export const CONFIG = {
   // Analytics
-  GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID || 'G-YJHKLMHN8X',
+  GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID || '',
 
   // API URLs
   GITHUB_API_BASE: 'https://api.github.com',

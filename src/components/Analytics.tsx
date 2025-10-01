@@ -30,11 +30,14 @@ const Analytics = () => {
   useEffect(() => {
     // Track page views
     if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'G-YJHKLMHN8X', {
-        page_title: document.title,
-        page_location: window.location.href,
-        page_path: location.pathname
-      });
+      const gaId = import.meta.env.VITE_GA_TRACKING_ID;
+      if (gaId) {
+        window.gtag('config', gaId, {
+          page_title: document.title,
+          page_location: window.location.href,
+          page_path: location.pathname
+        });
+      }
     }
 
     // Track página específica
