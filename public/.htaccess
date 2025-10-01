@@ -1,6 +1,15 @@
 # Configuração para Hostinger - Apache
 RewriteEngine On
 
+# Google Search Console verification - serve directly
+<Files "google23da7822c721aea1.html">
+    Satisfy Any
+    Allow from all
+    <IfModule mod_rewrite.c>
+        RewriteEngine Off
+    </IfModule>
+</Files>
+
 # MIME type fixes for ES modules and modern web apps
 <IfModule mod_mime.c>
     # JavaScript modules
@@ -35,6 +44,9 @@ RewriteEngine On
 # Forçar HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Google Search Console verification files - MUST be before other rewrites
+RewriteRule ^google[a-f0-9]+\.html$ - [L]
 
 # Redirect www to non-www
 RewriteCond %{HTTP_HOST} ^www\.bebitterbebetter\.com\.br [NC]

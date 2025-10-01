@@ -261,12 +261,12 @@ O servidor estará rodando em [`http://localhost:8080`](http://localhost:8080)
 # .env.local (desenvolvimento)
 VITE_SITE_URL=https://bebitterbebetter.com.br
 VITE_GA_TRACKING_ID=G-XXXXXXXXXX
-VITE_GSC_VERIFICATION=google-verification-token
+VITE_GSC_VERIFICATION=your-google-verification-token
 VITE_DEBUG_MODE=true
 
 # Produção (definir no CI/CD ou hosting)
 VITE_SITE_URL=https://bebitterbebetter.com.br
-VITE_GA_TRACKING_ID=G-YJHKLMHN8X
+VITE_GA_TRACKING_ID=G-XXXXXXXXXX  # Seu tracking ID real aqui
 VITE_GSC_VERIFICATION=your-verification-token
 VITE_DEBUG_MODE=false
 ```
@@ -274,19 +274,6 @@ VITE_DEBUG_MODE=false
 </details>
 
 ---
-
-## 🚀 Deploy para Produção
-
-### 🤖 Deploy Automático
-
-```bash
-# Deploy com script personalizado
-./deploy.sh
-
-# Ou build manual + upload
-pnpm build
-# Upload da pasta dist/ via FTP/SFTP
-```
 
 ### ⚙️ Configurações de Produção
 
@@ -309,8 +296,8 @@ pnpm build
 
 ### 📈 Dashboard Principal
 
-- **Google Analytics 4**: [Dashboard Completo](https://analytics.google.com/analytics/web/#/p413934562/reports/intelligenthome)
-- **ID de Tracking**: `G-YJHKLMHN8X`
+- **Google Analytics 4**: Dashboard completo (privado)
+- **ID de Tracking**: Configurado via variáveis de ambiente
 - **Search Console**: Indexação e performance de busca
 
 ### 📊 Métricas Monitoradas
@@ -408,7 +395,7 @@ dist/
 
 ### 👨‍💻 **Desenvolvedor**
 
-**Bernardo Gomes**
+#### Bernardo Gomes
 
 [![Email](https://img.shields.io/badge/Email-bernardo.gomes%40bebitterbebetter.com.br-red?style=for-the-badge&logo=gmail)](mailto:bernardo.gomes@bebitterbebetter.com.br)
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-%2B55%20(31)%2098491--6431-green?style=for-the-badge&logo=whatsapp)](https://wa.me/5531984916431)

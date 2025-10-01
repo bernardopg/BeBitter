@@ -13,8 +13,8 @@
   <meta name="robots" content="index, follow" />
   <meta name="publisher" content="Bernardo Gomes" />
 
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="%VITE_GSC_VERIFICATION%" />
+  <!-- Google Search Console Verification via HTML file method -->
+  <!-- Verification file: /public/google[YOUR-TOKEN].html -->
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://bebitterbebetter.com.br/" />
@@ -99,10 +99,10 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "BeBitter",
-    "url": "%VITE_SITE_URL%",
+    "url": "<%= VITE_SITE_URL %>",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "%VITE_SITE_URL%/?q={search_term_string}",
+      "target": "<%= VITE_SITE_URL %>/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -143,10 +143,10 @@
   <!-- Font optimization: rely on system fonts; if webfonts are added, configure font-display in @font-face -->
 
   <!-- Google tag (gtag.js) via env -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_TRACKING_ID%"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= VITE_GA_TRACKING_ID %>"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     // Do not call gtag('config', ...) here; handled in Analytics.tsx
   </script>
