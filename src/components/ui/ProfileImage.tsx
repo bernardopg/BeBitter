@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { IMAGES } from '@/constants/images';
+import { IMAGES } from "@/constants/images";
+import { useCallback, useState } from "react";
 
 interface ProfileImageProps {
   alt: string;
@@ -12,11 +12,11 @@ interface ProfileImageProps {
 
 export const ProfileImage = ({
   alt,
-  className = '',
+  className = "",
   priority = false,
-  sizes = '(max-width: 768px) 288px, (max-width: 1024px) 320px, 384px',
+  sizes = "(max-width: 768px) 252px, (max-width: 1024px) 512px, 252px",
   onLoad,
-  onError
+  onError,
 }: ProfileImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -42,33 +42,76 @@ export const ProfileImage = ({
           <link
             rel="preload"
             as="image"
-            href={IMAGES.PROFILE_IMAGE}
+            href={IMAGES.PROFILE_IMAGE_AVIF_252}
+            type="image/avif"
+            imageSizes={sizes}
+          />
+          <link
+            rel="preload"
+            as="image"
+            href={IMAGES.PROFILE_IMAGE_WEBP_252}
+            type="image/webp"
             imageSizes={sizes}
           />
         </>
       )}
 
-      {/* Optimized image with fallback */}
-      <img
-        src={hasError ? fallbackSrc : IMAGES.PROFILE_IMAGE}
-        alt={alt}
-        className={`w-full h-full object-cover transition-opacity duration-500 ${
-          isLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
-        loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
-        onLoad={handleLoad}
-        onError={handleError}
-        itemProp="image"
-        sizes={sizes}
-        // Structured data hints
-        data-schema-image="person"
-        // Performance hints
-        data-optimized="true"
-        ref={(el) => {
-          if (el) el.setAttribute('fetchpriority', priority ? 'high' : 'low');
-        }}
-      />
+      {/* Optimized picture element with modern formats and responsive images */}
+      <picture>
+        {/* AVIF format - best compression */}
+        <source
+          type="image/avif"
+          srcSet={`
+            ${IMAGES.PROFILE_IMAGE_AVIF_252} 252w,
+            ${IMAGES.PROFILE_IMAGE_AVIF_512} 512w,
+            ${IMAGES.PROFILE_IMAGE_AVIF_1024} 1024w
+          `}
+          sizes={sizes}
+        />
+
+        {/* WebP format - good compression with wide support */}
+        <source
+          type="image/webp"
+          srcSet={`
+            ${IMAGES.PROFILE_IMAGE_WEBP_252} 252w,
+            ${IMAGES.PROFILE_IMAGE_WEBP_512} 512w,
+            ${IMAGES.PROFILE_IMAGE_WEBP_1024} 1024w
+          `}
+          sizes={sizes}
+        />
+
+        {/* JPEG format - fallback for compatibility */}
+        <source
+          type="image/jpeg"
+          srcSet={`
+            ${IMAGES.PROFILE_IMAGE_JPEG_252} 252w,
+            ${IMAGES.PROFILE_IMAGE_JPEG_512} 512w,
+            ${IMAGES.PROFILE_IMAGE_JPEG_1024} 1024w
+          `}
+          sizes={sizes}
+        />
+
+        {/* Fallback img element */}
+        <img
+          src={hasError ? fallbackSrc : IMAGES.PROFILE_IMAGE_JPEG_252}
+          alt={alt}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          loading={priority ? "eager" : "lazy"}
+          decoding="async"
+          onLoad={handleLoad}
+          onError={handleError}
+          itemProp="image"
+          width={252}
+          height={252}
+          // Structured data hints
+          data-schema-image="person"
+          // Performance hints
+          data-optimized="true"
+          {...(priority && { fetchpriority: "high" })}
+        />
+      </picture>
 
       {/* Loading placeholder */}
       {!isLoaded && !hasError && (

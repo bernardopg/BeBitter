@@ -16,13 +16,23 @@ export const IMAGES = {
   ANDROID_CHROME_192: "/images/icons/android-chrome-192x192.png",
   ANDROID_CHROME_512: "/images/icons/android-chrome-512x512.png",
 
-  // Profile images
+  // Profile images - Optimized versions
   PROFILE_IMAGE: "/images/profile/profile.jpg",
-  PROFILE_IMAGE_WEBP: "/images/profile/profile.webp",
-  PROFILE_IMAGE_AVIF: "/images/profile/profile.avif",
-  PROFILE_IMAGE_SMALL: "/images/profile/profile-small.jpg",
-  PROFILE_IMAGE_MEDIUM: "/images/profile/profile-medium.jpg",
-  PROFILE_IMAGE_LARGE: "/images/profile/profile-large.jpg",
+
+  // Responsive AVIF versions (best compression)
+  PROFILE_IMAGE_AVIF_252: "/images/profile/profile-252.avif",
+  PROFILE_IMAGE_AVIF_512: "/images/profile/profile-512.avif",
+  PROFILE_IMAGE_AVIF_1024: "/images/profile/profile-1024.avif",
+
+  // Responsive WebP versions (fallback)
+  PROFILE_IMAGE_WEBP_252: "/images/profile/profile-252.webp",
+  PROFILE_IMAGE_WEBP_512: "/images/profile/profile-512.webp",
+  PROFILE_IMAGE_WEBP_1024: "/images/profile/profile-1024.webp",
+
+  // Responsive JPEG versions (compatibility fallback)
+  PROFILE_IMAGE_JPEG_252: "/images/profile/profile-252.jpg",
+  PROFILE_IMAGE_JPEG_512: "/images/profile/profile-512.jpg",
+  PROFILE_IMAGE_JPEG_1024: "/images/profile/profile-1024.jpg",
 
   // Other assets
   PLACEHOLDER: "/placeholder.svg",

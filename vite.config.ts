@@ -5,6 +5,7 @@ import path from "path";
 import { defineConfig, loadEnv } from "vite";
 import viteCompression from "vite-plugin-compression";
 import { createHtmlPlugin } from "vite-plugin-html";
+import criticalCSS from "./scripts/vite-plugin-critical-css";
 
 export default defineConfig(({ mode }) => {
   // Carrega variáveis de ambiente
@@ -90,6 +91,14 @@ export default defineConfig(({ mode }) => {
               env.VITE_SITE_URL || "https://bebitterbebetter.com.br",
           },
         },
+      }),
+      // Critical CSS inlining for better FCP/LCP
+      criticalCSS({
+        inline: true,
+        preload: true,
+        compress: true,
+        minimumExternalSize: 4096,
+        pruneSource: true,
       }),
       // Compressão gzip para melhor performance
       viteCompression({

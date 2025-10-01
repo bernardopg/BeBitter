@@ -38,6 +38,85 @@
   <!-- DNS prefetch for analytics (non-blocking) -->
   <link rel="dns-prefetch" href="//www.googletagmanager.com" />
 
+  <!-- Critical CSS - Inlined for immediate rendering -->
+  <style>
+    /* Critical CSS for above-the-fold content */
+    *,
+    ::before,
+    ::after {
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: #e5e7eb
+    }
+
+    ::before,
+    ::after {
+      --tw-content: ''
+    }
+
+    html {
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+      -moz-tab-size: 4;
+      tab-size: 4;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-feature-settings: normal;
+      font-variation-settings: normal
+    }
+
+    body {
+      margin: 0;
+      line-height: inherit
+    }
+
+    #root {
+      min-height: 100vh
+    }
+
+    /* CSS Variables for theming */
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --primary: 262 83% 58%;
+      --primary-foreground: 210 40% 98%;
+      --radius: 0.75rem;
+    }
+
+    .dark {
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+    }
+
+    /* Prevent layout shift */
+    body {
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Loading state */
+    #root:empty::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 48px;
+      height: 48px;
+      margin: -24px 0 0 -24px;
+      border: 4px solid hsl(var(--primary)/0.2);
+      border-top-color: hsl(var(--primary));
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
+
   <!-- Let Vite handle injecting modulepreload links at build time to avoid stale hashes -->
 
   <!-- Optional: the router will code-split; avoid manual prefetch to keep initial network quiet -->
