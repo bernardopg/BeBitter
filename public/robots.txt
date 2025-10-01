@@ -1,5 +1,41 @@
+# robots.txt para bebitterbebetter.com.br
+# Atualizado: Outubro 2025
+
+# Permitir todos os bots em todas as páginas
 User-agent: *
 Allow: /
 
-# Point to the sitemap (generated at build)
+# Bots de AI/LLM - permitir crawling
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Google específico
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Bloquear apenas recursos desnecessários para SEO
+Disallow: /assets/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$
+
+# Sitemap (gerado automaticamente no build)
 Sitemap: https://bebitterbebetter.com.br/sitemap.xml
+
+# Crawl-delay (opcional, para evitar sobrecarga)
+# Crawl-delay: 1
