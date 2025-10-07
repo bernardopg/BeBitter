@@ -95,7 +95,7 @@ export const useImageOptimization = (
         // Tenta detectar suporte a AVIF
         const avifDataUrl = canvas.toDataURL('image/avif');
         if (avifDataUrl.indexOf('data:image/avif') === 0) {
-          return IMAGES.PROFILE_IMAGE_AVIF;
+          return IMAGES.PROFILE_IMAGE_AVIF_252;
         }
       } catch (e) {
         // AVIF não suportado
@@ -105,7 +105,7 @@ export const useImageOptimization = (
         // Tenta detectar suporte a WebP
         const webpDataUrl = canvas.toDataURL('image/webp');
         if (webpDataUrl.indexOf('data:image/webp') === 0) {
-          return IMAGES.PROFILE_IMAGE_WEBP;
+          return IMAGES.PROFILE_IMAGE_WEBP_252;
         }
       } catch (e) {
         // WebP não suportado
@@ -122,9 +122,9 @@ export const useImageOptimization = (
     }
 
     return `
-      ${IMAGES.PROFILE_IMAGE_SMALL} 288w,
-      ${IMAGES.PROFILE_IMAGE_MEDIUM} 320w,
-      ${IMAGES.PROFILE_IMAGE_LARGE} 384w,
+      ${IMAGES.PROFILE_IMAGE_JPEG_252} 252w,
+      ${IMAGES.PROFILE_IMAGE_JPEG_512} 512w,
+      ${IMAGES.PROFILE_IMAGE_JPEG_1024} 1024w,
       ${IMAGES.PROFILE_IMAGE} 500w
     `.trim().replace(/\s+/g, ' ');
   }, []);
@@ -171,11 +171,11 @@ export const useImageCache = () => {
   const cacheProfileImages = useCallback(async () => {
     const profileImages = [
       IMAGES.PROFILE_IMAGE,
-      IMAGES.PROFILE_IMAGE_WEBP,
-      IMAGES.PROFILE_IMAGE_AVIF,
-      IMAGES.PROFILE_IMAGE_SMALL,
-      IMAGES.PROFILE_IMAGE_MEDIUM,
-      IMAGES.PROFILE_IMAGE_LARGE,
+      IMAGES.PROFILE_IMAGE_WEBP_252,
+      IMAGES.PROFILE_IMAGE_AVIF_252,
+      IMAGES.PROFILE_IMAGE_JPEG_252,
+      IMAGES.PROFILE_IMAGE_JPEG_512,
+      IMAGES.PROFILE_IMAGE_JPEG_1024,
     ];
 
     await Promise.all(profileImages.map(img => cacheImage(img)));

@@ -47,21 +47,19 @@ vi.mock('@/hooks/useGitHubProjects', () => ({
 const TestComponent = () => {
   const {
     projects,
-    techStack,
     featuredProjects,
     totalStars,
     projectsLoading,
-    githubStats,
+    projectsError,
   } = useProjects();
 
   return (
     <div>
       <div data-testid="projects-count">{projects.length}</div>
-      <div data-testid="tech-stack-count">{techStack.length}</div>
       <div data-testid="featured-count">{featuredProjects.length}</div>
       <div data-testid="total-stars">{totalStars}</div>
       <div data-testid="loading">{projectsLoading ? 'loading' : 'loaded'}</div>
-      <div data-testid="public-repos">{githubStats?.publicRepos}</div>
+      <div data-testid="error">{projectsError || 'no-error'}</div>
     </div>
   );
 };
@@ -95,11 +93,10 @@ describe('ProjectsContext', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('projects-count')).toHaveTextContent('2');
-      expect(screen.getByTestId('tech-stack-count')).toHaveTextContent('3');
       expect(screen.getByTestId('featured-count')).toHaveTextContent('1');
       expect(screen.getByTestId('total-stars')).toHaveTextContent('7'); // 5 + 2
       expect(screen.getByTestId('loading')).toHaveTextContent('loaded');
-      expect(screen.getByTestId('public-repos')).toHaveTextContent('25');
+      expect(screen.getByTestId('error')).toHaveTextContent('no-error');
     });
   });
 

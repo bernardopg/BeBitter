@@ -34,7 +34,7 @@ export const AboutSection = () => {
   const { t } = useLanguage();
   const { registerElement, isVisible, getAnimationProps, getStaggeredAnimationProps } = useScrollAnimation();
 
-  const { techStack, githubStats } = useProjects();
+  const { projects, techStack, totalStars, projectsLoading } = useProjects();
 
   const aboutRef = useRef<HTMLElement>(null);
 
@@ -142,7 +142,7 @@ export const AboutSection = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold gradient-text mb-1">
-                  {githubStats?.publicRepos || "20+"}
+                  {techStack?.length || "20+"}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {t("about.stats.projects")}

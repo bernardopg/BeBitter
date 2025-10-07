@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+const CONTACT_EMAIL = CONFIG.EMAIL;
+
 export const ContactSection = () => {
   const { t } = useLanguage();
   const { trackButtonClick, trackContactAttempt } = useAnalytics();
@@ -39,28 +41,21 @@ export const ContactSection = () => {
     }
   }, [registerElement]);
 
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(CONFIG.EMAIL);
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
       setCopiedEmail(true);
-      showSuccess(t("contact.emailCopied", "Email copied to clipboard!"));
+      showSuccess(t("contact.emailCopied"));
       trackButtonClick("copy_email", "contact");
-
       setTimeout(() => setCopiedEmail(false), 2000);
-    } catch (error) {
-      console.error("Failed to copy email:", error);
-      // Fallback for older browsers
-      const textArea = document.createElement("textarea");
-      textArea.value = CONFIG.EMAIL;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
+    });
+  };
 
+  const handleCopyEmailMobile = () => {
+    navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
       setCopiedEmail(true);
-      showSuccess(t("contact.emailCopied", "Email copied to clipboard!"));
+      showSuccess(t("contact.emailCopied"));
       setTimeout(() => setCopiedEmail(false), 2000);
-    }
+    });
   };
 
   const handleContactMethod = (method: string, url: string) => {
@@ -117,7 +112,7 @@ export const ContactSection = () => {
                 <CardContent className="space-y-4">
                   {/* Email */}
                   <motion.button
-                    onClick={copyEmail}
+                    onClick={handleCopyEmail}
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full text-left"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -134,7 +129,7 @@ export const ContactSection = () => {
                       </div>
                     </div>
                     <div className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                      {t("contact.clickToCopy", "Click to copy")}
+                      {t("contact.clickToCopy")}
                     </div>
                   </motion.button>
 
@@ -172,7 +167,7 @@ export const ContactSection = () => {
                     <div className="min-w-0 flex-1">
                       <div className="font-medium">Calendly</div>
                       <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
-                        {t("contact.scheduleCall", "Schedule a call")}
+                        {t("contact.scheduleCall")}
                       </div>
                     </div>
                     <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors duration-200" />
@@ -193,7 +188,7 @@ export const ContactSection = () => {
                   &lt; 2h
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  {t("contact.responseTime", "Average response time")}
+                  {t("contact.responseTime")}
                 </div>
               </motion.div>
             </motion.div>
@@ -220,10 +215,10 @@ export const ContactSection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <h3 className="text-2xl font-bold mb-4">
-              {t("contact.cta.title", "Ready to start your project?")}
+              {t("contact.cta.title")}
             </h3>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              {t("contact.cta.description", "Let's discuss how we can bring your ideas to life with modern web technologies.")}
+              {t("contact.cta.description")}
             </p>
             <Button
               size="lg"
@@ -234,7 +229,7 @@ export const ContactSection = () => {
               className="group"
             >
               <MessageCircle className="mr-2 h-4 w-4" />
-              {t("contact.cta.button", "Start Conversation")}
+              {t("contact.cta.button")}
               <ExternalLink className="ml-2 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
             </Button>
           </motion.div>

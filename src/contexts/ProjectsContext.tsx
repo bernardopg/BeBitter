@@ -17,6 +17,7 @@ interface ProjectsContextType {
   totalStars: number;
   projectsLoading: boolean;
   projectsError: string | null;
+  techStack: string[];
 }
 
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
@@ -37,7 +38,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      try {.
+      try {
         setProjectsLoading(true);
         const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`);
         if (!response.ok) {
@@ -81,12 +82,17 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
 
   const totalStars = projects.reduce((acc, project) => acc + project.stars, 0);
 
+  const techStack = Array.from(
+    new Set(projects.flatMap(p => p.technologies))
+  ).sort();
+
   const value = {
     projects,
     featuredProjects,
     totalStars,
     projectsLoading,
     projectsError,
+    techStack,
   };
 
   return (

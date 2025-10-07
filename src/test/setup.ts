@@ -1,8 +1,10 @@
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 // Mock do requestIdleCallback para testes
-global.requestIdleCallback = (callback: IdleRequestCallback) => {
-  return setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 0);
+global.requestIdleCallback = (callback: IdleRequestCallback): number => {
+  const timeoutId = setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 0);
+  return timeoutId as unknown as number;
 };
 
 global.cancelIdleCallback = (id: number) => {
@@ -26,8 +28,8 @@ Object.defineProperty(window, 'matchMedia', {
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(), // deprecated
-    removeListener: vi.fn(), // deprecated
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
@@ -42,5 +44,8 @@ Object.defineProperty(navigator, 'clipboard', {
 });
 
 // Mock para window.location
-delete (window as unknown as { location: unknown }).location;
-window.location = { ...window.location, href: 'http://localhost:3000' } as Location;
+delete (window as { location?: unknown }).location;
+(window as { location: Location }).location = { 
+  ...window.location, 
+  href: 'http://localhost:3000' 
+} as Location;
