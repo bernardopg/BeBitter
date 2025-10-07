@@ -1,5 +1,8 @@
 export const translations = {
   pt: {
+    // Header
+    "header.services": "Serviços",
+
     // Hero Section
     "hero.greeting": "Olá, eu sou",
     "hero.title": "Bernardo Gomes",
@@ -150,6 +153,74 @@ export const translations = {
     "now.contact.description": "Se você tem um projeto interessante ou quer discutir oportunidades, adoraria ouvir de você!",
     "now.contact.email": "Enviar e-mail",
     "now.contact.whatsapp": "WhatsApp",
+
+    // Services Page
+    "services.meta.title": "Serviços de Desenvolvimento Web",
+    "services.meta.description": "Serviços profissionais de desenvolvimento web full-stack, design UI/UX, otimização de performance e manutenção. Transforme suas ideias em aplicações web modernas e escaláveis.",
+    "services.subtitle": "O que eu faço",
+    "services.title": "Serviços & Soluções",
+    "services.description": "Ofereço uma gama completa de serviços de desenvolvimento web, desde a concepção até o lançamento e manutenção contínua. Cada projeto é tratado com atenção aos detalhes e foco em resultados mensuráveis.",
+
+    // Service Cards
+    "services.webdev.title": "Desenvolvimento Web Full-Stack",
+    "services.webdev.description": "Aplicações web completas e escaláveis usando as tecnologias mais modernas do mercado.",
+    "services.webdev.feature1": "Arquitetura escalável e manutenível",
+    "services.webdev.feature2": "APIs RESTful e GraphQL",
+    "services.webdev.feature3": "Integração com serviços terceiros",
+    "services.webdev.feature4": "Testes automatizados e CI/CD",
+
+    "services.responsive.title": "Design Responsivo & Mobile",
+    "services.responsive.description": "Interfaces que funcionam perfeitamente em qualquer dispositivo, do smartphone ao desktop.",
+    "services.responsive.feature1": "Mobile-first approach",
+    "services.responsive.feature2": "Progressive Web Apps (PWA)",
+    "services.responsive.feature3": "Touch-friendly interfaces",
+    "services.responsive.feature4": "Cross-browser compatibility",
+
+    "services.backend.title": "Backend & APIs",
+    "services.backend.description": "Sistemas backend robustos e APIs eficientes para suportar suas aplicações.",
+    "services.backend.feature1": "Arquitetura de microsserviços",
+    "services.backend.feature2": "Banco de dados otimizado",
+    "services.backend.feature3": "Autenticação e autorização",
+    "services.backend.feature4": "Documentação completa de API",
+
+    "services.uiux.title": "UI/UX Design",
+    "services.uiux.description": "Design centrado no usuário que combina estética com funcionalidade.",
+    "services.uiux.feature1": "Pesquisa e análise de usuários",
+    "services.uiux.feature2": "Wireframes e protótipos",
+    "services.uiux.feature3": "Design systems consistentes",
+    "services.uiux.feature4": "Testes de usabilidade",
+
+    "services.performance.title": "Otimização de Performance",
+    "services.performance.description": "Aplicações rápidas e eficientes que proporcionam a melhor experiência ao usuário.",
+    "services.performance.feature1": "Core Web Vitals otimizados",
+    "services.performance.feature2": "Code splitting e lazy loading",
+    "services.performance.feature3": "Otimização de imagens e assets",
+    "services.performance.feature4": "Caching estratégico",
+
+    "services.maintenance.title": "Manutenção & Suporte",
+    "services.maintenance.description": "Suporte contínuo para manter sua aplicação segura, atualizada e funcionando perfeitamente.",
+    "services.maintenance.feature1": "Monitoramento 24/7",
+    "services.maintenance.feature2": "Atualizações de segurança",
+    "services.maintenance.feature3": "Correção de bugs",
+    "services.maintenance.feature4": "Melhorias contínuas",
+
+    // Process Section
+    "services.process.title": "Meu Processo de Trabalho",
+    "services.process.description": "Uma abordagem estruturada e colaborativa para garantir o sucesso do seu projeto.",
+    "services.process.discovery.title": "Descoberta",
+    "services.process.discovery.description": "Entendo suas necessidades, objetivos e público-alvo para criar a solução perfeita.",
+    "services.process.planning.title": "Planejamento",
+    "services.process.planning.description": "Defino arquitetura, tecnologias e cronograma detalhado do projeto.",
+    "services.process.development.title": "Desenvolvimento",
+    "services.process.development.description": "Construo a solução com código limpo, testes e revisões constantes.",
+    "services.process.launch.title": "Lançamento",
+    "services.process.launch.description": "Deploy otimizado e suporte contínuo para garantir o sucesso.",
+
+    // CTA Section
+    "services.cta.title": "Pronto para começar seu projeto?",
+    "services.cta.description": "Vamos transformar suas ideias em realidade. Entre em contato para discutir como posso ajudar seu negócio a crescer.",
+    "services.cta.button": "Iniciar Conversa",
+    "services.cta.projects": "Ver Projetos",
   },
   en: {
     // Header
@@ -304,5 +375,73 @@ export const translations = {
     "now.contact.description": "If you have an interesting project or want to discuss opportunities, I'd love to hear from you!",
     "now.contact.email": "Send email",
     "now.contact.whatsapp": "WhatsApp",
+
+    // Services Page
+    "services.meta.title": "Web Development Services",
+    "services.meta.description": "Professional full-stack web development services, UI/UX design, performance optimization and maintenance. Transform your ideas into modern and scalable web applications.",
+    "services.subtitle": "What I do",
+    "services.title": "Services & Solutions",
+    "services.description": "I offer a complete range of web development services, from conception to launch and ongoing maintenance. Each project is treated with attention to detail and focus on measurable results.",
+
+    // Service Cards
+    "services.webdev.title": "Full-Stack Web Development",
+    "services.webdev.description": "Complete and scalable web applications using the most modern technologies on the market.",
+    "services.webdev.feature1": "Scalable and maintainable architecture",
+    "services.webdev.feature2": "RESTful and GraphQL APIs",
+    "services.webdev.feature3": "Third-party service integration",
+    "services.webdev.feature4": "Automated testing and CI/CD",
+
+    "services.responsive.title": "Responsive & Mobile Design",
+    "services.responsive.description": "Interfaces that work perfectly on any device, from smartphone to desktop.",
+    "services.responsive.feature1": "Mobile-first approach",
+    "services.responsive.feature2": "Progressive Web Apps (PWA)",
+    "services.responsive.feature3": "Touch-friendly interfaces",
+    "services.responsive.feature4": "Cross-browser compatibility",
+
+    "services.backend.title": "Backend & APIs",
+    "services.backend.description": "Robust backend systems and efficient APIs to support your applications.",
+    "services.backend.feature1": "Microservices architecture",
+    "services.backend.feature2": "Optimized database",
+    "services.backend.feature3": "Authentication and authorization",
+    "services.backend.feature4": "Complete API documentation",
+
+    "services.uiux.title": "UI/UX Design",
+    "services.uiux.description": "User-centered design that combines aesthetics with functionality.",
+    "services.uiux.feature1": "User research and analysis",
+    "services.uiux.feature2": "Wireframes and prototypes",
+    "services.uiux.feature3": "Consistent design systems",
+    "services.uiux.feature4": "Usability testing",
+
+    "services.performance.title": "Performance Optimization",
+    "services.performance.description": "Fast and efficient applications that provide the best user experience.",
+    "services.performance.feature1": "Optimized Core Web Vitals",
+    "services.performance.feature2": "Code splitting and lazy loading",
+    "services.performance.feature3": "Image and asset optimization",
+    "services.performance.feature4": "Strategic caching",
+
+    "services.maintenance.title": "Maintenance & Support",
+    "services.maintenance.description": "Ongoing support to keep your application secure, updated and running perfectly.",
+    "services.maintenance.feature1": "24/7 monitoring",
+    "services.maintenance.feature2": "Security updates",
+    "services.maintenance.feature3": "Bug fixes",
+    "services.maintenance.feature4": "Continuous improvements",
+
+    // Process Section
+    "services.process.title": "My Work Process",
+    "services.process.description": "A structured and collaborative approach to ensure your project's success.",
+    "services.process.discovery.title": "Discovery",
+    "services.process.discovery.description": "I understand your needs, goals and target audience to create the perfect solution.",
+    "services.process.planning.title": "Planning",
+    "services.process.planning.description": "I define architecture, technologies and detailed project timeline.",
+    "services.process.development.title": "Development",
+    "services.process.development.description": "I build the solution with clean code, tests and constant reviews.",
+    "services.process.launch.title": "Launch",
+    "services.process.launch.description": "Optimized deployment and ongoing support to ensure success.",
+
+    // CTA Section
+    "services.cta.title": "Ready to start your project?",
+    "services.cta.description": "Let's turn your ideas into reality. Get in touch to discuss how I can help your business grow.",
+    "services.cta.button": "Start Conversation",
+    "services.cta.projects": "View Projects",
   },
 };
