@@ -46,6 +46,9 @@ export const translations = {
     "about.stats.projects": "Projetos Concluídos",
     "about.stats.experience": "Anos de Experiência", 
     "about.stats.clients": "Clientes Satisfeitos",
+    "about.stats.repositories": "Repositórios",
+    "about.stats.stars": "GitHub Stars",
+    "about.stats.contributions": "Anos no GitHub",
     "about.skills.title": "Tecnologias & Ferramentas",
     "about.skills.github": "Tecnologias dos meus repositórios",
     "about.values.title": "Meus Valores",
@@ -63,35 +66,23 @@ export const translations = {
     "projects.stats.total": "Total de Projetos",
     "projects.stats.stars": "GitHub Stars",
     "projects.stats.featured": "Em Destaque",
-    "projects.error": "Desculpe, não foi possível carregar os projetos no momento.",
+    "projects.error": "Não foi possível carregar os projetos no momento. Por favor, tente novamente mais tarde.",
     "projects.empty.title": "Nenhum projeto encontrado",
     "projects.empty.description": "Os projetos aparecerão aqui assim que estiverem disponíveis.",
     "projects.showAll": "Ver Todos os Projetos",
     "projects.showLess": "Mostrar Apenas Destaques",
-    "projects.p1.title": "Prime Video Enhancer",
-    "projects.p1.description":
-      "Problema: Usuários reclamavam de anúncios intrusivos e interface confusa no Prime Video. Solução: Desenvolvi um userscript que oculta automaticamente o X-Ray, pula anúncios e adiciona atalhos de teclado. Impacto: Mais de 500 usuários instalaram, reduzindo tempo de navegação em 40%.",
-    "projects.p2.title": "Steam Rep4Rep",
-    "projects.p2.description":
-      "Problema: Dificuldade em construir reputação na comunidade Steam através de comentários manuais. Solução: Criei ferramenta de automação com interface intuitiva e delays de segurança. Impacto: Usuários economizam 2 horas/semana, com 300+ downloads e feedback positivo.",
-    "projects.p3.title": "Steam Infinite Wishlister",
-    "projects.p3.description":
-      "Problema: Processo manual tedioso para adicionar jogos à wishlist do Steam Discovery Queue. Solução: Automação inteligente com filtros avançados por cartas colecionáveis. Impacto: Usuários adicionam 50+ jogos/minuto, com 200+ instalações ativas.",
     "projects.code": "Código",
-    "projects.live": "Instalar",
+    "projects.live": "Ver Projeto",
     "projects.viewAll": "Ver Todos os Projetos",
 
     // Timeline Section
     "timeline.title": "Minha Jornada",
     "timeline.2024.title": "Desenvolvedor Full Stack & Designer",
-    "timeline.2024.description":
-      "Desenvolvendo aplicações web modernas e criando designs únicos com foco na experiência do usuário",
+    "timeline.2024.description": "Desenvolvendo aplicações web modernas e criando designs únicos com foco na experiência do usuário",
     "timeline.2023.title": "Foco em UI/UX Design",
-    "timeline.2023.description":
-      "Expandindo habilidades em design de interfaces e experiência do usuário, criando protótipos e wireframes",
+    "timeline.2023.description": "Expandindo habilidades em design de interfaces e experiência do usuário, criando protótipos e wireframes",
     "timeline.2018.title": "Jornada no Desenvolvimento Web",
-    "timeline.2018.description":
-      "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript, React e princípios de design",
+    "timeline.2018.description": "Iniciei minha jornada no desenvolvimento web, aprendendo JavaScript, React e princípios de design",
     "timeline.work": "trabalho",
     "timeline.project": "projeto",
     "timeline.education": "educação",
@@ -110,8 +101,7 @@ export const translations = {
     "contact.subtitle": "Entre em contato",
     "contact.title": "Vamos nos Conectar",
     "contact.getInTouch": "Entre em Contato",
-    "contact.description":
-      "Estou sempre animado para discutir novos projetos, oportunidades de desenvolvimento ou colaborar em ideias interessantes.",
+    "contact.description": "Estou sempre animado para discutir novos projetos, oportunidades de desenvolvimento ou colaborar em ideias interessantes.",
     "contact.email": "Email",
     "contact.github": "GitHub",
     "contact.instagram": "Instagram",
@@ -121,9 +111,9 @@ export const translations = {
     "contact.scheduleCall": "Agendar uma conversa",
     "contact.copyEmail": "E-mail copiado para a área de transferência!",
     "contact.emailCopied": "E-mail copiado!",
+    "contact.clickToCopy": "Clique para copiar",
     "contact.form.title": "Me envie uma mensagem",
-    "contact.form.description":
-      "Adoraria ouvir sobre seu projeto ou discutir oportunidades de desenvolvimento!",
+    "contact.form.description": "Adoraria ouvir sobre seu projeto ou discutir oportunidades de desenvolvimento!",
     "contact.form.name": "Seu nome",
     "contact.form.email": "Seu email",
     "contact.form.message": "Sua mensagem...",
@@ -137,20 +127,16 @@ export const translations = {
 
     // Now Page
     "now.title": "O que estou fazendo agora",
-    "now.description":
-      "Uma atualização em tempo real sobre meus projetos atuais, aprendizados e foco profissional. Atualizado em",
+    "now.description": "Uma atualização em tempo real sobre meus projetos atuais, aprendizados e foco profissional. Atualizado em",
     "now.currentFocus": "Foco Atual",
     "now.focus1.title": "Desenvolvimento de Apps Web",
-    "now.focus1.description":
-      "Trabalhando em aplicações React/Next.js com foco em performance e acessibilidade",
+    "now.focus1.description": "Trabalhando em aplicações React/Next.js com foco em performance e acessibilidade",
     "now.focus1.status": "Ativo",
     "now.focus2.title": "Aprendizado Contínuo",
-    "now.focus2.description":
-      "Estudando novas tecnologias como Web Components e arquitetura de microsserviços",
+    "now.focus2.description": "Estudando novas tecnologias como Web Components e arquitetura de microsserviços",
     "now.focus2.status": "Em andamento",
     "now.focus3.title": "Projetos Pessoais",
-    "now.focus3.description":
-      "Desenvolvendo ferramentas de automação e scripts para otimizar workflows",
+    "now.focus3.description": "Desenvolvendo ferramentas de automação e scripts para otimizar workflows",
     "now.focus3.status": "Ativo",
     "now.achievements": "Conquistas Recentes",
     "now.achievement1": "🚀 Lançou portfolio responsivo com React + TypeScript",
@@ -158,13 +144,10 @@ export const translations = {
     "now.achievement3": "🎯 Alcançou 500+ usuários em projetos open source",
     "now.achievement4": "☕ Manteve rotina de aprendizado diário",
     "now.personalNote": "Nota Pessoal",
-    "now.note1":
-      "Atualmente estou focado em criar experiências web excepcionais enquanto continuo aprendendo e contribuindo para a comunidade de desenvolvedores. Acredito que a combinação de tecnologia e criatividade pode resolver problemas reais e melhorar vidas.",
-    "now.note2":
-      "Quando não estou codando, gosto de explorar novas ferramentas, contribuir para projetos open source e compartilhar conhecimento. Estou sempre aberto a novas oportunidades e colaborações interessantes.",
+    "now.note1": "Atualmente estou focado em criar experiências web excepcionais enquanto continuo aprendendo e contribuindo para a comunidade de desenvolvedores. Acredito que a combinação de tecnologia e criatividade pode resolver problemas reais e melhorar vidas.",
+    "now.note2": "Quando não estou codando, gosto de explorar novas ferramentas, contribuir para projetos open source e compartilhar conhecimento. Estou sempre aberto a novas oportunidades e colaborações interessantes.",
     "now.contact.title": "Vamos conversar?",
-    "now.contact.description":
-      "Se você tem um projeto interessante ou quer discutir oportunidades, adoraria ouvir de você!",
+    "now.contact.description": "Se você tem um projeto interessante ou quer discutir oportunidades, adoraria ouvir de você!",
     "now.contact.email": "Enviar e-mail",
     "now.contact.whatsapp": "WhatsApp",
   },
@@ -191,10 +174,8 @@ export const translations = {
     "about.subtitle": "Learn more",
     "about.title": "About Me",
     "about.description": "With over 5 years of experience, I specialize in creating modern web applications that combine exceptional design with optimized performance. My passion is solving complex problems through clean code and scalable architectures.",
-    "about.description1":
-      "I am a developer and designer passionate about technology, always seeking to create unique and memorable digital experiences. With experience in full-stack web development and interface design, I combine technical skills with creative vision.",
-    "about.description2":
-      "When I'm not programming or creating designs, I enjoy exploring new technologies, contributing to open source projects, and sharing knowledge with the developer and designer community.",
+    "about.description1": "I am a developer and designer passionate about technology, always seeking to create unique and memorable digital experiences. With experience in full-stack web development and interface design, I combine technical skills with creative vision.",
+    "about.description2": "When I'm not programming or creating designs, I enjoy exploring new technologies, contributing to open source projects, and sharing knowledge with the developer and designer community.",
     "about.expertise": "Core Expertise",
     "about.fullstack": "Full Stack Development",
     "about.uiux": "UI/UX Design",
@@ -217,6 +198,9 @@ export const translations = {
     "about.stats.projects": "Completed Projects",
     "about.stats.experience": "Years of Experience",
     "about.stats.clients": "Satisfied Clients",
+    "about.stats.repositories": "Repositories",
+    "about.stats.stars": "GitHub Stars",
+    "about.stats.contributions": "Years on GitHub",
     "about.skills.title": "Technologies & Tools",
     "about.skills.github": "Technologies from my repositories",
     "about.values.title": "My Values",
@@ -234,35 +218,23 @@ export const translations = {
     "projects.stats.total": "Total Projects",
     "projects.stats.stars": "GitHub Stars",
     "projects.stats.featured": "Featured",
-    "projects.error": "Sorry, couldn't load projects at the moment.",
+    "projects.error": "Sorry, couldn't load projects at the moment. Please try again later.",
     "projects.empty.title": "No projects found",
     "projects.empty.description": "Projects will appear here once they're available.",
     "projects.showAll": "View All Projects",
     "projects.showLess": "Show Only Featured",
-    "projects.p1.title": "Prime Video Enhancer",
-    "projects.p1.description":
-      "Problem: Users complained about intrusive ads and confusing interface on Prime Video. Solution: Developed a userscript that automatically hides X-Ray, skips ads, and adds keyboard shortcuts. Impact: Over 500 users installed, reducing navigation time by 40%.",
-    "projects.p2.title": "Steam Rep4Rep",
-    "projects.p2.description":
-      "Problem: Difficulty building reputation in Steam community through manual comments. Solution: Created automation tool with intuitive interface and safety delays. Impact: Users save 2 hours/week, with 300+ downloads and positive feedback.",
-    "projects.p3.title": "Steam Infinite Wishlister",
-    "projects.p3.description":
-      "Problem: Tedious manual process to add games to Steam Discovery Queue wishlist. Solution: Smart automation with advanced filters for trading cards. Impact: Users add 50+ games/minute, with 200+ active installations.",
     "projects.code": "Code",
-    "projects.live": "Install",
+    "projects.live": "View Project",
     "projects.viewAll": "View All Projects",
 
     // Timeline Section
     "timeline.title": "My Journey",
     "timeline.2024.title": "Full Stack Developer & Designer",
-    "timeline.2024.description":
-      "Developing modern web applications and creating unique designs with focus on user experience",
+    "timeline.2024.description": "Developing modern web applications and creating unique designs with focus on user experience",
     "timeline.2023.title": "UI/UX Design Focus",
-    "timeline.2023.description":
-      "Expanding skills in interface design and user experience, creating prototypes and wireframes",
+    "timeline.2023.description": "Expanding skills in interface design and user experience, creating prototypes and wireframes",
     "timeline.2018.title": "Web Development Journey",
-    "timeline.2018.description":
-      "Started my journey in web development, learning JavaScript, React and design principles",
+    "timeline.2018.description": "Started my journey in web development, learning JavaScript, React and design principles",
     "timeline.work": "work",
     "timeline.project": "project",
     "timeline.education": "education",
@@ -280,8 +252,7 @@ export const translations = {
     "contact.subtitle": "Get in touch",
     "contact.title": "Let's Connect",
     "contact.getInTouch": "Get In Touch",
-    "contact.description":
-      "I'm always excited to discuss new projects, development opportunities, or collaborate on interesting ideas.",
+    "contact.description": "I'm always excited to discuss new projects, development opportunities, or collaborate on interesting ideas.",
     "contact.email": "Email",
     "contact.github": "GitHub",
     "contact.instagram": "Instagram",
@@ -291,9 +262,9 @@ export const translations = {
     "contact.scheduleCall": "Schedule a call",
     "contact.copyEmail": "Email copied to clipboard!",
     "contact.emailCopied": "Email copied!",
+    "contact.clickToCopy": "Click to copy",
     "contact.form.title": "Send me a message",
-    "contact.form.description":
-      "I'd love to hear about your project or discuss development opportunities!",
+    "contact.form.description": "I'd love to hear about your project or discuss development opportunities!",
     "contact.form.name": "Your name",
     "contact.form.email": "Your email",
     "contact.form.message": "Your message...",
@@ -307,35 +278,27 @@ export const translations = {
 
     // Now Page
     "now.title": "What I'm doing now",
-    "now.description":
-      "A real-time update on my current projects, learnings, and professional focus. Updated on",
+    "now.description": "A real-time update on my current projects, learnings, and professional focus. Updated on",
     "now.currentFocus": "Current Focus",
     "now.focus1.title": "Web App Development",
-    "now.focus1.description":
-      "Working on React/Next.js applications with focus on performance and accessibility",
+    "now.focus1.description": "Working on React/Next.js applications with focus on performance and accessibility",
     "now.focus1.status": "Active",
     "now.focus2.title": "Continuous Learning",
-    "now.focus2.description":
-      "Studying new technologies like Web Components and microservices architecture",
+    "now.focus2.description": "Studying new technologies like Web Components and microservices architecture",
     "now.focus2.status": "In progress",
     "now.focus3.title": "Personal Projects",
-    "now.focus3.description":
-      "Developing automation tools and scripts to optimize workflows",
+    "now.focus3.description": "Developing automation tools and scripts to optimize workflows",
     "now.focus3.status": "Active",
     "now.achievements": "Recent Achievements",
-    "now.achievement1":
-      "🚀 Launched responsive portfolio with React + TypeScript",
+    "now.achievement1": "🚀 Launched responsive portfolio with React + TypeScript",
     "now.achievement2": "📚 Completed advanced Next.js course",
     "now.achievement3": "🎯 Reached 500+ users in open source projects",
     "now.achievement4": "☕ Maintained daily learning routine",
     "now.personalNote": "Personal Note",
-    "now.note1":
-      "Currently I'm focused on creating exceptional web experiences while continuing to learn and contribute to the developer community. I believe that the combination of technology and creativity can solve real problems and improve lives.",
-    "now.note2":
-      "When I'm not coding, I enjoy exploring new tools, contributing to open source projects, and sharing knowledge. I'm always open to new opportunities and interesting collaborations.",
+    "now.note1": "Currently I'm focused on creating exceptional web experiences while continuing to learn and contribute to the developer community. I believe that the combination of technology and creativity can solve real problems and improve lives.",
+    "now.note2": "When I'm not coding, I enjoy exploring new tools, contributing to open source projects, and sharing knowledge. I'm always open to new opportunities and interesting collaborations.",
     "now.contact.title": "Let's talk?",
-    "now.contact.description":
-      "If you have an interesting project or want to discuss opportunities, I'd love to hear from you!",
+    "now.contact.description": "If you have an interesting project or want to discuss opportunities, I'd love to hear from you!",
     "now.contact.email": "Send email",
     "now.contact.whatsapp": "WhatsApp",
   },

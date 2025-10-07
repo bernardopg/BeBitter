@@ -22,8 +22,8 @@ interface ProjectsContextType {
 
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
-// IMPORTANT: Replace with your GitHub username
-const GITHUB_USERNAME = "YOUR_GITHUB_USERNAME_HERE";
+// Username real do GitHub
+const GITHUB_USERNAME = "bernardopg";
 
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -32,38 +32,49 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      if (GITHUB_USERNAME === "YOUR_GITHUB_USERNAME_HERE") {
-        setProjectsError("Please set your GitHub username in src/contexts/ProjectsContext.tsx");
-        setProjectsLoading(false);
-        return;
-      }
-
       try {
         setProjectsLoading(true);
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`);
+        setProjectsError(null);
+        
+        const response = await fetch(
+          `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+          {
+            headers: {
+              'Accept': 'application/vnd.github.v3+json',
+            },
+          }
+        );
+        
         if (!response.ok) {
-          throw new Error(`Failed to fetch data from GitHub: ${response.statusText}`);
+          throw new Error(`GitHub API retornou status ${response.status}`);
         }
+        
         const data = await response.json();
 
+        // Mapear os repositórios para o formato do projeto
         const mappedProjects: Project[] = data
-          .filter((repo: any) => !repo.fork) // We'll filter out forked repositories
+          .filter((repo: any) => !repo.fork) // Filtrar repositórios forked
           .map((repo: any) => ({
             title: repo.name,
-            description: repo.description,
-            technologies: repo.topics || [],
+            description: repo.description || `Repositório ${repo.name}`,
+            technologies: repo.topics || [], // GitHub topics como tecnologias
             githubUrl: repo.html_url,
-            // To feature a project, just add the "featured" topic to your repository on GitHub!
-            featured: repo.topics?.includes('featured'),
-            stars: repo.stargazers_count,
+            featured: repo.topics?.includes('featured') || false,
+            stars: repo.stargazers_count || 0,
           }));
 
-        // Sort all projects by stars by default
-        setProjects(mappedProjects.sort((a, b) => b.stars - a.stars));
+        // Ordenar por estrelas (mais estrelas primeiro)
+        const sortedProjects = mappedProjects.sort((a, b) => b.stars - a.stars);
+        
+        setProjects(sortedProjects);
         setProjectsError(null);
       } catch (error) {
-        console.error("Failed to fetch GitHub projects:", error);
-        setProjectsError(error instanceof Error ? error.message : "An unknown error occurred.");
+        console.error("Erro ao buscar projetos do GitHub:", error);
+        setProjectsError(
+          error instanceof Error 
+            ? error.message 
+            : "Não foi possível carregar os projetos. Tente novamente mais tarde."
+        );
       } finally {
         setProjectsLoading(false);
       }
@@ -72,16 +83,16 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
     fetchProjects();
   }, []);
 
-  // Use projects with the "featured" topic as featured projects
+  // Projetos em destaque (com topic "featured" ou os 6 com mais estrelas)
   const featuredFromApi = projects.filter(p => p.featured);
-  
-  // If no projects are marked as "featured", we'll fall back to your 6 most-starred projects.
   const featuredProjects = featuredFromApi.length > 0
     ? featuredFromApi
     : projects.slice(0, 6);
 
+  // Total de estrelas
   const totalStars = projects.reduce((acc, project) => acc + project.stars, 0);
 
+  // Stack de tecnologias (todas as topics únicas)
   const techStack = Array.from(
     new Set(projects.flatMap(p => p.technologies))
   ).sort();
