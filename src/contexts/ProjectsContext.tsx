@@ -1,78 +1,92 @@
-import { createContext, useContext, ReactNode } from 'react';
-import { useGitHubProjects, useGitHubStats } from '@/hooks/useGitHubProjects';
+"use client";
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface Project {
   title: string;
-  description: string;
+  description: string | null;
   technologies: string[];
   githubUrl: string;
-  stars?: number;
-  featured?: boolean;
+  featured: boolean;
+  stars: number;
 }
 
-interface GitHubStats {
-  publicRepos: number;
-  followers: number;
-  following: number;
-  location: string;
-  bio: string;
-  avatarUrl: string;
-}
-
-interface ProjectsContextValue {
-  // Projects data
+interface ProjectsContextType {
   projects: Project[];
-  techStack: string[];
-  projectsLoading: boolean;
-  projectsError: Error | null;
-
-  // GitHub stats
-  githubStats: GitHubStats | undefined;
-  statsLoading: boolean;
-  statsError: Error | null;
-
-  // Computed values
   featuredProjects: Project[];
   totalStars: number;
+  projectsLoading: boolean;
+  projectsError: string | null;
 }
 
-const ProjectsContext = createContext<ProjectsContextValue | undefined>(undefined);
+const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
-interface ProjectsProviderProps {
-  children: ReactNode;
-}
+// IMPORTANT: Replace with your GitHub username
+const GITHUB_USERNAME = "YOUR_GITHUB_USERNAME_HERE";
 
-export const ProjectsProvider = ({ children }: ProjectsProviderProps) => {
-  const {
-    data: projectsData,
-    isLoading: projectsLoading,
-    error: projectsError
-  } = useGitHubProjects();
+export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [projectsError, setProjectsError] = useState<string | null>(null);
 
-  const {
-    data: githubStats,
-    isLoading: statsLoading,
-    error: statsError
-  } = useGitHubStats();
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (GITHUB_USERNAME === "YOUR_GITHUB_USERNAME_HERE") {
+        setProjectsError("Please set your GitHub username in src/contexts/ProjectsContext.tsx");
+        setProjectsLoading(false);
+        return;
+      }
 
-  const projects = projectsData?.projects || [];
-  const techStack = projectsData?.techStack || [];
+      try {.
+        setProjectsLoading(true);
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data from GitHub: ${response.statusText}`);
+        }
+        const data = await response.json();
 
-  const featuredProjects = projects.filter(project => project.featured);
-  const totalStars = projects.reduce((sum, project) => sum + (project.stars || 0), 0);
+        const mappedProjects: Project[] = data
+          .filter((repo: any) => !repo.fork) // We'll filter out forked repositories
+          .map((repo: any) => ({
+            title: repo.name,
+            description: repo.description,
+            technologies: repo.topics || [],
+            githubUrl: repo.html_url,
+            // To feature a project, just add the "featured" topic to your repository on GitHub!
+            featured: repo.topics?.includes('featured'),
+            stars: repo.stargazers_count,
+          }));
 
-  const value: ProjectsContextValue = {
+        // Sort all projects by stars by default
+        setProjects(mappedProjects.sort((a, b) => b.stars - a.stars));
+        setProjectsError(null);
+      } catch (error) {
+        console.error("Failed to fetch GitHub projects:", error);
+        setProjectsError(error instanceof Error ? error.message : "An unknown error occurred.");
+      } finally {
+        setProjectsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Use projects with the "featured" topic as featured projects
+  const featuredFromApi = projects.filter(p => p.featured);
+  
+  // If no projects are marked as "featured", we'll fall back to your 6 most-starred projects.
+  const featuredProjects = featuredFromApi.length > 0
+    ? featuredFromApi
+    : projects.slice(0, 6);
+
+  const totalStars = projects.reduce((acc, project) => acc + project.stars, 0);
+
+  const value = {
     projects,
-    techStack,
-    projectsLoading,
-    projectsError: projectsError as Error | null,
-
-    githubStats,
-    statsLoading,
-    statsError: statsError as Error | null,
-
     featuredProjects,
     totalStars,
+    projectsLoading,
+    projectsError,
   };
 
   return (
