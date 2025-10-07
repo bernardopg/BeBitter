@@ -16,6 +16,7 @@ import Layout from "./components/Layout";
 const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Now = lazy(() => import("./pages/Now"));
+const Services = lazy(() => import("./pages/Services"));
 
 // Configuração otimizada do QueryClient
 const queryClient = new QueryClient({
@@ -117,6 +118,7 @@ const App = () => {
                     <Route element={<Layout />}>
                       <Route path="/" element={<Index />} />
                       <Route path="/now" element={<Now />} />
+                      <Route path="/services" element={<Services />} />
                       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                       <Route path="*" element={<NotFound />} />
                     </Route>

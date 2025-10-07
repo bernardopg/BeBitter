@@ -26,6 +26,11 @@ const routes: Route[] = [
     changefreq: "weekly", // Homepage updated regularly
   },
   {
+    path: "/services",
+    priority: "0.9", // High priority for Services page
+    changefreq: "monthly", // Services don't change as often
+  },
+  {
     path: "/now",
     priority: "0.9", // High priority for Now page
     changefreq: "weekly", // Updated frequently

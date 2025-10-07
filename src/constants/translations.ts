@@ -152,6 +152,9 @@ export const translations = {
     "now.contact.whatsapp": "WhatsApp",
   },
   en: {
+    // Header
+    "header.services": "Services",
+
     // Hero Section
     "hero.greeting": "Hello, I'm",
     "hero.title": "Bernardo Gomes",
