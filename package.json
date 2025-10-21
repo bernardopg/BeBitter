@@ -111,7 +111,7 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.45.0",
-    "vite": "^6.3.6",
+    "vite": "^6.4.1",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.2",
     "vitest": "^3.2.4"
