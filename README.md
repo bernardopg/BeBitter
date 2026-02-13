@@ -11,6 +11,10 @@
 [![GitHub Followers](https://img.shields.io/github/followers/bernardopg?style=flat)](https://github.com/bernardopg)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-blue)](https://github.com/bernardopg/BeBitter/pulls)
+[![CI](https://github.com/bernardopg/BeBitter/actions/workflows/ci.yml/badge.svg)](https://github.com/bernardopg/BeBitter/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/bernardopg/BeBitter/actions/workflows/codeql-eslint-nodejs.yml/badge.svg)](https://github.com/bernardopg/BeBitter/actions/workflows/codeql-eslint-nodejs.yml)
+[![Release](https://img.shields.io/github/v/release/bernardopg/BeBitter)](https://github.com/bernardopg/BeBitter/releases)
+[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot)](https://github.com/bernardopg/BeBitter/security/dependabot)
 
 [![Performance](https://img.shields.io/badge/Lighthouse-95%2F100-brightgreen?style=flat-square)](https://pagespeed.web.dev/)
 [![SEO](https://img.shields.io/badge/SEO-100%2F100-brightgreen?style=flat-square)](https://search.google.com/search-console)
@@ -251,6 +255,18 @@ O servidor estará rodando em [`http://localhost:8080`](http://localhost:8080)
 | `pnpm lint` | Análise de código com ESLint |
 | `pnpm test` | Execução dos testes |
 | `pnpm build:analyze` | Análise do bundle size |
+
+### 🤖 Automação GitHub
+
+- **CI completo** em PR/push (`lint`, `test`, `build`) para Node 20 e 22.
+- **CodeQL** semanal + PR/push para varredura estática de segurança.
+- **Dependabot** para atualizações semanais de pacotes e GitHub Actions.
+- **Release automática** ao publicar tags no formato `v*`.
+
+```bash
+# Aplicar hardening remoto do repositório (requer gh auth válido)
+./scripts/harden-github-repo.sh
+```
 
 ### 🔧 Configuração Avançada
 

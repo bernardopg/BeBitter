@@ -4,6 +4,11 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "pnpm@10.24.0",
+  "engines": {
+    "node": ">=20 <23",
+    "pnpm": ">=10"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,12 +19,15 @@
     "preview:network": "vite preview --host",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "ci:check": "pnpm lint && pnpm test:run && pnpm build",
+    "security:audit": "pnpm audit --audit-level high",
     "test": "vitest",
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "sitemap:gen": "tsx scripts/generate-sitemap.ts",
     "prebuild": "pnpm sitemap:gen",
+    "github:harden": "./scripts/harden-github-repo.sh",
     "performance:audit": "echo 'Run lighthouse audit on your deployed site for performance metrics'",
     "optimize:images": "tsx scripts/optimize-images.ts"
   },

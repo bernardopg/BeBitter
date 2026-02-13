@@ -184,8 +184,8 @@ Para comunicações mais sensíveis, solicite nossa **chave PGP** através do e-
 
 ## 🏷️ Tags e Versioning
 
-- **Última atualização**: Setembro 2025
-- **Versão da política**: 2.0.0
+- **Última atualização**: Fevereiro 2026
+- **Versão da política**: 2.1.0
 - **Conformidade**: OWASP Top 10, GDPR
 - **Revisão**: Trimestral
 

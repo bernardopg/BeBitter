@@ -3,46 +3,24 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { ProjectsProvider, useProjects } from '../ProjectsContext';
 
-// Mock the useGitHubProjects hook
-vi.mock('@/hooks/useGitHubProjects', () => ({
-  useGitHubProjects: () => ({
-    data: {
-      projects: [
-        {
-          title: 'BeBitter',
-          description: 'Portfolio website',
-          technologies: ['React', 'TypeScript'],
-          githubUrl: 'https://github.com/bernardopg/BeBitter',
-          stars: 5,
-          featured: true,
-        },
-        {
-          title: 'other-project',
-          description: 'Another project',
-          technologies: ['JavaScript'],
-          githubUrl: 'https://github.com/bernardopg/other-project',
-          stars: 2,
-          featured: false,
-        },
-      ],
-      techStack: ['React', 'TypeScript', 'JavaScript'],
-    },
-    isLoading: false,
-    error: null,
-  }),
-  useGitHubStats: () => ({
-    data: {
-      publicRepos: 25,
-      followers: 50,
-      following: 30,
-      location: 'Belo Horizonte, MG',
-      bio: 'Full-stack developer',
-      avatarUrl: 'https://avatars.githubusercontent.com/u/69475128',
-    },
-    isLoading: false,
-    error: null,
-  }),
-}));
+const mockReposResponse = [
+  {
+    fork: false,
+    name: 'BeBitter',
+    description: 'Portfolio website',
+    topics: ['React', 'TypeScript', 'featured'],
+    html_url: 'https://github.com/bernardopg/BeBitter',
+    stargazers_count: 5,
+  },
+  {
+    fork: false,
+    name: 'other-project',
+    description: 'Another project',
+    topics: ['JavaScript'],
+    html_url: 'https://github.com/bernardopg/other-project',
+    stargazers_count: 2,
+  },
+];
 
 const TestComponent = () => {
   const {
@@ -84,6 +62,13 @@ const createWrapper = () => {
 describe('ProjectsContext', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockReposResponse,
+      } as Response),
+    );
   });
 
   it('should provide project data correctly', async () => {

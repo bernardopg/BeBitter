@@ -20,6 +20,15 @@ interface ProjectsContextType {
   techStack: string[];
 }
 
+interface GitHubRepository {
+  fork: boolean;
+  name: string;
+  description: string | null;
+  topics?: string[];
+  html_url: string;
+  stargazers_count: number;
+}
+
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
 // Username real do GitHub
@@ -49,12 +58,12 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
           throw new Error(`GitHub API retornou status ${response.status}`);
         }
         
-        const data = await response.json();
+        const data: GitHubRepository[] = await response.json();
 
         // Mapear os repositórios para o formato do projeto
         const mappedProjects: Project[] = data
-          .filter((repo: any) => !repo.fork) // Filtrar repositórios forked
-          .map((repo: any) => ({
+          .filter((repo) => !repo.fork) // Filtrar repositórios forked
+          .map((repo) => ({
             title: repo.name,
             description: repo.description || `Repositório ${repo.name}`,
             technologies: repo.topics || [], // GitHub topics como tecnologias
