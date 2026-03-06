@@ -94,10 +94,14 @@ describe('HeroSection', () => {
     const githubLink = screen.getByRole('link', { name: /github/i });
     const linkedinLink = screen.getByRole('link', { name: /linkedin/i });
     const instagramLink = screen.getByRole('link', { name: /instagram/i });
+    const xLink = screen.getByRole('link', { name: /^x$/i });
+    const sponsorLink = screen.getByRole('link', { name: /sponsor/i });
 
     expect(githubLink).toBeInTheDocument();
     expect(linkedinLink).toBeInTheDocument();
     expect(instagramLink).toBeInTheDocument();
+    expect(xLink).toBeInTheDocument();
+    expect(sponsorLink).toBeInTheDocument();
   });
 
   it('should have hero section id for navigation', () => {

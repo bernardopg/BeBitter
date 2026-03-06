@@ -19,8 +19,12 @@ export const CONFIG = {
 
   // Social Links
   GITHUB_URL: "https://github.com/bernardopg",
-  LINKEDIN_URL: "https://linkedin.com/in/bernardopg",
+  LINKEDIN_URL: "https://www.linkedin.com/in/bernardopg/",
   INSTAGRAM_URL: "https://instagram.com/be.pgomes",
+  X_URL: "https://x.com/cooldeflecha",
+  TIKTOK_URL: "https://vm.tiktok.com/ZMjE479hG",
+  WORDPRESS_URL: "https://bznkng9.wordpress.com",
+  SPONSOR_URL: "https://github.com/sponsors/bernardopg",
 
   // Performance
   INTERSECTION_THRESHOLD: 0.1,

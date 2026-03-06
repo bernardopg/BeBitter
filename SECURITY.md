@@ -152,7 +152,7 @@ Para vulnerabilidades de **alta/crítica severidade**:
 **Bernardo Gomes** - Desenvolvedor Principal
 
 - 📧 **E-mail**: [bernardo.gomes@bebitterbebetter.com.br](mailto:bernardo.gomes@bebitterbebetter.com.br)
-- 💼 **LinkedIn**: [@bernardopg](https://linkedin.com/in/bernardopg)
+- 💼 **LinkedIn**: [@bernardopg](https://www.linkedin.com/in/bernardopg/)
 - 🐙 **GitHub**: [@bernardopg](https://github.com/bernardopg)
 - 📱 **WhatsApp**: [+55 (31) 98491-6431](https://wa.me/5531984916431)
 

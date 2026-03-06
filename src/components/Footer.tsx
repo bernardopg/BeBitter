@@ -1,10 +1,28 @@
-import { Github, Instagram, Linkedin } from "lucide-react";
+import {
+  BadgeDollarSign,
+  BookOpen,
+  Github,
+  Instagram,
+  Linkedin,
+  MonitorPlay,
+  Twitter,
+} from "lucide-react";
+import { CONFIG } from "@/constants/config";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 
 const Footer = () => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const socialLinks = [
+    { href: CONFIG.GITHUB_URL, label: "GitHub", icon: Github },
+    { href: CONFIG.LINKEDIN_URL, label: "LinkedIn", icon: Linkedin },
+    { href: CONFIG.INSTAGRAM_URL, label: "Instagram", icon: Instagram },
+    { href: CONFIG.X_URL, label: "X", icon: Twitter },
+    { href: CONFIG.TIKTOK_URL, label: "TikTok", icon: MonitorPlay },
+    { href: CONFIG.WORDPRESS_URL, label: "WordPress", icon: BookOpen },
+    { href: CONFIG.SPONSOR_URL, label: "Sponsor", icon: BadgeDollarSign },
+  ] as const;
 
   return (
     <footer className="border-t bg-background">
@@ -14,37 +32,15 @@ const Footer = () => {
             © {currentYear} {t("hero.title")}. All Rights Reserved.
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <Button asChild variant="ghost" size="icon">
-            <a
-              href="https://github.com/bernardopg"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button asChild variant="ghost" size="icon">
-            <a
-              href="https://linkedin.com/in/bernardopg"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button asChild variant="ghost" size="icon">
-            <a
-              href="https://instagram.com/be.pgomes"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <Instagram className="h-5 w-5" />
-            </a>
-          </Button>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {socialLinks.map(({ href, label, icon: Icon }) => (
+            <Button key={label} asChild variant="ghost" size="sm">
+              <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                <Icon className="mr-2 h-4 w-4" />
+                {label}
+              </a>
+            </Button>
+          ))}
         </div>
       </div>
     </footer>

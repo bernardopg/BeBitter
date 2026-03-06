@@ -7,6 +7,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import {
+  BadgeDollarSign,
   Coffee,
   ExternalLink,
   Github,
@@ -14,6 +15,7 @@ import {
   Linkedin,
   MapPin,
   Sparkles,
+  Twitter,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -244,6 +246,38 @@ export const HeroSection = () => {
                   aria-label="Instagram"
                 >
                   <Instagram className="h-5 w-5" />
+                </a>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => handleSocialClick("X", CONFIG.X_URL)}
+                asChild
+              >
+                <a
+                  href={CONFIG.X_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => handleSocialClick("Sponsor", CONFIG.SPONSOR_URL)}
+                asChild
+              >
+                <a
+                  href={CONFIG.SPONSOR_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Sponsor"
+                >
+                  <BadgeDollarSign className="h-5 w-5" />
                 </a>
               </Button>
             </motion.div>

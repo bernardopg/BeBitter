@@ -415,7 +415,7 @@ dist/
 
 [![Email](https://img.shields.io/badge/Email-bernardo.gomes%40bebitterbebetter.com.br-red?style=for-the-badge&logo=gmail)](mailto:bernardo.gomes@bebitterbebetter.com.br)
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-%2B55%20(31)%2098491--6431-green?style=for-the-badge&logo=whatsapp)](https://wa.me/5531984916431)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-bernardopg-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/bernardopg)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-bernardopg-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/bernardopg/)
 
 ### 🔗 **Links Importantes**
 

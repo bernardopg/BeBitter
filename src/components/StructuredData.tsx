@@ -80,7 +80,7 @@ interface StructuredDataProps {
 export const StructuredData = ({ 
   pageType = 'person',
   title = "Bernardo Gomes",
-  description = "Desenvolvedor full-stack especializado em aplicações web modernas",
+  description = "Frontend engineer, automation builder, and medical student building polished products for web, Linux, and healthcare workflows",
   url
 }: StructuredDataProps) => {
   const { language } = useLanguage();
@@ -104,9 +104,9 @@ export const StructuredData = ({
         "@type": "Person",
         "name": "Bernardo Gomes",
         "alternateName": ["Bernardo Pereira Gomes", "BeBitter"],
-        "description": language === 'en' 
-          ? "Full-stack developer specializing in modern web applications with Next.js, Node.js, and AWS" 
-          : "Desenvolvedor full-stack especializado em aplicações web modernas com Next.js, Node.js e AWS",
+        "description": language === 'en'
+          ? "Frontend engineer, automation builder, and medical student building polished products for web, Linux, and healthcare workflows"
+          : "Engenheiro de frontend, criador de automações e estudante de Medicina construindo produtos refinados para web, Linux e fluxos de trabalho em saúde",
         "image": {
           "@type": "ImageObject",
           "url": profileImageUrl,
@@ -118,12 +118,15 @@ export const StructuredData = ({
         "sameAs": [
           CONFIG.GITHUB_URL,
           CONFIG.LINKEDIN_URL,
-          CONFIG.INSTAGRAM_URL
+          CONFIG.INSTAGRAM_URL,
+          CONFIG.X_URL,
+          CONFIG.TIKTOK_URL,
+          CONFIG.WORDPRESS_URL
         ],
-        "jobTitle": language === 'en' ? "Full-stack Developer" : "Desenvolvedor Full-stack",
+        "jobTitle": language === 'en' ? "Frontend Engineer" : "Engenheiro de Frontend",
         "worksFor": {
           "@type": "Organization",
-          "name": "Freelancer"
+          "name": "BeBitter & BeBetter"
         },
         "address": {
           "@type": "PostalAddress",
@@ -136,12 +139,14 @@ export const StructuredData = ({
           "TypeScript",
           "React",
           "Next.js",
-          "Node.js",
-          "AWS",
-          "Web Development",
+          "Python",
+          "FastAPI",
           "Frontend Development",
-          "Backend Development",
-          "Cloud Computing"
+          "Automation",
+          "Linux",
+          "Product Engineering",
+          "Healthcare Technology",
+          "Open Source"
         ],
         "contactPoint": {
           "@type": "ContactPoint",
