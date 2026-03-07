@@ -42,6 +42,7 @@ backup*
 .env.local
 .env.*
 !.env.example
+!.env.deploy.example
 
 # Generated sitemap (built at prebuild)
 public/sitemap.xml

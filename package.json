@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy:hostinger": "tsx scripts/deploy.ts",
     "build:dev": "vite build --mode development",
     "build:analyze": "vite build && pnpm analyze:bundle",
     "analyze:bundle": "npx vite-bundle-analyzer dist",
