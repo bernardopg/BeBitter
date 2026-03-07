@@ -32,7 +32,7 @@ const ContactForm = () => {
     )}&body=${encodeURIComponent(body)}`;
 
     window.location.href = mailtoLink;
-    showSuccess("Email client opened! Thank you for reaching out.");
+    showSuccess(t("contact.form.success"));
 
     // Reset form
     setFormData({ name: "", email: "", message: "" });

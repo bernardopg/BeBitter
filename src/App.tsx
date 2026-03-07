@@ -128,9 +128,9 @@ const App = () => {
               {isClient && WhatsAppComp && !prefersReducedData && (
                 <WhatsAppComp
                   phoneNumber="5531984916431"
-                  accountName="Bernardo Gomes - Support"
-                  chatMessage="Olá! Como podemos ajudá-lo hoje?"
-                  statusMessage="Geralmente responde instantaneamente"
+                  accountName="Bernardo Gomes"
+                  chatMessage="Olá! Me conta no que você está trabalhando."
+                  statusMessage="Costumo responder em até 24h"
                   placeholder="Digite uma mensagem..."
                   avatar="/images/icons/android-chrome-512x512.png"
                   darkMode={true}

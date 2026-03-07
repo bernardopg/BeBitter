@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { FEATURED_REPOSITORIES } from "@/constants/config";
 
 interface Project {
   title: string;
@@ -33,6 +34,9 @@ const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined
 
 // Username real do GitHub
 const GITHUB_USERNAME = "bernardopg";
+const FEATURED_ORDER = new Map(
+  FEATURED_REPOSITORIES.map((repo, index) => [repo, index])
+);
 
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -63,17 +67,38 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
         // Mapear os repositórios para o formato do projeto
         const mappedProjects: Project[] = data
           .filter((repo) => !repo.fork) // Filtrar repositórios forked
+          .filter((repo) => repo.name !== GITHUB_USERNAME)
           .map((repo) => ({
             title: repo.name,
-            description: repo.description || `Repositório ${repo.name}`,
+            description: repo.description || `${repo.name} repository`,
             technologies: repo.topics || [], // GitHub topics como tecnologias
             githubUrl: repo.html_url,
-            featured: repo.topics?.includes('featured') || false,
+            featured:
+              repo.topics?.includes('featured') ||
+              FEATURED_REPOSITORIES.includes(
+                repo.name as (typeof FEATURED_REPOSITORIES)[number]
+              ) ||
+              false,
             stars: repo.stargazers_count || 0,
           }));
 
         // Ordenar por estrelas (mais estrelas primeiro)
-        const sortedProjects = mappedProjects.sort((a, b) => b.stars - a.stars);
+        const sortedProjects = mappedProjects.sort((a, b) => {
+          if (a.featured && !b.featured) return -1;
+          if (!a.featured && b.featured) return 1;
+
+          const aOrder = FEATURED_ORDER.get(a.title as (typeof FEATURED_REPOSITORIES)[number]);
+          const bOrder = FEATURED_ORDER.get(b.title as (typeof FEATURED_REPOSITORIES)[number]);
+
+          if (aOrder !== undefined && bOrder !== undefined) {
+            return aOrder - bOrder;
+          }
+
+          if (aOrder !== undefined) return -1;
+          if (bOrder !== undefined) return 1;
+
+          return b.stars - a.stars;
+        });
         
         setProjects(sortedProjects);
         setProjectsError(null);

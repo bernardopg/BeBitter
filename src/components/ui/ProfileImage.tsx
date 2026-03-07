@@ -109,7 +109,7 @@ export const ProfileImage = ({
           data-schema-image="person"
           // Performance hints
           data-optimized="true"
-          {...(priority && { fetchpriority: "high" })}
+          {...(priority && { fetchPriority: "high" })}
         />
       </picture>
 

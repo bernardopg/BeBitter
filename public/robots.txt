@@ -28,11 +28,11 @@ Allow: /
 User-agent: Googlebot-Image
 Allow: /
 
-# Bloquear apenas recursos desnecessários para SEO
-Disallow: /assets/
-Disallow: /*.js$
-Disallow: /*.css$
-Disallow: /*.json$
+# Permitir assets estáticos para renderização e indexação corretas
+Allow: /assets/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.json$
 
 # Sitemap (gerado automaticamente no build)
 Sitemap: https://bebitterbebetter.com.br/sitemap.xml

@@ -47,7 +47,7 @@ const ProjectCard = ({
             </CardTitle>
             {featured && (
               <Badge variant="secondary" className="mt-2 gradient-primary text-white border-0">
-                ⭐ Featured
+                ⭐ {t("projects.featured")}
               </Badge>
             )}
           </div>

@@ -185,7 +185,7 @@ export const ContactSection = () => {
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
                 <div className="text-2xl font-bold text-primary mb-2">
-                  &lt; 2h
+                  24h
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {t("contact.responseTime")}

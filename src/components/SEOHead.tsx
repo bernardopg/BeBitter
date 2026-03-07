@@ -14,18 +14,17 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = "Bernardo Gomes — Desenvolvedor de Software",
-  description = "Desenvolvedor full-stack em aplicações web rápidas e acessíveis. Especializado em Next.js, Node.js e AWS. Vamos construir juntos!",
+  title = "Bernardo Gomes — Frontend, automation and Linux",
+  description = "Frontend engineer, automation builder, and medical student building polished products for web, Linux, and healthcare workflows.",
   keywords = [
-    "desenvolvedor",
-    "software",
-    "web",
-    "cloud",
-    "nextjs",
-    "node",
-    "aws",
+    "frontend engineer",
+    "automation",
+    "linux",
     "react",
     "typescript",
+    "python",
+    "fastapi",
+    "healthcare workflows",
     "portfolio",
   ],
   ogImage = `${window.location.origin}${IMAGES.PROFILE_IMAGE}`,

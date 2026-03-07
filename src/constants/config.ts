@@ -41,10 +41,12 @@ export const CONFIG = {
 
 export const FEATURED_REPOSITORIES = [
   "BeBitter",
-  "dyad-core",
-  "next-saas-starter",
-  "react-components",
-  "typescript-utils",
+  "doctoralia-scrapper",
+  "cmmg-calendar",
+  "mvp-estetoscopio",
+  "arduino-audio-controller",
+  "dms-adguard-vpn-plugin",
+  "AutoJoin-for-SteamGifts",
 ] as const;
 
 export const SKILL_CATEGORIES = {

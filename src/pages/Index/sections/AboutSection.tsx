@@ -53,30 +53,30 @@ export const AboutSection = () => {
       skills: [
         "React",
         "TypeScript",
-        "Next.js",
+        "Vite",
         "Tailwind CSS",
         "Framer Motion",
-        "Vite",
+        "Design Systems",
       ],
       color: "text-blue-600 dark:text-blue-400",
     },
     {
       title: t("skills.backend"),
       icon: <Code className="h-5 w-5" />,
-      skills: ["Node.js", "Python", "PostgreSQL", "MongoDB", "Redis", "GraphQL"],
+      skills: ["Python", "FastAPI", "Selenium", "Parsing", "Telegram Bots", "Scraping"],
       color: "text-green-600 dark:text-green-400",
     },
     {
       title: t("skills.tools"),
       icon: <Zap className="h-5 w-5" />,
-      skills: ["Docker", "AWS", "Git", "Linux", "Jest", "Playwright"],
-      color: "text-purple-600 dark:text-purple-400",
+      skills: ["Linux", "GTK4", "LibAdwaita", "QML", "Shell", "Arduino"],
+      color: "text-amber-600 dark:text-amber-400",
     },
     {
       title: t("skills.design"),
       icon: <Palette className="h-5 w-5" />,
-      skills: ["Figma", "Adobe XD", "Design Systems", "UI/UX", "Prototyping"],
-      color: "text-pink-600 dark:text-pink-400",
+      skills: ["Workflow Design", "Scheduling", "Study Tools", "Documentation", "UX Writing"],
+      color: "text-rose-600 dark:text-rose-400",
     },
   ];
 
@@ -142,7 +142,7 @@ export const AboutSection = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold gradient-text mb-1">
-                  {techStack?.length || "20+"}
+                  {projectsLoading ? "..." : projects.length}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {t("about.stats.projects")}
@@ -157,7 +157,9 @@ export const AboutSection = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold gradient-text mb-1">5+</div>
+                <div className="text-2xl font-bold gradient-text mb-1">
+                  {projectsLoading ? "..." : techStack.length}
+                </div>
                 <div className="text-sm text-muted-foreground">
                   {t("about.stats.experience")}
                 </div>
@@ -171,7 +173,9 @@ export const AboutSection = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold gradient-text mb-1">50+</div>
+                <div className="text-2xl font-bold gradient-text mb-1">
+                  {projectsLoading ? "..." : totalStars}
+                </div>
                 <div className="text-sm text-muted-foreground">
                   {t("about.stats.clients")}
                 </div>

@@ -11,9 +11,9 @@ const Header = () => {
   const { t } = useLanguage();
 
   const navLinks = [
-    { to: "/", label: "Home" },
+    { to: "/", label: t("header.home") },
     { to: "/services", label: t("header.services") },
-    { to: "/now", label: "Now" },
+    { to: "/now", label: t("header.now") },
   ];
 
   return (

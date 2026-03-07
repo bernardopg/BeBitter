@@ -28,6 +28,14 @@ import { useInView } from "react-intersection-observer";
 const Now = () => {
   const { t, language } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
+  const title =
+    language === "en"
+      ? "Now | Bernardo Gomes"
+      : "Now | Bernardo Gomes";
+  const description =
+    language === "en"
+      ? "A living snapshot of what I am building, studying, and refining across frontend, automation, Linux, and healthcare-adjacent workflows."
+      : "Um recorte vivo do que estou construindo, estudando e refinando entre frontend, automação, Linux e fluxos de trabalho em saúde.";
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isInteractive, setIsInteractive] = useState(false);
@@ -124,16 +132,16 @@ const Now = () => {
   return (
     <>
       <SEOHead
-        title="Now - O que estou fazendo agora | Bernardo Gomes"
-        description="Descubra o que estou fazendo agora, meus projetos atuais, conquistas recentes e foco no momento. Página atualizada regularmente com meu status atual."
+        title={title}
+        description={description}
         keywords={[
           "now",
-          "projetos atuais",
-          "desenvolvimento web",
+          "frontend",
+          "automação",
+          "linux",
           "bernardo gomes",
-          "programador",
-          "foco atual",
-          "conquistas",
+          "healthcare workflows",
+          "current focus",
         ]}
         canonical="https://bebitterbebetter.com.br/now"
         type="article"
@@ -163,10 +171,10 @@ const Now = () => {
             </MotionP>
 
             <MotionDiv className="relative p-8 rounded-2xl mb-8 border border-primary/10 bg-background/70">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Clock className="h-6 w-6 text-primary" />
-                <span className="text-lg font-semibold">Agora no Brasil</span>
-              </div>
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Clock className="h-6 w-6 text-primary" />
+                <span className="text-lg font-semibold">{t("now.clockLabel")}</span>
+                </div>
               <div className="text-4xl md:text-6xl font-mono font-bold gradient-text">
                 {currentTime.toLocaleTimeString(
                   language === "pt" ? "pt-BR" : "en-US",

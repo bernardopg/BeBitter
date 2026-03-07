@@ -91,10 +91,9 @@ export const StructuredData = ({
     const logoUrl = `${window.location.origin}${IMAGES.BEBITTER_LOGO}`;
 
     // Remove existing structured data
-    const existingScript = document.querySelector('script[type="application/ld+json"]');
-    if (existingScript) {
-      existingScript.remove();
-    }
+    document
+      .querySelectorAll('script[type="application/ld+json"]')
+      .forEach((script) => script.remove());
 
     let structuredData: StructuredDataSchema;
 
@@ -208,6 +207,7 @@ export const StructuredData = ({
     // Add to document head
     const script = document.createElement('script');
     script.type = 'application/ld+json';
+    script.dataset.bebitterStructuredData = 'true';
     script.textContent = JSON.stringify(combinedData, null, 2);
     document.head.appendChild(script);
 
@@ -235,8 +235,8 @@ export const StructuredData = ({
     updateOrCreateMeta('twitter:image:width', '500');
     updateOrCreateMeta('twitter:image:height', '500');
     updateOrCreateMeta('twitter:image:alt', 'Foto de perfil de Bernardo Gomes');
-    updateOrCreateMeta('twitter:creator', '@bernardopgomes');
-    updateOrCreateMeta('twitter:site', '@bernardopgomes');
+    updateOrCreateMeta('twitter:creator', '@cooldeflecha');
+    updateOrCreateMeta('twitter:site', '@cooldeflecha');
 
   }, [pageType, title, description, url, language]);
 

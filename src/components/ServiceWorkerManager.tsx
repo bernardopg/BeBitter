@@ -21,24 +21,35 @@ const ServiceWorkerManager = () => {
                   newWorker.state === "installed" &&
                   navigator.serviceWorker.controller
                 ) {
-                  // New version available
-                  console.log(
-                    "🔄 New version available! Please refresh the page."
-                  );
+                  newWorker.postMessage({ type: "SKIP_WAITING" });
                 }
               });
             }
           });
+
+          registration.update().catch(() => undefined);
         } catch (error) {
           console.error("❌ Service Worker registration failed:", error);
         }
       };
 
+      const handleControllerChange = () => {
+        window.location.reload();
+      };
+
       // Register service worker after page load to avoid blocking
       window.addEventListener("load", registerSW);
+      navigator.serviceWorker.addEventListener(
+        "controllerchange",
+        handleControllerChange
+      );
 
       return () => {
         window.removeEventListener("load", registerSW);
+        navigator.serviceWorker.removeEventListener(
+          "controllerchange",
+          handleControllerChange
+        );
       };
     }
   }, []);

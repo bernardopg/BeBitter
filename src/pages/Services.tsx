@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { CONFIG } from "@/constants/config";
 import { useLanguage } from "@/hooks/useLanguage";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -25,13 +24,10 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 
 const Services = () => {
   const { t, language } = useLanguage();
-  const { registerElement, isVisible, getAnimationProps, getStaggeredAnimationProps } = useScrollAnimation();
-
   const [headerRef, headerInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -60,7 +56,7 @@ const Services = () => {
         t("services.webdev.feature3"),
         t("services.webdev.feature4"),
       ],
-      technologies: ["React", "Next.js", "TypeScript", "Node.js"],
+      technologies: ["React", "TypeScript", "Vite", "Design Systems"],
       color: "from-blue-500 to-cyan-500",
       bgColor: "bg-blue-50 dark:bg-blue-950/20",
     },
@@ -74,7 +70,7 @@ const Services = () => {
         t("services.responsive.feature3"),
         t("services.responsive.feature4"),
       ],
-      technologies: ["Tailwind CSS", "Framer Motion", "PWA", "Mobile-First"],
+      technologies: ["Python", "FastAPI", "Selenium", "Telegram"],
       color: "from-purple-500 to-pink-500",
       bgColor: "bg-purple-50 dark:bg-purple-950/20",
     },
@@ -88,7 +84,7 @@ const Services = () => {
         t("services.backend.feature3"),
         t("services.backend.feature4"),
       ],
-      technologies: ["Node.js", "PostgreSQL", "MongoDB", "AWS"],
+      technologies: ["Dashboards", "Auth", "Reports", "Internal Tools"],
       color: "from-green-500 to-emerald-500",
       bgColor: "bg-green-50 dark:bg-green-950/20",
     },
@@ -102,7 +98,7 @@ const Services = () => {
         t("services.uiux.feature3"),
         t("services.uiux.feature4"),
       ],
-      technologies: ["Figma", "Design Systems", "Prototyping", "User Testing"],
+      technologies: ["Linux", "GTK", "QML", "Arduino"],
       color: "from-orange-500 to-red-500",
       bgColor: "bg-orange-50 dark:bg-orange-950/20",
     },
@@ -116,7 +112,7 @@ const Services = () => {
         t("services.performance.feature3"),
         t("services.performance.feature4"),
       ],
-      technologies: ["Lighthouse", "Web Vitals", "CDN", "Caching"],
+      technologies: ["Healthcare", "Education", "Scheduling", "Workflows"],
       color: "from-yellow-500 to-orange-500",
       bgColor: "bg-yellow-50 dark:bg-yellow-950/20",
     },
@@ -130,7 +126,7 @@ const Services = () => {
         t("services.maintenance.feature3"),
         t("services.maintenance.feature4"),
       ],
-      technologies: ["CI/CD", "Monitoring", "Security", "Updates"],
+      technologies: ["Iteration", "SEO", "Content", "Maintenance"],
       color: "from-indigo-500 to-purple-500",
       bgColor: "bg-indigo-50 dark:bg-indigo-950/20",
     },
@@ -168,19 +164,25 @@ const Services = () => {
       <SEOHead
         title={`${t("services.meta.title")} | Bernardo Gomes`}
         description={t("services.meta.description")}
-        keywords={[
-          "desenvolvimento web",
-          "web development",
-          "react",
-          "nextjs",
-          "nodejs",
-          "typescript",
-          "ui/ux design",
-          "responsive design",
-          "performance optimization",
-          "serviços de desenvolvimento",
-          "development services",
-        ]}
+        keywords={
+          language === "en"
+            ? [
+                "frontend product engineering",
+                "automation",
+                "linux tooling",
+                "internal tools",
+                "healthcare workflows",
+                "typescript",
+              ]
+            : [
+                "engenharia de produto",
+                "automação",
+                "linux",
+                "ferramentas internas",
+                "fluxos de trabalho em saúde",
+                "typescript",
+              ]
+        }
         canonical="https://bebitterbebetter.com.br/services"
         type="website"
         robots="index, follow"
@@ -243,7 +245,7 @@ const Services = () => {
                   <Card className="h-full card-enhanced group">
                     <CardHeader>
                       <div
-                        className={`w-16 h-16 rounded-2xl gradient-${service.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}
+                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}
                       >
                         {service.icon}
                       </div>

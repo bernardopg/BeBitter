@@ -153,7 +153,7 @@ export const HeroSection = () => {
                 transition={{ duration: 0.6, delay: 0.9 }}
               >
                 <MapPin className="h-4 w-4" />
-                <span>Belo Horizonte, MG</span>
+                <span>{t("hero.location")}</span>
               </motion.div>
             </div>
 
