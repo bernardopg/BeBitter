@@ -236,10 +236,13 @@ cd BeBitter
 # 2. Instale as dependências
 pnpm install
 
-# 3. Configure variáveis de ambiente (opcional)
+# 3. Configure variáveis de ambiente da aplicação (opcional)
 cp .env.example .env.local
 
-# 4. Inicie o servidor de desenvolvimento
+# 4. Configure o deploy local da Hostinger (opcional)
+cp .env.deploy.example .env.deploy
+
+# 5. Inicie o servidor de desenvolvimento
 pnpm dev
 ```
 
@@ -255,6 +258,7 @@ O servidor estará rodando em [`http://localhost:8080`](http://localhost:8080)
 | `pnpm lint` | Análise de código com ESLint |
 | `pnpm test` | Execução dos testes |
 | `pnpm build:analyze` | Análise do bundle size |
+| `pnpm deploy:hostinger` | Build + backup remoto + deploy via SSH/rsync |
 
 ### 🤖 Automação GitHub
 

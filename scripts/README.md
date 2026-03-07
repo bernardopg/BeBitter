@@ -61,6 +61,25 @@ Checks the deployment status of the website.
 ./scripts/deploy-status.sh
 ```
 
+### `deploy.ts`
+
+Builds the app and deploys `dist/` to Hostinger over SSH with a remote backup.
+
+**Usage:**
+
+```bash
+pnpm deploy:hostinger
+pnpm deploy:hostinger -- --dry-run
+pnpm deploy:hostinger -- --skip-build
+```
+
+**What it does:**
+
+- Loads deploy credentials from `.env.deploy` or `.env.deploy.local`
+- Creates a timestamped backup of the remote web root
+- Synchronizes `dist/` with `rsync`
+- Verifies the deployed homepage, `robots.txt`, and `sitemap.xml`
+
 ## Performance Optimization Workflow
 
 1. **Optimize Images**

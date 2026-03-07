@@ -62,65 +62,50 @@ chmod -R 755 /home/seu_usuario/public_html/
 
 ---
 
-### **Opção 2: Deploy via Git + SSH (Recomendado)**
+### **Opção 2: Script Automatizado via SSH (Recomendado)**
 
-#### **1. Commitar as Mudanças:**
+#### **1. Configurar as credenciais locais:**
 
 ```bash
-# No seu terminal local:
-git add .
-git commit -m "🔒 Security: Remove hardcoded GA IDs, optimize SEO files
+# Criar arquivo local ignorado pelo Git
+cp .env.deploy.example .env.deploy
 
-- Remove GA tracking IDs from README and source code
-- Add Google Search Console verification metatag
-- Optimize robots.txt with AI bots support
-- Improve sitemap.xml with better priorities
-- Update .env.local with secure configuration
-- Add SEO and deploy checklists"
-
-git push origin main
+# Preencher com:
+# DEPLOY_SSH_HOST
+# DEPLOY_SSH_PORT
+# DEPLOY_SSH_USER
+# DEPLOY_SSH_KEY_PATH
+# DEPLOY_REMOTE_DIR
 ```
 
 #### **2. Deploy no Servidor:**
 
 ```bash
-# Conectar via SSH ao servidor
-ssh usuario@bebitterbebetter.com.br
-
-# Navegar para a pasta do projeto
-cd /home/usuario/bebitterbebetter
-
-# Fazer backup
-cp -r public_html public_html.backup-$(date +%Y%m%d)
-
-# Pull das mudanças
-git pull origin main
-
-# Instalar dependências (se necessário)
-pnpm install
-
-# Build no servidor
-pnpm build
-
-# Copiar para public_html
-cp -r dist/* public_html/
-
-# Verificar permissões
-chmod -R 755 public_html/
-
-# Limpar cache se necessário
-# (dependendo do painel do Hostinger)
+# Executar no terminal local
+pnpm deploy:hostinger
 ```
+
+O script faz:
+
+- `pnpm build`
+- backup remoto de `public_html`
+- sync do conteúdo de `dist/` para a hospedagem com `rsync`
+- ajuste de permissões
+- validação HTTP da home, `robots.txt` e `sitemap.xml`
 
 ---
 
-### **Opção 3: Script Automatizado**
-
-Vamos criar um script de deploy:
+### **Opção 3: Deploy Manual via Git + SSH**
 
 ```bash
-# Executar no terminal local:
-pnpm deploy
+# Conectar via SSH ao servidor
+ssh usuario@bebitterbebetter.com.br
+
+# Build local ou no servidor
+pnpm build
+
+# Copiar para public_html
+rsync -az dist/ usuario@host:/home/usuario/public_html/
 ```
 
 ---
