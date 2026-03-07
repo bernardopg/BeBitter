@@ -80,6 +80,9 @@ pnpm deploy:hostinger -- --skip-build
 - Synchronizes `dist/` with `rsync`
 - Verifies the deployed homepage, `robots.txt`, and `sitemap.xml`
 
+For Hostinger domain hosting, `DEPLOY_REMOTE_DIR` should usually point to:
+`/home/USER/domains/DOMAIN/public_html`
+
 ## Performance Optimization Workflow
 
 1. **Optimize Images**

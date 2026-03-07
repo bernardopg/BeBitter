@@ -260,6 +260,9 @@ O servidor estará rodando em [`http://localhost:8080`](http://localhost:8080)
 | `pnpm build:analyze` | Análise do bundle size |
 | `pnpm deploy:hostinger` | Build + backup remoto + deploy via SSH/rsync |
 
+Para a Hostinger com domínio conectado, use a raiz web real do domínio em `.env.deploy`:
+`DEPLOY_REMOTE_DIR=/home/USUARIO/domains/SEU-DOMINIO/public_html`
+
 ### 🤖 Automação GitHub
 
 - **CI completo** em PR/push (`lint`, `test`, `build`) para Node 20 e 22.

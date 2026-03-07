@@ -75,7 +75,7 @@ cp .env.deploy.example .env.deploy
 # DEPLOY_SSH_PORT
 # DEPLOY_SSH_USER
 # DEPLOY_SSH_KEY_PATH
-# DEPLOY_REMOTE_DIR
+# DEPLOY_REMOTE_DIR=/home/USUARIO/domains/SEU-DOMINIO/public_html
 ```
 
 #### **2. Deploy no Servidor:**
