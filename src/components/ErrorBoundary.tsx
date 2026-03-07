@@ -85,6 +85,12 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       // Fallback padrão elegante
+      const lang =
+        typeof localStorage !== "undefined"
+          ? (localStorage.getItem("language") ?? "pt")
+          : "pt";
+      const isEn = lang === "en";
+
       return (
         <div className="min-h-screen flex items-center justify-center bg-background">
           <div className="max-w-md w-full mx-auto p-8 text-center">
@@ -105,11 +111,12 @@ class ErrorBoundary extends Component<Props, State> {
                 </svg>
               </div>
               <h1 className="text-2xl font-bold text-foreground mb-2">
-                Oops! Algo deu errado
+                {isEn ? "Oops! Something went wrong" : "Oops! Algo deu errado"}
               </h1>
               <p className="text-muted-foreground mb-6">
-                Encontramos um erro inesperado. Nossa equipe foi notificada e
-                está trabalhando para resolver o problema.
+                {isEn
+                  ? "We encountered an unexpected error. Our team has been notified and is working to fix it."
+                  : "Encontramos um erro inesperado. Nossa equipe foi notificada e está trabalhando para resolver o problema."}
               </p>
             </div>
 
@@ -118,14 +125,14 @@ class ErrorBoundary extends Component<Props, State> {
                 onClick={() => window.location.reload()}
                 className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-200"
               >
-                Recarregar Página
+                {isEn ? "Reload Page" : "Recarregar Página"}
               </button>
 
               <button
                 onClick={() => (window.location.href = "/")}
                 className="w-full px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md transition-colors duration-200"
               >
-                Voltar ao Início
+                {isEn ? "Back to Home" : "Voltar ao Início"}
               </button>
             </div>
 

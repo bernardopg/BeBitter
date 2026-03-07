@@ -81,7 +81,7 @@ export const HeroSection = () => {
   return (
     <section
       ref={heroRef}
-      className="min-h-screen flex items-center justify-center py-20 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center py-12 md:py-20 relative overflow-hidden"
       id="hero"
     >
       {/* Background gradient */}
@@ -92,10 +92,10 @@ export const HeroSection = () => {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl float" style={{ animationDelay: '2s' }} />
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Column - Text Content */}
           <motion.div
-            className="space-y-8 text-center lg:text-left"
+            className="space-y-6 md:space-y-8 text-center lg:text-left"
             {...getAnimationProps}
             animate={heroInView ? getAnimationProps.animate : getAnimationProps.initial}
           >
@@ -293,7 +293,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <div className="relative">
-              <div className="w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 relative">
+              <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 relative">
                 {/* Animated gradient background */}
                 <div className="absolute inset-0 rounded-full gradient-primary opacity-20 pulse-glow" />
                 <div className="absolute inset-1 rounded-full bg-background/80 backdrop-blur-sm" />
@@ -304,7 +304,7 @@ export const HeroSection = () => {
                     alt={t("hero.profileAlt")}
                     className="w-full h-full object-cover"
                     priority={true}
-                    sizes="(max-width: 768px) 288px, (max-width: 1024px) 320px, 384px"
+                    sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
                   />
                 </div>
                 

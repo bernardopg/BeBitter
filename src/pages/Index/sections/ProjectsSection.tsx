@@ -7,6 +7,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import { Code, ExternalLink, Rocket, TrendingUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export const ProjectsSection = () => {
   const { t } = useLanguage();
@@ -26,7 +27,11 @@ export const ProjectsSection = () => {
     }
   }, [registerElement]);
 
-  const displayProjects = showAllProjects ? projects : featuredProjects;
+  // Homepage mostra no máximo 4 projetos em destaque; a página /projects tem todos
+  const HOMEPAGE_MAX = 4;
+  const displayProjects = showAllProjects
+    ? projects
+    : featuredProjects.slice(0, HOMEPAGE_MAX);
 
   const handleViewAllClick = () => {
     setShowAllProjects(!showAllProjects);
@@ -53,7 +58,7 @@ export const ProjectsSection = () => {
   }
 
   return (
-    <section ref={projectsRef} className="py-20 relative overflow-hidden" id="projects">
+    <section ref={projectsRef} className="py-12 md:py-20 relative overflow-hidden" id="projects">
       {/* Background gradient */}
       <div className="absolute inset-0 gradient-secondary opacity-30" />
       
@@ -61,7 +66,7 @@ export const ProjectsSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <motion.div
-            className="text-center space-y-4 mb-16"
+            className="text-center space-y-3 mb-8 md:mb-16"
             {...getAnimationProps}
             animate={projectsInView ? getAnimationProps.animate : getAnimationProps.initial}
             transition={{
@@ -91,7 +96,7 @@ export const ProjectsSection = () => {
 
             {/* Stats */}
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-md mx-auto pt-8"
+              className="grid grid-cols-3 gap-4 max-w-sm mx-auto pt-6 md:pt-8"
               initial={{ opacity: 0, y: 20 }}
               animate={
                 projectsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -129,7 +134,7 @@ export const ProjectsSection = () => {
 
           {/* Loading State */}
           {projectsLoading && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-12">
               {Array.from({ length: 6 }).map((_, index) => (
                 <div
                   key={index}
@@ -153,7 +158,7 @@ export const ProjectsSection = () => {
           {/* Projects Grid */}
           {!projectsLoading && displayProjects.length > 0 && (
             <motion.div
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+              className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-12"
               initial={{ opacity: 0 }}
               animate={projectsInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -170,10 +175,11 @@ export const ProjectsSection = () => {
                 >
                   <ProjectCard
                     title={project.title}
-                    description={project.description}
+                    description={project.description ?? ""}
                     technologies={project.technologies}
                     githubUrl={project.githubUrl}
                     featured={project.featured}
+                    stars={project.stars}
                   />
                 </motion.div>
               ))}
@@ -193,35 +199,46 @@ export const ProjectsSection = () => {
             </div>
           )}
 
-          {/* View More/Less Button */}
-          {!projectsLoading && projects.length > featuredProjects.length && (
+          {/* View More/Less + View All Page */}
+          {!projectsLoading && (
             <motion.div
-              className="text-center"
+              className="flex flex-col sm:flex-row gap-3 justify-center items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={
                 projectsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
               }
               transition={{ duration: 0.6, delay: 0.6 }}
             >
+              {projects.length > featuredProjects.length && (
+                <Button
+                  variant="outline"
+                  onClick={handleViewAllClick}
+                  className="group btn-enhanced border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                >
+                  {showAllProjects ? (
+                    <>
+                      <TrendingUp className="mr-2 h-4 w-4" />
+                      {t("projects.showLess")}
+                    </>
+                  ) : (
+                    <>
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      {t("projects.showAll")}
+                      <span className="ml-1 text-xs text-muted-foreground">
+                        ({projects.length - featuredProjects.length} {t("projects.more")})
+                      </span>
+                    </>
+                  )}
+                </Button>
+              )}
               <Button
-                variant="outline"
-                onClick={handleViewAllClick}
-                className="group btn-enhanced border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                asChild
+                className="gradient-primary text-white border-0 btn-enhanced"
               >
-                {showAllProjects ? (
-                  <>
-                    <TrendingUp className="mr-2 h-4 w-4" />
-                    {t("projects.showLess")}
-                  </>
-                ) : (
-                  <>
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    {t("projects.showAll")}
-                    <span className="ml-1 text-xs text-muted-foreground">
-                      ({projects.length - featuredProjects.length} more)
-                    </span>
-                  </>
-                )}
+                <Link to="/projects">
+                  <Rocket className="mr-2 h-4 w-4" />
+                  {t("projects.viewAll")}
+                </Link>
               </Button>
             </motion.div>
           )}

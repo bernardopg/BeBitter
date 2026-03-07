@@ -19,22 +19,44 @@ interface Route {
     | "never";
 }
 
+// Featured repositories for individual project pages
+const FEATURED_REPOS = [
+  "BeBitter",
+  "doctoralia-scrapper",
+  "cmmg-calendar",
+  "mvp-estetoscopio",
+  "arduino-audio-controller",
+  "dms-adguard-vpn-plugin",
+  "AutoJoin-for-SteamGifts",
+];
+
 const routes: Route[] = [
   {
     path: "/",
     priority: "1.0",
-    changefreq: "weekly", // Homepage updated regularly
+    changefreq: "weekly",
+  },
+  {
+    path: "/projects",
+    priority: "0.9",
+    changefreq: "weekly",
   },
   {
     path: "/services",
-    priority: "0.9", // High priority for Services page
-    changefreq: "monthly", // Services don't change as often
+    priority: "0.9",
+    changefreq: "monthly",
   },
   {
     path: "/now",
-    priority: "0.9", // High priority for Now page
-    changefreq: "weekly", // Updated frequently
+    priority: "0.8",
+    changefreq: "weekly",
   },
+  // Individual project pages
+  ...FEATURED_REPOS.map((repo) => ({
+    path: `/projects/${repo}`,
+    priority: "0.7",
+    changefreq: "monthly" as const,
+  })),
 ];
 
 const now = new Date().toISOString();

@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import WebVitals from "@/components/WebVitals";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { ProjectsProvider } from "@/contexts/ProjectsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -17,6 +18,12 @@ const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Now = lazy(() => import("./pages/Now"));
 const Services = lazy(() => import("./pages/Services"));
+const ProjectsPage = lazy(() =>
+  import("./pages/Projects/ProjectsPage").then((m) => ({ default: m.default }))
+);
+const ProjectDetailPage = lazy(() =>
+  import("./pages/Projects/ProjectDetailPage").then((m) => ({ default: m.default }))
+);
 
 // Configuração otimizada do QueryClient
 const queryClient = new QueryClient({
@@ -57,10 +64,17 @@ const App = () => {
 
   const [WhatsAppComp, setWhatsAppComp] =
     useState<React.ComponentType<WhatsAppProps> | null>(null);
-  const prefersReducedData = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(max-width: 480px)").matches; // treat small screens as constrained
-  }, []);
+
+  // Reativo ao resize — mostra o widget apenas em telas ≥ sm (640px)
+  const [showWhatsApp, setShowWhatsApp] = useState(false);
+  useEffect(() => {
+    if (!isClient) return;
+    const mq = window.matchMedia("(min-width: 640px)");
+    setShowWhatsApp(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setShowWhatsApp(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, [isClient]);
 
   useEffect(() => {
     setIsClient(true);
@@ -105,6 +119,7 @@ const App = () => {
               <WebVitals />
               <Toaster />
               <Sonner />
+              <ProjectsProvider>
               <BrowserRouter
                 future={{
                   v7_startTransition: true,
@@ -119,13 +134,16 @@ const App = () => {
                       <Route path="/" element={<Index />} />
                       <Route path="/now" element={<Now />} />
                       <Route path="/services" element={<Services />} />
+                      <Route path="/projects" element={<ProjectsPage />} />
+                      <Route path="/projects/:slug" element={<ProjectDetailPage />} />
                       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                       <Route path="*" element={<NotFound />} />
                     </Route>
                   </Routes>
                 </Suspense>
               </BrowserRouter>
-              {isClient && WhatsAppComp && !prefersReducedData && (
+              </ProjectsProvider>
+              {isClient && WhatsAppComp && showWhatsApp && (
                 <WhatsAppComp
                   phoneNumber="5531984916431"
                   accountName="Bernardo Gomes"
@@ -137,7 +155,7 @@ const App = () => {
                   notification={false}
                   allowClickAway={true}
                   allowEsc={true}
-                  chatboxHeight={320}
+                  chatboxHeight={300}
                 />
               )}
             </TooltipProvider>

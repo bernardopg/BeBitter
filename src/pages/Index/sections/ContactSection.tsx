@@ -64,12 +64,12 @@ export const ContactSection = () => {
   };
 
   return (
-    <section ref={contactRef} className="py-20" id="contact">
+    <section ref={contactRef} className="py-12 md:py-20 overflow-x-hidden" id="contact">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <motion.div
-            className="text-center space-y-4 mb-16"
+            className="text-center space-y-3 mb-8 md:mb-16"
             {...getAnimationProps}
             animate={contactInView ? getAnimationProps.animate : getAnimationProps.initial}
           >
@@ -89,13 +89,13 @@ export const ContactSection = () => {
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Contact Methods */}
             <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, x: -30 }}
+              className="space-y-6 min-w-0"
+              initial={{ opacity: 0, y: 20 }}
               animate={
-                contactInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }
+                contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
               }
               transition={{ duration: 0.8, delay: 0.2 }}
             >
@@ -122,7 +122,7 @@ export const ContactSection = () => {
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="font-medium">
-                        {copiedEmail ? t("contact.emailCopied") : "Email"}
+                        {copiedEmail ? t("contact.emailCopied") : t("contact.email")}
                       </div>
                       <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         {CONFIG.EMAIL}
@@ -195,9 +195,10 @@ export const ContactSection = () => {
 
             {/* Contact Form */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              className="min-w-0"
+              initial={{ opacity: 0, y: 20 }}
               animate={
-                contactInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }
+                contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
               }
               transition={{ duration: 0.8, delay: 0.4 }}
             >
@@ -207,17 +208,17 @@ export const ContactSection = () => {
 
           {/* CTA Section */}
           <motion.div
-            className="text-center mt-16 p-8 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl"
+            className="text-center mt-8 md:mt-16 p-6 md:p-8 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl"
             initial={{ opacity: 0, y: 30 }}
             animate={
               contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <h3 className="text-2xl font-bold mb-4">
+            <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">
               {t("contact.cta.title")}
             </h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+            <p className="text-muted-foreground mb-5 md:mb-6 max-w-2xl mx-auto">
               {t("contact.cta.description")}
             </p>
             <Button

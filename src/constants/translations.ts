@@ -4,6 +4,7 @@ export const translations = {
     "header.home": "Início",
     "header.services": "Serviços",
     "header.now": "Now",
+    "header.projects": "Projetos",
 
     // Hero Section
     "hero.greeting": "Olá, eu sou",
@@ -80,6 +81,38 @@ export const translations = {
     "projects.live": "Ver Projeto",
     "projects.viewAll": "Ver Todos os Projetos",
     "projects.featured": "Curado",
+    "projects.more": "a mais",
+
+    // Projects Page (/projects)
+    "projects.page.title": "Curadoria de Projetos",
+    "projects.page.subtitle": "Portfólio",
+    "projects.page.description": "Todos os projetos públicos: ferramentas, automações e produtos construídos com React, Python, TypeScript, Linux e mais.",
+    "projects.page.search": "Buscar por nome ou tecnologia...",
+    "projects.page.filter.all": "Todos",
+    "projects.page.filter.featured": "Destaque",
+    "projects.page.noResults": "Nenhum projeto encontrado para este filtro.",
+    "projects.page.clearFilter": "Limpar filtro",
+    "projects.page.sortBy": "Ordenar por",
+    "projects.page.sort.stars": "Mais estrelados",
+    "projects.page.sort.name": "Nome",
+    "projects.page.viewProject": "Ver projeto",
+
+    // Project Detail Page (/projects/:slug)
+    "projects.detail.back": "← Voltar a Projetos",
+    "projects.detail.stars": "estrelas",
+    "projects.detail.forks": "forks",
+    "projects.detail.openIssues": "issues abertas",
+    "projects.detail.language": "Linguagem",
+    "projects.detail.readme": "README",
+    "projects.detail.readmeEmpty": "Sem README disponível neste repositório.",
+    "projects.detail.notFound": "Projeto não encontrado",
+    "projects.detail.notFoundDesc": "O repositório solicitado não existe ou não está acessível.",
+    "projects.detail.viewOnGitHub": "Ver no GitHub",
+    "projects.detail.technologies": "Tecnologias",
+    "projects.detail.relatedProjects": "Outros Projetos",
+    "projects.detail.loadingReadme": "Carregando README...",
+    "projects.detail.updatedAt": "Atualizado",
+    "projects.detail.createdAt": "Criado",
 
     // Timeline Section
     "timeline.title": "Minha Jornada",
@@ -233,6 +266,7 @@ export const translations = {
     "header.home": "Home",
     "header.services": "Services",
     "header.now": "Now",
+    "header.projects": "Projects",
 
     // Hero Section
     "hero.greeting": "Hello, I'm",
@@ -309,6 +343,38 @@ export const translations = {
     "projects.live": "View Project",
     "projects.viewAll": "View All Projects",
     "projects.featured": "Curated",
+    "projects.more": "more",
+
+    // Projects Page (/projects)
+    "projects.page.title": "Project Showcase",
+    "projects.page.subtitle": "Portfolio",
+    "projects.page.description": "All public projects: tools, automation systems, and products built with React, Python, TypeScript, Linux, and more.",
+    "projects.page.search": "Search by name or technology...",
+    "projects.page.filter.all": "All",
+    "projects.page.filter.featured": "Featured",
+    "projects.page.noResults": "No projects found for this filter.",
+    "projects.page.clearFilter": "Clear filter",
+    "projects.page.sortBy": "Sort by",
+    "projects.page.sort.stars": "Most starred",
+    "projects.page.sort.name": "Name",
+    "projects.page.viewProject": "View project",
+
+    // Project Detail Page (/projects/:slug)
+    "projects.detail.back": "← Back to Projects",
+    "projects.detail.stars": "stars",
+    "projects.detail.forks": "forks",
+    "projects.detail.openIssues": "open issues",
+    "projects.detail.language": "Language",
+    "projects.detail.readme": "README",
+    "projects.detail.readmeEmpty": "No README available for this repository.",
+    "projects.detail.notFound": "Project not found",
+    "projects.detail.notFoundDesc": "The requested repository does not exist or is not accessible.",
+    "projects.detail.viewOnGitHub": "View on GitHub",
+    "projects.detail.technologies": "Technologies",
+    "projects.detail.relatedProjects": "Other Projects",
+    "projects.detail.loadingReadme": "Loading README...",
+    "projects.detail.updatedAt": "Updated",
+    "projects.detail.createdAt": "Created",
 
     // Timeline Section
     "timeline.title": "My Journey",

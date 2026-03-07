@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { useProjects } from "@/contexts/ProjectsContext";
 import { useLanguage } from "@/hooks/useLanguage";
+
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import {
@@ -99,12 +100,12 @@ export const AboutSection = () => {
   ];
 
   return (
-    <section ref={aboutRef} className="py-20" id="about">
+    <section ref={aboutRef} className="py-12 md:py-20" id="about">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <motion.div
-            className="text-center space-y-4 mb-16"
+            className="text-center space-y-3 mb-8 md:mb-16"
             {...getAnimationProps}
             animate={aboutInView ? getAnimationProps.animate : getAnimationProps.initial}
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
@@ -127,7 +128,7 @@ export const AboutSection = () => {
 
           {/* Stats Cards */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
+            className="grid grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={
               aboutInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
@@ -135,48 +136,48 @@ export const AboutSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <Card className="text-center group card-enhanced">
-              <CardHeader className="pb-2">
-                <div className="w-12 h-12 rounded-full gradient-secondary flex items-center justify-center mx-auto group-hover:gradient-primary group-hover:text-white transition-all duration-300">
-                  <Code className="h-6 w-6 text-primary group-hover:text-white" />
+              <CardHeader className="pb-2 px-3 pt-4 md:px-6 md:pt-6">
+                <div className="w-8 h-8 md:w-12 md:h-12 rounded-full gradient-secondary flex items-center justify-center mx-auto group-hover:gradient-primary group-hover:text-white transition-all duration-300">
+                  <Code className="h-4 w-4 md:h-6 md:w-6 text-primary group-hover:text-white" />
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold gradient-text mb-1">
+              <CardContent className="px-3 pb-4 md:px-6 md:pb-6">
+                <div className="text-lg md:text-2xl font-bold gradient-text mb-1">
                   {projectsLoading ? "..." : projects.length}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs md:text-sm text-muted-foreground">
                   {t("about.stats.projects")}
                 </div>
               </CardContent>
             </Card>
 
             <Card className="text-center group card-enhanced">
-              <CardHeader className="pb-2">
-                <div className="w-12 h-12 rounded-full gradient-secondary flex items-center justify-center mx-auto group-hover:gradient-primary group-hover:text-white transition-all duration-300">
-                  <Star className="h-6 w-6 text-primary group-hover:text-white" />
+              <CardHeader className="pb-2 px-3 pt-4 md:px-6 md:pt-6">
+                <div className="w-8 h-8 md:w-12 md:h-12 rounded-full gradient-secondary flex items-center justify-center mx-auto group-hover:gradient-primary group-hover:text-white transition-all duration-300">
+                  <Star className="h-4 w-4 md:h-6 md:w-6 text-primary group-hover:text-white" />
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold gradient-text mb-1">
+              <CardContent className="px-3 pb-4 md:px-6 md:pb-6">
+                <div className="text-lg md:text-2xl font-bold gradient-text mb-1">
                   {projectsLoading ? "..." : techStack.length}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs md:text-sm text-muted-foreground">
                   {t("about.stats.experience")}
                 </div>
               </CardContent>
             </Card>
 
             <Card className="text-center group card-enhanced">
-              <CardHeader className="pb-2">
-                <div className="w-12 h-12 rounded-full gradient-secondary flex items-center justify-center mx-auto group-hover:gradient-primary group-hover:text-white transition-all duration-300">
-                  <Users className="h-6 w-6 text-primary group-hover:text-white" />
+              <CardHeader className="pb-2 px-3 pt-4 md:px-6 md:pt-6">
+                <div className="w-8 h-8 md:w-12 md:h-12 rounded-full gradient-secondary flex items-center justify-center mx-auto group-hover:gradient-primary group-hover:text-white transition-all duration-300">
+                  <Users className="h-4 w-4 md:h-6 md:w-6 text-primary group-hover:text-white" />
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold gradient-text mb-1">
+              <CardContent className="px-3 pb-4 md:px-6 md:pb-6">
+                <div className="text-lg md:text-2xl font-bold gradient-text mb-1">
                   {projectsLoading ? "..." : totalStars}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs md:text-sm text-muted-foreground">
                   {t("about.stats.clients")}
                 </div>
               </CardContent>
@@ -185,16 +186,16 @@ export const AboutSection = () => {
 
           {/* Skills Section */}
           <motion.div
-            className="mb-16"
+            className="mb-8 md:mb-16"
             initial={{ opacity: 0 }}
             animate={aboutInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h3 className="text-2xl font-bold text-center mb-8">
+            <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8">
               {t("about.skills.title")}
             </h3>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {skillCategories.map((category, categoryIndex) => (
                 <motion.div
                   key={category.title}
@@ -243,14 +244,14 @@ export const AboutSection = () => {
                   {t("about.skills.github")}
                 </h4>
                 <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
-                  {techStack.slice(0, 15).map((tech) => (
+                  {techStack.slice(0, 12).map((tech) => (
                     <Badge key={tech} variant="outline" className="text-xs">
                       {tech}
                     </Badge>
                   ))}
-                  {techStack.length > 15 && (
+                  {techStack.length > 12 && (
                     <Badge variant="outline" className="text-xs">
-                      +{techStack.length - 15} more
+                      +{techStack.length - 12} {t("projects.more")}
                     </Badge>
                   )}
                 </div>
@@ -266,28 +267,30 @@ export const AboutSection = () => {
             }
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <h3 className="text-2xl font-bold text-center mb-8">
+            <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8">
               {t("about.values.title")}
             </h3>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
               {values.map((value, index) => (
                 <motion.div
                   key={value.title}
-                  className="text-center group"
+                  className="flex sm:flex-col items-start sm:items-center gap-4 group text-left sm:text-center"
                   {...getStaggeredAnimationProps(index)}
                   animate={aboutInView ?
                     getStaggeredAnimationProps(index).animate :
                     getStaggeredAnimationProps(index).initial
                   }
                 >
-                  <div className="w-16 h-16 rounded-full gradient-secondary flex items-center justify-center mx-auto mb-4 group-hover:gradient-primary group-hover:scale-110 transition-all duration-300">
+                  <div className="w-12 h-12 shrink-0 rounded-full gradient-secondary flex items-center justify-center sm:mx-auto sm:mb-2 group-hover:gradient-primary group-hover:scale-110 transition-all duration-300">
                     <div className="text-primary group-hover:text-white transition-colors">{value.icon}</div>
                   </div>
-                  <h4 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">{value.title}</h4>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {value.description}
-                  </p>
+                  <div>
+                    <h4 className="text-base font-semibold mb-1 group-hover:text-primary transition-colors">{value.title}</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {value.description}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </div>

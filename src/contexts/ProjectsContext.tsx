@@ -1,7 +1,6 @@
-"use client";
-
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { FEATURED_REPOSITORIES } from "@/constants/config";
+import { useQuery } from "@tanstack/react-query";
+import React, { createContext, useContext, type ReactNode } from "react";
 
 interface Project {
   title: string;
@@ -30,108 +29,101 @@ interface GitHubRepository {
   stargazers_count: number;
 }
 
-const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
+const ProjectsContext = createContext<ProjectsContextType | undefined>(
+  undefined
+);
 
-// Username real do GitHub
 const GITHUB_USERNAME = "bernardopg";
 const FEATURED_ORDER = new Map(
   FEATURED_REPOSITORIES.map((repo, index) => [repo, index])
 );
 
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined;
+
+const fetchRepos = async (): Promise<Project[]> => {
+  const response = await fetch(
+    `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+    {
+      headers: {
+        Accept: "application/vnd.github.v3+json",
+        ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
+      },
+      signal: AbortSignal.timeout(10_000),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`GitHub API retornou status ${response.status}`);
+  }
+
+  const data: GitHubRepository[] = await response.json();
+
+  const mapped: Project[] = data
+    .filter((repo) => !repo.fork)
+    .filter((repo) => repo.name !== GITHUB_USERNAME)
+    .map((repo) => ({
+      title: repo.name,
+      description: repo.description,
+      technologies: repo.topics ?? [],
+      githubUrl: repo.html_url,
+      featured:
+        (repo.topics?.includes("featured") ?? false) ||
+        FEATURED_REPOSITORIES.includes(
+          repo.name as (typeof FEATURED_REPOSITORIES)[number]
+        ),
+      stars: repo.stargazers_count,
+    }));
+
+  return mapped.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+
+    const aOrder = FEATURED_ORDER.get(
+      a.title as (typeof FEATURED_REPOSITORIES)[number]
+    );
+    const bOrder = FEATURED_ORDER.get(
+      b.title as (typeof FEATURED_REPOSITORIES)[number]
+    );
+
+    if (aOrder !== undefined && bOrder !== undefined) return aOrder - bOrder;
+    if (aOrder !== undefined) return -1;
+    if (bOrder !== undefined) return 1;
+
+    return b.stars - a.stars;
+  });
+};
+
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [projectsLoading, setProjectsLoading] = useState(true);
-  const [projectsError, setProjectsError] = useState<string | null>(null);
+  const {
+    data: projects = [],
+    isPending: projectsLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["github-projects", GITHUB_USERNAME],
+    queryFn: fetchRepos,
+    staleTime: 10 * 60 * 1000,
+    gcTime: 20 * 60 * 1000,
+    retry: 0,
+  });
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setProjectsLoading(true);
-        setProjectsError(null);
-        
-        const response = await fetch(
-          `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
-          {
-            headers: {
-              'Accept': 'application/vnd.github.v3+json',
-            },
-          }
-        );
-        
-        if (!response.ok) {
-          throw new Error(`GitHub API retornou status ${response.status}`);
-        }
-        
-        const data: GitHubRepository[] = await response.json();
+  const projectsError = isError
+    ? error instanceof Error
+      ? error.message
+      : "Não foi possível carregar os projetos."
+    : null;
 
-        // Mapear os repositórios para o formato do projeto
-        const mappedProjects: Project[] = data
-          .filter((repo) => !repo.fork) // Filtrar repositórios forked
-          .filter((repo) => repo.name !== GITHUB_USERNAME)
-          .map((repo) => ({
-            title: repo.name,
-            description: repo.description || `${repo.name} repository`,
-            technologies: repo.topics || [], // GitHub topics como tecnologias
-            githubUrl: repo.html_url,
-            featured:
-              repo.topics?.includes('featured') ||
-              FEATURED_REPOSITORIES.includes(
-                repo.name as (typeof FEATURED_REPOSITORIES)[number]
-              ) ||
-              false,
-            stars: repo.stargazers_count || 0,
-          }));
+  const featuredFromApi = projects.filter((p) => p.featured);
+  const featuredProjects =
+    featuredFromApi.length > 0 ? featuredFromApi : projects.slice(0, 6);
 
-        // Ordenar por estrelas (mais estrelas primeiro)
-        const sortedProjects = mappedProjects.sort((a, b) => {
-          if (a.featured && !b.featured) return -1;
-          if (!a.featured && b.featured) return 1;
+  const totalStars = projects.reduce((acc, p) => acc + p.stars, 0);
 
-          const aOrder = FEATURED_ORDER.get(a.title as (typeof FEATURED_REPOSITORIES)[number]);
-          const bOrder = FEATURED_ORDER.get(b.title as (typeof FEATURED_REPOSITORIES)[number]);
-
-          if (aOrder !== undefined && bOrder !== undefined) {
-            return aOrder - bOrder;
-          }
-
-          if (aOrder !== undefined) return -1;
-          if (bOrder !== undefined) return 1;
-
-          return b.stars - a.stars;
-        });
-        
-        setProjects(sortedProjects);
-        setProjectsError(null);
-      } catch (error) {
-        console.error("Erro ao buscar projetos do GitHub:", error);
-        setProjectsError(
-          error instanceof Error 
-            ? error.message 
-            : "Não foi possível carregar os projetos. Tente novamente mais tarde."
-        );
-      } finally {
-        setProjectsLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  // Projetos em destaque (com topic "featured" ou os 6 com mais estrelas)
-  const featuredFromApi = projects.filter(p => p.featured);
-  const featuredProjects = featuredFromApi.length > 0
-    ? featuredFromApi
-    : projects.slice(0, 6);
-
-  // Total de estrelas
-  const totalStars = projects.reduce((acc, project) => acc + project.stars, 0);
-
-  // Stack de tecnologias (todas as topics únicas)
   const techStack = Array.from(
-    new Set(projects.flatMap(p => p.technologies))
+    new Set(projects.flatMap((p) => p.technologies))
   ).sort();
 
-  const value = {
+  const value: ProjectsContextType = {
     projects,
     featuredProjects,
     totalStars,
@@ -150,7 +142,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
 export const useProjects = () => {
   const context = useContext(ProjectsContext);
   if (context === undefined) {
-    throw new Error('useProjects must be used within a ProjectsProvider');
+    throw new Error("useProjects must be used within a ProjectsProvider");
   }
   return context;
 };
