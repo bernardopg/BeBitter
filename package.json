@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "pnpm@10.24.0",
   "engines": {
-    "node": ">=20 <23",
+    "node": "^20.19.0 || >=22.12.0 <23",
     "pnpm": ">=10"
   },
   "scripts": {
@@ -100,11 +100,10 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^25.3.5",
+    "@types/node": "^22.0.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.3",
-    "autoprefixer": "^10.4.27",
     "brace-expansion": "^5.0.4",
     "critters": "^0.0.25",
     "dotenv": "^17.3.1",
