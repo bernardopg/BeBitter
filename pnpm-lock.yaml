@@ -15,8 +15,6 @@ overrides:
   rollup: 4.59.0
   tar: 7.5.10
 
-packageExtensionsChecksum: sha256-r2KVJ1TfIiUeGM5bxMZZn++hA9zZVPX6Sn9G8ek3Tmg=
-
 importers:
 
   .:
