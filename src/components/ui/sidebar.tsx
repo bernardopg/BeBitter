@@ -49,8 +49,8 @@ function useSidebar() {
 
 function getSidebarSkeletonWidth(id: string) {
   const seed = Array.from(id).reduce(
-    (total, character) => total + character.charCodeAt(0),
-    0,
+    (total, character) => total * 31 + character.charCodeAt(0),
+    7,
   );
 
   return `${SIDEBAR_SKELETON_MIN_WIDTH + (seed % SIDEBAR_SKELETON_WIDTH_RANGE)}%`;
