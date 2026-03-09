@@ -50,3 +50,5 @@ public/sitemap.xml
 # Additional backup patterns
 *.bak
 *~
+
+.claude-terminal
