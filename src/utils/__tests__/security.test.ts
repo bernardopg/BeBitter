@@ -33,4 +33,19 @@ describe("sanitizeExternalUrl", () => {
       "https://fallback.test"
     );
   });
+
+  it("returns null for nullish or empty inputs without fallback", () => {
+    expect(sanitizeExternalUrl(undefined)).toBeNull();
+    expect(sanitizeExternalUrl("")).toBeNull();
+    expect(sanitizeExternalUrl(null)).toBeNull();
+  });
+
+  it("uses fallback when the URL is nullish", () => {
+    expect(
+      sanitizeExternalUrl(null, "https://fallback.example.com")
+    ).toBe("https://fallback.example.com");
+    expect(
+      sanitizeExternalUrl(undefined, "https://fallback.example.com")
+    ).toBe("https://fallback.example.com");
+  });
 });
