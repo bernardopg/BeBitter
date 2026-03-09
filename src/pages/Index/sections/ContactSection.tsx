@@ -50,14 +50,6 @@ export const ContactSection = () => {
     });
   };
 
-  const handleCopyEmailMobile = () => {
-    navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
-      setCopiedEmail(true);
-      showSuccess(t("contact.emailCopied"));
-      setTimeout(() => setCopiedEmail(false), 2000);
-    });
-  };
-
   const handleContactMethod = (method: string, url: string) => {
     trackContactAttempt(method);
     window.open(url, "_blank");
@@ -154,9 +146,9 @@ export const ContactSection = () => {
                     <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors duration-200" />
                   </motion.button>
 
-                  {/* Calendly */}
+                  {/* Cal.com (open-source) */}
                   <motion.button
-                    onClick={() => handleContactMethod("calendly", CONFIG.CALENDLY_URL)}
+                    onClick={() => handleContactMethod("cal", CONFIG.CAL_URL)}
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors duration-200 group w-full text-left"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -165,7 +157,7 @@ export const ContactSection = () => {
                       <Calendar className="h-5 w-5 text-primary" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-medium">Calendly</div>
+                      <div className="font-medium">Cal.com</div>
                       <div className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 truncate">
                         {t("contact.scheduleCall")}
                       </div>

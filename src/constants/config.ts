@@ -15,7 +15,8 @@ export const CONFIG = {
   EMAIL: "bernardo.gomes@bebitterbebetter.com.br",
   PHONE: "5531984916431",
   WHATSAPP_URL: "https://wa.me/5531984916431",
-  CALENDLY_URL: "https://calendly.com/bernardopg",
+  // Scheduling (prefer self-hosted Cal.com; can be overridden via env)
+  CAL_URL: import.meta.env.VITE_CAL_URL || "https://cal.com/bernardopg",
 
   // Social Links
   GITHUB_URL: "https://github.com/bernardopg",
