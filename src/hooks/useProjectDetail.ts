@@ -17,6 +17,7 @@ export interface ProjectDetail {
   updatedAt: string;
   defaultBranch: string;
   license: string | null;
+  // Sanitizado no fetch para ser renderizado com segurança no detalhe do projeto.
   readme: string | null;
 }
 
