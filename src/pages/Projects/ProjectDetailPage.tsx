@@ -10,6 +10,7 @@ import {
 import { useProjects } from "@/contexts/ProjectsContext";
 import { useProjectDetail } from "@/hooks/useProjectDetail";
 import { useLanguage } from "@/hooks/useLanguage";
+import { sanitizeReadmeHtml } from "@/utils/security";
 import { motion } from "framer-motion";
 import {
   AlertCircle,
@@ -104,6 +105,9 @@ const ProjectDetailPage = () => {
   const pageTitle = project
     ? `${project.name} — Bernardo Gomes`
     : t("projects.detail.notFound");
+  const sanitizedReadme = project?.readme
+    ? sanitizeReadmeHtml(project.readme)
+    : null;
 
   if (isError) {
     const is404 = (error as Error).message.includes("not found");
@@ -283,16 +287,14 @@ const ProjectDetailPage = () => {
                     <CardTitle className="text-lg">{t("projects.detail.readme")}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {project.readme ? (
+                    {sanitizedReadme ? (
                       <div className="overflow-x-auto">
-                      <div
-                        className={README_PROSE_STYLES}
-                        dangerouslySetInnerHTML={{
-                          // HTML já renderizado pelo GitHub — emojis, imagens e
-                          // links resolvidos com URLs absolutas pelo servidor.
-                          __html: project.readme,
-                        }}
-                      />
+                        <div
+                          className={README_PROSE_STYLES}
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizedReadme,
+                          }}
+                        />
                       </div>
                     ) : (
                       <p className="text-sm text-muted-foreground italic">

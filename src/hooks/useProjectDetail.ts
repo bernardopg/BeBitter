@@ -1,6 +1,6 @@
 import { CONFIG } from "@/constants/config";
+import { sanitizeExternalUrl, sanitizeReadmeHtml } from "@/utils/security";
 import { useQuery } from "@tanstack/react-query";
-import DOMPurify from "dompurify";
 
 export interface ProjectDetail {
   name: string;
@@ -79,8 +79,7 @@ const resolveReadmeUrls = (
       `${tag}${q}${blobBase}${href.replace(/^\.\//, "")}${q}`
   );
 
-  // Sanitiza o HTML final para evitar XSS antes de enviar para o frontend.
-  return DOMPurify.sanitize(withLinks);
+  return sanitizeReadmeHtml(withLinks);
 };
 
 const fetchProjectDetail = async (slug: string): Promise<ProjectDetail> => {
@@ -125,8 +124,12 @@ const fetchProjectDetail = async (slug: string): Promise<ProjectDetail> => {
     name: repo.name,
     fullName: repo.full_name,
     description: repo.description,
-    htmlUrl: repo.html_url,
-    homepage: repo.homepage || null,
+    htmlUrl:
+      sanitizeExternalUrl(
+        repo.html_url,
+        `https://github.com/${repo.full_name}`
+      ) ?? `https://github.com/${repo.full_name}`,
+    homepage: sanitizeExternalUrl(repo.homepage),
     stars: repo.stargazers_count,
     forks: repo.forks_count,
     openIssues: repo.open_issues_count,
