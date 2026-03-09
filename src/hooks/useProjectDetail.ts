@@ -1,5 +1,6 @@
 import { CONFIG } from "@/constants/config";
 import { useQuery } from "@tanstack/react-query";
+import DOMPurify from "dompurify";
 
 export interface ProjectDetail {
   name: string;
@@ -78,7 +79,8 @@ const resolveReadmeUrls = (
       `${tag}${q}${blobBase}${href.replace(/^\.\//, "")}${q}`
   );
 
-  return withLinks;
+  // Sanitiza o HTML final para evitar XSS antes de enviar para o frontend.
+  return DOMPurify.sanitize(withLinks);
 };
 
 const fetchProjectDetail = async (slug: string): Promise<ProjectDetail> => {
