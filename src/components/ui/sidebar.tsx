@@ -23,6 +23,8 @@ const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+const SIDEBAR_SKELETON_MIN_WIDTH = 50;
+const SIDEBAR_SKELETON_WIDTH_RANGE = 40;
 
 type SidebarContext = {
   state: "expanded" | "collapsed";
@@ -43,6 +45,15 @@ function useSidebar() {
   }
 
   return context;
+}
+
+function getSidebarSkeletonWidth(id: string) {
+  const seed = Array.from(id).reduce(
+    (total, character) => total * 31 + character.charCodeAt(0),
+    7,
+  );
+
+  return `${SIDEBAR_SKELETON_MIN_WIDTH + (seed % SIDEBAR_SKELETON_WIDTH_RANGE)}%`;
 }
 
 const SidebarProvider = React.forwardRef<
@@ -656,10 +667,8 @@ const SidebarMenuSkeleton = React.forwardRef<
     showIcon?: boolean;
   }
 >(({ className, showIcon = false, ...props }, ref) => {
-  // Random width between 50 to 90%.
-  const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`;
-  }, []);
+  const skeletonId = React.useId();
+  const width = getSidebarSkeletonWidth(skeletonId);
 
   return (
     <div
