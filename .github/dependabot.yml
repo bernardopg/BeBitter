@@ -7,7 +7,11 @@ updates:
       day: "monday"
       time: "08:00"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 1
+    cooldown:
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     labels:
       - "dependencies"
       - "npm"
@@ -32,6 +36,10 @@ updates:
         dependency-type: "development"
         update-types:
           - "major"
+    ignore:
+      - dependency-name: "react-day-picker"
+        versions:
+          - ">=9.14.0"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -40,7 +48,7 @@ updates:
       day: "monday"
       time: "08:30"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 1
     labels:
       - "dependencies"
       - "github-actions"
