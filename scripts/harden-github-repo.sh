@@ -37,6 +37,26 @@ gh api -X PUT "repos/${FULL_REPO}/topics" \
   -f "names[]=performance" \
   >/dev/null
 
+echo "Ensuring standard labels exist..."
+gh label create "dependencies" \
+  --repo "${FULL_REPO}" \
+  --color "0366d6" \
+  --description "Pull requests that update a dependency file" \
+  --force \
+  >/dev/null
+gh label create "npm" \
+  --repo "${FULL_REPO}" \
+  --color "5319e7" \
+  --description "Pull requests that update npm dependencies" \
+  --force \
+  >/dev/null
+gh label create "github-actions" \
+  --repo "${FULL_REPO}" \
+  --color "1d76db" \
+  --description "Pull requests that update GitHub Actions workflows" \
+  --force \
+  >/dev/null
+
 echo "Enabling security features..."
 gh api -X PUT "repos/${FULL_REPO}/vulnerability-alerts" \
   -H "Accept: application/vnd.github+json" \
@@ -52,10 +72,10 @@ cat >"${tmp_payload}" <<EOF
   "required_status_checks": {
     "strict": true,
     "contexts": [
-      "CI / Lint, Test and Build (Node 20.x)",
-      "CI / Lint, Test and Build (Node 22.x)",
-      "CodeQL / Analyze (javascript-typescript)",
-      "Dependency Review / Check dependency changes"
+      "CI / Lint, Test and Build (Node 20.x) (pull_request)",
+      "CI / Lint, Test and Build (Node 22.x) (pull_request)",
+      "CodeQL / Analyze (javascript-typescript) (javascript-typescript) (pull_request)",
+      "Dependency Review / Check dependency changes (pull_request)"
     ]
   },
   "enforce_admins": false,
