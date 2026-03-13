@@ -71,11 +71,23 @@ cat >"${tmp_payload}" <<EOF
 {
   "required_status_checks": {
     "strict": true,
-    "contexts": [
-      "CI / Lint, Test and Build (Node 20.x) (pull_request)",
-      "CI / Lint, Test and Build (Node 22.x) (pull_request)",
-      "CodeQL / Analyze (javascript-typescript) (javascript-typescript) (pull_request)",
-      "Dependency Review / Check dependency changes (pull_request)"
+    "checks": [
+      {
+        "context": "Lint, Test and Build (Node 20.x)",
+        "app_id": 15368
+      },
+      {
+        "context": "Lint, Test and Build (Node 22.x)",
+        "app_id": 15368
+      },
+      {
+        "context": "Analyze (javascript-typescript) (javascript-typescript)",
+        "app_id": 15368
+      },
+      {
+        "context": "Check dependency changes",
+        "app_id": 15368
+      }
     ]
   },
   "enforce_admins": false,
