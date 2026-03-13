@@ -19,15 +19,19 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      production-major-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "major"
       development-dependencies:
         dependency-type: "development"
         update-types:
           - "minor"
           - "patch"
-    ignore:
-      - dependency-name: "*"
+      development-major-dependencies:
+        dependency-type: "development"
         update-types:
-          - "version-update:semver-major"
+          - "major"
 
   - package-ecosystem: "github-actions"
     directory: "/"
