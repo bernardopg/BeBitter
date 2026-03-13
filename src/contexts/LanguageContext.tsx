@@ -20,10 +20,14 @@ const getInitialLanguage = (): Language => {
     return "pt";
   }
 
-  const savedLanguage = window.localStorage.getItem("language");
-  return savedLanguage === "pt" || savedLanguage === "en"
-    ? savedLanguage
-    : "pt";
+  try {
+    const savedLanguage = window.localStorage.getItem("language");
+    return savedLanguage === "pt" || savedLanguage === "en"
+      ? savedLanguage
+      : "pt";
+  } catch {
+    return "pt";
+  }
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -33,7 +37,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    window.localStorage.setItem("language", lang);
+
+    try {
+      window.localStorage.setItem("language", lang);
+    } catch {
+      // Ignore storage errors and keep the in-memory language preference.
+    }
   };
 
   const t = (key: string): string => {
