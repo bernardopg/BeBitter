@@ -1,12 +1,14 @@
 import {
   BadgeDollarSign,
   BookOpen,
-  Github,
-  Instagram,
-  Linkedin,
   MonitorPlay,
-  Twitter,
 } from "lucide-react";
+import {
+  GitHubIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  XIcon,
+} from "@/components/icons/social-icons";
 import { CONFIG } from "@/constants/config";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -15,10 +17,10 @@ const Footer = () => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
   const socialLinks = [
-    { href: CONFIG.GITHUB_URL, label: "GitHub", icon: Github },
-    { href: CONFIG.LINKEDIN_URL, label: "LinkedIn", icon: Linkedin },
-    { href: CONFIG.INSTAGRAM_URL, label: "Instagram", icon: Instagram },
-    { href: CONFIG.X_URL, label: "X", icon: Twitter },
+    { href: CONFIG.GITHUB_URL, label: "GitHub", icon: GitHubIcon },
+    { href: CONFIG.LINKEDIN_URL, label: "LinkedIn", icon: LinkedInIcon },
+    { href: CONFIG.INSTAGRAM_URL, label: "Instagram", icon: InstagramIcon },
+    { href: CONFIG.X_URL, label: "X", icon: XIcon },
     { href: CONFIG.TIKTOK_URL, label: "TikTok", icon: MonitorPlay },
     { href: CONFIG.WORDPRESS_URL, label: "WordPress", icon: BookOpen },
     { href: CONFIG.SPONSOR_URL, label: "Sponsor", icon: BadgeDollarSign },

@@ -1,4 +1,5 @@
 import SEOHead from "@/components/SEOHead";
+import { GitHubIcon } from "@/components/icons/social-icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,6 @@ import {
   ExternalLink,
   FolderOpen,
   GitFork,
-  Github,
   Star,
   Tag,
 } from "lucide-react";
@@ -255,7 +255,7 @@ const ProjectDetailPage = () => {
                 <div className="flex flex-wrap gap-3">
                   <Button asChild className="gradient-primary text-white border-0 btn-enhanced">
                     <a href={project.htmlUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
+                      <GitHubIcon className="mr-2 h-4 w-4" />
                       {t("projects.detail.viewOnGitHub")}
                     </a>
                   </Button>

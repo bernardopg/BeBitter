@@ -1,5 +1,4 @@
-import dyadComponentTagger from "@dyad-sh/react-vite-component-tagger";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import type { IncomingMessage, ServerResponse } from "http";
 import path from "path";
 import { defineConfig, loadEnv } from "vite";
@@ -79,7 +78,6 @@ export default defineConfig(({ mode }) => {
       ],
     },
     plugins: [
-      dyadComponentTagger(),
       react(),
       // Plugin para substituir variáveis de ambiente no index.html
       createHtmlPlugin({
@@ -133,14 +131,24 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           // Code splitting para melhor cache
-          manualChunks: {
-            ui: [
-              "@radix-ui/react-accordion",
-              "@radix-ui/react-dialog",
-              "@radix-ui/react-dropdown-menu",
-            ],
-            router: ["react-router-dom"],
-            query: ["@tanstack/react-query"],
+          manualChunks: (id) => {
+            if (
+              id.includes("@radix-ui/react-accordion") ||
+              id.includes("@radix-ui/react-dialog") ||
+              id.includes("@radix-ui/react-dropdown-menu")
+            ) {
+              return "ui";
+            }
+
+            if (id.includes("react-router-dom")) {
+              return "router";
+            }
+
+            if (id.includes("@tanstack/react-query")) {
+              return "query";
+            }
+
+            return undefined;
           },
           // Melhor cache busting para assets
           assetFileNames: (assetInfo) => {
@@ -169,7 +177,6 @@ export default defineConfig(({ mode }) => {
     // Otimizações de dependências
     optimizeDeps: {
       include: ["react", "react-dom", "react-router-dom"],
-      exclude: ["@dyad-sh/react-vite-component-tagger"],
     },
   };
 });

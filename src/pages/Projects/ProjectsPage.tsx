@@ -1,5 +1,6 @@
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
+import { GitHubIcon } from "@/components/icons/social-icons";
 import { Badge } from "@/components/ui/badge";
 import { CONFIG } from "@/constants/config";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,6 @@ import {
   Code,
   ExternalLink,
   FolderOpen,
-  Github,
   Search,
   Star,
   X,
@@ -152,7 +152,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                 rel="noopener noreferrer"
                 aria-label="Ver no GitHub"
               >
-                <Github className="h-4 w-4" />
+                <GitHubIcon className="h-4 w-4" />
               </a>
             </Button>
           </div>
@@ -456,7 +456,7 @@ const ProjectsPage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Github className="mr-2 h-4 w-4" />
+                  <GitHubIcon className="mr-2 h-4 w-4" />
                   @bernardopg
                   <ExternalLink className="ml-2 h-3 w-3 opacity-60" />
                 </a>

@@ -3,6 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ProfileImage } from "@/components/ui/ProfileImage";
 import { useProfileImagePreload } from "@/hooks/useProfileImagePreload";
 import { CONFIG } from "@/constants/config";
+import {
+  GitHubIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  XIcon,
+} from "@/components/icons/social-icons";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
@@ -10,12 +16,8 @@ import {
   BadgeDollarSign,
   Coffee,
   ExternalLink,
-  Github,
-  Instagram,
-  Linkedin,
   MapPin,
   Sparkles,
-  Twitter,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -213,7 +215,7 @@ export const HeroSection = () => {
                   rel="noopener noreferrer"
                   aria-label="GitHub"
                 >
-                  <Github className="h-5 w-5" />
+                  <GitHubIcon className="h-5 w-5" />
                 </a>
               </Button>
 
@@ -229,7 +231,7 @@ export const HeroSection = () => {
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin className="h-5 w-5" />
+                  <LinkedInIcon className="h-5 w-5" />
                 </a>
               </Button>
 
@@ -245,7 +247,7 @@ export const HeroSection = () => {
                   rel="noopener noreferrer"
                   aria-label="Instagram"
                 >
-                  <Instagram className="h-5 w-5" />
+                  <InstagramIcon className="h-5 w-5" />
                 </a>
               </Button>
 
@@ -261,7 +263,7 @@ export const HeroSection = () => {
                   rel="noopener noreferrer"
                   aria-label="X"
                 >
-                  <Twitter className="h-5 w-5" />
+                  <XIcon className="h-5 w-5" />
                 </a>
               </Button>
 

@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
-import { ExternalLink, FolderOpen, Github, Star } from "lucide-react";
+import { GitHubIcon } from "@/components/icons/social-icons";
+import { ExternalLink, FolderOpen, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
@@ -94,7 +95,7 @@ const ProjectCard = ({
           {githubUrl && (
             <Button asChild variant="ghost" size="sm" className="px-2 h-8 shrink-0">
               <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <Github className="h-3.5 w-3.5" />
+                <GitHubIcon className="h-3.5 w-3.5" />
               </a>
             </Button>
           )}
