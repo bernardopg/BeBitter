@@ -92,6 +92,7 @@
     "@dyad-sh/react-vite-component-tagger": "^0.8.0",
     "@eslint/js": "^10.0.1",
     "@eslint/plugin-kit": "^0.6.0",
+    "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -128,7 +129,6 @@
     "glob": "11.1.0",
     "js-yaml": "4.1.1",
     "minimatch": "10.2.4",
-    "eslint>@eslint/plugin-kit": "0.3.5",
     "rollup": "4.59.0",
     "tar": "7.5.11"
   },
@@ -140,9 +140,13 @@
       "glob": "11.1.0",
       "js-yaml": "4.1.1",
       "minimatch": "10.2.4",
-      "eslint": "9.36.0",
       "rollup": "4.59.0",
       "tar": "7.5.11"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild",
+      "sharp"
+    ]
   }
 }
