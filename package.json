@@ -91,7 +91,7 @@
   "devDependencies": {
     "@dyad-sh/react-vite-component-tagger": "^0.8.0",
     "@eslint/js": "^10.0.1",
-    "@eslint/plugin-kit": "^0.6.0",
+    "@eslint/plugin-kit": "^0.6.1",
     "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/jest-dom": "^6.9.1",
@@ -109,21 +109,21 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.3.0",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.0.1",
     "postcss": "^8.5.8",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.2.1",
     "terser": "^5.46.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "typescript-eslint": "^8.56.1",
-    "vite": "^7.3.1",
+    "vite": "^8.0.3",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.2",
     "vitest": "^4.0.18"
   },
   "overrides": {
-    "@eslint/plugin-kit": "0.6.0",
+    "@eslint/plugin-kit": "0.6.1",
     "ajv": "6.14.0",
     "flatted": "3.4.2",
     "glob": "11.1.0",
@@ -134,7 +134,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@eslint/plugin-kit": "0.6.0",
+      "@eslint/plugin-kit": "0.6.1",
       "ajv": "6.14.0",
       "flatted": "3.4.2",
       "glob": "11.1.0",
