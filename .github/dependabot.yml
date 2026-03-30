@@ -7,35 +7,17 @@ updates:
       day: "monday"
       time: "08:00"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 1
-    cooldown:
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
+    open-pull-requests-limit: 2
     labels:
       - "dependencies"
       - "npm"
     commit-message:
       prefix: "chore(deps)"
     groups:
-      production-dependencies:
+      runtime-dependencies:
         dependency-type: "production"
-        update-types:
-          - "minor"
-          - "patch"
-      production-major-dependencies:
-        dependency-type: "production"
-        update-types:
-          - "major"
-      development-dependencies:
+      tooling-and-tests:
         dependency-type: "development"
-        update-types:
-          - "minor"
-          - "patch"
-      development-major-dependencies:
-        dependency-type: "development"
-        update-types:
-          - "major"
     ignore:
       - dependency-name: "react-day-picker"
         versions:
@@ -48,7 +30,7 @@ updates:
       day: "monday"
       time: "08:30"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 2
     labels:
       - "dependencies"
       - "github-actions"

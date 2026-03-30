@@ -1,8 +1,8 @@
 # BeBitter
 
 <div align="center">
-  <img src="public/images/logos/BeBitter.svg" alt="BeBitter logo" width="140" />
-  <p><strong>Portfolio de Bernardo Gomes</strong><br />React 19, TypeScript, Vite e foco em performance, seguranca e SEO.</p>
+  <img src="public/images/logos/BeBitter.svg" alt="Logo do BeBitter" width="140" />
+  <p><strong>Portfólio de Bernardo Gomes</strong><br />React 19, TypeScript, Vite 7 e foco em performance, segurança e SEO.</p>
 
   <p>
     <a href="https://bebitterbebetter.com.br"><img alt="Website" src="https://img.shields.io/website?style=flat-square&up_message=online&down_message=offline&url=https%3A%2F%2Fbebitterbebetter.com.br" /></a>
@@ -17,16 +17,16 @@
     <img alt="pnpm 10" src="https://img.shields.io/badge/pnpm-10-F69220?style=flat-square&logo=pnpm&logoColor=white" />
     <img alt="React 19" src="https://img.shields.io/badge/react-19-61DAFB?style=flat-square&logo=react&logoColor=111827" />
     <img alt="TypeScript 5.9" src="https://img.shields.io/badge/typescript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-    <img alt="Vite 6" src="https://img.shields.io/badge/vite-6-646CFF?style=flat-square&logo=vite&logoColor=white" />
-    <img alt="Tailwind CSS 3.4" src="https://img.shields.io/badge/tailwindcss-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
+    <img alt="Vite 7" src="https://img.shields.io/badge/vite-7-646CFF?style=flat-square&logo=vite&logoColor=white" />
+    <img alt="Tailwind CSS 4.2" src="https://img.shields.io/badge/tailwindcss-4.2-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
   </p>
 </div>
 
-## Visao geral
+## Visão geral
 
-BeBitter e o portfolio publico de Bernardo Gomes. O projeto entrega uma homepage modular, paginas de servicos e atualizacoes pessoais, catalogo de projetos integrado ao GitHub e paginas detalhadas por repositorio.
+BeBitter é o portfólio público de Bernardo Gomes. O projeto entrega uma homepage modular, páginas de serviços e atualizações pessoais, catálogo de projetos integrado ao GitHub e páginas detalhadas por repositório.
 
-O stack principal usa React 19, TypeScript, Vite, Tailwind CSS e TanStack Query. Em producao, o build gera sitemap automaticamente, aplica lazy loading, inlining de CSS critico, compressao gzip/brotli e deploy automatizado via SSH para a Hostinger.
+O stack principal usa React 19, TypeScript, Vite 7, Tailwind CSS 4, Radix UI e TanStack Query. Em produção, o build gera sitemap automaticamente, aplica inlining de CSS crítico, gera assets comprimidos em gzip e Brotli e publica `dist/` na Hostinger via SSH com backup remoto e verificação HTTP.
 
 ## Preview
 
@@ -40,8 +40,8 @@ O stack principal usa React 19, TypeScript, Vite, Tailwind CSS e TanStack Query.
     <td align="center">Home · dark · pt-BR</td>
   </tr>
   <tr>
-    <td><img src="public/images/screenshots/bebitterbebetter-pt-now-light.png" alt="Pagina Now em tema claro" width="100%" /></td>
-    <td><img src="public/images/screenshots/bebitterbebetter-en-now-dark.png" alt="Pagina Now em tema escuro" width="100%" /></td>
+    <td><img src="public/images/screenshots/bebitterbebetter-pt-now-light.png" alt="Página Now em tema claro" width="100%" /></td>
+    <td><img src="public/images/screenshots/bebitterbebetter-en-now-dark.png" alt="Página Now em tema escuro" width="100%" /></td>
   </tr>
   <tr>
     <td align="center">Now · light · pt-BR</td>
@@ -49,37 +49,38 @@ O stack principal usa React 19, TypeScript, Vite, Tailwind CSS e TanStack Query.
   </tr>
 </table>
 
-## O que este repositorio cobre
+## O que este repositório cobre
 
-- Site publico com rotas `/`, `/projects`, `/services` e `/now`.
-- Paginas de projeto alimentadas pela API do GitHub com cache em cliente.
+- Site público com rotas `/`, `/projects`, `/services` e `/now`.
+- Páginas de projeto alimentadas pela API do GitHub com cache no cliente.
 - Pipeline de qualidade com `lint`, `test`, `build`, CodeQL e Dependency Review.
-- Hardening recente para sanitizacao de README HTML e atualizacao de dependencias transitivas vulneraveis.
-- Deploy automatizado para Hostinger com backup remoto e verificacao HTTP.
+- Sanitização do HTML vindo dos READMEs do GitHub antes da renderização.
+- Deploy para Hostinger com `rsync`, backup remoto e checagem pós-publicação.
 
 ## Stack
 
-| Area | Ferramentas |
+| Área | Ferramentas |
 | --- | --- |
 | Frontend | React 19, React Router 7, TypeScript 5.9 |
-| UI | Tailwind CSS 3.4, Radix UI, shadcn/ui, Framer Motion |
-| Dados | TanStack Query, GitHub REST API |
-| Qualidade | ESLint 9, Vitest 3, Testing Library, CodeQL |
-| Build | Vite 6, critical CSS, gzip, Brotli |
+| UI | Tailwind CSS 4.2, Radix UI, shadcn/ui, Framer Motion |
+| Dados | TanStack Query, React Context, GitHub REST API |
+| Formulários | React Hook Form, Zod |
+| Qualidade | ESLint 10, Vitest 4, Testing Library, CodeQL |
+| Build | Vite 7, Critters, gzip, Brotli |
 | Deploy | SSH + rsync para Hostinger |
 
 ## Rotas e sitemap
 
-O sitemap e gerado por `pnpm sitemap:gen` durante o `build` e hoje publica 11 URLs. As rotas principais expostas no arquivo [public/sitemap.xml](public/sitemap.xml) sao:
+O sitemap é gerado por `pnpm sitemap:gen` durante o `build` e publica as rotas principais do site e as páginas individuais de projetos. As rotas públicas base são:
 
 | Rota | Papel | Prioridade |
 | --- | --- | --- |
 | `/` | Landing page principal | `1.0` |
-| `/projects` | Catalogo de projetos | `0.9` |
-| `/services` | Pagina comercial | `0.9` |
-| `/now` | Atualizacoes correntes | `0.8` |
+| `/projects` | Catálogo de projetos | `0.9` |
+| `/services` | Página comercial | `0.9` |
+| `/now` | Atualizações correntes | `0.8` |
 
-O detalhe das URLs geradas, incluindo paginas individuais de projeto, esta em [docs/routes-and-sitemap.md](docs/routes-and-sitemap.md).
+O detalhe das URLs geradas está em [docs/routes-and-sitemap.md](docs/routes-and-sitemap.md).
 
 ## Rodando localmente
 
@@ -89,7 +90,7 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-Validacoes uteis:
+Validações úteis:
 
 ```bash
 pnpm ci:check
@@ -99,7 +100,7 @@ pnpm build
 
 ## Deploy
 
-O deploy padrao do projeto publica `dist/` na Hostinger via SSH.
+O deploy padrão publica `dist/` na Hostinger via SSH.
 
 ```bash
 cp .env.deploy.example .env.deploy
@@ -109,15 +110,15 @@ pnpm deploy:hostinger
 
 Checklist completa em [DEPLOY-CHECKLIST.md](DEPLOY-CHECKLIST.md).
 
-## Documentacao
+## Documentação
 
-- [docs/README.md](docs/README.md) - indice da documentacao
-- [docs/technical-overview.md](docs/technical-overview.md) - arquitetura, stack e automacao
-- [docs/routes-and-sitemap.md](docs/routes-and-sitemap.md) - rotas publicas e estrutura do sitemap
-- [SECURITY.md](SECURITY.md) - postura de seguranca e hardening
-- [PERFORMANCE-OPTIMIZATION.md](PERFORMANCE-OPTIMIZATION.md) - estrategia de performance
-- [SEO-CHECKLIST.md](SEO-CHECKLIST.md) - itens de SEO e indexacao
-- [scripts/README.md](scripts/README.md) - scripts de build, deploy e otimizacao
+- [docs/README.md](docs/README.md) - índice da documentação
+- [docs/technical-overview.md](docs/technical-overview.md) - arquitetura, stack e automação
+- [docs/routes-and-sitemap.md](docs/routes-and-sitemap.md) - rotas públicas e estrutura do sitemap
+- [SECURITY.md](SECURITY.md) - postura de segurança e hardening
+- [PERFORMANCE-OPTIMIZATION.md](PERFORMANCE-OPTIMIZATION.md) - estratégia de performance
+- [SEO-CHECKLIST.md](SEO-CHECKLIST.md) - itens de SEO e indexação
+- [scripts/README.md](scripts/README.md) - scripts de build, deploy e otimização
 
 ## Contato
 
@@ -126,6 +127,6 @@ Checklist completa em [DEPLOY-CHECKLIST.md](DEPLOY-CHECKLIST.md).
 - LinkedIn: [bernardopg](https://www.linkedin.com/in/bernardopg/)
 - Email: [bernardo.gomes@bebitterbebetter.com.br](mailto:bernardo.gomes@bebitterbebetter.com.br)
 
-## Licenca
+## Licença
 
-Distribuido sob a [MIT License](LICENSE.md).
+Distribuído sob a [MIT License](LICENSE.md).

@@ -1,24 +1,11 @@
 import { FEATURED_REPOSITORIES } from "@/constants/config";
 import { useQuery } from "@tanstack/react-query";
-import React, { createContext, useContext, type ReactNode } from "react";
-
-interface Project {
-  title: string;
-  description: string | null;
-  technologies: string[];
-  githubUrl: string;
-  featured: boolean;
-  stars: number;
-}
-
-interface ProjectsContextType {
-  projects: Project[];
-  featuredProjects: Project[];
-  totalStars: number;
-  projectsLoading: boolean;
-  projectsError: string | null;
-  techStack: string[];
-}
+import React, { type ReactNode } from "react";
+import {
+  Project,
+  ProjectsContext,
+  type ProjectsContextType,
+} from "@/contexts/projects-context";
 
 interface GitHubRepository {
   fork: boolean;
@@ -28,10 +15,6 @@ interface GitHubRepository {
   html_url: string;
   stargazers_count: number;
 }
-
-const ProjectsContext = createContext<ProjectsContextType | undefined>(
-  undefined
-);
 
 const GITHUB_USERNAME = "bernardopg";
 const FEATURED_ORDER = new Map(
@@ -137,12 +120,4 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </ProjectsContext.Provider>
   );
-};
-
-export const useProjects = () => {
-  const context = useContext(ProjectsContext);
-  if (context === undefined) {
-    throw new Error("useProjects must be used within a ProjectsProvider");
-  }
-  return context;
 };

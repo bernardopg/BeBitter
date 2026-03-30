@@ -5,7 +5,8 @@
 
 // @ts-expect-error - Critters doesn't have proper type definitions
 import Critters from "critters";
-import type { Plugin } from "vite";
+import path from "node:path";
+import type { Plugin, ResolvedConfig } from "vite";
 
 export interface CriticalCSSOptions {
   /**
@@ -49,17 +50,21 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
   } = options;
 
   let critters: Critters;
+  let config: ResolvedConfig;
 
   return {
     name: "vite-plugin-critical-css",
     apply: "build",
     enforce: "post",
 
-    configResolved() {
+    configResolved(resolvedConfig) {
+      config = resolvedConfig;
+
       // Initialize Critters with configuration
       critters = new Critters({
-        path: "",
-        publicPath: "",
+        logLevel: "error",
+        path: path.resolve(config.root, config.build.outDir),
+        publicPath: "/",
         inlineFonts: true,
         preload,
         compress,

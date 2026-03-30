@@ -2,9 +2,9 @@
 
 ## Objetivo
 
-BeBitter e um portfolio publico construido para servir duas frentes ao mesmo tempo:
+BeBitter é um portfólio público construído para servir duas frentes ao mesmo tempo:
 
-- apresentacao profissional de Bernardo Gomes
+- apresentação profissional de Bernardo Gomes
 - vitrine de projetos com dados puxados do GitHub
 
 ## Stack
@@ -14,13 +14,13 @@ BeBitter e um portfolio publico construido para servir duas frentes ao mesmo tem
 | App shell | React 19, React DOM 19, React Router 7 |
 | Linguagem | TypeScript 5.9 |
 | Estado e dados | TanStack Query 5, React Context |
-| UI | Tailwind CSS 3.4, Radix UI, shadcn/ui, Framer Motion |
-| Formularios | React Hook Form, Zod |
-| Testes | Vitest 3, Testing Library, jsdom |
-| Build | Vite 6, terser, vite-plugin-compression |
+| UI | Tailwind CSS 4.2, Radix UI, shadcn/ui, Framer Motion |
+| Formulários | React Hook Form, Zod |
+| Testes | Vitest 4, Testing Library, jsdom |
+| Build | Vite 7, terser, Critters, vite-plugin-compression |
 | Deploy | SSH + rsync para Hostinger |
 
-## Rotas publicas
+## Rotas públicas
 
 Definidas em [src/App.tsx](../src/App.tsx):
 
@@ -30,52 +30,52 @@ Definidas em [src/App.tsx](../src/App.tsx):
 - `/projects`
 - `/projects/:slug`
 
-## Estrutura do codigo
+## Estrutura do código
 
 ```text
 src/
 ├── components/      # layout, SEO, analytics e UI compartilhada
-├── constants/       # configuracoes e textos estaticos
-├── contexts/        # idioma e catalogo de projetos
-├── hooks/           # integracoes e logica reutilizavel
+├── constants/       # configurações e textos estáticos
+├── contexts/        # idioma e catálogo de projetos
+├── hooks/           # integrações e lógica reutilizável
 ├── lib/             # helpers compartilhados
-├── pages/           # paginas e secoes
+├── pages/           # páginas e seções
 ├── test/            # setup de testes
-└── utils/           # seguranca, performance e utilitarios
+└── utils/           # segurança, performance e utilitários
 ```
 
-## Integracoes relevantes
+## Integrações relevantes
 
-- GitHub REST API para listar repositorios e montar paginas de projeto
+- GitHub REST API para listar repositórios e montar páginas de projeto
 - Google Analytics via componente dedicado
-- Service worker para cache e gestao de atualizacao
+- Service worker para cache e gestão de atualização
 - WhatsApp widget carregado de forma lazy em telas maiores
 
 ## Build e entrega
 
-O fluxo de producao parte de `pnpm build`:
+O fluxo de produção parte de `pnpm build`:
 
 1. gera `public/sitemap.xml`
-2. executa o build do Vite
-3. aplica inlining de CSS critico
+2. executa o build do Vite 7
+3. aplica inlining de CSS crítico
 4. gera assets comprimidos em gzip e Brotli
 
 O deploy para Hostinger usa [scripts/deploy.ts](../scripts/deploy.ts) e faz:
 
 1. build local
 2. backup remoto da pasta `public_html`
-3. sincronizacao com `rsync --delete`
-4. ajuste de permissao
-5. verificacao de `index.html`, `robots.txt` e `sitemap.xml`
+3. sincronização com `rsync --delete`
+4. ajuste de permissão
+5. verificação de `index.html`, `robots.txt` e `sitemap.xml`
 
-## Qualidade e seguranca
+## Qualidade e segurança
 
 - `pnpm ci:check` roda lint, testes e build
-- GitHub Actions executa CI em Node 20 e 22
+- GitHub Actions executa CI em Node 22
 - CodeQL roda em PR e push
-- Dependency Review valida mudancas de lockfile
-- Dependabot monitora dependencias
-- README HTML vindo do GitHub e sanitizado antes da renderizacao em [src/utils/security.ts](../src/utils/security.ts)
+- Dependency Review valida mudanças de lockfile
+- Dependabot monitora dependências
+- HTML de README vindo do GitHub é sanitizado antes da renderização em [src/utils/security.ts](../src/utils/security.ts)
 
 ## Variaveis de ambiente
 
@@ -91,4 +91,4 @@ Deploy:
 cp .env.deploy.example .env.deploy
 ```
 
-As variaveis de deploy esperadas estao descritas em [DEPLOY-CHECKLIST.md](../DEPLOY-CHECKLIST.md) e em [scripts/deploy.ts](../scripts/deploy.ts).
+As variáveis de deploy esperadas estão descritas em [DEPLOY-CHECKLIST.md](../DEPLOY-CHECKLIST.md) e em [scripts/deploy.ts](../scripts/deploy.ts).

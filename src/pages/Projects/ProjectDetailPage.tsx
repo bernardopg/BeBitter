@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useProjects } from "@/contexts/ProjectsContext";
+import { useProjects } from "@/contexts/projects-context";
 import { useProjectDetail } from "@/hooks/useProjectDetail";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";

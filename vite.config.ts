@@ -134,7 +134,6 @@ export default defineConfig(({ mode }) => {
         output: {
           // Code splitting para melhor cache
           manualChunks: {
-            vendor: ["react", "react-dom"],
             ui: [
               "@radix-ui/react-accordion",
               "@radix-ui/react-dialog",

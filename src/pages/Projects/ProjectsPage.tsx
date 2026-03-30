@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useProjects } from "@/contexts/ProjectsContext";
+import { useProjects } from "@/contexts/projects-context";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
 import {

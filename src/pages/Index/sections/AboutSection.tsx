@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useProjects } from "@/contexts/ProjectsContext";
+import { useProjects } from "@/contexts/projects-context";
 import { useLanguage } from "@/hooks/useLanguage";
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";

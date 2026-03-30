@@ -15,9 +15,9 @@ for (const file of envFiles) {
 
 const helpText = `
 Usage:
-  pnpm deploy
-  pnpm deploy -- --skip-build
-  pnpm deploy -- --dry-run
+  pnpm deploy:hostinger
+  pnpm deploy:hostinger -- --skip-build
+  pnpm deploy:hostinger -- --dry-run
 
 Required env vars (.env.deploy or .env.deploy.local):
   DEPLOY_SSH_HOST

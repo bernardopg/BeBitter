@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { ProjectsProvider, useProjects } from '../ProjectsContext';
+import { ProjectsProvider } from '../ProjectsContext';
+import { useProjects } from '../projects-context';
 
 const mockReposResponse = [
   {
