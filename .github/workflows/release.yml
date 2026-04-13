@@ -45,7 +45,7 @@ jobs:
         run: tar -czf bebitter-dist-${RELEASE_TAG}.tar.gz -C dist .
 
       - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_TAG }}
