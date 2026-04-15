@@ -19,9 +19,17 @@ export interface CriticalCSSOptions {
   inline?: boolean;
 
   /**
-   * Whether to preload non-critical CSS (default: true)
+   * Whether/how to preload non-critical CSS (default: true -> "swap")
    */
-  preload?: boolean;
+  preload?:
+    | boolean
+    | "js"
+    | "body"
+    | "media"
+    | "swap"
+    | "swap-high"
+    | "swap-low"
+    | "js-lazy";
 
   /**
    * Whether to compress inlined CSS (default: true)
@@ -48,6 +56,9 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
     pruneSource = true,
   } = options;
 
+  // Beasties typings do not currently include `false`, though runtime supports it.
+  const beastiesPreload = preload === true ? "swap" : preload;
+
   let beasties: Beasties;
   let config: ResolvedConfig;
 
@@ -65,7 +76,9 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
         path: path.resolve(config.root, config.build.outDir),
         publicPath: "/",
         inlineFonts: true,
-        preload,
+        preload: beastiesPreload as NonNullable<
+          ConstructorParameters<typeof Beasties>[0]
+        >["preload"],
         compress,
         minimumExternalSize,
         pruneSource,
