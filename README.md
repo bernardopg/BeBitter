@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="public/images/logos/BeBitter.svg" alt="Logo do BeBitter" width="140" />
-  <p><strong>Portfólio de Bernardo Gomes</strong><br />React 19, TypeScript, Vite 7 e foco em performance, segurança e SEO.</p>
+  <p><strong>Portfólio de Bernardo Gomes</strong><br />React 19, TypeScript, Vite 8 e foco em performance, segurança e SEO.</p>
 
   <p>
     <a href="https://bebitterbebetter.com.br"><img alt="Website" src="https://img.shields.io/website?style=flat-square&up_message=online&down_message=offline&url=https%3A%2F%2Fbebitterbebetter.com.br" /></a>
@@ -66,7 +66,7 @@ O stack principal usa React 19, TypeScript, Vite 7, Tailwind CSS 4, Radix UI e T
 | Dados | TanStack Query, React Context, GitHub REST API |
 | Formulários | React Hook Form, Zod |
 | Qualidade | ESLint 10, Vitest 4, Testing Library, CodeQL |
-| Build | Vite 7, Critters, gzip, Brotli |
+| Build | Vite 8, Critters, gzip, Brotli |
 | Deploy | SSH + rsync para Hostinger |
 
 ## Rotas e sitemap

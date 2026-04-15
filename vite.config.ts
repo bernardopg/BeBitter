@@ -120,13 +120,10 @@ export default defineConfig(({ mode }) => {
       assetsDir: "assets",
       emptyOutDir: true,
       target: "esnext",
-      minify: "terser",
+      minify: "esbuild",
       cssMinify: true,
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-        },
+      esbuild: {
+        drop: ["console", "debugger"],
       },
       rollupOptions: {
         output: {
