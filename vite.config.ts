@@ -67,7 +67,7 @@ export default defineConfig(({ mode }) => {
                 res.setHeader("X-Content-Type-Options", "nosniff");
                 res.setHeader(
                   "Cache-Control",
-                  "no-cache, no-store, must-revalidate"
+                  "no-cache, no-store, must-revalidate",
                 );
               }
             }
