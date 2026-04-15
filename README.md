@@ -17,7 +17,7 @@
     <img alt="pnpm 10" src="https://img.shields.io/badge/pnpm-10-F69220?style=flat-square&logo=pnpm&logoColor=white" />
     <img alt="React 19" src="https://img.shields.io/badge/react-19-61DAFB?style=flat-square&logo=react&logoColor=111827" />
     <img alt="TypeScript 5.9" src="https://img.shields.io/badge/typescript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-    <img alt="Vite 7" src="https://img.shields.io/badge/vite-7-646CFF?style=flat-square&logo=vite&logoColor=white" />
+    <img alt="Vite 8" src="https://img.shields.io/badge/vite-8-646CFF?style=flat-square&logo=vite&logoColor=white" />
     <img alt="Tailwind CSS 4.2" src="https://img.shields.io/badge/tailwindcss-4.2-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
   </p>
 </div>
@@ -26,7 +26,7 @@
 
 BeBitter é o portfólio público de Bernardo Gomes. O projeto entrega uma homepage modular, páginas de serviços e atualizações pessoais, catálogo de projetos integrado ao GitHub e páginas detalhadas por repositório.
 
-O stack principal usa React 19, TypeScript, Vite 7, Tailwind CSS 4, Radix UI e TanStack Query. Em produção, o build gera sitemap automaticamente, aplica inlining de CSS crítico, gera assets comprimidos em gzip e Brotli e publica `dist/` na Hostinger via SSH com backup remoto e verificação HTTP.
+O stack principal usa React 19, TypeScript, Vite 8, Tailwind CSS 4, Radix UI e TanStack Query. Em produção, o build gera sitemap automaticamente, aplica inlining de CSS crítico, gera assets comprimidos em gzip e Brotli e publica `dist/` na Hostinger via SSH com backup remoto e verificação HTTP.
 
 ## Preview
 
