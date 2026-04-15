@@ -1,10 +1,9 @@
 /**
  * Vite plugin for inlining critical CSS
- * Uses Critters to extract and inline above-the-fold CSS
+ * Uses Beasties to extract and inline above-the-fold CSS
  */
 
-// @ts-expect-error - Critters doesn't have proper type definitions
-import Critters from "critters";
+import Beasties from "beasties";
 import path from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
 
@@ -49,7 +48,7 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
     pruneSource = true,
   } = options;
 
-  let critters: Critters;
+  let beasties: Beasties;
   let config: ResolvedConfig;
 
   return {
@@ -60,8 +59,8 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
     configResolved(resolvedConfig) {
       config = resolvedConfig;
 
-      // Initialize Critters with configuration
-      critters = new Critters({
+      // Initialize Beasties with configuration
+      beasties = new Beasties({
         logLevel: "error",
         path: path.resolve(config.root, config.build.outDir),
         publicPath: "/",
@@ -88,9 +87,9 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
           try {
             console.log(`\n🎨 Processing critical CSS for ${fileName}...`);
 
-            // Process HTML with Critters
+            // Process HTML with Beasties
             const html = file.source;
-            const result = await critters.process(html);
+            const result = await beasties.process(html);
 
             // Update the bundle with the processed HTML
             file.source = result;
@@ -99,7 +98,7 @@ export default function criticalCSS(options: CriticalCSSOptions = {}): Plugin {
           } catch (error) {
             console.error(
               `❌ Error processing critical CSS for ${fileName}:`,
-              error
+              error,
             );
             // Don't fail the build, just skip this file
           }
