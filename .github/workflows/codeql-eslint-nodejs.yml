@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm --version
-          pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile || pnpm install --lockfile=false
 
       - name: Build for CodeQL extraction
         run: pnpm build

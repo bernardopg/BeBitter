@@ -39,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm --version
-          pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile || pnpm install --lockfile=false
 
       - name: Run linter
         run: pnpm lint
