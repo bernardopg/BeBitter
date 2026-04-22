@@ -9,7 +9,7 @@ import WebVitals from "@/components/WebVitals";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProjectsProvider } from "@/contexts/ProjectsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useState, useSyncExternalStore } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 
@@ -43,8 +43,23 @@ const PageLoader = () => (
   </div>
 );
 
+const subscribeToDesktopViewport = (callback: () => void) => {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  const mediaQuery = window.matchMedia("(min-width: 640px)");
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+};
+
+const getDesktopViewportSnapshot = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(min-width: 640px)").matches;
+
+const getServerViewportSnapshot = () => false;
+
 const App = () => {
-  const [isClient, setIsClient] = useState(false);
   type WhatsAppProps = {
     phoneNumber: string;
     accountName?: string;
@@ -66,24 +81,14 @@ const App = () => {
     useState<React.ComponentType<WhatsAppProps> | null>(null);
 
   // Reativo ao resize — mostra o widget apenas em telas ≥ sm (640px)
-  const [showWhatsApp, setShowWhatsApp] = useState(false);
-  useEffect(() => {
-    if (!isClient) return;
-    const mq = window.matchMedia("(min-width: 640px)");
-    setShowWhatsApp(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setShowWhatsApp(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, [isClient]);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const showWhatsApp = useSyncExternalStore(
+    subscribeToDesktopViewport,
+    getDesktopViewportSnapshot,
+    getServerViewportSnapshot,
+  );
 
   // Lazy-load the WhatsApp widget after the app is interactive to reduce TBT/INP impact
   useEffect(() => {
-    if (!isClient) return;
-
     const load = () => {
       import("react-floating-whatsapp").then((mod) => {
         const m = mod as unknown as {
@@ -107,7 +112,7 @@ const App = () => {
     } else {
       setTimeout(load, 1500);
     }
-  }, [isClient]);
+  }, []);
 
   return (
     <ErrorBoundary>
@@ -143,7 +148,7 @@ const App = () => {
                 </Suspense>
               </BrowserRouter>
               </ProjectsProvider>
-              {isClient && WhatsAppComp && showWhatsApp && (
+              {WhatsAppComp && showWhatsApp && (
                 <WhatsAppComp
                   phoneNumber="5531984916431"
                   accountName="Bernardo Gomes"

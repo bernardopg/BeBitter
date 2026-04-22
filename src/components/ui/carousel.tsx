@@ -109,12 +109,22 @@ const Carousel = React.forwardRef<
         return;
       }
 
-      onSelect(api);
-      api.on("reInit", onSelect);
-      api.on("select", onSelect);
+      let cancelled = false;
+      const handleSelect = () => onSelect(api);
+
+      queueMicrotask(() => {
+        if (!cancelled) {
+          handleSelect();
+        }
+      });
+
+      api.on("reInit", handleSelect);
+      api.on("select", handleSelect);
 
       return () => {
-        api?.off("select", onSelect);
+        cancelled = true;
+        api.off("reInit", handleSelect);
+        api.off("select", handleSelect);
       };
     }, [api, onSelect]);
 
