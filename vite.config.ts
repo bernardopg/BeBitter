@@ -130,19 +130,50 @@ export default defineConfig(({ mode }) => {
           // Code splitting para melhor cache
           manualChunks: (id) => {
             if (
-              id.includes("@radix-ui/react-accordion") ||
-              id.includes("@radix-ui/react-dialog") ||
-              id.includes("@radix-ui/react-dropdown-menu")
+              id.includes("node_modules/react/") ||
+              id.includes("node_modules/react-dom/") ||
+              id.includes("node_modules/scheduler/")
             ) {
+              return "vendor";
+            }
+
+            if (id.includes("node_modules/@radix-ui/")) {
               return "ui";
             }
 
-            if (id.includes("react-router-dom")) {
+            if (id.includes("node_modules/react-router-dom/") || id.includes("node_modules/react-router/")) {
               return "router";
             }
 
-            if (id.includes("@tanstack/react-query")) {
+            if (id.includes("node_modules/@tanstack/")) {
               return "query";
+            }
+
+            if (id.includes("node_modules/framer-motion/")) {
+              return "motion";
+            }
+
+            if (id.includes("node_modules/lucide-react/")) {
+              return "icons";
+            }
+
+            if (id.includes("node_modules/react-floating-whatsapp/")) {
+              return "whatsapp";
+            }
+
+            if (
+              id.includes("node_modules/recharts/") ||
+              id.includes("node_modules/d3-") ||
+              id.includes("node_modules/victory-")
+            ) {
+              return "charts";
+            }
+
+            if (
+              id.includes("node_modules/date-fns/") ||
+              id.includes("node_modules/react-day-picker/")
+            ) {
+              return "dates";
             }
 
             return undefined;
