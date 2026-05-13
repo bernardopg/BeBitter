@@ -14,6 +14,7 @@ const Header = () => {
     { to: "/", label: t("header.home") },
     { to: "/projects", label: t("header.projects") },
     { to: "/services", label: t("header.services") },
+    { to: "/blog", label: t("header.blog") },
     { to: "/now", label: t("header.now") },
   ];
 

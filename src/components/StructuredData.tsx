@@ -75,13 +75,19 @@ interface StructuredDataProps {
   title?: string;
   description?: string;
   url?: string;
+  datePublished?: string;
+  dateModified?: string;
+  author?: string;
 }
 
-export const StructuredData = ({ 
+export const StructuredData = ({
   pageType = 'person',
   title = "Bernardo Gomes",
   description = "Frontend engineer, automation builder, and medical student building polished products for web, Linux, and healthcare workflows",
-  url
+  url,
+  datePublished,
+  dateModified,
+  author,
 }: StructuredDataProps) => {
   const { language } = useLanguage();
 
@@ -154,6 +160,32 @@ export const StructuredData = ({
           "availableLanguage": ["pt-BR", "en-US"]
         }
       };
+    } else if (pageType === 'article') {
+      structuredData = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": title,
+        "description": description,
+        "url": currentUrl,
+        "datePublished": datePublished ?? new Date().toISOString(),
+        "dateModified": dateModified ?? datePublished ?? new Date().toISOString(),
+        "author": {
+          "@type": "Person",
+          "name": author ?? "Bernardo Gomes",
+          "url": "https://bebitterbebetter.com.br",
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Bernardo Gomes",
+          "image": profileImageUrl,
+        },
+        "image": profileImageUrl,
+        "inLanguage": "pt-BR",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": currentUrl,
+        },
+      } as unknown as StructuredDataSchema;
     } else if (pageType === 'website') {
       structuredData = {
         "@context": "https://schema.org",
@@ -238,7 +270,7 @@ export const StructuredData = ({
     updateOrCreateMeta('twitter:creator', '@cooldeflecha');
     updateOrCreateMeta('twitter:site', '@cooldeflecha');
 
-  }, [pageType, title, description, url, language]);
+  }, [pageType, title, description, url, language, datePublished, dateModified, author]);
 
   return null;
 };

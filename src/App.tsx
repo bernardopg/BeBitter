@@ -24,6 +24,8 @@ const ProjectsPage = lazy(() =>
 const ProjectDetailPage = lazy(() =>
   import("./pages/Projects/ProjectDetailPage").then((m) => ({ default: m.default }))
 );
+const BlogPage = lazy(() => import("./pages/Blog/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/Blog/BlogPostPage"));
 
 // Configuração otimizada do QueryClient
 const queryClient = new QueryClient({
@@ -141,6 +143,8 @@ const App = () => {
                       <Route path="/services" element={<Services />} />
                       <Route path="/projects" element={<ProjectsPage />} />
                       <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+                      <Route path="/blog" element={<BlogPage />} />
+                      <Route path="/blog/:slug" element={<BlogPostPage />} />
                       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                       <Route path="*" element={<NotFound />} />
                     </Route>

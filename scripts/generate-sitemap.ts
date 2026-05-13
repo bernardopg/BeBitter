@@ -2,6 +2,7 @@
 import "dotenv/config";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { blogPosts } from "../src/constants/blog-posts";
 
 const SITE_URL = process.env.VITE_SITE_URL || "https://bebitterbebetter.com.br";
 
@@ -54,6 +55,17 @@ const routes: Route[] = [
   // Individual project pages
   ...FEATURED_REPOS.map((repo) => ({
     path: `/projects/${repo}`,
+    priority: "0.7",
+    changefreq: "monthly" as const,
+  })),
+  // Blog
+  {
+    path: "/blog",
+    priority: "0.8",
+    changefreq: "weekly" as const,
+  },
+  ...blogPosts.map((post) => ({
+    path: `/blog/${post.slug}`,
     priority: "0.7",
     changefreq: "monthly" as const,
   })),

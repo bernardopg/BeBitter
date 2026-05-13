@@ -5,6 +5,7 @@ export const translations = {
     "header.services": "Serviços",
     "header.now": "Now",
     "header.projects": "Projetos",
+    "header.blog": "Blog",
 
     // Hero Section
     "hero.greeting": "Olá, eu sou",
@@ -260,6 +261,23 @@ export const translations = {
     "services.cta.button": "Abrir conversa",
     "services.cta.projects": "Ver trabalho",
     "footer.rights": "Todos os direitos reservados.",
+
+    // Blog
+    "blog.meta.title": "Blog",
+    "blog.meta.description": "Artigos sobre React, TypeScript, Linux e desenvolvimento de software por Bernardo Gomes.",
+    "blog.subtitle": "Artigos",
+    "blog.title": "Blog",
+    "blog.description": "Pensamentos sobre engenharia de software, ferramentas e experiências do dia a dia.",
+    "blog.readMore": "Ler artigo",
+    "blog.readingTime": "min de leitura",
+    "blog.publishedOn": "Publicado em",
+    "blog.updatedOn": "Atualizado em",
+    "blog.by": "por",
+    "blog.backToBlog": "Voltar ao Blog",
+    "blog.notFound": "Post não encontrado",
+    "blog.notFoundDescription": "Este artigo não existe ou foi removido.",
+    "blog.featured": "Destaque",
+    "blog.filterAll": "Todos",
   },
   en: {
     // Header
@@ -267,6 +285,7 @@ export const translations = {
     "header.services": "Services",
     "header.now": "Now",
     "header.projects": "Projects",
+    "header.blog": "Blog",
 
     // Hero Section
     "hero.greeting": "Hello, I'm",
@@ -522,5 +541,22 @@ export const translations = {
     "services.cta.button": "Open conversation",
     "services.cta.projects": "View work",
     "footer.rights": "All rights reserved.",
+
+    // Blog
+    "blog.meta.title": "Blog",
+    "blog.meta.description": "Articles about React, TypeScript, Linux, and software development by Bernardo Gomes.",
+    "blog.subtitle": "Articles",
+    "blog.title": "Blog",
+    "blog.description": "Thoughts on software engineering, tools, and day-to-day experiences.",
+    "blog.readMore": "Read article",
+    "blog.readingTime": "min read",
+    "blog.publishedOn": "Published on",
+    "blog.updatedOn": "Updated on",
+    "blog.by": "by",
+    "blog.backToBlog": "Back to Blog",
+    "blog.notFound": "Post not found",
+    "blog.notFoundDescription": "This article doesn't exist or was removed.",
+    "blog.featured": "Featured",
+    "blog.filterAll": "All",
   },
 };
