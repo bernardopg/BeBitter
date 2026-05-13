@@ -13,6 +13,21 @@ interface SEOHeadProps {
   publisher?: string;
 }
 
+function setMeta(selector: string, value: string) {
+  document.querySelector(selector)?.setAttribute("content", value);
+}
+
+function ensureMeta(name: string, content: string, prop = false) {
+  const attr = prop ? "property" : "name";
+  let el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
 const SEOHead = ({
   title = "Bernardo Gomes — Frontend, automation and Linux",
   description = "Frontend engineer, automation builder, and medical student building polished products for web, Linux, and healthcare workflows.",
@@ -36,166 +51,38 @@ const SEOHead = ({
   const { language } = useLanguage();
 
   useEffect(() => {
-    // Update document title
     document.title = title;
-
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", description);
-    }
-
-    // Update meta keywords
-    const metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (metaKeywords) {
-      metaKeywords.setAttribute("content", keywords.join(", "));
-    }
-
-    // Update robots meta tag
-    const metaRobots = document.querySelector(
-      'meta[name="robots"]'
-    ) as HTMLMetaElement | null;
-    if (metaRobots) {
-      metaRobots.setAttribute("content", robots);
-    } else {
-      const newMeta = document.createElement("meta");
-      newMeta.setAttribute("name", "robots");
-      newMeta.setAttribute("content", robots);
-      document.head.appendChild(newMeta);
-    }
-
-    // Update publisher meta tag
-    const metaPublisher = document.querySelector(
-      'meta[name="publisher"]'
-    ) as HTMLMetaElement | null;
-    if (metaPublisher) {
-      metaPublisher.setAttribute("content", publisher);
-    } else {
-      const newMeta = document.createElement("meta");
-      newMeta.setAttribute("name", "publisher");
-      newMeta.setAttribute("content", publisher);
-      document.head.appendChild(newMeta);
-    }
-
-    // Update Open Graph title
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute("content", title);
-    }
-
-    // Update Open Graph description
-    const ogDescription = document.querySelector(
-      'meta[property="og:description"]'
-    );
-    if (ogDescription) {
-      ogDescription.setAttribute("content", description);
-    }
-
-    // Update Open Graph type
-    const ogType = document.querySelector('meta[property="og:type"]');
-    if (ogType) {
-      ogType.setAttribute("content", type);
-    }
-
-    // Update Open Graph image
-    const ogImageMeta = document.querySelector('meta[property="og:image"]');
-    if (ogImageMeta) {
-      ogImageMeta.setAttribute("content", ogImage);
-    }
-
-    // Update Twitter title
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) {
-      twitterTitle.setAttribute("content", title);
-    }
-
-    // Update Twitter description
-    const twitterDescription = document.querySelector(
-      'meta[name="twitter:description"]'
-    );
-    if (twitterDescription) {
-      twitterDescription.setAttribute("content", description);
-    }
-
-    // Update Twitter image
-    const twitterImage = document.querySelector('meta[name="twitter:image"]');
-    if (twitterImage) {
-      twitterImage.setAttribute("content", ogImage);
-    }
-
-    // Update Twitter card
-    const twitterCard = document.querySelector(
-      'meta[name="twitter:card"]'
-    ) as HTMLMetaElement | null;
-    if (twitterCard) {
-      twitterCard.setAttribute("content", "summary_large_image");
-    } else {
-      const newMeta = document.createElement("meta");
-      newMeta.setAttribute("name", "twitter:card");
-      newMeta.setAttribute("content", "summary_large_image");
-      document.head.appendChild(newMeta);
-    }
-
-    // Update canonical URL if provided
-    if (canonical) {
-      let canonicalLink = document.querySelector('link[rel="canonical"]');
-      if (canonicalLink) {
-        canonicalLink.setAttribute("href", canonical);
-      } else {
-        canonicalLink = document.createElement("link");
-        canonicalLink.setAttribute("rel", "canonical");
-        canonicalLink.setAttribute("href", canonical);
-        document.head.appendChild(canonicalLink);
-      }
-    }
-
-    // Update author meta tag
-    const metaAuthor = document.querySelector(
-      'meta[name="author"]'
-    ) as HTMLMetaElement | null;
-    if (metaAuthor) {
-      metaAuthor.setAttribute("content", "Bernardo Gomes");
-    } else {
-      const newMeta = document.createElement("meta");
-      newMeta.setAttribute("name", "author");
-      newMeta.setAttribute("content", "Bernardo Gomes");
-      document.head.appendChild(newMeta);
-    }
-
-    // Update article:author meta tag
-    const articleAuthor = document.querySelector(
-      'meta[property="article:author"]'
-    ) as HTMLMetaElement | null;
-    if (articleAuthor) {
-      articleAuthor.setAttribute("content", "Bernardo Gomes");
-    } else {
-      const newMeta = document.createElement("meta");
-      newMeta.setAttribute("property", "article:author");
-      newMeta.setAttribute("content", "Bernardo Gomes");
-      document.head.appendChild(newMeta);
-    }
-
-    // Update Open Graph URL based on current location
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) {
-      const currentUrl =
-        canonical || window.location.href.split("?")[0].split("#")[0];
-      ogUrl.setAttribute("content", currentUrl);
-    }
-
-    // Update HTML lang attribute
     document.documentElement.lang = language === "en" ? "en" : "pt-BR";
-  }, [
-    title,
-    description,
-    keywords,
-    ogImage,
-    canonical,
-    type,
-    language,
-    robots,
-    publisher,
-  ]);
+
+    const url =
+      canonical || window.location.href.split("?")[0].split("#")[0];
+
+    ensureMeta("description", description);
+    ensureMeta("keywords", keywords.join(", "));
+    ensureMeta("robots", robots);
+    ensureMeta("publisher", publisher);
+    ensureMeta("author", "Bernardo Gomes");
+    ensureMeta("twitter:card", "summary_large_image");
+    ensureMeta("twitter:title", title);
+    ensureMeta("twitter:description", description);
+    ensureMeta("twitter:image", ogImage);
+    ensureMeta("og:title", title, true);
+    ensureMeta("og:description", description, true);
+    ensureMeta("og:type", type, true);
+    ensureMeta("og:image", ogImage, true);
+    ensureMeta("og:url", url, true);
+    ensureMeta("article:author", "Bernardo Gomes", true);
+
+    if (canonical) {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", "canonical");
+        document.head.appendChild(link);
+      }
+      link.setAttribute("href", canonical);
+    }
+  }, [title, description, keywords, ogImage, canonical, type, language, robots, publisher]);
 
   return null;
 };
