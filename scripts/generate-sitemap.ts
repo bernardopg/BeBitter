@@ -74,9 +74,11 @@ const routes: Route[] = [
 const now = new Date().toISOString();
 const urls = routes
   .map((route) => {
+    // Trailing slash: homepage já tem /, outras rotas precisam de / pois Apache redireciona diretórios
+    const loc = route.path === "/" ? `${SITE_URL}/` : `${SITE_URL}${route.path}/`;
     return `
   <url>
-    <loc>${SITE_URL}${route.path}</loc>
+    <loc>${loc}</loc>
     <lastmod>${now}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>

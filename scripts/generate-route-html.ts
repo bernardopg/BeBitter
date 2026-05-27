@@ -100,7 +100,9 @@ function escapeHtml(str: string): string {
 
 function injectMeta(html: string, meta: RouteMeta): string {
   const { title, description, path: routePath, ogType = "website", ogImage } = meta;
-  const canonical = `${BASE_URL}${routePath}`;
+  // Trailing slash: Apache redireciona diretórios sem slash → com slash (301)
+  // Canonical deve apontar para URL final para evitar redirect chain no GSC
+  const canonical = routePath === "/" ? BASE_URL + "/" : `${BASE_URL}${routePath}/`;
   const image =
     ogImage || `${BASE_URL}/images/logos/BeBitter.svg`;
 
