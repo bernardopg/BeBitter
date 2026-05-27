@@ -1,3 +1,4 @@
+import { useAnalytics } from "@/components/Analytics";
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,7 @@ import { blogPosts, type ContentSection } from "@/constants/blog-posts";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
 function renderSection(section: ContentSection, index: number) {
@@ -93,8 +95,72 @@ function renderSection(section: ContentSection, index: number) {
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
   const { t, language } = useLanguage();
+  const { trackEvent } = useAnalytics();
+  const startTimeRef = useRef<number>(0);
+  const scrollMilestonesRef = useRef<Set<number>>(new Set());
 
   const post = blogPosts.find((p) => p.slug === slug);
+
+  useEffect(() => {
+    if (!post) return;
+
+    trackEvent({
+      event_name: "blog_post_view",
+      event_category: "Blog",
+      event_label: post.slug,
+      custom_parameters: {
+        post_title: post.titleEn || post.title,
+        post_tags: post.tags.join(","),
+        reading_time: post.readingTime,
+        post_date: post.date,
+      },
+    });
+
+    startTimeRef.current = Date.now();
+    scrollMilestonesRef.current = new Set();
+
+    const handleScroll = () => {
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.documentElement.scrollHeight;
+      const pct = Math.round((scrolled / total) * 100);
+
+      for (const milestone of [25, 50, 75, 100]) {
+        if (pct >= milestone && !scrollMilestonesRef.current.has(milestone)) {
+          scrollMilestonesRef.current.add(milestone);
+          trackEvent({
+            event_name: "blog_scroll_depth",
+            event_category: "Blog Engagement",
+            event_label: post.slug,
+            value: milestone,
+            custom_parameters: {
+              post_title: post.titleEn || post.title,
+              scroll_depth_pct: milestone,
+            },
+          });
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      const timeSpent = Math.round((Date.now() - startTimeRef.current) / 1000);
+      if (timeSpent > 5) {
+        trackEvent({
+          event_name: "blog_time_spent",
+          event_category: "Blog Engagement",
+          event_label: post.slug,
+          value: timeSpent,
+          custom_parameters: {
+            post_title: post.titleEn || post.title,
+            time_seconds: timeSpent,
+            reading_time_minutes: post.readingTime,
+          },
+        });
+      }
+    };
+  }, [post, trackEvent]);
 
   if (!post) {
     return (
