@@ -27,6 +27,8 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "sitemap:gen": "tsx scripts/generate-sitemap.ts",
+    "route-html:gen": "tsx scripts/generate-route-html.ts",
+    "postbuild": "pnpm route-html:gen",
     "prebuild": "pnpm sitemap:gen",
     "github:harden": "./scripts/harden-github-repo.sh",
     "performance:audit": "echo 'Run lighthouse audit on your deployed site for performance metrics'",
