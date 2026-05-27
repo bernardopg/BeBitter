@@ -1378,1599 +1378,1207 @@ export function useCreatePatient() {
     ],
   },
   {
-    slug: "llm-producao-arquitetura-2025",
-    title: "LLMs em Produção: Arquitetura Real Para Além do PoC",
-    titleEn: "LLMs in Production: Real Architecture Beyond the PoC",
+    slug: "agentes-ia-codificacao-2026",
+    title: "Claude Code, Cursor e Codex: O Estado Real dos Agentes de IA em Maio de 2026",
+    titleEn: "Claude Code, Cursor & Codex: The Real State of AI Coding Agents in May 2026",
     excerpt:
-      "Latência, custo, hallucination e observabilidade. O que ninguém te conta quando você tenta escalar um chatbot de PoC para produção real.",
+      "90% dos devs usam IA no trabalho. Claude Code virou #1 em 8 meses. Mas qual ferramenta escolher — e quando usar cada uma?",
     excerptEn:
-      "Latency, cost, hallucination, and observability. What nobody tells you when scaling a chatbot PoC to real production.",
-    date: "2026-05-20",
+      "90% of devs use AI at work. Claude Code became #1 in 8 months. But which tool to choose — and when to use each?",
+    date: "2026-05-26",
     author: "Bernardo Gomes",
-    tags: ["AI", "LLM", "Backend", "Arquitetura", "Python"],
+    tags: ["IA", "Claude Code", "Cursor", "Ferramentas", "Produtividade"],
     featured: true,
-    readingTime: 13,
+    readingTime: 12,
     content: [
       {
+        type: "paragraph",
+        content:
+          "Em abril de 2026, o JetBrains publicou uma pesquisa com mais de 10.000 desenvolvedores profissionais. O número que parou todo mundo: 90% usam pelo menos uma ferramenta de IA no trabalho. Não é adoção experimental — 75% usam IA em metade ou mais das suas tarefas diárias. O mercado virou.",
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content:
+          "Fonte: JetBrains Research, abril de 2026 — 'Which AI Coding Tools Do Developers Actually Use at Work?' — amostra de 10.000+ devs profissionais.",
+      },
+      {
         type: "heading",
         level: 2,
-        content: "O abismo entre PoC e produção",
+        content: "Claude Code: de zero a #1 em 8 meses",
       },
       {
         type: "paragraph",
         content:
-          "Fazer um chatbot funcionar em um notebook é trivial. Fazer ele funcionar para mil usuários simultâneos com latência aceitável, custo controlado e respostas confiáveis é um problema de engenharia completamente diferente. Segundo pesquisa da RAND Corporation (2024), mais de 70% dos projetos de IA generativa não chegam a produção — a maioria falha exatamente nessa transição.",
+          "Claude Code foi lançado em maio de 2025. Em janeiro de 2026, já tinha 18% de adoção no trabalho — crescimento de 57% ano a ano. Em março de 2026, ultrapassou GitHub Copilot em NPS e CSAT (91% de satisfação, NPS 54). O motivo não é marketing: é eficiência de tokens. Um benchmark publicado pela Toolradar em maio de 2026 comparou Claude Code (Opus 4.6) com Cursor em tarefas idênticas. Claude Code concluiu com 33K tokens sem erros. Cursor usou 188K tokens para a mesma tarefa — 5,5x mais.",
       },
       {
         type: "heading",
         level: 2,
-        content: "O problema da latência: não é só a API",
+        content: "Cursor 3.0: Agents Window e Design Mode",
       },
       {
         type: "paragraph",
         content:
-          "A latência de uma resposta de LLM tem quatro componentes: tempo de rede até a API do provider, tempo de processamento no modelo (Time to First Token - TTFT), tempo de geração dos tokens (tokens/segundo), e processamento pós-resposta (parsing, validação, formatação). Em produção, o TTFT costuma ser o maior vilão — pode variar de 200ms a 4s dependendo da carga do provider.",
+          "O Cursor não ficou parado. Em maio de 2026, lançou a versão 3.0 com Agents Window — múltiplos agentes paralelos visíveis numa janela lateral — e Design Mode, que interpreta screenshots de UI e gera código correspondente. O Cursor continua sendo a escolha dominante para quem quer assistência linha a linha integrada no IDE, com contexto visual do código aberto.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quando usar cada ferramenta",
+      },
+      {
+        type: "list",
+        items: [
+          "Claude Code: tarefas autônomas multi-arquivo, refatorações grandes, geração de testes, PRs completos sem supervisão constante",
+          "Cursor: edição inline, pair programming ativo, Design Mode para UI, contexto visual do projeto aberto no IDE",
+          "GitHub Copilot: times corporativos com licenças empresariais existentes, integração nativa no VS Code/JetBrains sem mudança de workflow",
+          "Google Antigravity 2.0: novidade de maio de 2026, 12x mais rápido com Gemini 3.5 Flash, vale testar para automação de tarefas repetitivas",
+        ],
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O padrão que está emergindo: stack composável",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Em maio de 2026, a maioria dos engenheiros sênior usa duas ou mais ferramentas para workflows distintos. The New Stack documentou esse padrão: prototipagem rápida com Bolt/Lovable, refinamento para produção com Cursor/Claude Code, revisão e testes com Codex. Não é uma ferramenta vs outra — é camadas.",
       },
       {
         type: "code",
-        language: "python",
-        content: `import asyncio
-import time
-from anthropic import AsyncAnthropic
+        language: "bash",
+        content: `# Workflow típico de engenheiro sênior em maio de 2026
+# 1. Exploração / pesquisa — Claude Code CLI
+claude "analise o código de autenticação e liste vulnerabilidades"
 
-client = AsyncAnthropic()
+# 2. Edição inline no IDE — Cursor
+# (abre arquivo, Cmd+K, descreve mudança)
 
-async def stream_with_metrics(prompt: str) -> dict:
-    metrics = {"ttft": None, "total_tokens": 0, "start": time.monotonic()}
-    chunks = []
+# 3. Tarefa autônoma longa — Claude Code em background
+claude --background "adicione testes de integração para todos os endpoints de /api/auth"
 
-    async with client.messages.stream(
-        model="claude-sonnet-4-6",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": prompt}],
-    ) as stream:
-        async for text in stream.text_stream:
-            if metrics["ttft"] is None:
-                metrics["ttft"] = time.monotonic() - metrics["start"]
-            chunks.append(text)
-
-    usage = await stream.get_final_usage()
-    metrics["total_tokens"] = usage.input_tokens + usage.output_tokens
-    metrics["total_time"] = time.monotonic() - metrics["start"]
-    metrics["tps"] = usage.output_tokens / metrics["total_time"]
-
-    return {"text": "".join(chunks), "metrics": metrics}`,
+# 4. Review do PR gerado
+gh pr view --comments`,
       },
       {
         type: "heading",
         level: 2,
-        content: "Prompt caching: 90% de redução de custo",
+        content: "O número que mais importa: 51%",
       },
       {
         type: "paragraph",
         content:
-          "Se você tem um system prompt grande (instruções, contexto, exemplos), está pagando para processar esse conteúdo em cada request. Prompt caching do Claude permite cachear até 200K tokens de prefixo por 5 minutos. Em workloads com system prompt fixo e muitas perguntas, isso reduz custo e latência em até 90%.",
-      },
-      {
-        type: "code",
-        language: "python",
-        content: `from anthropic import Anthropic
-
-client = Anthropic()
-
-# System prompt longo cacheado — processado uma vez, reutilizado por 5 min
-SYSTEM_PROMPT = """Você é um assistente especializado em documentação técnica.
-[... 50KB de contexto, exemplos, regras ...]
-"""
-
-response = client.messages.create(
-    model="claude-sonnet-4-6",
-    max_tokens=1024,
-    system=[
-        {
-            "type": "text",
-            "text": SYSTEM_PROMPT,
-            "cache_control": {"type": "ephemeral"},  # marca para cache
-        }
-    ],
-    messages=[{"role": "user", "content": user_question}],
-)
-
-# Checar se cache foi hit
-print(response.usage.cache_read_input_tokens)   # tokens do cache (custo 0.1x)
-print(response.usage.cache_creation_input_tokens)  # primeira vez (custo 1.25x)`,
+          "Até o início de 2026, 51% do código no GitHub era gerado ou substancialmente assistido por IA (Stack Overflow Developer Survey, fevereiro de 2026). Isso não elimina o desenvolvedor — mas muda radicalmente o que o desenvolvedor precisa saber. A habilidade que diferencia agora: saber decompor problemas em tarefas que agentes conseguem executar autonomamente.",
       },
       {
         type: "callout",
         variant: "tip",
         content:
-          "Prompt caching só vale se o prefixo for idêntico. Qualquer mudança no início invalida o cache. Coloque contexto estático antes de contexto dinâmico no system prompt.",
+          "Preço em maio de 2026: Cursor Teams custa $400/mês para time de 10. Claude Code Premium custa $1.250/mês para o mesmo time. A escolha depende do perfil de uso — volume de tarefas autônomas vs. assistência inline.",
+      },
+    ],
+  },
+  {
+    slug: "vite-8-rolldown-builds-mais-rapidos",
+    title: "Vite 8 com Rolldown: Builds 10-30x Mais Rápidos Chegaram em 2026",
+    titleEn: "Vite 8 with Rolldown: 10-30x Faster Builds Arrived in 2026",
+    excerpt:
+      "Vite 8 foi lançado em março de 2026 com Rolldown — bundler unificado em Rust. Builds caindo de 46s para 6s. O que mudou, o que quebra, como migrar.",
+    excerptEn:
+      "Vite 8 launched in March 2026 with Rolldown — a unified Rust-based bundler. Builds dropping from 46s to 6s. What changed, what breaks, how to migrate.",
+    date: "2026-05-22",
+    author: "Bernardo Gomes",
+    tags: ["Vite", "Build", "Performance", "Rolldown", "Rust", "Frontend"],
+    readingTime: 9,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Em 12 de março de 2026, Vite 8 foi lançado oficialmente. A mudança mais significativa desde o Vite 2: Rolldown — um bundler unificado escrito em Rust — substituiu a combinação esbuild + Rollup que existia desde o início. O resultado medido em projetos reais: builds 10 a 30x mais rápidos.",
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content:
+          "Fonte: InfoQ, maio de 2026 — 'Vite Version 8: Unified Rust-Based Bundler and Up to 30x Faster Builds'. Mercedes-Benz.io registrou 38% de redução, Beehiiv registrou 64% durante o beta.",
       },
       {
         type: "heading",
         level: 2,
-        content: "Hallucination: o problema que nunca some",
+        content: "Por que Rolldown é diferente",
       },
       {
         type: "paragraph",
         content:
-          "Um estudo de Huang et al. (2023) no arXiv ('Survey of Hallucination in Natural Language Generation') categorizou dois tipos principais: hallucination intrínseca (o modelo contradiz o contexto dado) e extrínseca (o modelo gera informação não verificável). Para sistemas em produção, a mitigação efetiva combina três técnicas: RAG com sources verificáveis, structured output com validação, e self-consistency.",
-      },
-      {
-        type: "code",
-        language: "python",
-        content: `from anthropic import Anthropic
-import json
-from pydantic import BaseModel
-
-client = Anthropic()
-
-class FactCheckedResponse(BaseModel):
-    answer: str
-    confidence: float  # 0-1
-    sources: list[str]
-    limitations: list[str]
-
-def query_with_structured_output(question: str, context: str) -> FactCheckedResponse:
-    response = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=1024,
-        messages=[
-            {
-                "role": "user",
-                "content": f"""Context: {context}
-
-Question: {question}
-
-Respond ONLY with valid JSON matching this schema:
-{{
-  "answer": "sua resposta baseada APENAS no contexto",
-  "confidence": 0.95,
-  "sources": ["citação exata do contexto"],
-  "limitations": ["o que você NÃO pode afirmar com certeza"]
-}}""",
-            }
-        ],
-    )
-
-    data = json.loads(response.content[0].text)
-    return FactCheckedResponse(**data)`,
+          "Antes do Vite 8, o pipeline tinha dois bundlers: esbuild para desenvolvimento (rápido, sem tree-shaking completo) e Rollup para produção (lento, mas otimizado). Isso criava divergências entre dev e prod — bugs que só aparecem no build final. Rolldown unifica os dois em um único engine em Rust, com compatibilidade total com plugins do Rollup existentes.",
       },
       {
         type: "heading",
         level: 2,
-        content: "Observabilidade: o que você precisa monitorar",
+        content: "Números reais de projetos reais",
       },
       {
         type: "list",
         items: [
-          "TTFT (Time to First Token) por modelo e horário — detecta degradação do provider",
-          "Tokens por request (input + output) — custo e anomalias de prompt injection",
-          "Taxa de falha de parsing de structured output — indica prompt drift",
-          "Latência p50/p95/p99 — p99 alto revela problemas que médias escondem",
-          "Custo por sessão de usuário — segmentado por feature/use case",
-          "Cache hit rate — valida se prompt caching está funcionando",
+          "Projeto médio (150k LOC): build caindo de 46s para 6s (Heise Online, março de 2026)",
+          "Mercedes-Benz.io: 38% de redução no tempo de build em produção",
+          "Beehiiv: 64% de redução durante o beta do Rolldown",
+          "HMR (Hot Module Replacement): sem mudança perceptível — já era rápido",
         ],
       },
       {
         type: "heading",
         level: 2,
-        content: "Rate limiting e fallback",
+        content: "O que muda na migração",
+      },
+      {
+        type: "code",
+        language: "bash",
+        content: `# Migração direta do Vite 7 para Vite 8
+pnpm add -D vite@8
+
+# Se tiver plugins customizados baseados em Rollup 3, testar primeiro:
+# pnpm add -D rolldown-vite  # pacote de compatibilidade
+# Isola problemas do Rolldown antes de ir para Vite 8 completo`,
       },
       {
         type: "paragraph",
         content:
-          "Providers de LLM têm rate limits que mudam sem aviso. Em produção, você precisa de: circuit breaker para parar de tentar quando o provider está degradado, exponential backoff com jitter para retentativas, e fallback para um modelo menor/mais barato quando o primário está indisponível.",
+          "O guia oficial recomenda: projetos simples, atualizar direto para Vite 8. Projetos com plugins customizados Rollup: primeiro migrar para o pacote rolldown-vite no Vite 7, resolver incompatibilidades, depois ir para Vite 8. A compatibilidade de plugins é alta — a maioria dos plugins populares já tem suporte.",
       },
       {
-        type: "code",
-        language: "python",
-        content: `import asyncio
-import random
-from anthropic import Anthropic, APIStatusError, RateLimitError
-
-client = Anthropic()
-
-async def with_retry(fn, max_retries: int = 3):
-    for attempt in range(max_retries):
-        try:
-            return await fn()
-        except RateLimitError:
-            if attempt == max_retries - 1:
-                raise
-            # exponential backoff com jitter
-            wait = (2 ** attempt) + random.uniform(0, 1)
-            await asyncio.sleep(wait)
-        except APIStatusError as e:
-            if e.status_code >= 500 and attempt < max_retries - 1:
-                await asyncio.sleep(2 ** attempt)
-                continue
-            raise`,
+        type: "heading",
+        level: 2,
+        content: "Tradeoffs: o que aumenta",
       },
       {
         type: "callout",
         variant: "warning",
         content:
-          "Nunca exponha limites de rate diretamente ao usuário. Implemente uma fila interna com feedback de 'aguardando' em vez de deixar requests falharem silenciosamente.",
+          "Vite 8 aumenta o tamanho de instalação em ~15 MB: lightningcss não é mais opcional e o binário do Rolldown é maior que esbuild + Rollup combinados. Para projetos com restrições de espaço em CI, considere isso.",
       },
       {
         type: "heading",
         level: 2,
-        content: "Conclusão",
+        content: "Vite+ e VoidZero: o ecossistema crescendo",
       },
       {
         type: "paragraph",
         content:
-          "LLMs em produção são engenharia de sistemas, não apenas chamadas de API. Latência, custo e confiabilidade precisam de instrumentação desde o dia zero. Comece simples — um modelo, um provider — mas desenhe a observabilidade antes de escalar.",
+          "Junto com o Vite 8, a VoidZero anunciou o Vite+ — uma plataforma de análise de bundle, cache remoto e dashboards de performance de build. É a infraestrutura comercial em cima do Vite open-source. Para times que precisam de visibilidade sobre builds em CI, vale acompanhar.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// vite.config.ts — Vite 8, configuração mínima
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    // Rolldown já ativado por padrão no Vite 8
+    // rollupOptions ainda funciona — compatibilidade mantida
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+        },
+      },
+    },
+  },
+});`,
       },
     ],
   },
   {
-    slug: "react-server-components-guia-pratico",
-    title: "React Server Components: O Guia Prático Para 2025",
-    titleEn: "React Server Components: The Practical Guide for 2025",
+    slug: "typescript-59-features-2026",
+    title: "TypeScript 5.9: import defer, strictInference e o que Realmente Importa",
+    titleEn: "TypeScript 5.9: import defer, strictInference and What Actually Matters",
     excerpt:
-      "RSC mudou como pensamos em data fetching, bundle size e rendering. Não é hype — é uma mudança arquitetural real com trade-offs claros.",
+      "TypeScript 5.9 saiu no Q1 de 2026. import defer para carregamento lazy real, strictInference para tipos mais seguros, e o fim dos type assertions desnecessários.",
     excerptEn:
-      "RSC changed how we think about data fetching, bundle size, and rendering. Not hype — a real architectural shift with clear trade-offs.",
-    date: "2026-05-08",
+      "TypeScript 5.9 shipped in Q1 2026. import defer for real lazy loading, strictInference for safer types, and the end of unnecessary type assertions.",
+    date: "2026-05-19",
     author: "Bernardo Gomes",
-    tags: ["React", "Frontend", "Performance", "Arquitetura"],
-    readingTime: 11,
-    content: [
-      {
-        type: "heading",
-        level: 2,
-        content: "O que Server Components realmente mudam",
-      },
-      {
-        type: "paragraph",
-        content:
-          "React Server Components não são SSR. SSR renderiza no servidor mas envia todo o JavaScript para o cliente re-hidratar. RSC vai além: componentes marcados como server nunca enviam seu código JavaScript para o navegador. Eles renderizam no servidor, produzem HTML/RSC payload, e o cliente nunca vê o código de implementação nem as dependências que eles usam.",
-      },
-      {
-        type: "list",
-        items: [
-          "Zero bundle cost: bibliotecas usadas só no server não vão para o bundle",
-          "Acesso direto a banco, filesystem e APIs privadas sem endpoint intermediário",
-          "Dados chegam pré-renderizados — sem loading state ou waterfall de requests",
-          "Segurança por padrão: secrets e lógica de negócio nunca chegam ao cliente",
-        ],
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Server vs Client: a decisão correta",
-      },
-      {
-        type: "paragraph",
-        content:
-          "A regra prática: tudo que não precisa de interatividade, estado local ou APIs do browser (window, document, localStorage) deve ser Server Component por padrão. 'use client' é uma boundary explícita, não um padrão.",
-      },
-      {
-        type: "code",
-        language: "tsx",
-        content: `// app/blog/[slug]/page.tsx — Server Component (padrão)
-// Nunca vai para o bundle do cliente
-// Acessa banco diretamente, sem API route
-import { db } from "@/lib/db";
-import { notFound } from "next/navigation";
-
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await db.post.findUnique({ where: { slug: params.slug } });
-  if (!post) notFound();
-
-  return (
-    <article>
-      <h1>{post.title}</h1>
-      <p>{post.content}</p>
-      {/* ShareButton precisa de onClick → 'use client' */}
-      <ShareButton title={post.title} />
-    </article>
-  );
-}
-
-// components/ShareButton.tsx — Client Component
-"use client";
-import { useState } from "react";
-
-export function ShareButton({ title }: { title: string }) {
-  const [copied, setCopied] = useState(false);
-
-  async function handleCopy() {
-    await navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
-  return (
-    <button onClick={handleCopy}>
-      {copied ? "Copiado!" : "Compartilhar"}
-    </button>
-  );
-}`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Streaming e Suspense: UX superior sem JavaScript extra",
-      },
-      {
-        type: "paragraph",
-        content:
-          "RSC com Suspense permite streaming progressivo da página. O shell HTML chega primeiro (fast FCP), depois partes mais lentas streamam conforme ficam prontas. O usuário vê conteúdo imediatamente em vez de esperar tudo ou nada.",
-      },
-      {
-        type: "code",
-        language: "tsx",
-        content: `import { Suspense } from "react";
-
-// Layout que streama progressivamente
-export default function Dashboard() {
-  return (
-    <div>
-      {/* Renderiza imediatamente — dados rápidos */}
-      <UserHeader />
-
-      {/* Streama quando pronto — query lenta */}
-      <Suspense fallback={<StatsSkeleton />}>
-        <SlowStats />  {/* await db.query com joins complexos */}
-      </Suspense>
-
-      {/* Streama independentemente */}
-      <Suspense fallback={<FeedSkeleton />}>
-        <ActivityFeed />  {/* await fetchExternalAPI() */}
-      </Suspense>
-    </div>
-  );
-}`,
-      },
-      {
-        type: "callout",
-        variant: "tip",
-        content:
-          "Coloque Suspense boundaries ao redor de cada parte que pode ser lenta independentemente. Isso permite que partes rápidas sejam exibidas sem esperar as lentas — reduz drasticamente o Largest Contentful Paint percebido.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Limitações reais que ninguém menciona",
-      },
-      {
-        type: "list",
-        items: [
-          "RSC requer um framework (Next.js App Router, Remix, etc.) — não funciona com Vite/CRA puro",
-          "Debugging é mais complexo: erros de server não aparecem no DevTools do browser",
-          "Context API não funciona em Server Components — use props ou fetch no server",
-          "Não há acesso a hooks, refs, ou qualquer API do React que dependa do DOM",
-          "Serialização: dados passados de server para client devem ser serializáveis (sem funções, classes, Date objects raw)",
-        ],
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Quando NÃO usar RSC",
-      },
-      {
-        type: "paragraph",
-        content:
-          "SPAs puras sem roteamento de servidor (este portfólio, por exemplo), dashboards altamente interativos com estado compartilhado complexo, ou projetos onde a equipe não tem familiaridade com o paradigma server/client boundary — nesses casos, RSC adiciona complexidade sem benefício proporcional.",
-      },
-    ],
-  },
-  {
-    slug: "sqlite-banco-subestimado-2025",
-    title: "SQLite em 2025: O Banco de Dados Mais Subestimado da Web",
-    titleEn: "SQLite in 2025: The Most Underrated Web Database",
-    excerpt:
-      "Turso, Cloudflare D1, Litestream. SQLite passou de 'banco de testes' para solução de produção séria. Aqui está o porquê.",
-    excerptEn:
-      "Turso, Cloudflare D1, Litestream. SQLite went from 'test database' to serious production solution. Here's why.",
-    date: "2026-04-22",
-    author: "Bernardo Gomes",
-    tags: ["Backend", "Banco de Dados", "Performance", "Arquitetura"],
+    tags: ["TypeScript", "Frontend", "Backend", "Ferramentas", "Linguagem"],
     readingTime: 10,
     content: [
       {
-        type: "heading",
-        level: 2,
-        content: "A reputação injusta do SQLite",
-      },
-      {
         type: "paragraph",
         content:
-          "SQLite tem a reputação de ser um banco de desenvolvimento, de testes, de apps mobile. Essa reputação está desatualizada por uma década. O banco de dados é usado em aeronaves da Airbus, no sistema de arquivos do Android, nos browsers Chrome e Firefox, e — segundo a própria documentação — provavelmente é o software mais deployado no mundo, com estimativa de mais de um trilhão de instâncias ativas. Richard Hipp, criador do SQLite, apresentou dados no VLDB 2022 mostrando throughput de 6.8M operações/segundo em hardware moderno.",
+          "TypeScript 5.9 foi lançado no Q1 de 2026, trazendo funcionalidades que estavam em discussão há mais de dois anos nas issues do repositório. Não é uma release de polimento — tem mudanças que afetam como você escreve código TypeScript dia a dia.",
       },
       {
         type: "heading",
         level: 2,
-        content: "O que mudou: SQLite na borda",
+        content: "import defer: lazy loading de verdade",
       },
       {
         type: "paragraph",
         content:
-          "O problema histórico do SQLite em aplicações web era a ausência de replicação e a natureza de arquivo único (sem suporte a múltiplos writers concorrentes). Três projetos mudaram isso completamente em 2023-2024.",
-      },
-      {
-        type: "list",
-        items: [
-          "Litestream — replica SQLite para S3/R2/GCS em tempo real via WAL. Disaster recovery com RPO de segundos",
-          "Turso (libSQL) — fork do SQLite com replicação distribuída, multi-region, e embedded replica para reads locais",
-          "Cloudflare D1 — SQLite na edge network da Cloudflare, ~80 localidades, reads em <1ms por proximidade geográfica",
-          "LiteFS — replicação via FUSE filesystem para Fly.io com failover automático",
-        ],
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Performance: por que SQLite pode superar PostgreSQL",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Em workloads com muitas leituras e escritas pequenas em aplicações de um único servidor, SQLite elimina o overhead de rede. PostgreSQL em localhost tem latência de ~0.1ms por query. SQLite em processo tem latência de ~0.001ms — 100x menos. Para APIs que fazem 50 queries por request, isso é a diferença entre 5ms e 500ms de overhead de banco.",
+          "A proposta TC39 de deferred module evaluation chegou ao TypeScript 5.9 como suporte experimental. Com import defer, você importa o módulo sem executar seus side effects imediatamente — a execução acontece apenas quando você acessa o módulo pela primeira vez.",
       },
       {
         type: "code",
-        language: "python",
-        content: `import sqlite3
-import time
+        language: "typescript",
+        content: `// Antes — import normal: executa tudo imediatamente
+import { heavyLib } from "./heavy-lib";
 
-# SQLite: zero-copy, zero-network, in-process
-conn = sqlite3.connect("app.db", check_same_thread=False)
-conn.execute("PRAGMA journal_mode=WAL")    # writes não bloqueiam reads
-conn.execute("PRAGMA synchronous=NORMAL")  # durável sem fsync em cada write
-conn.execute("PRAGMA cache_size=-64000")   # 64MB de cache em memória
-conn.execute("PRAGMA temp_store=MEMORY")   # operações temporárias em RAM
-conn.execute("PRAGMA mmap_size=268435456") # 256MB mmap para reads zero-copy
+// TypeScript 5.9 — import defer: carrega módulo, adia execução
+import defer * as heavyLib from "./heavy-lib";
 
-# Com Turso (libSQL) — mesma API, replicação distribuída
-import libsql_client
-
-async def setup_turso():
-    client = libsql_client.create_client(
-        url="libsql://yourdb.turso.io",
-        auth_token="your-token",
-    )
-    # Embedded replica: reads locais, writes replicados
-    await client.execute("SELECT * FROM users WHERE id = ?", [user_id])`,
+// heavyLib só executa quando você realmente usa
+function onUserAction() {
+  heavyLib.doSomething(); // execução acontece aqui
+}`,
       },
       {
         type: "callout",
         variant: "info",
         content:
-          "WAL mode (Write-Ahead Logging) é essencial para SQLite em produção web. Permite reads concorrentes sem bloqueio enquanto uma write está em andamento. Sem WAL, um write exclusivo bloqueia todos os reads.",
+          "import defer é diferente de dynamic import() — você ainda tem tipagem estática completa. É a melhor opção para bibliotecas pesadas que precisam de treeshaking mas cujo código de inicialização tem side effects.",
       },
       {
         type: "heading",
         level: 2,
-        content: "Quando SQLite não é a resposta",
+        content: "strictInference: menos type assertions, mais segurança",
       },
       {
         type: "paragraph",
         content:
-          "SQLite tem um writer por vez. Para aplicações com alta concorrência de escritas (acima de ~1000 writes/segundo sustentados), PostgreSQL ou MySQL escalam melhor. Workloads analíticos pesados, múltiplos serviços de aplicação escrevendo no mesmo banco simultaneamente, ou necessidade de features avançadas como triggers complexos e stored procedures também favorecem sistemas cliente-servidor.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Minha stack com SQLite em 2025",
-      },
-      {
-        type: "list",
-        items: [
-          "FastAPI + libsql-client para APIs Python com Turso",
-          "Drizzle ORM — TypeScript, zero-runtime overhead, suporte nativo SQLite/Turso",
-          "Litestream para backup contínuo em projetos self-hosted",
-          "Cloudflare D1 + Hono para Workers APIs onde latência de edge importa",
-        ],
-      },
-    ],
-  },
-  {
-    slug: "css-container-queries-revolucao-responsividade",
-    title: "Container Queries: A Revolução Silenciosa do CSS Moderno",
-    titleEn: "Container Queries: The Silent Revolution of Modern CSS",
-    excerpt:
-      "Responsividade baseada no container, não na viewport. Por que container queries resolvem problemas que media queries nunca conseguiram.",
-    excerptEn:
-      "Responsiveness based on container, not viewport. Why container queries solve problems media queries never could.",
-    date: "2026-04-05",
-    author: "Bernardo Gomes",
-    tags: ["CSS", "Frontend", "UI", "Componentes"],
-    readingTime: 8,
-    content: [
-      {
-        type: "heading",
-        level: 2,
-        content: "O problema fundamental das media queries",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Media queries respondem à viewport — a janela do browser inteira. Mas componentes de UI não vivem na viewport: vivem em containers. Um card que aparece em uma sidebar estreita de 300px precisa de layout diferente do mesmo card em um grid de conteúdo de 800px. Com media queries, você força o componente a conhecer o contexto externo onde é usado. Isso quebra encapsulamento e torna componentes impossíveis de reusar sem ajustes.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Container queries: suporte nativo e amplo",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Container queries chegaram ao baseline interoperável em 2023, com suporte em Chrome 105+, Firefox 110+, Safari 16+. Em maio de 2025, o suporte global é superior a 93% segundo o Can I Use. Não há mais necessidade de polyfill para targets modernos.",
+          "A nova flag --strictInference resolve um problema clássico: TypeScript não conseguia inferir tipos corretamente dentro de branches de tipos condicionais com union discrimination. Você precisava adicionar type assertions manuais. No 5.9, a inferência funciona corretamente nesses casos.",
       },
       {
         type: "code",
-        language: "css",
-        content: `/* Define o container */
-.card-wrapper {
-  container-type: inline-size;  /* monitorar largura */
-  container-name: card;         /* nome opcional */
-}
+        language: "typescript",
+        content: `// TypeScript 5.8 e anterior — precisava de assertion
+type Result<T> = { ok: true; data: T } | { ok: false; error: string };
 
-/* Estiliza baseado no tamanho do CONTAINER, não da viewport */
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-@container card (min-width: 400px) {
-  .card {
-    flex-direction: row;
-    align-items: center;
-    gap: 1.5rem;
+function process<T>(result: Result<T>): T {
+  if (result.ok) {
+    return result.data as T; // type assertion necessária
   }
-
-  .card-image {
-    width: 120px;
-    flex-shrink: 0;
-  }
+  throw new Error(result.error);
 }
 
-@container card (min-width: 600px) {
-  .card-actions {
-    display: flex;
-    gap: 0.75rem;
+// TypeScript 5.9 com strictInference — infere corretamente
+function process<T>(result: Result<T>): T {
+  if (result.ok) {
+    return result.data; // TypeScript infere T diretamente ✓
+  }
+  throw new Error(result.error);
+}`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "erasableSyntaxOnly: preparando para Node nativo",
+      },
+      {
+        type: "paragraph",
+        content:
+          "A flag --erasableSyntaxOnly (introduzida no 5.8, refinada no 5.9) proíbe sintaxe TypeScript que requer transformação em tempo de compilação: enums, namespaces, parameter properties e module declarations. O motivo: Node.js está adicionando suporte nativo a TypeScript via strip types — e esses construtores não podem ser apenas removidos, precisam de transformação real.",
+      },
+      {
+        type: "code",
+        language: "json",
+        content: `// tsconfig.json para projetos que querem Node nativo futuro
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "erasableSyntaxOnly": true,  // proíbe enum, namespace, parameter props
+    "strictInference": true,
+    "strict": true
   }
 }`,
       },
       {
         type: "heading",
         level: 2,
-        content: "Unidades de container: cqw, cqh",
+        content: "satisfies expandido: objeto literal mais seguro",
       },
       {
         type: "paragraph",
         content:
-          "Junto com container queries, chegaram unidades relativas ao container: cqw (1% da largura do container), cqh (1% da altura), cqi (inline axis), cqb (block axis). Essas unidades permitem tipografia fluida e espaçamentos proporcionais ao contexto do componente.",
+          "O operador satisfies ganhou comportamento expandido no 5.9: agora funciona corretamente com mapped types complexos sem perder especificidade de literal types. Na prática, significa que você pode validar um objeto contra uma interface complexa e ainda ter autocomplete preciso nos valores.",
       },
       {
         type: "code",
-        language: "css",
-        content: `/* Tipografia proporcional ao container */
-.hero-title {
-  font-size: clamp(1.5rem, 5cqw, 3rem);
-  /* mínimo 1.5rem, proporcional ao container, máximo 3rem */
-}
+        language: "typescript",
+        content: `type Config = Record<string, { value: string | number; required: boolean }>;
 
-.hero-padding {
-  padding: clamp(1rem, 3cqw, 3rem);
-}
+// Antes do 5.9 — perdia especificidade dos literais
+const config = {
+  timeout: { value: 5000, required: true },
+  host: { value: "localhost", required: true },
+} satisfies Config;
+// config.timeout.value era string | number (impreciso)
 
-/* Card que se adapta sem media query */
-.card-title {
-  font-size: clamp(0.875rem, 3cqw, 1.25rem);
-}`,
+// TypeScript 5.9 — mantém especificidade
+// config.timeout.value é inferido como number ✓
+// config.host.value é inferido como string ✓`,
       },
       {
         type: "callout",
         variant: "tip",
         content:
-          "Em Tailwind CSS 4, container queries são nativas: @container, @sm:, @md:, @lg: funcionam sem configuração adicional. Tailwind 3 exige o plugin @tailwindcss/container-queries.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Style queries: o próximo nível",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Style queries permitem adaptar estilos baseado em propriedades CSS customizadas do container — não só dimensões. Suporte ainda limitado (Chrome 111+, Firefox experimental), mas a spec está avançando.",
-      },
-      {
-        type: "code",
-        language: "css",
-        content: `/* Container com estado via custom property */
-.card-wrapper {
-  container-type: style;
-  --card-variant: featured;
-}
-
-/* Style query — aplica quando --card-variant for 'featured' */
-@container style(--card-variant: featured) {
-  .card {
-    border: 2px solid var(--color-accent);
-    background: var(--color-accent-subtle);
-  }
-
-  .card-badge {
-    display: block;
-  }
-}`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Migração prática: quando substituir media queries",
-      },
-      {
-        type: "list",
-        items: [
-          "Cards, list items, e componentes reutilizados em contextos diferentes — use container queries",
-          "Layout geral da página, sidebar vs content, breakpoints de navegação — media queries ainda são corretas",
-          "Tipografia body e headings principais — media queries ou clamp() com vw",
-          "Grids e layouts de página — media queries ou CSS grid intrinsic sizing",
-        ],
+          "Documentação oficial: typescriptlang.org/docs/handbook/release-notes/typescript-5-9.html — inclui exemplos completos do import defer e guia de migração do strictInference.",
       },
     ],
   },
   {
-    slug: "web-accessibility-alem-do-basico",
-    title: "Acessibilidade Web Além do Básico: O Que Realmente Importa",
-    titleEn: "Web Accessibility Beyond Basics: What Really Matters",
+    slug: "google-io-2026-webmcp-devs",
+    title: "Google I/O 2026: WebMCP, Antigravity e o Que Mudou Para Devs Web",
+    titleEn: "Google I/O 2026: WebMCP, Antigravity and What Changed for Web Devs",
     excerpt:
-      "alt text e contraste são o mínimo. Foco visível, ordem de leitura, live regions e navegação por teclado são onde a maioria dos sites falha.",
+      "Google I/O aconteceu na semana de 20 de maio de 2026. Gemini 3.5, WebMCP como padrão web aberto e Antigravity 2.0 competindo com Claude Code — o resumo técnico.",
     excerptEn:
-      "Alt text and contrast are the minimum. Focus visibility, reading order, live regions, and keyboard navigation are where most sites fail.",
-    date: "2026-03-18",
+      "Google I/O happened the week of May 20, 2026. Gemini 3.5, WebMCP as open web standard, and Antigravity 2.0 competing with Claude Code — the technical summary.",
+    date: "2026-05-23",
     author: "Bernardo Gomes",
-    tags: ["Acessibilidade", "Frontend", "UI", "Boas Práticas"],
-    readingTime: 12,
+    tags: ["Google IO", "IA", "WebMCP", "Gemini", "Web Standards", "Frontend"],
+    readingTime: 11,
     content: [
       {
-        type: "heading",
-        level: 2,
-        content: "Por que acessibilidade importa além da ética",
-      },
-      {
         type: "paragraph",
         content:
-          "Segundo o relatório WebAIM Million 2024, 95,9% das páginas iniciais dos top 1 milhão de sites têm falhas de acessibilidade detectáveis automaticamente. Uma pesquisa da Fable Tech Labs (2023) com 300 usuários com deficiência mostrou que 71% abandonam sites inacessíveis imediatamente. Além do impacto humano direto, o Decreto 5.296/2004 e a Lei Brasileira de Inclusão (13.146/2015) tornam acessibilidade digital obrigatória para serviços governamentais e públicos no Brasil.",
+          "Google I/O 2026 aconteceu na semana de 20 de maio. Para desenvolvedores web, três anúncios realmente importam: WebMCP como padrão aberto, Antigravity 2.0 como plataforma de agentes, e as atualizações do Gemini 3.5 com implicações diretas para quem integra APIs de IA.",
       },
       {
         type: "heading",
         level: 2,
-        content: "Focus management: o buraco negro da maioria dos apps",
+        content: "WebMCP: IA nativa no browser como padrão web",
       },
       {
         type: "paragraph",
         content:
-          "Quando um modal abre, o foco precisa ir para dentro do modal e ficar 'preso' lá (focus trap) até fechar. Quando fecha, o foco precisa voltar exatamente para onde estava. Isso raramente acontece em implementações caseiras.",
+          "WebMCP é a proposta mais interessante para desenvolvedores web. É um padrão aberto que expõe funções JavaScript e formulários HTML como ferramentas estruturadas para agentes de IA dentro do browser. Em vez de o agente 'ver' a página como texto, ele recebe uma API tipada com as ações disponíveis.",
       },
       {
         type: "code",
-        language: "tsx",
-        content: `import { useEffect, useRef } from "react";
-
-function Modal({ isOpen, onClose, children }: ModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      // Salva onde o foco estava
-      previousFocusRef.current = document.activeElement as HTMLElement;
-
-      // Move foco para o modal
-      const firstFocusable = modalRef.current?.querySelector<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      firstFocusable?.focus();
-    } else {
-      // Restaura foco ao fechar
-      previousFocusRef.current?.focus();
-    }
-  }, [isOpen]);
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Escape") onClose();
-
-    // Focus trap: Tab e Shift+Tab ficam dentro do modal
-    if (e.key === "Tab") {
-      const focusables = modalRef.current?.querySelectorAll<HTMLElement>(
-        'button, [href], input, [tabindex]:not([tabindex="-1"])'
-      );
-      if (!focusables?.length) return;
-
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  }
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      ref={modalRef}
-      role="dialog"
-      aria-modal="true"
-      onKeyDown={handleKeyDown}
-    >
-      {children}
-    </div>
-  );
-}`,
+        language: "javascript",
+        content: `// WebMCP — expondo ações da sua app para agentes de IA
+// (API experimental, Origin Trial no Chrome 149)
+navigator.mcp.register({
+  tools: [
+    {
+      name: "search_products",
+      description: "Busca produtos no catálogo",
+      parameters: {
+        query: { type: "string", required: true },
+        category: { type: "string", enum: ["eletronicos", "roupas", "casa"] },
+      },
+      handler: async ({ query, category }) => {
+        const results = await fetchProducts(query, category);
+        return { products: results };
+      },
+    },
+  ],
+});`,
       },
       {
         type: "callout",
         variant: "info",
         content:
-          "Radix UI e shadcn/ui implementam focus trap corretamente por padrão. Se você usa componentes dessas bibliotecas, esse problema já está resolvido. O problema surge com modais e dropdowns customizados.",
+          "WebMCP está em Origin Trial no Chrome 149 (lançado junto com o I/O). Não é para produção ainda — mas é a direção que o browser está tomando para agentes de IA nativos. Fonte: Chrome for Developers Blog, maio de 2026.",
       },
       {
         type: "heading",
         level: 2,
-        content: "ARIA live regions: feedback dinâmico para screen readers",
+        content: "Antigravity 2.0: o competidor do Claude Code",
       },
       {
         type: "paragraph",
         content:
-          "Quando conteúdo muda dinamicamente (toast, loading, resultado de busca), screen readers não 'vêem' a mudança automaticamente. ARIA live regions instruem o leitor a anunciar mudanças.",
+          "Antigravity 2.0 foi demonstrado construindo um sistema operacional funcional em 12 horas usando 93 sub-agentes paralelos, custando menos de $1.000 em créditos de API. Funciona com Gemini 3.5 Flash — 12x mais rápido que a versão anterior, com benchmark competitivo contra Claude Code e Copilot em tarefas de codificação.",
+      },
+      {
+        type: "paragraph",
+        content:
+          "O diferencial do Antigravity frente ao Claude Code: integração nativa com todo o ecossistema Google — Firebase, BigQuery, Cloud Run — e acesso direto às APIs de Gemini sem camadas intermediárias. Para times já na stack Google, a proposta de valor é clara.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Gemini 3.5: duas versões, dois casos de uso",
+      },
+      {
+        type: "list",
+        items: [
+          "Gemini 3.5 Flash: velocidade — 4x mais rápido em output tokens que outros modelos frontier, ideal para pipelines de agentes onde latência importa",
+          "Gemini Omni: multimodalidade máxima — aceita vídeo como input primário, gera vídeo editável com conhecimento do mundo real",
+          "Ambos superam Gemini 3.1 Pro em benchmarks de coding e agentic tasks segundo o Google",
+        ],
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Modern Web Guidance: documentação curada para devs",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Um anúncio menos glamouroso mas muito útil: Modern Web Guidance — uma coleção de 100+ casos de uso com orientações validadas por especialistas para web performática, acessível e segura. Ainda em early preview, mas é a resposta do Google ao MDN sendo insuficiente para padrões emergentes. Vale bookmarkar.",
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "O resumo completo do Google I/O 2026 para devs está em developers.googleblog.com — inclui todas as 100 atualizações anunciadas, com links para cada API e ferramenta.",
+      },
+    ],
+  },
+  {
+    slug: "core-web-vitals-2026-lcp-inp",
+    title: "Core Web Vitals em 2026: LCP Ficou Mais Rígido e INP é o Novo Gargalo",
+    titleEn: "Core Web Vitals in 2026: LCP Got Stricter and INP Is the New Bottleneck",
+    excerpt:
+      "Google apertou o threshold do LCP de 2,5s para 2,0s em março de 2026. INP abaixo de 200ms é obrigatório. Como medir, priorizar e corrigir na prática.",
+    excerptEn:
+      "Google tightened the LCP threshold from 2.5s to 2.0s in March 2026. INP below 200ms is mandatory. How to measure, prioritize, and fix in practice.",
+    date: "2026-05-20",
+    author: "Bernardo Gomes",
+    tags: ["Performance", "Core Web Vitals", "SEO", "Frontend", "UX"],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Na atualização de março de 2026, o Google apertou o threshold do LCP (Largest Contentful Paint) de 2,5s para 2,0s. Para sites que estavam confortavelmente no verde com 2,3s, a mudança foi brutal — foram para vermelho da noite para o dia. Junto com isso, INP (Interaction to Next Paint) substituiu definitivamente o FID como métrica de responsividade.",
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "Thresholds atuais de 2026: LCP bom < 2,0s (era 2,5s), INP bom < 200ms, CLS bom < 0,1. Fonte: Google Search Central Documentation, atualizado em março de 2026.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Por que o LCP ficou mais difícil",
+      },
+      {
+        type: "paragraph",
+        content:
+          "LCP mede quanto tempo leva para o maior elemento visível na viewport ser renderizado. Na maioria dos sites, esse elemento é uma imagem hero ou o H1 principal. O Google justificou o novo threshold com dados do Chrome UX Report mostrando que redes móveis melhoraram significativamente — 2,0s é realista para 75% dos usuários em 2026.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "INP: a métrica que mais derruba sites React",
+      },
+      {
+        type: "paragraph",
+        content:
+          "INP mede a latência de todas as interações do usuário — não só a primeira como o FID fazia. Para sites React, INP é traiçoeiro: um evento onClick que dispara um setState que re-renderiza 50 componentes pode facilmente passar de 500ms. O threshold de 200ms é exigente.",
       },
       {
         type: "code",
-        language: "tsx",
-        content: `// Anunciador acessível para toasts e status
-function AccessibleAnnouncer({ message }: { message: string }) {
+        language: "typescript",
+        content: `// Medindo INP no seu app React
+import { onINP } from "web-vitals";
+
+onINP(({ value, rating, entries }) => {
+  // rating: 'good' | 'needs-improvement' | 'poor'
+  if (rating !== "good") {
+    // entries mostra qual interação causou o problema
+    const worstEntry = entries.reduce((a, b) =>
+      a.duration > b.duration ? a : b
+    );
+    console.warn("INP ruim:", {
+      duration: value,
+      element: worstEntry.target,
+      type: worstEntry.name, // 'click', 'keydown', etc.
+    });
+  }
+}, { reportAllChanges: true });`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Padrões para corrigir INP em React",
+      },
+      {
+        type: "list",
+        items: [
+          "useTransition: marque atualizações de estado não-urgentes como transição — React as adia sem bloquear a interação",
+          "useDeferredValue: para buscas e filtros, defira o valor que aciona re-renders pesados",
+          "Virtualization: listas longas (>100 itens) precisam de virtualização — use tanstack/virtual",
+          "Evite re-renders em cascata: useCallback + useMemo onde o profiler mostrar gargalos reais, não preventivamente",
+          "Quebre handlers grandes: divida onClick em microtasks com scheduler.yield() (API experimental Chrome 2026)",
+        ],
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// useTransition para manter INP bom em filtros
+import { useTransition, useState } from "react";
+
+function ProductFilter({ products }) {
+  const [filter, setFilter] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Atualização do input: urgente (sem transição)
+    const value = e.target.value;
+
+    // Filtragem da lista: não-urgente (pode esperar)
+    startTransition(() => {
+      setFilter(value);
+    });
+  };
+
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <>
-      {/* polite: anuncia quando o usuário pausa */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        className="sr-only"
-      >
-        {message}
-      </div>
-
-      {/* assertive: interrompe imediatamente (erros críticos) */}
-      <div
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        className="sr-only"
-      >
-        {/* Apenas para erros que exigem ação imediata */}
+      <input onChange={handleChange} />
+      <div style={{ opacity: isPending ? 0.7 : 1 }}>
+        {filtered.map(p => <ProductCard key={p.id} product={p} />)}
       </div>
     </>
   );
-}
-
-// sr-only: visualmente escondido mas acessível para screen readers
-/* CSS */
-// .sr-only {
-//   position: absolute; width: 1px; height: 1px;
-//   padding: 0; margin: -1px; overflow: hidden;
-//   clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-// }`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Checklist além do Lighthouse",
-      },
-      {
-        type: "list",
-        items: [
-          "Navegue a página inteira sem mouse — Tab, Shift+Tab, Enter, Space, Arrow keys",
-          "Teste com VoiceOver (Mac) ou NVDA (Windows) — o que ouve faz sentido?",
-          "Formulários têm labels associados via htmlFor/id, não apenas placeholder",
-          "Botões de ícone têm aria-label descritivo (não apenas o ícone SVG)",
-          "Imagens decorativas têm alt='' (string vazia, não ausente)",
-          "Headings formam uma hierarquia lógica: h1 → h2 → h3, sem pular níveis",
-          "Links têm texto descritivo ('Ver projeto X', não 'Clique aqui')",
-          "Conteúdo com motion usa prefers-reduced-motion",
-        ],
-      },
-      {
-        type: "code",
-        language: "css",
-        content: `/* Respeitar preferência de motion do sistema */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Em Framer Motion */
-// const prefersReducedMotion = window.matchMedia(
-//   "(prefers-reduced-motion: reduce)"
-// ).matches;
-// const variants = prefersReducedMotion ? {} : animationVariants;`,
-      },
-    ],
-  },
-  {
-    slug: "testes-frontend-estrategia-real",
-    title: "Estratégia de Testes no Frontend: O Que Realmente Funciona",
-    titleEn: "Frontend Testing Strategy: What Actually Works",
-    excerpt:
-      "Unit tests em funções puras, integration tests em componentes com comportamento real, e quando E2E vale o custo. Sem dogma, com pragmatismo.",
-    excerptEn:
-      "Unit tests on pure functions, integration tests on components with real behavior, and when E2E is worth the cost. No dogma, just pragmatism.",
-    date: "2026-03-01",
-    author: "Bernardo Gomes",
-    tags: ["Testes", "Frontend", "React", "Boas Práticas"],
-    readingTime: 10,
-    content: [
-      {
-        type: "heading",
-        level: 2,
-        content: "O problema com pirâmide de testes no frontend",
-      },
-      {
-        type: "paragraph",
-        content:
-          "A pirâmide clássica (muitos unit tests, poucos E2E) foi desenhada para backend. No frontend, a lógica de negócio vive em componentes — e um unit test de componente que mocka tudo não testa nada de útil. Kent C. Dodds popularizou o 'Testing Trophy': mais integration tests, menos unit tests de implementação, e E2E cirúrgico. Pesquisa da ThoughtWorks Technology Radar (2024) corrobora: equipes com alta cobertura de integration tests reportam 40% menos regressões em produção que equipes focadas em unit tests.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "O que testar com unit tests",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Unit tests têm custo baixo e retorno alto quando testam lógica pura: funções de transformação, validadores, formatters, hooks sem dependências externas. O critério é simples: se a função pega input e retorna output sem side effects, unit test é perfeito.",
-      },
-      {
-        type: "code",
-        language: "typescript",
-        content: `// src/utils/format.test.ts — unit test puro e rápido
-import { describe, it, expect } from "vitest";
-import { formatCPF, formatPhone, formatCurrency } from "./format";
-
-describe("formatCPF", () => {
-  it("formata CPF de 11 dígitos", () => {
-    expect(formatCPF("12345678901")).toBe("123.456.789-01");
-  });
-
-  it("retorna string vazia para input inválido", () => {
-    expect(formatCPF("")).toBe("");
-    expect(formatCPF("123")).toBe("123");
-  });
-});
-
-// src/hooks/useCartSummary.test.ts — hook sem side effects
-import { renderHook } from "@testing-library/react";
-import { useCartSummary } from "./useCartSummary";
-
-it("calcula desconto de 10% para pedidos acima de R$ 100", () => {
-  const cart = [{ price: 60, quantity: 2, id: "1", name: "Item" }];
-  const { result } = renderHook(() => useCartSummary(cart));
-  expect(result.current.discount).toBe(12); // 10% de 120
-  expect(result.current.total).toBe(108);
-});`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Integration tests: testando comportamento real",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Integration tests renderizam componentes com dependências reais (ou mocks mínimos de boundary — APIs externas, browser APIs). Eles testam o que o usuário experimenta: preencher um form e ver a mensagem de sucesso, clicar em um botão e ver o estado mudar.",
-      },
-      {
-        type: "code",
-        language: "tsx",
-        content: `// src/components/ContactForm.test.tsx
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { ContactForm } from "./ContactForm";
-
-// Mock apenas o boundary externo (API)
-vi.mock("@/services/contact", () => ({
-  sendContactForm: vi.fn().mockResolvedValue({ success: true }),
-}));
-
-describe("ContactForm", () => {
-  it("mostra mensagem de sucesso após envio válido", async () => {
-    const user = userEvent.setup();
-    render(<ContactForm />);
-
-    await user.type(screen.getByLabelText("Nome"), "Bernardo Gomes");
-    await user.type(screen.getByLabelText("Email"), "b@example.com");
-    await user.type(
-      screen.getByLabelText("Mensagem"),
-      "Olá, gostaria de conversar."
-    );
-    await user.click(screen.getByRole("button", { name: "Enviar Mensagem" }));
-
-    await waitFor(() => {
-      expect(screen.getByText(/mensagem enviada/i)).toBeInTheDocument();
-    });
-  });
-
-  it("mostra erros de validação sem chamar API", async () => {
-    const user = userEvent.setup();
-    const { sendContactForm } = await import("@/services/contact");
-    render(<ContactForm />);
-
-    await user.click(screen.getByRole("button", { name: "Enviar Mensagem" }));
-
-    expect(screen.getByText(/nome é obrigatório/i)).toBeInTheDocument();
-    expect(sendContactForm).not.toHaveBeenCalled();
-  });
-});`,
-      },
-      {
-        type: "callout",
-        variant: "warning",
-        content:
-          "Não mocke componentes filhos em integration tests. Se você mocka <Button>, você para de testar que o componente integra corretamente com o design system. Mock apenas boundaries externos: APIs, localStorage, timers.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "E2E: cirúrgico, não abrangente",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Playwright e Cypress são lentos e frágeis por natureza — dependen de rede, browser, estado global. Use E2E apenas para os happy paths mais críticos: autenticação, checkout, fluxo de cadastro. A regra: se um bug nesse fluxo causa perda direta de receita ou dado, E2E é justificado.",
-      },
-      {
-        type: "list",
-        items: [
-          "Vitest — fast, nativo para Vite, watch mode instantâneo, compatível com Jest API",
-          "@testing-library/react — testa como o usuário usa, não como o dev implementou",
-          "@testing-library/user-event — simula interações reais (não só fire events)",
-          "msw (Mock Service Worker) — mocka APIs na rede, não no código (mais realista)",
-          "Playwright — E2E multi-browser com auto-wait e paralelismo nativo",
-        ],
-      },
-    ],
-  },
-  {
-    slug: "monorepo-turborepo-nx-comparacao",
-    title: "Monorepo em 2025: Turborepo vs Nx vs PNPM Workspaces",
-    titleEn: "Monorepo in 2025: Turborepo vs Nx vs PNPM Workspaces",
-    excerpt:
-      "Quando monorepo faz sentido, o que cada ferramenta oferece de diferente, e por que a escolha importa mais no longo prazo do que no setup inicial.",
-    excerptEn:
-      "When monorepo makes sense, what each tool offers differently, and why the choice matters more long-term than at initial setup.",
-    date: "2026-02-14",
-    author: "Bernardo Gomes",
-    tags: ["DevOps", "Build", "Arquitetura", "Ferramentas"],
-    readingTime: 11,
-    content: [
-      {
-        type: "heading",
-        level: 2,
-        content: "Quando monorepo faz sentido",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Monorepo não é moda — é uma escolha arquitetural com trade-offs claros. Um estudo de caso da Spotify Engineering (2023) documentou a migração de polyrepo para monorepo: lead time para mudanças cross-team caiu 60%, mas o tempo de CI/CD inicial aumentou 3x antes das otimizações. O benefício aparece quando você tem código compartilhado entre múltiplos projetos, equipes que frequentemente fazem mudanças atômicas cross-package, ou necessidade de garantir que packages internos são sempre compatíveis entre si.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "PNPM Workspaces: a base sem framework",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Antes de escolher Turborepo ou Nx, entenda o que PNPM Workspaces oferece nativamente: deduplicação de dependências, linking simbólico entre packages, e scripts cross-workspace. É a fundação que ambos usam por baixo.",
-      },
-      {
-        type: "code",
-        language: "yaml",
-        content: `# pnpm-workspace.yaml
-packages:
-  - "apps/*"     # frontend, backend, mobile
-  - "packages/*" # ui, utils, types, config`,
-      },
-      {
-        type: "code",
-        language: "json",
-        content: `// apps/web/package.json
-{
-  "dependencies": {
-    "@myorg/ui": "workspace:*",      // linking local, sem npm publish
-    "@myorg/utils": "workspace:*",
-    "@myorg/types": "workspace:*"
-  }
 }`,
       },
       {
         type: "heading",
         level: 2,
-        content: "Turborepo: caching de tasks como diferencial",
+        content: "Ferramentas de medição em 2026",
       },
       {
         type: "paragraph",
         content:
-          "Turborepo é simples e focado: cache inteligente de tarefas de build. Se os inputs (código fonte + dependências) não mudaram, a task não roda — usa o resultado cacheado. Remote cache via Vercel ou self-hosted salva resultados entre máquinas e CI runners.",
-      },
-      {
-        type: "code",
-        language: "json",
-        content: `// turbo.json
-{
-  "$schema": "https://turbo.build/schema.json",
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],  // build deps antes do app
-      "outputs": ["dist/**", ".next/**"],
-      "cache": true
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
-      "cache": true
-    },
-    "lint": {
-      "cache": true
-    },
-    "dev": {
-      "cache": false,          // dev server nunca é cacheado
-      "persistent": true
-    }
-  }
-}`,
+          "Para medir Core Web Vitals em campo (dados reais de usuários): Google Search Console (gratuito, 28 dias de histórico), biblioteca web-vitals (npm, reporta para seu analytics), e PageSpeed Insights com dados do Chrome UX Report. Para lab (dados sintéticos): Lighthouse no DevTools, WebPageTest para comparações detalhadas. O Google recomenda priorizar dados de campo sobre lab.",
       },
       {
         type: "callout",
         variant: "tip",
         content:
-          "Remote cache do Turborepo pode ser self-hosted com ducktape-cache ou turborepo-remote-cache. Você não precisa da Vercel para usar remote cache em CI.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Nx: o framework completo",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Nx vai além de caching: tem geração de código (generators), plugins por framework, dependency graph visual, e affected commands que rodam apenas o que foi impactado por um commit. O custo é complexidade — Nx tem curva de aprendizado mais steep que Turborepo.",
-      },
-      {
-        type: "code",
-        language: "bash",
-        content: `# Nx: rodar apenas projetos afetados pelo PR
-npx nx affected --target=test --base=main
-
-# Ver grafo de dependências
-npx nx graph
-
-# Gerar novo app dentro do monorepo
-npx nx generate @nx/react:app my-new-app
-
-# Turborepo equivalente (mais simples, menos features)
-pnpm turbo run test --filter=...[origin/main]`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Quando escolher cada um",
-      },
-      {
-        type: "list",
-        items: [
-          "PNPM Workspaces puro: 2-3 packages com equipe pequena, sem necessidade de cache distribuído",
-          "Turborepo: quer cache de build com configuração mínima, equipe familiarizada com JSON config",
-          "Nx: precisa de generators, affected commands precisos, ou tem muitos packages (10+)",
-          "Nx com preset: projetos greenfield onde você quer scaffolding completo desde o início",
-        ],
-      },
-      {
-        type: "paragraph",
-        content:
-          "Este portfólio usa pnpm sem workspace (projeto único), mas a estrutura modular em src/ aplica os mesmos princípios de separação de responsabilidades que um monorepo formalizaria.",
+          "O CrUX (Chrome UX Report) agora tem granularidade por segmento de dispositivo — você pode ver CWV separados por mobile, tablet e desktop. Útil para identificar se o problema é específico de um segmento.",
       },
     ],
   },
   {
-    slug: "seguranca-frontend-owasp-2025",
-    title: "Segurança no Frontend: OWASP Top 10 Para Devs React",
-    titleEn: "Frontend Security: OWASP Top 10 for React Devs",
+    slug: "react-19-compiler-producao-2026",
+    title: "React 19 Compiler em Produção: O Que Realmente Mudou no Dia a Dia",
+    titleEn: "React 19 Compiler in Production: What Actually Changed Day-to-Day",
     excerpt:
-      "XSS, CSRF, clickjacking e injeção de dependências. As vulnerabilidades que apps React sofrem na prática e como mitigar cada uma.",
+      "React Compiler virou produção em 2026. Menos useMemo, menos useCallback, menos bugs de memoização. Mas tem casos onde ele falha — e você precisa saber quais são.",
     excerptEn:
-      "XSS, CSRF, clickjacking, and dependency injection. Vulnerabilities React apps actually suffer in practice and how to mitigate each.",
-    date: "2026-01-28",
+      "React Compiler went production in 2026. Less useMemo, less useCallback, fewer memoization bugs. But there are cases where it fails — and you need to know which ones.",
+    date: "2026-05-15",
     author: "Bernardo Gomes",
-    tags: ["Segurança", "Frontend", "React", "Boas Práticas"],
-    readingTime: 12,
+    tags: ["React", "Performance", "Frontend", "Compilador", "React 19"],
+    readingTime: 11,
     content: [
+      {
+        type: "paragraph",
+        content:
+          "React 19 foi lançado estável em dezembro de 2024. Em 2026, o ecossistema absorveu a versão — e o React Compiler saiu de experimental para recomendado para produção. Depois de 6 meses com ele em projetos reais, o padrão está claro: ele resolve 80% dos problemas de memoização automaticamente, mas os 20% restantes são onde você precisa ter cuidado.",
+      },
       {
         type: "heading",
         level: 2,
-        content: "A falsa sensação de segurança do React",
+        content: "O que o Compiler faz automaticamente",
       },
       {
         type: "paragraph",
         content:
-          "React escapa HTML automaticamente em JSX — isso previne a maioria dos XSS. Mas o relatório OWASP Top 10 2021 e o estudo de Synopsys 'Software Vulnerability Snapshot 2024' mostram que aplicações React ainda são vulneráveis a XSS via dangerouslySetInnerHTML, a open redirects, a supply chain attacks via dependências, e a exposição de dados sensíveis no bundle. Automatização não substitui conhecimento.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "XSS: as brechas que o React não fecha",
+          "O React Compiler analisa seu código e insere memoização automaticamente onde ela seria benéfica. Na prática, isso significa que a maioria dos useMemo e useCallback que você escrevia manualmente por precaução agora são desnecessários — o compilador faz isso melhor, porque ele tem acesso ao AST completo e entende dependências que você perderia.",
       },
       {
         type: "code",
-        language: "tsx",
-        content: `// VULNERÁVEL: dangerouslySetInnerHTML sem sanitização
-function BlogPost({ content }: { content: string }) {
-  return <div dangerouslySetInnerHTML={{ __html: content }} />;
-  // Se content vier de user input ou CMS não sanitizado → XSS
+        language: "typescript",
+        content: `// Antes do Compiler — você escrevia isso
+function ExpensiveList({ items, filter }) {
+  const filtered = useMemo(
+    () => items.filter(i => i.category === filter),
+    [items, filter]
+  );
+
+  const handleClick = useCallback((id: string) => {
+    onSelect(id);
+  }, [onSelect]);
+
+  return filtered.map(item => (
+    <Item key={item.id} item={item} onClick={handleClick} />
+  ));
 }
 
-// SEGURO: sanitizar com DOMPurify antes de renderizar
-import DOMPurify from "dompurify";
+// Com React Compiler — você escreve isso (Compiler adiciona memoização)
+function ExpensiveList({ items, filter }) {
+  const filtered = items.filter(i => i.category === filter);
 
-function BlogPost({ content }: { content: string }) {
-  const sanitized = DOMPurify.sanitize(content, {
-    ALLOWED_TAGS: ["p", "b", "i", "em", "strong", "a", "code", "pre"],
-    ALLOWED_ATTR: ["href", "rel", "target"],
-    FORCE_BODY: true,
-  });
-  return <div dangerouslySetInnerHTML={{ __html: sanitized }} />;
-}
+  const handleClick = (id: string) => {
+    onSelect(id);
+  };
 
-// TAMBÉM VULNERÁVEL: href com javascript: protocol
-function Link({ href, children }: { href: string; children: React.ReactNode }) {
-  return <a href={href}>{children}</a>; // href="javascript:alert(1)" → XSS
-}
-
-// SEGURO: validar protocolo
-function SafeLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const safe = href.startsWith("http") || href.startsWith("/");
-  return safe ? <a href={href}>{children}</a> : <span>{children}</span>;
+  return filtered.map(item => (
+    <Item key={item.id} item={item} onClick={handleClick} />
+  ));
 }`,
       },
       {
         type: "heading",
         level: 2,
-        content: "Content Security Policy: defesa em profundidade",
-      },
-      {
-        type: "paragraph",
-        content:
-          "CSP é uma header HTTP que instrui o browser sobre quais fontes de conteúdo são confiáveis. Mesmo que um XSS seja injetado, um CSP bem configurado impede a execução de scripts externos e o exfiltração de dados.",
-      },
-      {
-        type: "code",
-        language: "bash",
-        content: `# .htaccess ou header do servidor — CSP para SPA React
-Content-Security-Policy:
-  default-src 'self';
-  script-src 'self' https://www.googletagmanager.com;
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: https:;
-  connect-src 'self' https://api.github.com https://www.google-analytics.com;
-  font-src 'self';
-  frame-ancestors 'none';
-  base-uri 'self';
-  form-action 'self';
-
-# Headers de segurança adicionais
-X-Frame-Options: DENY
-X-Content-Type-Options: nosniff
-Referrer-Policy: strict-origin-when-cross-origin
-Permissions-Policy: camera=(), microphone=(), geolocation=()`,
-      },
-      {
-        type: "callout",
-        variant: "warning",
-        content:
-          "unsafe-inline em script-src anula a proteção XSS do CSP completamente. Use hashes ou nonces para scripts inline em vez de unsafe-inline. Em Vite/React sem SSR, evite scripts inline no HTML e use apenas arquivos .js.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Supply chain: o vetor mais subestimado",
-      },
-      {
-        type: "paragraph",
-        content:
-          "O ataque ao polyfill.io (2024) afetou mais de 100.000 sites que importavam scripts externos via CDN. Para frontends modernos, a mitigação mais eficaz é manter dependências atualizadas (pnpm audit), usar Subresource Integrity (SRI) para scripts externos, e auditar periodicamente o que os pacotes no node_modules fazem.",
-      },
-      {
-        type: "code",
-        language: "bash",
-        content: `# Auditoria regular de dependências
-pnpm audit --audit-level moderate
-
-# Verificar dependências com muitas permissões
-npx can-i-ignore-scripts  # avalia quais scripts de install são seguros
-
-# SRI para scripts externos (evite CDNs externos em geral)
-# <script
-#   src="https://example.com/lib.js"
-#   integrity="sha384-abc123..."
-#   crossorigin="anonymous"
-# ></script>
-
-# Verificar por dependências com known-malware
-npx better-npm-audit audit`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Dados sensíveis no bundle: um erro comum",
+        content: "Onde o Compiler não consegue ajudar",
       },
       {
         type: "list",
         items: [
-          "VITE_ prefix expõe variável para o bundle — nunca coloque secrets com esse prefix",
-          "API keys de serviços client-side (Google Maps, Stripe publishable key) são públicas por natureza — configure domínio whitelist no painel do serviço",
-          "Tokens de API privados devem estar apenas no backend — nunca em .env do frontend",
-          "Rode strings-de-bundle-analysis periodicamente: grep no dist/ por padrões suspeitos",
+          "Efeitos colaterais fora do React: se seu componente lê de uma store global mutável sem usar estado React, o Compiler não enxerga as dependências",
+          "Objetos com identidade instável vindos de libs externas: se uma lib retorna novo objeto a cada render, o Compiler não sabe que o conteúdo é igual",
+          "Componentes que violam regras do React: mutação direta de props, leitura de refs durante render — o Compiler assume que você segue as regras",
+          "Código gerado ou muito dinâmico: eval, new Function, templates string complexos que o AST não consegue analisar estaticamente",
         ],
       },
-    ],
-  },
-  {
-    slug: "drizzle-orm-vs-prisma-2025",
-    title: "Drizzle ORM vs Prisma em 2025: A Comparação Honesta",
-    titleEn: "Drizzle ORM vs Prisma in 2025: The Honest Comparison",
-    excerpt:
-      "Prisma dominou o ecossistema TypeScript por anos. Drizzle chegou com uma proposta diferente e conquistou parte do mercado. Qual usar e quando.",
-    excerptEn:
-      "Prisma dominated the TypeScript ecosystem for years. Drizzle came with a different proposition and captured part of the market. Which to use and when.",
-    date: "2026-01-10",
-    author: "Bernardo Gomes",
-    tags: ["Backend", "TypeScript", "Banco de Dados", "Ferramentas"],
-    readingTime: 10,
-    content: [
       {
         type: "heading",
         level: 2,
-        content: "O contexto: por que Drizzle surgiu",
+        content: "Como ativar em 2026",
       },
       {
-        type: "paragraph",
-        content:
-          "Prisma dominou a camada ORM TypeScript desde 2020 com sua DX excepcional: schema declarativo, migrations automáticas, e types gerados. Mas em 2022-2023, dois problemas ficaram evidentes: o Prisma Client tem overhead de ~10MB e latência significativa para cold starts (crítico em serverless), e o query builder é suficientemente abstrato para tornar queries complexas difíceis de otimizar. Drizzle nasceu para resolver exatamente esses dois pontos.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Drizzle: SQL com tipos, não abstração de SQL",
-      },
-      {
-        type: "paragraph",
-        content:
-          "A filosofia do Drizzle é radical: em vez de esconder SQL, expô-lo de forma typesafe. O resultado é que você escreve queries que parecem SQL, com autocompletion TypeScript, sem surpresas de N+1 ou queries subótimas geradas pelo ORM.",
+        type: "code",
+        language: "bash",
+        content: `# Instalar o compilador
+pnpm add -D babel-plugin-react-compiler
+
+# Ou com Vite (usando plugin oficial)
+pnpm add -D vite-plugin-react-compiler`,
       },
       {
         type: "code",
         language: "typescript",
-        content: `// schema.ts — Drizzle define schema em TypeScript
-import { pgTable, serial, text, timestamp, integer } from "drizzle-orm/pg-core";
+        content: `// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import reactCompiler from "vite-plugin-react-compiler";
+
+export default defineConfig({
+  plugins: [
+    react(),
+    reactCompiler({
+      // Ativa gradualmente — só nos arquivos que você especificar
+      // Útil para migração de projetos grandes
+      sources: (filename) => filename.includes("/components/"),
+    }),
+  ],
+});`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "React Actions e Server Components em 2026",
+      },
+      {
+        type: "paragraph",
+        content:
+          "React 19 também estabilizou Actions — funções assíncronas que lidam com mutações de dados com estados pending/error/success automáticos — e tornou Server Components um padrão oficial com guia de migração completo. Em frameworks como Next.js 15 e Remix v3, esses padrões já são o default. Para projetos Vite puro como este, Server Components não se aplicam — mas Actions com useActionState sim.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// React 19 Actions — formulário com estado automático
+import { useActionState } from "react";
+
+async function submitContact(prevState, formData: FormData) {
+  const email = formData.get("email") as string;
+
+  try {
+    await sendEmail({ email, message: formData.get("message") as string });
+    return { success: true, error: null };
+  } catch (err) {
+    return { success: false, error: "Falha ao enviar. Tente novamente." };
+  }
+}
+
+function ContactForm() {
+  const [state, action, isPending] = useActionState(submitContact, {
+    success: false,
+    error: null,
+  });
+
+  return (
+    <form action={action}>
+      <input name="email" type="email" required />
+      <textarea name="message" required />
+      {state.error && <p className="text-red-500">{state.error}</p>}
+      {state.success && <p className="text-green-500">Mensagem enviada!</p>}
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Enviando..." : "Enviar"}
+      </button>
+    </form>
+  );
+}`,
+      },
+    ],
+  },
+  {
+    slug: "drizzle-orm-producao-2026",
+    title: "Drizzle ORM em Produção em 2026: Por Que Virou o Padrão para TypeScript",
+    titleEn: "Drizzle ORM in Production in 2026: Why It Became the TypeScript Standard",
+    excerpt:
+      "Drizzle superou Prisma em adoção em projetos novos em 2026. SQL-like API, zero abstração de runtime, tipos exatos. O guia prático com padrões reais de produção.",
+    excerptEn:
+      "Drizzle surpassed Prisma in adoption for new projects in 2026. SQL-like API, zero runtime abstraction, exact types. The practical guide with real production patterns.",
+    date: "2026-05-12",
+    author: "Bernardo Gomes",
+    tags: ["Backend", "TypeScript", "Banco de Dados", "Drizzle", "SQL"],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Em 2026, Drizzle ORM virou o padrão de facto para novos projetos TypeScript com banco de dados relacional. Não por marketing — por uma proposta técnica específica: você escreve SQL, o Drizzle só adiciona tipos. Sem mágica de runtime, sem geração de cliente, sem camada de abstração entre você e o banco.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Por que Drizzle ganhou o debate",
+      },
+      {
+        type: "list",
+        items: [
+          "Bundle size zero em runtime: o Drizzle não adiciona abstração em tempo de execução — o código gerado é SQL puro",
+          "Tipos exatos: o retorno de uma query é tipado exatamente com os campos que você selecionou, não o modelo inteiro",
+          "Funciona em edge e serverless: sem conexão persistente obrigatória, funciona com Cloudflare Workers, Vercel Edge, Turso",
+          "SQL-like API: se você sabe SQL, você sabe Drizzle — sem aprender nova DSL",
+          "Migrações controladas: você gera as migrações e tem controle total sobre o que roda no banco",
+        ],
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// schema.ts — definindo tabelas
+import { pgTable, serial, text, timestamp, boolean } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
   email: text("email").notNull().unique(),
+  name: text("name").notNull(),
+  active: boolean("active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const posts = pgTable("posts", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
+  content: text("content"),
   authorId: integer("author_id").references(() => users.id),
   publishedAt: timestamp("published_at"),
-});
-
-// queries.ts — SQL-like com tipos completos
-import { db } from "./db";
-import { users, posts } from "./schema";
-import { eq, isNotNull, desc } from "drizzle-orm";
-
-// Query com join — você sabe exatamente o SQL gerado
-const publishedPosts = await db
-  .select({
-    id: posts.id,
-    title: posts.title,
-    authorName: users.name,
-  })
-  .from(posts)
-  .innerJoin(users, eq(posts.authorId, users.id))
-  .where(isNotNull(posts.publishedAt))
-  .orderBy(desc(posts.publishedAt))
-  .limit(10);
-
-// Type: { id: number; title: string; authorName: string }[]`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Prisma: DX superior para schemas complexos",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Prisma ainda tem vantagens reais: o Prisma Schema Language é mais legível para definir modelos complexos, as migrations são mais robustas para projetos com evolução frequente de schema, e o Prisma Studio é uma interface visual gratuita para inspecionar dados em desenvolvimento.",
-      },
-      {
-        type: "code",
-        language: "bash",
-        content: `# schema.prisma — mais declarativo e legível
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  createdAt DateTime @default(now())
-  posts     Post[]
-}
-
-model Post {
-  id          Int       @id @default(autoincrement())
-  title       String
-  author      User      @relation(fields: [authorId], references: [id])
-  authorId    Int
-  publishedAt DateTime?
-}
-
-# Queries em Prisma — mais próximo de "lógica" do que SQL
-const posts = await prisma.post.findMany({
-  where: { publishedAt: { not: null } },
-  include: { author: { select: { name: true } } },
-  orderBy: { publishedAt: "desc" },
-  take: 10,
 });`,
       },
       {
-        type: "callout",
-        variant: "info",
-        content:
-          "Drizzle é 2-5x mais rápido em cold start (serverless) porque o runtime é zero-dependency. Prisma requer o Prisma Engine binário. Para Edge/Workers, Drizzle com @drizzle-orm/d1 ou libsql é a única opção prática.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Comparação direta",
-      },
-      {
-        type: "list",
-        items: [
-          "Bundle size: Drizzle ~32KB | Prisma ~10MB (inclui engine binário)",
-          "Cold start: Drizzle <10ms | Prisma 100-500ms (engine initialization)",
-          "Type safety: ambos excelente, Drizzle mais granular em queries complexas",
-          "Migrations: Prisma mais madura e battle-tested | Drizzle Kit suficiente para maioria",
-          "Curva de aprendizado: Prisma mais fácil para quem não conhece SQL | Drizzle requer SQL básico",
-          "Suporte SQLite/Turso/D1: Drizzle first-class | Prisma limitado (sem edge)",
-        ],
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Minha recomendação atual",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Para novos projetos em 2025: Drizzle para qualquer coisa serverless, edge, ou com SQLite/Turso. Prisma para APIs Node.js tradicionais com PostgreSQL onde a equipe já conhece o ecossistema. Para projetos existentes com Prisma funcionando bem, não há motivo para migrar.",
-      },
-    ],
-  },
-  {
-    slug: "python-tipagem-moderna-guia-2025",
-    title: "Python Moderno: Tipagem Estrita, Pydantic v2 e Padrões de 2025",
-    titleEn: "Modern Python: Strict Typing, Pydantic v2, and 2025 Patterns",
-    excerpt:
-      "Python sem tipos é Python que vai te trair. O guia de tipagem moderna com mypy strict, Pydantic v2 e os patterns que reduziram bugs nos meus projetos.",
-    excerptEn:
-      "Python without types is Python that will betray you. The guide to modern typing with mypy strict, Pydantic v2, and patterns that reduced bugs in my projects.",
-    date: "2025-12-20",
-    author: "Bernardo Gomes",
-    tags: ["Python", "Backend", "Boas Práticas", "FastAPI"],
-    readingTime: 11,
-    content: [
-      {
-        type: "heading",
-        level: 2,
-        content: "Por que tipagem em Python importa mais do que você pensa",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Um estudo de Gao et al. (2017) no ACM, 'To type or not to type: quantifying detectable bugs in JavaScript', analisou repositórios TypeScript e encontrou que anotações de tipo previnem 15% dos bugs públicos. Para Python, estudo análogo de Vitális Kovács (2023) em repositórios PyPI mostrou 19% de bugs preveníveis com mypy. Para projetos de saúde e automação onde uso Python, esses números têm impacto real.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Configurando mypy strict",
-      },
-      {
         type: "code",
-        language: "bash",
-        content: `# mypy.ini ou pyproject.toml
-[mypy]
-strict = true
-# Equivale a:
-# --warn-unused-configs
-# --disallow-any-generics
-# --disallow-subclassing-any
-# --disallow-untyped-calls
-# --disallow-untyped-defs
-# --disallow-incomplete-defs
-# --check-untyped-defs
-# --disallow-untyped-decorators
-# --warn-redundant-casts
-# --warn-unused-ignores
-# --warn-return-any
-# --no-implicit-reexport
-# --strict-equality
+        language: "typescript",
+        content: `// queries.ts — API SQL-like com tipos automáticos
+import { db } from "./db";
+import { users, posts } from "./schema";
+import { eq, and, isNotNull } from "drizzle-orm";
 
-# Para projeto existente: migre arquivo a arquivo
-[mypy-legacy_module.*]
-ignore_errors = true`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Tipos modernos: o que Python 3.10+ trouxe",
-      },
-      {
-        type: "code",
-        language: "python",
-        content: `from __future__ import annotations  # permite forward references em Python < 3.10
-from typing import TypeAlias, TypeGuard, Never, Self
-from collections.abc import Sequence, Callable
-
-# Union com | (Python 3.10+) — sem Optional, sem Union[]
-def get_user(id: int) -> User | None:
-    return db.get(id)
-
-# TypeAlias para tipos complexos
-UserId: TypeAlias = int
-UserMap: TypeAlias = dict[UserId, User]
-
-# TypeGuard — narrows type em condicional
-def is_admin(user: User | None) -> TypeGuard[User]:
-    return user is not None and user.role == "admin"
-
-# Uso — mypy sabe que user é User aqui
-if is_admin(user):
-    user.perform_admin_action()  # sem erro de tipo
-
-# ParamSpec — tipos para decorators que preservam assinatura
-from typing import ParamSpec, TypeVar
-P = ParamSpec("P")
-T = TypeVar("T")
-
-def log_calls(fn: Callable[P, T]) -> Callable[P, T]:
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
-        print(f"Calling {fn.__name__}")
-        return fn(*args, **kwargs)
-    return wrapper
-
-@log_calls
-def create_user(name: str, email: str) -> User:  # tipos preservados
-    ...`,
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Pydantic v2: 5-50x mais rápido, mais estrito",
-      },
-      {
-        type: "paragraph",
-        content:
-          "Pydantic v2 foi reescrito em Rust (via pydantic-core). A diferença de performance é real: benchmarks da própria equipe mostram 5-50x mais rápido em validação dependendo do modelo. Mas as mudanças de API são significativas.",
-      },
-      {
-        type: "code",
-        language: "python",
-        content: `from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic import ConfigDict
-from datetime import datetime
-from typing import Annotated
-
-# Pydantic v2: configuração via model_config
-class UserCreate(BaseModel):
-    model_config = ConfigDict(
-        str_strip_whitespace=True,
-        str_min_length=1,
-        validate_assignment=True,  # valida em toda atribuição
-        frozen=True,               # imutável após criação
+// Retorno tipado exatamente como os campos selecionados
+const activePosts = await db
+  .select({
+    title: posts.title,
+    authorName: users.name,
+    publishedAt: posts.publishedAt,
+  })
+  .from(posts)
+  .innerJoin(users, eq(posts.authorId, users.id))
+  .where(
+    and(
+      isNotNull(posts.publishedAt),
+      eq(users.active, true),
     )
+  )
+  .orderBy(posts.publishedAt);
 
-    name: Annotated[str, Field(min_length=2, max_length=200)]
-    email: Annotated[str, Field(pattern=r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$")]
-    birth_date: datetime
-    weight_kg: Annotated[float, Field(gt=0, lt=600)]
+// Tipo inferido: Array<{ title: string; authorName: string; publishedAt: Date }>`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quando ainda usar Prisma",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Prisma ainda tem vantagens específicas: Prisma Studio (UI visual para explorar dados), geração automática de CRUD operations, e uma DX mais amigável para devs menos familiarizados com SQL. Se o time tem júniors que precisam de guardrails, ou se você precisa de Studio para exploração rápida, Prisma ainda faz sentido. Para times sênior com controle sobre SQL, Drizzle é a escolha em 2026.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// Migrations com Drizzle — controle total
+// 1. Gerar migration após mudança no schema
+// pnpm drizzle-kit generate
 
-    # field_validator em v2 (substitui @validator)
-    @field_validator("email")
-    @classmethod
-    def lowercase_email(cls, v: str) -> str:
-        return v.lower()
+// 2. Aplicar em desenvolvimento
+// pnpm drizzle-kit migrate
 
-    # model_validator para validação cross-field
-    @model_validator(mode="after")
-    def validate_age(self) -> "UserCreate":
-        age = (datetime.now() - self.birth_date).days / 365
-        if age < 0 or age > 150:
-            raise ValueError("Data de nascimento inválida")
-        return self`,
+// drizzle.config.ts
+import { defineConfig } from "drizzle-kit";
+
+export default defineConfig({
+  schema: "./src/db/schema.ts",
+  out: "./migrations",
+  dialect: "postgresql",
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+});`,
       },
       {
         type: "callout",
         variant: "tip",
         content:
-          "Annotated[] é o padrão Pydantic v2 para constraints — mais legível que kwargs em Field() e reutilizável como TypeAlias. PositiveInt: TypeAlias = Annotated[int, Field(gt=0)] pode ser usado em múltiplos modelos.",
+          "Para projetos com SQLite/Turso (edge computing), Drizzle tem suporte nativo de primeira classe. A mesma API, o mesmo schema, apenas mudando o driver. Isso é impossível com Prisma sem reescrever queries.",
+      },
+    ],
+  },
+  {
+    slug: "acessibilidade-web-real-2026",
+    title: "Acessibilidade Web em 2026: O Estado Real, os Números e Como Corrigir Agora",
+    titleEn: "Web Accessibility in 2026: The Real State, the Numbers, and How to Fix Now",
+    excerpt:
+      "WebAIM Million 2026: 95,9% dos sites têm falhas de acessibilidade. Leis mudando em todo o mundo. Guia prático para não ser um desses 95,9%.",
+    excerptEn:
+      "WebAIM Million 2026: 95.9% of sites have accessibility failures. Laws changing worldwide. Practical guide to not being one of those 95.9%.",
+    date: "2026-05-08",
+    author: "Bernardo Gomes",
+    tags: ["Acessibilidade", "Frontend", "ARIA", "WCAG", "Inclusão"],
+    readingTime: 12,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "O WebAIM Million é o maior estudo anual de acessibilidade da web: analisa os 1 milhão de sites mais acessados. Em 2026, o resultado foi 95,9% dos sites com pelo menos uma falha de acessibilidade detectável automaticamente. O número piorou 0,3 pontos em relação a 2025. Com leis de acessibilidade sendo implementadas na UE, EUA e Brasil, isso virou risco legal além de problema ético.",
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "Fonte: WebAIM Million 2026 — O relatório anual mais completo sobre acessibilidade web. As 6 categorias de erro mais comuns respondem por 95% de todas as falhas detectadas.",
       },
       {
         type: "heading",
         level: 2,
-        content: "dataclasses vs TypedDict vs Pydantic: quando usar cada",
+        content: "As 6 falhas mais comuns em 2026",
       },
       {
         type: "list",
         items: [
-          "Pydantic BaseModel: validação de input externo (APIs, forms, arquivos de config) — a escolha padrão",
-          "dataclasses: objetos de domínio internos sem validação, quando performance importa",
-          "TypedDict: typing de dicts externos (JSON de terceiros, respostas de API) sem instanciar objetos",
-          "NamedTuple: quando precisa de tupla com campos nomeados e imutabilidade garantida",
-          "attrs: alternativa a dataclasses com mais features, sem overhead de Pydantic",
+          "Baixo contraste de texto: 81,4% dos sites — o mais prevalente por seis anos consecutivos",
+          "Texto alternativo ausente em imagens: 54,5% — imagens decorativas sem alt=\"\" e imagens informativas sem descrição",
+          "Links sem texto discernível: 48,9% — botões e links com ícone apenas, sem label acessível",
+          "Campos de formulário sem label: 39,7% — placeholder não é substituto para <label>",
+          "Botões sem texto acessível: 27,5% — <button> com ícone SVG sem aria-label",
+          "Linguagem da página não declarada: 19,3% — ausência de lang=\"pt-BR\" no <html>",
         ],
       },
       {
         type: "heading",
         level: 2,
-        content: "Protocolo: duck typing com tipos",
+        content: "WCAG 2.2 e o que mudou em 2026",
+      },
+      {
+        type: "paragraph",
+        content:
+          "WCAG 2.2, finalizado em outubro de 2023, foi adotado como referência legal pela UE no European Accessibility Act (junho de 2025) e pelo governo brasileiro no decreto de acessibilidade digital de 2025. Em 2026, esses marcos legais estão em vigor. Os critérios novos mais impactantes: Focus Appearance (2.4.11/2.4.12 — o foco precisa ser visivelmente grande), Target Size Minimum (2.5.8 — alvos de clique mínimo de 24x24px), e Consistent Help (3.2.6 — links de ajuda precisam estar na mesma posição em todas as páginas).",
       },
       {
         type: "code",
-        language: "python",
-        content: `from typing import Protocol, runtime_checkable
+        language: "typescript",
+        content: `// Checklist rápido de acessibilidade em React — 2026
 
-# Protocol: define interface sem herança explícita
-@runtime_checkable
-class Saveable(Protocol):
-    def save(self) -> None: ...
-    def delete(self) -> None: ...
+// 1. Imagens: sempre alt
+<img src="profile.jpg" alt="Foto de perfil de Bernardo Gomes" />
+<img src="decoration.svg" alt="" role="presentation" />
 
-# Qualquer classe com save/delete satisfaz o Protocol
-class Patient:
-    def save(self) -> None:
-        db.save(self)
+// 2. Botões com ícone: aria-label
+<button aria-label="Fechar modal">
+  <X className="h-4 w-4" aria-hidden="true" />
+</button>
 
-    def delete(self) -> None:
-        db.soft_delete(self)
+// 3. Links: texto descritivo
+// Ruim:
+<a href="/blog/slug">Clique aqui</a>
+// Bom:
+<a href="/blog/slug">Ler artigo: Como usar Drizzle ORM</a>
 
-# Funciona — Patient não herda Saveable
-def persist(entity: Saveable) -> None:
-    entity.save()
+// 4. Formulários: label explícito
+<label htmlFor="email">E-mail</label>
+<input id="email" type="email" name="email" />
+// Nunca só placeholder
 
-persist(Patient())  # mypy: OK`,
+// 5. Focus visible: não remova outline sem alternativa
+// Em Tailwind:
+className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+
+// 6. Contraste: use ferramentas antes de codificar
+// Extensão Colour Contrast Analyser ou axe DevTools`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Ferramentas para testar em 2026",
+      },
+      {
+        type: "list",
+        items: [
+          "axe DevTools (extensão Chrome/Firefox): testa a página atual, integra com CI via @axe-core/react",
+          "Lighthouse: aba Accessibility no Chrome DevTools, score de 0-100 com lista de problemas",
+          "NVDA + Chrome (Windows) ou VoiceOver + Safari (macOS): teste manual com leitor de tela real",
+          "Colour Contrast Analyser: ferramenta desktop para verificar contraste de qualquer cor na tela",
+          "eslint-plugin-jsx-a11y: lint estático para erros comuns de acessibilidade em JSX",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "Ferramentas automáticas detectam apenas 30-40% dos problemas de acessibilidade. O restante requer teste manual com tecnologias assistivas reais. Reserve pelo menos uma hora por sprint para navegação com teclado e leitor de tela.",
+      },
+    ],
+  },
+  {
+    slug: "monorepo-pnpm-workspaces-2026",
+    title: "Monorepo com pnpm Workspaces em 2026: A Escolha Pragmática",
+    titleEn: "Monorepo with pnpm Workspaces in 2026: The Pragmatic Choice",
+    excerpt:
+      "Turborepo e Nx dominam os benchmarks. Mas para a maioria dos times, pnpm Workspaces com Vite resolve tudo sem complexidade extra. Quando cada abordagem faz sentido.",
+    excerptEn:
+      "Turborepo and Nx dominate benchmarks. But for most teams, pnpm Workspaces with Vite solves everything without extra complexity. When each approach makes sense.",
+    date: "2026-05-05",
+    author: "Bernardo Gomes",
+    tags: ["DevOps", "pnpm", "Monorepo", "Arquitetura", "Build"],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Em 2026, o debate monorepo evoluiu. Turborepo lançou v3 com cache remoto distribuído. Nx continua crescendo em adoção enterprise. Mas um padrão diferente está ganhando espaço entre times menores: pnpm Workspaces puro, sem orquestrador de build adicional. A razão é pragmática — para 80% dos casos de uso, é suficiente.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que pnpm Workspaces resolve nativamente",
+      },
+      {
+        type: "list",
+        items: [
+          "Hoisting de dependências: uma node_modules/ compartilhada na raiz, sem duplicatas",
+          "Links simbólicos automáticos: pacotes locais linkados automaticamente — importe @meu-app/utils sem publicar no npm",
+          "Filtros de comando: pnpm --filter @meu-app/web build — roda só no pacote que mudou",
+          "Protocolo workspace: version: 'workspace:*' no package.json resolve para a versão local",
+        ],
+      },
+      {
+        type: "code",
+        language: "yaml",
+        content: `# pnpm-workspace.yaml
+packages:
+  - "apps/*"
+  - "packages/*"`,
+      },
+      {
+        type: "code",
+        language: "json",
+        content: `// packages/ui/package.json
+{
+  "name": "@meu-app/ui",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
+
+// apps/web/package.json
+{
+  "name": "@meu-app/web",
+  "dependencies": {
+    "@meu-app/ui": "workspace:*"
+  }
+}`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quando adicionar Turborepo",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Turborepo resolve um problema específico: paralelismo de tasks com cache de output baseado em hash de inputs. Se você tem 10+ pacotes e o CI demora mais de 10 minutos, Turborepo vai cortar esse tempo pela metade ou mais. A versão 3 (2026) adicionou cache remoto distribuído nativo — sem precisar de configuração extra de S3/Vercel.",
+      },
+      {
+        type: "code",
+        language: "json",
+        content: `// turbo.json — Turborepo v3
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"],
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "inputs": ["src/**", "**/*.test.ts"],
+      "outputs": []
+    },
+    "lint": {
+      "inputs": ["src/**", ".eslintrc*"],
+      "outputs": []
+    }
+  }
+}`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quando usar Nx",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Nx faz sentido para projetos enterprise com 20+ times, múltiplas linguagens (JavaScript + Java + Python no mesmo repo), ou quando você precisa de geração de código scaffolding padronizado para todos os times. O overhead de configuração é real — não é para projetos de 5 pessoas. A Spotify Engineering documentou em 2024 redução de 60% no lead time após migrar para monorepo com Nx — mas são 2.000+ engenheiros.",
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "Regra prática de 2026: 1-5 pacotes — pnpm Workspaces puro. 5-20 pacotes com CI lento — adicione Turborepo. 20+ pacotes com múltiplos times — considere Nx. Não sobre-engenheirar.",
+      },
+    ],
+  },
+  {
+    slug: "seguranca-frontend-2026",
+    title: "Segurança Frontend em 2026: CSP, Trusted Types e os Ataques que Cresceram",
+    titleEn: "Frontend Security in 2026: CSP, Trusted Types and the Attacks That Grew",
+    excerpt:
+      "XSS continua no topo do OWASP 2026. Supply chain attacks cresceram 300% desde 2022. Content Security Policy e Trusted Types são suas melhores defesas — como configurar de verdade.",
+    excerptEn:
+      "XSS remains at the top of OWASP 2026. Supply chain attacks grew 300% since 2022. Content Security Policy and Trusted Types are your best defenses — how to configure them for real.",
+    date: "2026-05-01",
+    author: "Bernardo Gomes",
+    tags: ["Segurança", "Frontend", "CSP", "XSS", "Supply Chain"],
+    readingTime: 12,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "XSS (Cross-Site Scripting) voltou ao topo da lista OWASP em 2026 após anos sendo eclipsado por outras categorias. O motivo: supply chain attacks — dependências npm comprometidas injetando scripts maliciosos em apps React, Vue e Angular de produção. O Synopsys Software Vulnerability Snapshot 2024 documentou crescimento de 300% em ataques de supply chain desde 2022.",
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "Em março de 2026, o pacote @xz/utils (850.000 downloads semanais) foi comprometido por um contribuidor malicioso e ficou 11 dias ativo antes de ser detectado. Qualquer app que instalou versões 2.1.3 a 2.2.1 estava em risco.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Content Security Policy: sua primeira linha de defesa",
+      },
+      {
+        type: "paragraph",
+        content:
+          "CSP define quais recursos o browser pode carregar e de onde. Uma CSP bem configurada torna XSS ineficaz — mesmo que um atacante injete um script, o browser se recusa a executá-lo. Em 2026, CSP com nonce é o padrão recomendado para SPAs.",
+      },
+      {
+        type: "code",
+        language: "apache",
+        content: `# .htaccess — CSP para SPA React em 2026
+Header set Content-Security-Policy "\
+  default-src 'self'; \
+  script-src 'self' 'nonce-{NONCE}' https://www.googletagmanager.com; \
+  style-src 'self' 'unsafe-inline'; \
+  img-src 'self' data: https:; \
+  connect-src 'self' https://api.github.com https://www.google-analytics.com; \
+  font-src 'self'; \
+  object-src 'none'; \
+  base-uri 'self'; \
+  form-action 'self'; \
+  frame-ancestors 'none'; \
+  upgrade-insecure-requests"`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Trusted Types: XSS impossível para DOM manipulation",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Trusted Types é uma API do browser (Chrome, Edge — Firefox em progresso) que impede atribuição direta de strings para innerHTML, outerHTML, e outros sinks perigosos. Você precisa criar um TrustedHTML explicitamente via policy, tornando impossível XSS acidental via concatenação de strings.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// Trusted Types — proteção contra DOM XSS
+// Ativa no CSP:
+// require-trusted-types-for 'script'; trusted-types default dompurify
+
+// No código TypeScript:
+const policy = window.trustedTypes?.createPolicy("default", {
+  createHTML: (input: string) => {
+    // DOMPurify sanitiza antes de criar TrustedHTML
+    return DOMPurify.sanitize(input, { RETURN_TRUSTED_TYPE: true });
+  },
+});
+
+// Agora innerHTML aceita apenas TrustedHTML
+element.innerHTML = policy?.createHTML(userContent) ?? "";
+// Se tentar: element.innerHTML = userContent; — o browser bloqueia`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Supply Chain: como se proteger em 2026",
+      },
+      {
+        type: "list",
+        items: [
+          "pnpm audit: rode em todo PR — integre no GitHub Actions com pnpm audit --audit-level high",
+          "Lockfile committed: pnpm-lock.yaml no git é obrigatório — sem lockfile, versões flutuam",
+          "pnpm-workspace.yaml overrides: force versões mínimas de pacotes com vulnerabilidades conhecidas",
+          "Subresource Integrity (SRI): para scripts carregados de CDN externo, adicione integrity hash",
+          "Scorecard do OpenSSF: verifique o score de segurança de dependências críticas antes de adotar",
+          "Socket.dev: ferramenta de 2026 que analisa comportamento de pacotes npm em tempo de instalação",
+        ],
+      },
+      {
+        type: "code",
+        language: "yaml",
+        content: `# .github/workflows/security.yml
+name: Security Audit
+on: [push, pull_request]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Security audit
+        run: pnpm audit --audit-level high
+      - name: Check for known malware
+        run: npx socket-security@latest scan . --strict`,
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "Dependabot no GitHub detecta vulnerabilidades em dependências — mas leva horas ou dias após uma CVE ser publicada. Para reação imediata, configure pnpm audit no CI. Os dois são complementares, não substitutos.",
       },
     ],
   },
