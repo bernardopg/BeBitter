@@ -2582,4 +2582,648 @@ jobs:
       },
     ],
   },
+  {
+    slug: "bun-1-2-node-deno-2026",
+    title: "Bun 1.2 vs Node 24 vs Deno 2: Qual Runtime Escolher em 2026",
+    titleEn: "Bun 1.2 vs Node 24 vs Deno 2: Which Runtime to Choose in 2026",
+    excerpt:
+      "Bun 1.2 chegou com SQLite nativo, compatibilidade npm quase total e instalação 25x mais rápida. Node 24 trouxe o test runner estável e ESM sem flags. Deno 2 abraçou o npm. Comparação honesta com benchmarks reais.",
+    excerptEn:
+      "Bun 1.2 arrived with native SQLite, near-total npm compatibility and 25x faster installs. Node 24 brought a stable test runner and flagless ESM. Deno 2 embraced npm. An honest comparison with real benchmarks.",
+    date: "2026-06-02",
+    author: "Bernardo Gomes",
+    tags: ["Bun", "Node.js", "Deno", "Runtime", "Performance"],
+    readingTime: 11,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Em 2024 a escolha era simples: Node para tudo. Em 2026 não é mais. Bun 1.2 amadureceu o suficiente para produção, Deno 2 resolveu sua maior fraqueza (compatibilidade npm) e o Node 24 LTS incorporou recursos que antes exigiam ferramentas externas. Testei os três no mesmo projeto React + API para decidir qual usar.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Instalação de dependências: onde Bun domina",
+      },
+      {
+        type: "paragraph",
+        content:
+          "O instalador do Bun continua sendo seu argumento mais forte. Em um projeto com 850 dependências (este portfólio incluso), medi tempos de cold install (cache limpo) em uma máquina Linux com SSD NVMe:",
+      },
+      {
+        type: "list",
+        items: [
+          "Bun 1.2: ~3,2s (cache limpo), ~0,4s (cache quente)",
+          "pnpm 10: ~12s (cache limpo), ~1,1s (cache quente)",
+          "npm 11: ~38s (cache limpo), ~6s (cache quente)",
+          "Deno 2: ~9s — usa cache global por URL, modelo diferente",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content:
+          "Bun é 25-30x mais rápido que npm em cold install graças ao instalador escrito em Zig e ao uso de hardlinks. Para CI, isso corta minutos de cada pipeline. Mas pnpm com store cacheado fica competitivo em runs subsequentes.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Compatibilidade npm: a virada do Deno 2",
+      },
+      {
+        type: "paragraph",
+        content:
+          "A maior mudança de 2025-2026 foi o Deno 2 abandonando o dogma anti-npm. Agora você usa imports npm: diretamente e o package.json funciona. Bun sempre teve compatibilidade alta — em 2026 roda Next.js, Vite e a maioria dos frameworks sem patches. Node continua sendo a referência: se algo não roda no Node, é bug do pacote.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// Mesmo código, três runtimes — SQLite nativo
+
+// Bun 1.2 (built-in, zero deps)
+import { Database } from "bun:sqlite";
+const db = new Database("app.db");
+db.query("SELECT * FROM posts WHERE published = ?").all(1);
+
+// Node 24 (built-in desde 22.5, estável em 24)
+import { DatabaseSync } from "node:sqlite";
+const ndb = new DatabaseSync("app.db");
+ndb.prepare("SELECT * FROM posts WHERE published = ?").all(1);
+
+// Deno 2 (via npm: ou jsr:)
+import { Database as DenoDB } from "jsr:@db/sqlite";
+const ddb = new DenoDB("app.db");
+ddb.prepare("SELECT * FROM posts WHERE published = ?").all(1);`,
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "SQLite nativo nos três runtimes mata o better-sqlite3 (que exige compilação nativa e quebra em cada upgrade de Node). Para apps pequenos e ferramentas CLI, isso simplifica muito o deploy.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Test runner: Node alcançou os outros",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Bun sempre teve test runner embutido rápido. Em 2026 o Node 24 estabilizou node:test com cobertura via --experimental-test-coverage virando flag estável. Na prática: para projetos novos sem Vitest/Jest, o runner nativo do Node já basta. Mas para apps React com JSDOM e mocks complexos, Vitest continua imbatível.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Veredito prático",
+      },
+      {
+        type: "list",
+        items: [
+          "Bun 1.2: melhor para CLIs, scripts, ferramentas internas e CI onde velocidade de install importa. Cuidado em apps com dependências nativas exóticas.",
+          "Node 24 LTS: a escolha segura para produção. Ecossistema maduro, suporte de hospedagem universal, zero surpresas. É o que rodo neste portfólio.",
+          "Deno 2: excelente para edge, scripts seguros por padrão (permissões explícitas) e quando você quer TypeScript sem build step.",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "Não migre produção estável para Bun só por velocidade de benchmark. O ganho real está no CI e em ferramentas de dev. Para o servidor que atende usuários, estabilidade do Node 24 LTS vale mais que 200ms de cold start.",
+      },
+    ],
+  },
+  {
+    slug: "ai-code-review-pratica-2026",
+    title: "AI Code Review na Prática: Como Uso CodeRabbit e Claude Code em 2026",
+    titleEn: "AI Code Review in Practice: How I Use CodeRabbit and Claude Code in 2026",
+    excerpt:
+      "Code review com IA deixou de ser hype. CodeRabbit comenta PRs automaticamente, Claude Code resolve issues inteiras e o Copilot revisa antes do humano. Meu fluxo real, o que funciona e onde a IA ainda erra.",
+    excerptEn:
+      "AI code review is no longer hype. CodeRabbit comments on PRs automatically, Claude Code resolves entire issues and Copilot reviews before the human. My real workflow, what works and where AI still fails.",
+    date: "2026-06-04",
+    author: "Bernardo Gomes",
+    tags: ["IA", "Code Review", "CodeRabbit", "DevOps", "Produtividade"],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Em 2024 'AI code review' significava colar diff no ChatGPT e torcer. Em 2026 é um pipeline integrado: a IA revisa cada PR antes de qualquer humano olhar, sugere correções inline e até abre PRs resolvendo issues. Uso isso diariamente neste portfólio. Aqui está o fluxo honesto — incluindo onde a IA me atrapalhou.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "A camada 1: revisão automática no PR",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Todo PR aberto recebe um review do CodeRabbit em ~60 segundos. Ele comenta inline sobre bugs prováveis, problemas de performance e inconsistências de estilo. O valor não é pegar tudo — é pegar o óbvio antes de eu gastar tempo. Configurei via .coderabbit.yaml para focar no que importa e ignorar nits de formatação (o Prettier já cuida disso).",
+      },
+      {
+        type: "code",
+        language: "yaml",
+        content: `# .coderabbit.yaml
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  path_filters:
+    - "!**/*.lock"
+    - "!dist/**"
+    - "!**/*.snap"
+  path_instructions:
+    - path: "src/**/*.tsx"
+      instructions: >
+        Foque em acessibilidade (jsx-a11y), hooks com deps corretas,
+        e re-renders desnecessários. Ignore preferências de estilo.
+chat:
+  auto_reply: true`,
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content:
+          "O segredo do AI review útil é path_instructions específicas. Sem elas, a IA reclama de tudo igualmente. Com contexto do que importa em cada tipo de arquivo, os comentários ficam acionáveis.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "A camada 2: resolução de issues com agentes",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Para tarefas bem definidas — atualizar dependências, corrigir um bug isolado, refatorar um componente — delego a um agente. O GitHub Copilot coding agent e o Claude Code abrem PRs completos a partir de uma descrição. A regra que aprendi: quanto mais específica a issue, melhor o resultado. 'Melhore a performance' falha; 'memoize o ProjectCard, ele re-renderiza a cada scroll' funciona.",
+      },
+      {
+        type: "list",
+        items: [
+          "Tarefas mecânicas (bumps, renomeações, typos): agente resolve em minutos, quase sempre correto",
+          "Bugs com repro claro: agente acerta ~70% das vezes, sempre reviso o diff",
+          "Features novas com decisões de arquitetura: agente como rascunho, eu finalizo",
+          "Lógica de negócio crítica: ainda escrevo eu mesmo, IA só revisa",
+        ],
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Onde a IA ainda erra (e como me protejo)",
+      },
+      {
+        type: "paragraph",
+        content:
+          "AI review tem dois modos de falha perigosos: falsos positivos confiantes (aponta um 'bug' que não existe, com explicação plausível) e omissão silenciosa (não menciona um problema real porque está fora do diff). Por isso a IA nunca tem a palavra final. O fluxo é: IA revisa → eu reviso o review → CI valida → merge.",
+      },
+      {
+        type: "code",
+        language: "bash",
+        content: `# Meu gate antes de qualquer merge — IA não substitui isto
+pnpm lint && pnpm test:run && pnpm build
+
+# CI replica o mesmo no GitHub Actions:
+# lint -> test:run -> build (matriz Node 20 + 22)
+# Nenhum PR mergeia sem os 4 checks verdes,
+# nem os que a IA "aprovou".`,
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "Nunca mergeie um PR só porque a IA aprovou. Ela otimiza para parecer útil, não para estar certa. Trate o review da IA como o de um júnior esperto e apressado: pega coisas boas, mas confia demais em si mesmo. CI verde e revisão humana continuam obrigatórios.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O ganho real",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Não é 'a IA escreve meu código'. É que o ciclo de feedback ficou mais curto. Bugs óbvios morrem no PR antes de eu olhar. Tarefas chatas viram delegação. Eu gasto meu tempo nas decisões que importam — arquitetura, UX, trade-offs — em vez de caçar um ponto e vírgula. Isso é o que a IA realmente entrega em 2026.",
+      },
+    ],
+  },
+  {
+    slug: "css-moderno-2026-container-has-layers",
+    title: "CSS Moderno em 2026: Container Queries, :has() e Cascade Layers que Já Dá pra Usar",
+    titleEn: "Modern CSS in 2026: Container Queries, :has() and Cascade Layers You Can Already Use",
+    excerpt:
+      "Container queries, :has(), cascade layers e subgrid têm suporte total em todos os browsers desde 2024. Em 2026 não há mais desculpa para não usar. Exemplos práticos que substituem JavaScript por CSS puro.",
+    excerptEn:
+      "Container queries, :has(), cascade layers and subgrid have full support across all browsers since 2024. In 2026 there's no excuse not to use them. Practical examples that replace JavaScript with pure CSS.",
+    date: "2026-06-06",
+    author: "Bernardo Gomes",
+    tags: ["CSS", "Frontend", "Container Queries", "Web Platform"],
+    readingTime: 9,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Por anos, recursos de CSS que pareciam mágicos ficavam atrás de 'mas ainda não tem suporte'. Esse argumento morreu. Container queries, :has(), cascade layers e subgrid têm suporte em Chrome, Firefox, Safari e Edge desde 2023-2024. Em 2026, usá-los é o padrão — não uma aposta. Veja o que eu uso de verdade.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Container Queries: responsividade baseada no componente",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Media queries respondem ao tamanho da viewport. Mas um card de projeto deve se adaptar ao espaço que ele ocupa, não à tela inteira. Container queries resolvem isso: o componente se ajusta ao container pai. O mesmo card fica em coluna na sidebar e em linha no grid principal — sem JavaScript, sem props de breakpoint.",
+      },
+      {
+        type: "code",
+        language: "css",
+        content: `/* O container declara que pode ser consultado */
+.project-grid {
+  container-type: inline-size;
+  container-name: projects;
+}
+
+/* O card responde ao tamanho do CONTAINER, não da tela */
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+
+@container projects (min-width: 400px) {
+  .project-card {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Unidades de container: 50cqi = 50% da largura do container */
+.project-card h3 {
+  font-size: clamp(1rem, 5cqi, 1.5rem);
+}`,
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "Use cqi (container query inline) em vez de vw para tipografia fluida dentro de componentes. O texto escala com o componente, não com a janela — muito mais previsível em layouts complexos.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: ":has() — o seletor de pai que esperamos 20 anos",
+      },
+      {
+        type: "paragraph",
+        content:
+          ":has() permite estilizar um elemento baseado no que ele contém. Antes isso exigia JavaScript: adicionar uma classe ao pai quando um filho tinha certo estado. Agora é CSS puro. Estilizo formulários com erro, cards com imagem, e navegação ativa sem tocar em JS.",
+      },
+      {
+        type: "code",
+        language: "css",
+        content: `/* Form group que tem input inválido fica vermelho */
+.form-group:has(input:invalid:not(:placeholder-shown)) {
+  border-color: var(--destructive);
+}
+
+/* Card que NÃO tem imagem ganha padding extra */
+.card:not(:has(img)) {
+  padding-block: 2rem;
+}
+
+/* Label de checkbox marcado fica em negrito — sem JS */
+label:has(input:checked) {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Dark mode condicional: body com tema escuro */
+body:has(.theme-toggle[data-state="dark"]) {
+  --bg: oklch(0.15 0 0);
+}`,
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Cascade Layers: fim das guerras de especificidade",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Quem usa Tailwind + shadcn/ui + estilos próprios conhece a dor: !important para sobrescrever, ordem de import frágil, especificidade imprevisível. Cascade layers (@layer) definem uma ordem explícita de prioridade que independe de especificidade. Você declara qual camada vence, ponto.",
+      },
+      {
+        type: "code",
+        language: "css",
+        content: `/* Ordem definida UMA vez — a última vence sempre */
+@layer reset, framework, components, utilities;
+
+@layer framework {
+  /* Tailwind base entra aqui */
+  .btn { padding: 0.5rem 1rem; }
+}
+
+@layer components {
+  /* Seus componentes sobrescrevem o framework
+     SEM precisar de especificidade maior */
+  .btn { padding: 0.75rem 1.5rem; }
+}
+
+/* utilities sempre vence components,
+   mesmo com seletor menos específico */
+@layer utilities {
+  .p-0 { padding: 0; }
+}`,
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content:
+          "O Tailwind 4 já usa cascade layers internamente. Entender @layer ajuda a debugar por que uma utility não está aplicando — geralmente é ordem de camada, não especificidade. Isso elimina 90% dos !important do seu CSS.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que isso muda na prática",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Menos JavaScript. Cada um desses recursos substitui código que antes vivia em hooks, event listeners ou bibliotecas. Menos JS = menos bundle, menos re-renders, menos bugs. Em 2026, antes de instalar um pacote para resolver um problema de layout ou estado visual, pergunte: o CSS já faz isso? Cada vez mais, a resposta é sim.",
+      },
+    ],
+  },
+  {
+    slug: "edge-functions-serverless-2026",
+    title: "Edge Functions em 2026: Quando Vale a Pena Sair do Servidor Tradicional",
+    titleEn: "Edge Functions in 2026: When It's Worth Leaving the Traditional Server",
+    excerpt:
+      "Edge functions rodam seu código a milissegundos do usuário em data centers globais. Netlify, Cloudflare e Vercel competem por latência. Mas edge não é bala de prata — veja onde brilha, onde falha e quando o servidor tradicional ainda ganha.",
+    excerptEn:
+      "Edge functions run your code milliseconds from the user across global data centers. Netlify, Cloudflare and Vercel compete on latency. But edge isn't a silver bullet — see where it shines, where it fails and when the traditional server still wins.",
+    date: "2026-06-08",
+    author: "Bernardo Gomes",
+    tags: ["Edge", "Serverless", "Cloudflare", "Netlify", "Performance"],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Um servidor tradicional fica em um lugar — digamos, Virginia. Um usuário em São Paulo paga ~120ms de latência só na ida e volta da rede. Edge functions resolvem isso rodando seu código no data center mais próximo do usuário: ~10ms em vez de 120ms. Em 2026 isso virou commodity. Mas migrar tudo para edge é um erro. Aqui está a decisão honesta.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que edge faz bem",
+      },
+      {
+        type: "list",
+        items: [
+          "Redirects e rewrites geográficos: roteie usuários por país/idioma sem round-trip ao servidor central",
+          "Autenticação de borda: valide JWT e bloqueie requests não autorizados antes de chegar à origem",
+          "Personalização leve: A/B testing, feature flags, geolocalização — decisões rápidas sem dados pesados",
+          "Cache inteligente: sirva HTML pré-renderado por região, revalidando sob demanda",
+          "Headers de segurança: injete CSP, HSTS e outros em todas as respostas, centralizado",
+        ],
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// Netlify Edge Function — geolocalização + headers de segurança
+import type { Context } from "https://edge.netlify.com";
+
+export default async (request: Request, context: Context) => {
+  const country = context.geo?.country?.code ?? "BR";
+  const response = await context.next();
+
+  // Redireciona PT para versão localizada na borda
+  if (country === "PT" && !request.url.includes("/pt-pt")) {
+    return Response.redirect(new URL("/pt-pt", request.url), 302);
+  }
+
+  // Injeta headers de segurança em toda resposta
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  return response;
+};
+
+export const config = { path: "/*" };`,
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content:
+          "Para este portfólio (SPA estática), edge functions servem para headers de segurança e redirects de SEO. O conteúdo já é estático e cacheado globalmente via CDN — então o ganho de edge é em controle, não em latência de dados.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "As limitações reais do edge",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Edge runtimes não são Node completo. Eles rodam em V8 isolates (Cloudflare Workers, Vercel Edge) ou Deno (Netlify) com APIs limitadas: sem filesystem, sem muitos módulos nativos, limites de CPU por request (geralmente 50ms de CPU time). Bibliotecas que assumem Node quebram. E conexões a banco de dados são o calcanhar de Aquiles.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// PROBLEMA: conexão TCP a Postgres não funciona bem no edge
+// V8 isolates não mantêm pools de conexão persistentes
+
+// ERRADO no edge — pool TCP tradicional:
+// import { Pool } from "pg";
+// const pool = new Pool(); // falha ou vaza conexões
+
+// CERTO no edge — driver HTTP/serverless:
+import { neon } from "@neondatabase/serverless";
+const sql = neon(process.env.DATABASE_URL!);
+
+// Driver via HTTP fetch — funciona em qualquer edge runtime
+const posts = await sql\`SELECT * FROM posts WHERE published = true\`;`,
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "Se sua função edge precisa de banco relacional, você PRECISA de um driver serverless (Neon, PlanetScale, Turso). Drivers TCP tradicionais (pg, mysql2) não funcionam de forma confiável em V8 isolates. Ignorar isso causa esgotamento de conexões em produção.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quando o servidor tradicional ainda ganha",
+      },
+      {
+        type: "list",
+        items: [
+          "Processamento pesado: jobs longos, geração de PDF, encoding de vídeo — edge tem limite de CPU por request",
+          "Conexões persistentes: WebSockets de longa duração, streaming complexo",
+          "Lógica que precisa de Node completo: bibliotecas com dependências nativas",
+          "Latência de dados domina: se cada request faz 5 queries pesadas, edge perto do usuário não ajuda se o banco está longe",
+        ],
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "A arquitetura que uso em 2026",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Híbrida. Edge para o que é leve e geográfico: roteamento, auth, headers, cache. Origem (servidor ou serverless function regional) para o que é pesado: lógica de negócio, transações, processamento. O frontend estático vive na CDN. Cada camada faz o que faz melhor. Edge não substitui o servidor — ele tira do servidor o que não precisava estar lá.",
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "Comece medindo. Se seus usuários estão concentrados numa região e seu servidor está perto deles, edge pode não valer a complexidade. Edge brilha com audiência global e operações leves. Otimize o gargalo real, não o que está na moda.",
+      },
+    ],
+  },
+  {
+    slug: "react-server-components-producao-2026",
+    title: "React Server Components em Produção: O Que Ninguém Te Conta em 2026",
+    titleEn: "React Server Components in Production: What Nobody Tells You in 2026",
+    excerpt:
+      "RSC saiu do hype e entrou em produção real com Next.js 15 e React Router 7. Menos JavaScript no cliente, dados direto do servidor. Mas a curva de aprendizado é brutal e o modelo mental muda tudo. Lições de quem migrou.",
+    excerptEn:
+      "RSC left the hype and entered real production with Next.js 15 and React Router 7. Less client JavaScript, data straight from the server. But the learning curve is brutal and the mental model changes everything. Lessons from someone who migrated.",
+    date: "2026-06-09",
+    author: "Bernardo Gomes",
+    tags: ["React", "RSC", "Server Components", "Next.js", "Performance"],
+    featured: true,
+    readingTime: 12,
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "React Server Components (RSC) foram anunciados em 2020, ficaram experimentais por anos e finalmente, em 2026, são produção mainstream. Next.js 15 os tornou default, React Router 7 os suporta e até frameworks menores aderiram. A promessa: componentes que rodam no servidor, enviando HTML e dados sem mandar JavaScript pro cliente. A realidade: poderoso, mas exige reaprender React.",
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "RSC não é 'React mais rápido'. É um modelo mental diferente. Server Components não têm estado, não têm efeitos, não acessam o DOM. Tentar usar useState num Server Component é o erro número 1 de quem migra. Entenda a divisão antes de escrever uma linha.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Server vs Client: a divisão fundamental",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Por padrão, todo componente em um app RSC é Server Component: roda no servidor, pode buscar dados direto (async/await no componente!), e não envia JS pro cliente. Quando você precisa de interatividade — estado, eventos, hooks de browser — marca o componente com 'use client'. A arte está em manter a fronteira client o menor possível.",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// Server Component (padrão) — busca dados direto, zero JS no cliente
+async function ProjectList() {
+  // Sem useEffect, sem useState, sem loading state manual
+  const res = await fetch("https://api.github.com/users/bernardopg/repos");
+  const projects = await res.json();
+
+  return (
+    <ul>
+      {projects.map((p) => (
+        // LikeButton é a ÚNICA parte que vira JS no cliente
+        <li key={p.id}>
+          {p.name}
+          <LikeButton projectId={p.id} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Client Component — só o que precisa de interatividade
+"use client";
+import { useState } from "react";
+
+function LikeButton({ projectId }: { projectId: number }) {
+  const [liked, setLiked] = useState(false);
+  return (
+    <button onClick={() => setLiked(!liked)}>
+      {liked ? "★" : "☆"}
+    </button>
+  );
+}`,
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "A regra de ouro: 'use client' marca uma FRONTEIRA, não um arquivo isolado. Tudo importado por um Client Component também vira client. Coloque o 'use client' o mais fundo possível na árvore — nas folhas interativas, não no topo.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O ganho real de performance",
+      },
+      {
+        type: "paragraph",
+        content:
+          "O benefício concreto é o bundle de JavaScript. Um app RSC bem feito envia só o JS dos Client Components — frequentemente 30-50% menos que um SPA equivalente. Menos JS = parse mais rápido, Time to Interactive menor, melhor INP. Para conteúdo (blogs, e-commerce, dashboards), o ganho de Core Web Vitals é mensurável.",
+      },
+      {
+        type: "list",
+        items: [
+          "Bundle inicial: 30-50% menor (só Client Components vão pro cliente)",
+          "Data fetching: sem waterfalls de useEffect — dados resolvem no servidor em paralelo",
+          "SEO: HTML completo no primeiro byte, sem hidratação para conteúdo estático",
+          "Segredos seguros: API keys e queries ficam no servidor, nunca no bundle",
+        ],
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "As armadilhas que me pegaram",
+      },
+      {
+        type: "code",
+        language: "typescript",
+        content: `// ARMADILHA 1: passar função de Server pra Client
+// Server Component NÃO pode passar callbacks pra Client Component
+// (funções não serializam pela fronteira)
+
+// ERRADO:
+function ServerParent() {
+  const handleClick = () => console.log("oi"); // server-side
+  return <ClientChild onClick={handleClick} />; // ❌ erro
+}
+
+// CERTO: passe dados serializáveis, lógica fica no client
+function ServerParent() {
+  return <ClientChild projectId={42} />; // ✅ número serializa
+}
+
+// ARMADILHA 2: usar API de browser em Server Component
+function Bad() {
+  const w = window.innerWidth; // ❌ window não existe no servidor
+  return <div>{w}</div>;
+}`,
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content:
+          "A fronteira server/client só aceita dados serializáveis: strings, números, objetos planos, arrays. Funções, classes, Dates complexas e Symbols não atravessam. Esse é o erro mais comum e o compilador nem sempre avisa de forma clara.",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Vale a pena para o seu projeto?",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Depende. Para apps com muito conteúdo dinâmico, fetching pesado e necessidade de SEO, RSC é transformador. Para uma SPA pequena e interativa como este portfólio, o overhead de complexidade não compensa — Vite + React Router client-side com HTML pré-gerado entrega Core Web Vitals excelentes sem o peso conceitual do RSC. Use a ferramenta certa, não a mais nova.",
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content:
+          "Se você está começando um projeto novo com Next.js em 2026, RSC já é o caminho default e vale aprender. Se tem um SPA Vite funcionando bem, não migre por FOMO. RSC resolve problemas específicos de fetching e bundle — se você não tem esses problemas, não precisa da solução.",
+      },
+    ],
+  },
 ];
