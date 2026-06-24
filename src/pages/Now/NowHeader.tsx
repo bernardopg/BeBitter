@@ -50,14 +50,14 @@ export function NowHeader() {
       </MotionP>
 
       <MotionDiv
-        className="relative p-8 rounded-2xl mb-8 border border-primary/10 bg-background/70"
+        className="glass relative mx-auto max-w-md p-8 rounded-2xl mb-8 border"
         {...(prefersReducedMotion ? {} : {})}
       >
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Clock className="h-6 w-6 text-primary" />
-          <span className="text-lg font-semibold">{t("now.clockLabel")}</span>
+        <div className="flex items-center justify-center gap-2 mb-4 text-muted-foreground">
+          <Clock className="h-5 w-5 text-primary" />
+          <span className="text-sm font-medium uppercase tracking-wider">{t("now.clockLabel")}</span>
         </div>
-        <div className="text-4xl md:text-6xl font-mono font-bold gradient-text">
+        <div className="text-5xl md:text-6xl font-mono font-bold gradient-text tabular-nums">
           {currentTime.toLocaleTimeString(locale, {
             hour: "2-digit",
             minute: "2-digit",

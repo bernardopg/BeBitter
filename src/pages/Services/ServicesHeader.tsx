@@ -1,11 +1,22 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
-import { Rocket } from "lucide-react";
+import { Briefcase, Rocket, Users } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
 export function ServicesHeader() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+
+  const audiences =
+    language === "en"
+      ? [
+          { icon: <Briefcase className="h-3.5 w-3.5" />, label: "For founders & teams" },
+          { icon: <Users className="h-3.5 w-3.5" />, label: "For recruiters & hiring" },
+        ]
+      : [
+          { icon: <Briefcase className="h-3.5 w-3.5" />, label: "Para founders e times" },
+          { icon: <Users className="h-3.5 w-3.5" />, label: "Para recrutadores e vagas" },
+        ];
 
   return (
     <motion.div
@@ -29,6 +40,18 @@ export function ServicesHeader() {
       <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
         {t("services.description")}
       </p>
+
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        {audiences.map((a) => (
+          <span
+            key={a.label}
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary"
+          >
+            {a.icon}
+            {a.label}
+          </span>
+        ))}
+      </div>
     </motion.div>
   );
 }

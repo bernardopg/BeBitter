@@ -1,4 +1,6 @@
 import { useAnalytics } from "@/components/Analytics";
+import { BlogCover } from "@/components/BlogCover";
+import { CONFIG } from "@/constants/config";
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
 import { Badge } from "@/components/ui/badge";
@@ -210,19 +212,27 @@ export default function BlogPostPage() {
         author={post.author}
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="container mx-auto px-4 py-16 max-w-3xl">
+      <div className="relative min-h-screen">
+        <div className="absolute inset-x-0 top-0 h-[360px] gradient-hero pointer-events-none" aria-hidden />
+        <div className="container relative z-10 mx-auto px-4 pt-16 pb-28 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Button asChild variant="ghost" size="sm" className="mb-8 group">
+            <Button asChild variant="ghost" size="sm" className="mb-6 group">
               <Link to="/blog">
                 <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                 {t("blog.backToBlog")}
               </Link>
             </Button>
+
+            <BlogCover
+              slug={post.slug}
+              tags={post.tags}
+              className="mb-8 aspect-[2/1] w-full rounded-2xl border"
+              iconClassName="h-56 w-56"
+            />
 
             <header className="mb-10">
               <div className="flex flex-wrap gap-2 mb-4">
@@ -258,12 +268,31 @@ export default function BlogPostPage() {
             </article>
 
             <footer className="mt-12 pt-8 border-t border-border">
-              <Button asChild variant="outline">
-                <Link to="/blog">
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  {t("blog.backToBlog")}
-                </Link>
-              </Button>
+              <div className="rounded-2xl border bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-6 md:p-8 text-center">
+                <h2 className="text-xl font-bold mb-2">
+                  {language === "en"
+                    ? "Got a product, automation, or idea in motion?"
+                    : "Tem um produto, automação ou ideia em andamento?"}
+                </h2>
+                <p className="text-sm text-muted-foreground mb-5 max-w-md mx-auto">
+                  {language === "en"
+                    ? "Let's talk about scope, constraints, and impact."
+                    : "Vamos falar sobre escopo, restrições e impacto."}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button asChild variant="gradient" className="btn-enhanced">
+                    <a href={CONFIG.WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                      {language === "en" ? "Open WhatsApp" : "Abrir WhatsApp"}
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link to="/blog">
+                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      {t("blog.backToBlog")}
+                    </Link>
+                  </Button>
+                </div>
+              </div>
             </footer>
           </motion.div>
         </div>

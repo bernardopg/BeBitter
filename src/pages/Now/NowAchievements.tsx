@@ -10,10 +10,10 @@ export function NowAchievements() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const recentAchievements = [
-    { text: t("now.achievement1"), icon: "🚀", color: "text-blue-600" },
-    { text: t("now.achievement2"), icon: "📚", color: "text-purple-600" },
-    { text: t("now.achievement3"), icon: "🎯", color: "text-green-600" },
-    { text: t("now.achievement4"), icon: "☕", color: "text-orange-600" },
+    { text: t("now.achievement1"), icon: "🚀" },
+    { text: t("now.achievement2"), icon: "📚" },
+    { text: t("now.achievement3"), icon: "🎯" },
+    { text: t("now.achievement4"), icon: "☕" },
   ];
 
   return (
@@ -46,21 +46,19 @@ export function NowAchievements() {
             animate={inView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.25, delay: prefersReducedMotion ? 0 : 0.1 + index * 0.05 }}
           >
-            <Card className="card-enhanced group">
+            <Card className="card-enhanced card-glow group h-full">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
                   <motion.div
-                    className="w-12 h-12 rounded-full gradient-secondary flex items-center justify-center flex-shrink-0 text-2xl group-hover:gradient-primary transition-all duration-200"
-                    whileHover={{ scale: 1.1, rotate: 10 }}
+                    className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-2xl group-hover:bg-primary/20 transition-all duration-200"
+                    whileHover={{ scale: 1.1, rotate: 8 }}
                     transition={{ duration: 0.3 }}
                   >
                     {achievement.icon}
                   </motion.div>
-                  <div className="flex-1">
-                    <p className={`text-sm leading-relaxed ${achievement.color} font-medium group-hover:text-primary transition-colors duration-200`}>
-                      {achievement.text.substring(achievement.text.indexOf(" ") + 1)}
-                    </p>
-                  </div>
+                  <p className="flex-1 text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors duration-200">
+                    {achievement.text}
+                  </p>
                 </div>
               </CardContent>
             </Card>

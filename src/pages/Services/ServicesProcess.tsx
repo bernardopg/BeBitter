@@ -61,11 +61,11 @@ export function ServicesProcess() {
             transition={{ duration: 0.6, delay: index * 0.1 }}
             className="relative"
           >
-            <Card className="h-full card-enhanced group">
+            <Card className="h-full card-enhanced card-glow group rounded-xl">
               <CardHeader>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="text-4xl font-bold gradient-text">{step.step}</div>
-                  <div className="w-12 h-12 rounded-full gradient-secondary flex items-center justify-center text-primary group-hover:gradient-primary group-hover:text-white transition-all duration-300">
+                  <div className="w-12 h-12 rounded-2xl gradient-secondary flex items-center justify-center text-primary group-hover:gradient-primary group-hover:text-white transition-all duration-300">
                     {step.icon}
                   </div>
                 </div>

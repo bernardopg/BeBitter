@@ -71,7 +71,7 @@ interface WebsiteSchema {
 type StructuredDataSchema = PersonSchema | WebsiteSchema;
 
 interface StructuredDataProps {
-  pageType?: 'person' | 'website' | 'article';
+  pageType?: 'person' | 'website' | 'article' | 'service';
   title?: string;
   description?: string;
   url?: string;
@@ -184,6 +184,51 @@ export const StructuredData = ({
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": currentUrl,
+        },
+      } as unknown as StructuredDataSchema;
+    } else if (pageType === 'service') {
+      structuredData = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Bernardo Gomes — Frontend, Automação e Software sob medida",
+        "description": description,
+        "url": currentUrl,
+        "image": profileImageUrl,
+        "logo": logoUrl,
+        "priceRange": "$$",
+        "areaServed": ["BR", "Worldwide", "Remote"],
+        "availableLanguage": ["pt-BR", "en-US"],
+        "founder": { "@type": "Person", "name": "Bernardo Gomes" },
+        "provider": {
+          "@type": "Person",
+          "name": "Bernardo Gomes",
+          "url": "https://bebitterbebetter.com.br",
+          "sameAs": [CONFIG.GITHUB_URL, CONFIG.LINKEDIN_URL],
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Belo Horizonte",
+          "addressRegion": "MG",
+          "addressCountry": "BR",
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "url": CONFIG.WHATSAPP_URL,
+          "availableLanguage": ["pt-BR", "en-US"],
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": language === 'en' ? "Services" : "Serviços",
+          "itemListElement": [
+            "Frontend Product Engineering",
+            language === 'en' ? "Automation and workflows" : "Automações e workflows",
+            language === 'en' ? "Internal tools and dashboards" : "Ferramentas internas e dashboards",
+            "Linux-native tooling",
+          ].map((name) => ({
+            "@type": "Offer",
+            "itemOffered": { "@type": "Service", "name": name },
+          })),
         },
       } as unknown as StructuredDataSchema;
     } else if (pageType === 'website') {

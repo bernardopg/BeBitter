@@ -86,12 +86,11 @@ export const HeroSection = () => {
       className="min-h-screen flex items-center justify-center py-12 md:py-20 relative overflow-hidden"
       id="hero"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 gradient-hero opacity-50" />
-      
-      {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl float" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl float" style={{ animationDelay: '2s' }} />
+      {/* Layered background: grid + mesh + glow */}
+      <div className="absolute inset-0 grid-bg opacity-60" aria-hidden />
+      <div className="absolute inset-0 gradient-hero" aria-hidden />
+      <div className="absolute top-10 -left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl float" aria-hidden />
+      <div className="absolute bottom-10 -right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl float" style={{ animationDelay: '2s' }} aria-hidden />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -108,10 +107,17 @@ export const HeroSection = () => {
                   heroInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
                 }
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex items-center justify-center lg:justify-start gap-2"
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
               >
-                <Sparkles className="h-6 w-6 text-primary" />
-                <span className="text-lg font-semibold text-primary">
+                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-500">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  {t("hero.availability")}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-base font-semibold text-primary">
+                  <Sparkles className="h-5 w-5" />
                   {t("hero.greeting")}
                 </span>
               </motion.div>
@@ -169,12 +175,13 @@ export const HeroSection = () => {
               transition={{ duration: 0.6, delay: 1.1 }}
             >
               <Button
-                size="lg"
+                size="xl"
+                variant="gradient"
                 onClick={() => {
                   handleContactClick("whatsapp");
                   window.open(CONFIG.WHATSAPP_URL, "_blank");
                 }}
-                className="group btn-enhanced gradient-primary text-white border-0 hover:shadow-lg hover:shadow-primary/25"
+                className="group btn-enhanced"
               >
                 <Coffee className="mr-2 h-4 w-4" />
                 {t("hero.cta.primary")}
@@ -183,17 +190,32 @@ export const HeroSection = () => {
 
               <Button
                 variant="outline"
-                size="lg"
+                size="xl"
                 onClick={() => {
                   handleContactClick("projects");
                   document
                     .getElementById("projects")
                     ?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="btn-enhanced border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                className="btn-enhanced border-primary/30 hover:border-primary/50 hover:bg-primary/5"
               >
                 {t("hero.cta.secondary")}
               </Button>
+            </motion.div>
+
+            {/* Tech trust strip */}
+            <motion.div
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-sm text-muted-foreground"
+              initial={{ opacity: 0 }}
+              animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+            >
+              {["React", "TypeScript", "Python", "Linux", "Node.js"].map((tech) => (
+                <span key={tech} className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary/60" />
+                  {tech}
+                </span>
+              ))}
             </motion.div>
 
             {/* Social Links */}

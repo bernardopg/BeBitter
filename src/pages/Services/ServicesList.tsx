@@ -90,19 +90,19 @@ export function ServicesList() {
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <Card className="h-full card-enhanced group">
+            <Card className="h-full card-enhanced card-glow group flex flex-col rounded-xl">
               <CardHeader>
                 <div
-                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}
                 >
                   {service.icon}
                 </div>
-                <CardTitle className="text-xl mb-2">{service.title}</CardTitle>
+                <CardTitle className="text-xl mb-2 leading-snug group-hover:text-primary transition-colors">{service.title}</CardTitle>
                 <CardDescription className="text-sm leading-relaxed">
                   {service.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="mt-auto space-y-4">
                 <div className="space-y-2">
                   {service.features.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-2 text-sm">
@@ -111,10 +111,10 @@ export function ServicesList() {
                     </div>
                   ))}
                 </div>
-                <div className="pt-4 border-t">
+                <div className="pt-4 border-t border-border/60">
                   <div className="flex flex-wrap gap-2">
                     {service.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary" className="text-xs">
+                      <Badge key={tech} variant="secondary" className="text-xs bg-muted/60 text-muted-foreground">
                         {tech}
                       </Badge>
                     ))}

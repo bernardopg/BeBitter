@@ -26,14 +26,16 @@ const Services = () => {
       />
 
       <StructuredData
-        pageType="website"
+        pageType="service"
         title={`${t("services.meta.title")} | Bernardo Gomes`}
         description={t("services.meta.description")}
         url="https://bebitterbebetter.com.br/services"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="container mx-auto px-4 py-16 max-w-7xl">
+      <div className="relative min-h-screen">
+        <div className="absolute inset-x-0 top-0 h-[460px] grid-bg opacity-50 pointer-events-none" aria-hidden />
+        <div className="absolute inset-x-0 top-0 h-[460px] gradient-hero pointer-events-none" aria-hidden />
+        <div className="container relative z-10 mx-auto px-4 pt-16 pb-28 max-w-7xl">
           <ServicesHeader />
           <ServicesList />
           <ServicesProcess />

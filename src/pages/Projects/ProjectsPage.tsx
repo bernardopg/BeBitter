@@ -61,47 +61,42 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       transition={{ duration: 0.4, delay: index * 0.05 }}
     >
       <Card
-        className={`group h-full card-enhanced relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+        className={`group flex h-full flex-col card-enhanced card-glow relative overflow-hidden rounded-xl ${
           project.featured
-            ? "ring-2 ring-primary/30 bg-gradient-to-br from-primary/5 to-transparent"
+            ? "border-primary/30 bg-gradient-to-br from-primary/[0.07] to-transparent"
             : ""
         }`}
       >
-        {project.featured && (
-          <div className="absolute top-0 right-0 w-0 h-0 border-l-[40px] border-l-transparent border-t-[40px] border-t-primary/30" />
-        )}
-
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
-            <div className="flex-1 min-w-0">
-              <CardTitle className="text-base group-hover:text-primary transition-colors truncate">
-                {project.title}
-              </CardTitle>
-              {project.featured && (
-                <Badge
-                  variant="secondary"
-                  className="mt-1 text-xs gradient-primary text-white border-0"
-                >
-                  ⭐ {t("projects.featured")}
-                </Badge>
-              )}
-            </div>
-            <div className="flex items-center gap-1 text-muted-foreground shrink-0">
-              <Star className="h-3.5 w-3.5" />
-              <span className="text-xs font-medium">{project.stars}</span>
-            </div>
+            <CardTitle className="text-base font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-1">
+              {project.title}
+            </CardTitle>
+            {project.stars > 0 && (
+              <div className="flex items-center gap-1 text-amber-500 shrink-0 mt-0.5">
+                <Star className="h-3.5 w-3.5 fill-amber-500/20" />
+                <span className="text-xs font-semibold">{project.stars}</span>
+              </div>
+            )}
           </div>
 
-          <CardDescription className="text-sm leading-relaxed line-clamp-2 mt-2">
+          {project.featured && (
+            <Badge className="mt-2 w-fit gradient-primary text-white border-0 text-[10px] uppercase tracking-wide">
+              <Star className="mr-1 h-2.5 w-2.5 fill-white" />
+              {t("projects.featured")}
+            </Badge>
+          )}
+
+          <CardDescription className="text-sm leading-relaxed line-clamp-2 mt-2 min-h-[2.5rem]">
             {project.description ?? t("projects.empty.description")}
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="pt-0">
+        <CardContent className="mt-auto flex flex-col gap-3 pt-0">
           {project.language && (
-            <div className="flex items-center gap-1.5 mb-3">
+            <div className="flex items-center gap-1.5">
               <span
-                className={`inline-block w-3 h-3 rounded-full ${
+                className={`inline-block w-2.5 h-2.5 rounded-full ${
                   LANG_COLOR[project.language] ?? "bg-muted-foreground"
                 }`}
               />
@@ -111,18 +106,18 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             </div>
           )}
 
-          <div className="flex flex-wrap gap-1.5 mb-4">
+          <div className="flex flex-wrap gap-1.5">
             {project.technologies.slice(0, 4).map((tech) => (
               <Badge
                 key={tech}
-                variant="outline"
-                className="text-xs hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                variant="secondary"
+                className="text-[10px] font-medium text-muted-foreground bg-muted/60"
               >
                 {tech}
               </Badge>
             ))}
             {project.technologies.length > 4 && (
-              <Badge variant="outline" className="text-xs text-muted-foreground">
+              <Badge variant="outline" className="text-[10px] text-muted-foreground">
                 +{project.technologies.length - 4}
               </Badge>
             )}
@@ -133,10 +128,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               asChild
               variant="outline"
               size="sm"
-              className="btn-enhanced flex-1 text-xs"
+              className="btn-enhanced flex-1 text-xs h-9 group-hover:border-primary/40"
             >
               <Link to={`/projects/${slug}`}>
-                <FolderOpen className="mr-1.5 h-3 w-3" />
+                <FolderOpen className="mr-1.5 h-3.5 w-3.5" />
                 {t("projects.page.viewProject")}
               </Link>
             </Button>
@@ -144,13 +139,13 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               asChild
               variant="ghost"
               size="sm"
-              className="px-2"
+              className="px-2.5 h-9"
+              aria-label="Ver no GitHub"
             >
               <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Ver no GitHub"
               >
                 <GitHubIcon className="h-4 w-4" />
               </a>
@@ -242,8 +237,10 @@ const ProjectsPage = () => {
         url="https://bebitterbebetter.com.br/projects"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="container mx-auto px-4 py-16 max-w-7xl">
+      <div className="relative min-h-screen">
+        <div className="absolute inset-x-0 top-0 h-[420px] grid-bg opacity-50 pointer-events-none" aria-hidden />
+        <div className="absolute inset-x-0 top-0 h-[420px] gradient-hero pointer-events-none" aria-hidden />
+        <div className="container relative z-10 mx-auto px-4 pt-16 pb-28 max-w-7xl">
           {/* Header */}
           <motion.div
             ref={headerRef}
@@ -360,7 +357,14 @@ const ProjectsPage = () => {
 
             <div className="flex items-center justify-between max-w-sm mx-auto">
               <span className="text-sm text-muted-foreground">
-                {filtered.length} {filtered.length === 1 ? "projeto" : "projetos"}
+                {filtered.length}{" "}
+                {language === "en"
+                  ? filtered.length === 1
+                    ? "project"
+                    : "projects"
+                  : filtered.length === 1
+                    ? "projeto"
+                    : "projetos"}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("projects.page.sortBy")}:</span>
@@ -387,7 +391,7 @@ const ProjectsPage = () => {
               {Array.from({ length: 8 }).map((_, i) => (
                 <div
                   key={i}
-                  className="animate-pulse rounded-lg border p-6 space-y-4"
+                  className="shimmer rounded-xl border bg-card p-6 space-y-4"
                 >
                   <div className="h-4 bg-muted rounded w-3/4" />
                   <div className="h-3 bg-muted rounded w-1/2" />

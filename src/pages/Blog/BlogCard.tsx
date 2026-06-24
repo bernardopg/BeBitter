@@ -6,6 +6,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { BlogCover } from "@/components/BlogCover";
 import type { BlogPost } from "@/constants/blog-posts";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
@@ -31,11 +32,20 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
 
   return (
     <motion.div
+      className="group h-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
     >
-      <Card className="glass card-enhanced h-full flex flex-col">
+      <Card className="card-enhanced card-glow h-full flex flex-col overflow-hidden rounded-xl">
+        <Link to={`/blog/${post.slug}`} className="block" aria-label={title}>
+          <BlogCover
+            slug={post.slug}
+            tags={post.tags}
+            className="aspect-[16/9] w-full transition-transform duration-500 group-hover:scale-[1.03]"
+            iconClassName="h-40 w-40"
+          />
+        </Link>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between mb-2">
             <time className="text-xs text-muted-foreground" dateTime={post.date}>
@@ -56,7 +66,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
               {t("blog.featured")}
             </Badge>
           )}
-          <h3 className="font-semibold text-lg leading-snug line-clamp-2">
+          <h3 className="font-semibold text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
             {title}
           </h3>
         </CardHeader>

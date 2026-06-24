@@ -40,14 +40,16 @@ export const CONFIG = {
   MAX_REPOS_FETCH: 100,
 } as const;
 
+// Curadoria: range duplo (produto + range técnico), ordenado por impacto de venda
 export const FEATURED_REPOSITORIES = [
-  "BeBitter",
-  "doctoralia-scrapper",
-  "cmmg-calendar",
-  "mvp-estetoscopio",
-  "arduino-audio-controller",
-  "dms-adguard-vpn-plugin",
-  "AutoJoin-for-SteamGifts",
+  "LASCMMG", // produto full-stack (Node/React/Socket.io) — vendável
+  "mvp-estetoscopio", // educação/saúde com SM-2 — vendável e diferenciado
+  "doctoralia-scrapper", // automação + saúde — vendável
+  "cmmg-calendar", // produto/integração de calendário
+  "AiOverviewControl", // top stars, QML — range técnico
+  "dms-adguard-vpn-plugin", // tooling Linux/QML
+  "ioruba", // hardware + Tauri/React/Rust — range técnico
+  "AutoJoin-for-SteamGifts", // automação browser
 ] as const;
 
 export const SKILL_CATEGORIES = {

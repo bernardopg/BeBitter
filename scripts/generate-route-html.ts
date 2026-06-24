@@ -104,7 +104,7 @@ function injectMeta(html: string, meta: RouteMeta): string {
   // Canonical deve apontar para URL final para evitar redirect chain no GSC
   const canonical = routePath === "/" ? BASE_URL + "/" : `${BASE_URL}${routePath}/`;
   const image =
-    ogImage || `${BASE_URL}/images/logos/BeBitter.svg`;
+    ogImage || `${BASE_URL}/images/icons/android-chrome-512x512.png`;
 
   const safeTitle = escapeHtml(title);
   const safeDesc = escapeHtml(description);
@@ -218,12 +218,13 @@ async function generateRouteHtml() {
 
   // Projetos conhecidos do GitHub (estático)
   const projects = [
-    "BeBitter",
+    "LASCMMG",
+    "mvp-estetoscopio",
     "doctoralia-scrapper",
     "cmmg-calendar",
-    "mvp-estetoscopio",
-    "arduino-audio-controller",
+    "AiOverviewControl",
     "dms-adguard-vpn-plugin",
+    "ioruba",
     "AutoJoin-for-SteamGifts",
   ];
   for (const proj of projects) {

@@ -167,20 +167,37 @@ export const ContactSection = () => {
                 </CardContent>
               </Card>
 
-              {/* Quick Response Info */}
+              {/* Trust panel */}
               <motion.div
-                className="text-center p-6 bg-primary/5 rounded-lg border"
+                className="grid grid-cols-3 gap-3"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                 }
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                <div className="text-2xl font-bold text-primary mb-2">
-                  24h
+                <div className="text-center p-4 rounded-xl border bg-primary/5">
+                  <div className="text-2xl font-bold gradient-text">24h</div>
+                  <div className="mt-1 text-xs text-muted-foreground leading-tight">
+                    {t("contact.responseTime")}
+                  </div>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  {t("contact.responseTime")}
+                <div className="text-center p-4 rounded-xl border bg-primary/5">
+                  <div className="text-2xl font-bold gradient-text">PT/EN</div>
+                  <div className="mt-1 text-xs text-muted-foreground leading-tight">
+                    {t("hero.location")}
+                  </div>
+                </div>
+                <div className="text-center p-4 rounded-xl border bg-primary/5">
+                  <div className="flex items-center justify-center gap-1.5 text-2xl font-bold text-emerald-500">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    </span>
+                  </div>
+                  <div className="mt-1 text-xs text-muted-foreground leading-tight">
+                    {t("hero.availability")}
+                  </div>
                 </div>
               </motion.div>
             </motion.div>

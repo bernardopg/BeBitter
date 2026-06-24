@@ -83,15 +83,6 @@ export function NowContact() {
         <motion.div {...fade(contactInView, 0.1)}>
           <Card className="glass card-enhanced max-w-2xl mx-auto">
             <CardContent className="p-8">
-              <motion.h3
-                className="text-2xl font-bold mb-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                {t("now.contact.title")}
-              </motion.h3>
-
               <motion.p
                 className="text-muted-foreground mb-8 max-w-md mx-auto"
                 initial={{ opacity: 0, y: 10 }}
@@ -107,40 +98,32 @@ export function NowContact() {
                 animate={contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                  <Button asChild size="lg" className="group btn-enhanced gradient-primary text-white border-0">
-                    <a
-                      href="mailto:bernardo.gomes@bebitterbebetter.com.br"
-                      className="flex items-center gap-2"
-                      aria-label="Enviar e-mail para Bernardo Gomes"
-                    >
-                      <Mail className="h-5 w-5" />
-                      {t("now.contact.email")}
-                      <div className="absolute inset-0 bg-primary/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                    </a>
-                  </Button>
-                </motion.div>
-
-                <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    className="group btn-enhanced border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                <Button asChild variant="gradient" size="lg" className="btn-enhanced">
+                  <a
+                    href="mailto:bernardo.gomes@bebitterbebetter.com.br"
+                    aria-label="Enviar e-mail para Bernardo Gomes"
                   >
-                    <a
-                      href="https://wa.me/5531984916431"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                      aria-label="Conversar no WhatsApp com Bernardo Gomes"
-                    >
-                      <MessageCircle className="h-5 w-5" />
-                      {t("now.contact.whatsapp")}
-                      <div className="absolute inset-0 bg-primary/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                    </a>
-                  </Button>
-                </motion.div>
+                    <Mail className="mr-2 h-5 w-5" />
+                    {t("now.contact.email")}
+                  </a>
+                </Button>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="btn-enhanced border-primary/30 hover:border-primary/50 hover:bg-primary/5"
+                >
+                  <a
+                    href="https://wa.me/5531984916431"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Conversar no WhatsApp com Bernardo Gomes"
+                  >
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    {t("now.contact.whatsapp")}
+                  </a>
+                </Button>
               </motion.div>
             </CardContent>
           </Card>

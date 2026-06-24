@@ -35,74 +35,71 @@ const ProjectCard = ({
 
   return (
     <Card
-      className={`card-enhanced group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
-        featured ? "ring-2 ring-primary/30 bg-gradient-to-br from-primary/5 to-transparent" : ""
+      className={`card-enhanced card-glow group relative flex h-full flex-col overflow-hidden rounded-xl ${
+        featured
+          ? "border-primary/30 bg-gradient-to-br from-primary/[0.07] to-transparent"
+          : ""
       }`}
     >
-      {featured && (
-        <div className="absolute top-0 right-0 w-0 h-0 border-l-[40px] border-l-transparent border-t-[40px] border-t-primary/20" />
-      )}
-
-      <CardHeader className="relative pb-2 p-3 md:p-6 md:pb-2">
-        <div className="flex items-start justify-between gap-1">
-          <div className="flex-1 min-w-0">
-            <CardTitle className="text-sm md:text-base group-hover:text-primary transition-colors truncate">
-              {title}
-            </CardTitle>
-            {featured && (
-              <Badge variant="secondary" className="mt-1.5 text-xs gradient-primary text-white border-0">
-                ⭐ {t("projects.featured")}
-              </Badge>
-            )}
-          </div>
-          {typeof stars === "number" && (
-            <div className="flex items-center gap-0.5 text-muted-foreground shrink-0 mt-0.5">
-              <Star className="h-3 w-3" />
-              <span className="text-xs font-medium">{stars}</span>
+      <CardHeader className="relative p-4 pb-2 md:p-5 md:pb-2">
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-sm md:text-base font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-1">
+            {title}
+          </CardTitle>
+          {typeof stars === "number" && stars > 0 && (
+            <div className="flex items-center gap-0.5 text-amber-500 shrink-0 mt-0.5">
+              <Star className="h-3.5 w-3.5 fill-amber-500/20" />
+              <span className="text-xs font-semibold">{stars}</span>
             </div>
           )}
         </div>
-        <CardDescription className="text-xs md:text-sm leading-relaxed mt-1.5 line-clamp-2">
+        {featured && (
+          <Badge className="mt-2 w-fit gradient-primary text-white border-0 text-[10px] uppercase tracking-wide">
+            <Star className="mr-1 h-2.5 w-2.5 fill-white" />
+            {t("projects.featured")}
+          </Badge>
+        )}
+        <CardDescription className="text-xs md:text-sm leading-relaxed mt-2 line-clamp-2 min-h-[2.5rem]">
           {description}
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
-        <div className="flex flex-wrap gap-1 mb-3">
+      <CardContent className="mt-auto flex flex-col gap-3 p-4 pt-0 md:p-5 md:pt-0">
+        <div className="flex flex-wrap gap-1.5">
           {technologies.slice(0, 3).map((tech) => (
             <Badge
               key={tech}
-              variant="outline"
-              className="text-xs hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+              variant="secondary"
+              className="text-[10px] font-medium text-muted-foreground bg-muted/60"
             >
               {tech}
             </Badge>
           ))}
           {technologies.length > 3 && (
-            <Badge variant="outline" className="text-xs text-muted-foreground">
+            <Badge variant="outline" className="text-[10px] text-muted-foreground">
               +{technologies.length - 3}
             </Badge>
           )}
         </div>
 
         <div className="flex gap-1.5">
-          <Button asChild variant="outline" size="sm" className="btn-enhanced flex-1 text-xs h-8 px-2 min-w-0">
+          <Button asChild variant="outline" size="sm" className="btn-enhanced flex-1 text-xs h-9 min-w-0 group-hover:border-primary/40">
             <Link to={`/projects/${title}`}>
-              <FolderOpen className="mr-1 h-3 w-3 shrink-0" />
+              <FolderOpen className="mr-1.5 h-3.5 w-3.5 shrink-0" />
               {t("projects.page.viewProject")}
             </Link>
           </Button>
           {githubUrl && (
-            <Button asChild variant="ghost" size="sm" className="px-2 h-8 shrink-0">
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <GitHubIcon className="h-3.5 w-3.5" />
+            <Button asChild variant="ghost" size="sm" className="px-2.5 h-9 shrink-0" aria-label="GitHub">
+              <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                <GitHubIcon className="h-4 w-4" />
               </a>
             </Button>
           )}
           {liveUrl && (
-            <Button asChild size="sm" className="btn-enhanced gradient-primary text-white border-0 px-2 h-8 shrink-0">
-              <a href={liveUrl} target="_blank" rel="noopener noreferrer" aria-label="Live Demo">
-                <ExternalLink className="h-3 w-3" />
+            <Button asChild variant="gradient" size="sm" className="btn-enhanced px-2.5 h-9 shrink-0" aria-label="Live Demo">
+              <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-3.5 w-3.5" />
               </a>
             </Button>
           )}

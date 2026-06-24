@@ -22,12 +22,13 @@ interface Route {
 
 // Featured repositories for individual project pages
 const FEATURED_REPOS = [
-  "BeBitter",
+  "LASCMMG",
+  "mvp-estetoscopio",
   "doctoralia-scrapper",
   "cmmg-calendar",
-  "mvp-estetoscopio",
-  "arduino-audio-controller",
+  "AiOverviewControl",
   "dms-adguard-vpn-plugin",
+  "ioruba",
   "AutoJoin-for-SteamGifts",
 ];
 

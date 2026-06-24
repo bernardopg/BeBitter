@@ -52,3 +52,5 @@ public/sitemap.xml
 *~
 
 .claude-terminal
+# Serena tool workspace
+.serena/

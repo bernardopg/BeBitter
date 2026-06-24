@@ -76,23 +76,23 @@
 
     /* CSS Variables for theming */
     :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
+      --background: 240 33% 99%;
+      --foreground: 224 47% 9%;
       --primary: 262 83% 58%;
-      --primary-foreground: 210 40% 98%;
-      --radius: 0.75rem;
+      --primary-foreground: 0 0% 100%;
+      --radius: 0.85rem;
     }
 
     .dark {
-      --background: 222.2 84% 4.9%;
-      --foreground: 210 40% 98%;
+      --background: 226 42% 6%;
+      --foreground: 220 30% 96%;
     }
 
     /* Prevent layout shift */
     body {
       background-color: hsl(var(--background));
       color: hsl(var(--foreground));
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     /* Loading state */
@@ -127,17 +127,26 @@
     content="Engenheiro de frontend, criador de automações e estudante de Medicina construindo produtos refinados para web, Linux e fluxos de trabalho em saúde." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bebitterbebetter.com.br" />
-  <meta property="og:image" content="https://bebitterbebetter.com.br/images/logos/BeBitter.svg" />
+  <meta property="og:image" content="https://bebitterbebetter.com.br/images/icons/android-chrome-512x512.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Bernardo Gomes — Frontend, automação e Linux" />
   <meta property="og:site_name" content="BeBitter" />
   <meta property="og:locale" content="pt_BR" />
+  <meta property="og:locale:alternate" content="en_US" />
   <meta property="article:author" content="Bernardo Gomes" />
+  <meta name="theme-color" content="#7c3aed" />
+  <meta name="color-scheme" content="dark light" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Bernardo Gomes — Frontend, automação e Linux" />
   <meta name="twitter:description"
     content="Engenheiro de frontend, criador de automações e estudante de Medicina construindo produtos refinados para web, Linux e fluxos de trabalho em saúde." />
-  <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/logos/BeBitter.svg" />
+  <meta name="twitter:image" content="https://bebitterbebetter.com.br/images/icons/android-chrome-512x512.png" />
+  <meta name="twitter:image:alt" content="Bernardo Gomes — Frontend, automação e Linux" />
+  <meta name="twitter:site" content="@cooldeflecha" />
+  <meta name="twitter:creator" content="@cooldeflecha" />
 
   <!-- Structured Data (JSON-LD) Person -->
   <script type="application/ld+json">
@@ -222,7 +231,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Font optimization: rely on system fonts; if webfonts are added, configure font-display in @font-face -->
+  <!-- Brand webfonts: Sora (display) + Inter (body), swap to avoid blocking render -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+  />
 
   <!-- Google tag (gtag.js) via env -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=<%= VITE_GA_TRACKING_ID %>"></script>

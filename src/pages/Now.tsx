@@ -24,7 +24,9 @@ const Now = () => {
         robots="index, follow"
         publisher="Bernardo Gomes"
       />
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="relative min-h-screen">
+        <div className="absolute inset-x-0 top-0 h-[480px] grid-bg opacity-50 pointer-events-none" aria-hidden />
+        <div className="absolute inset-x-0 top-0 h-[480px] gradient-hero pointer-events-none" aria-hidden />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -32,7 +34,7 @@ const Now = () => {
           {t("hero.skipToContent")}
         </a>
 
-        <div className="container mx-auto px-4 py-16 max-w-4xl">
+        <div className="container relative z-10 mx-auto px-4 pt-16 pb-28 max-w-4xl">
           <NowHeader />
           <NowCurrentFocus />
           <NowAchievements />

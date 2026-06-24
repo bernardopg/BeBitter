@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/hooks/useLanguage";
 import { showSuccess } from "@/utils/toast";
@@ -48,48 +49,58 @@ const ContactForm = () => {
   };
 
   return (
-    <Card>
+    <Card className="h-full border-border/70 shadow-sm">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Mail className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-xl">
+          <span className="grid h-9 w-9 place-items-center rounded-lg gradient-primary text-white">
+            <Mail className="h-4.5 w-4.5" />
+          </span>
           {t("contact.form.title")}
         </CardTitle>
         <CardDescription>{t("contact.form.description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid md:grid-cols-2 gap-4">
-            <div>
+            <div className="space-y-1.5">
+              <Label htmlFor="contact-name">{t("contact.form.name")}</Label>
               <Input
+                id="contact-name"
                 name="name"
                 placeholder={t("contact.form.name")}
                 value={formData.name}
                 onChange={handleChange}
+                autoComplete="name"
                 required
               />
             </div>
-            <div>
+            <div className="space-y-1.5">
+              <Label htmlFor="contact-email">{t("contact.form.email")}</Label>
               <Input
+                id="contact-email"
                 name="email"
                 type="email"
                 placeholder={t("contact.form.email")}
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="email"
                 required
               />
             </div>
           </div>
-          <div>
+          <div className="space-y-1.5">
+            <Label htmlFor="contact-message">{t("contact.form.message")}</Label>
             <Textarea
+              id="contact-message"
               name="message"
               placeholder={t("contact.form.message")}
-              rows={4}
+              rows={5}
               value={formData.message}
               onChange={handleChange}
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" variant="gradient" size="lg" className="w-full btn-enhanced">
             <Send className="mr-2 h-4 w-4" />
             {t("contact.form.send")}
           </Button>
