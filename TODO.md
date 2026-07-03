@@ -19,7 +19,9 @@
 - [x] **Feed RSS do blog** (`/feed.xml`) — RSS 2.0 gerado no prebuild,
       linkado no `<head>`.
 - [ ] **Indexar via Google Search Console + Bing Webmaster** após cada release
-      relevante; monitorar cobertura mensalmente. (manual)
+      relevante; monitorar cobertura mensalmente. (recorrente — feito em
+      2026-07-03: sitemap.xml reenviado, feed.xml adicionado, reindexação
+      solicitada para /, /blog/ e /services/; Bing Webmaster pendente)
 
 ## Fase 2 — Performance & Core Web Vitals
 
