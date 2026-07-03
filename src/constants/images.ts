@@ -17,7 +17,7 @@ export const IMAGES = {
   ANDROID_CHROME_512: "/images/icons/android-chrome-512x512.png",
 
   // Profile images - Optimized versions
-  PROFILE_IMAGE: "/images/profile/profile.jpg",
+  PROFILE_IMAGE: "/images/profile/profile-1024.jpg",
 
   // Responsive AVIF versions (best compression)
   PROFILE_IMAGE_AVIF_252: "/images/profile/profile-252.avif",

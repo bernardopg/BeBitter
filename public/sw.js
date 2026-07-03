@@ -1,5 +1,5 @@
 // Cache only stable static assets. HTML stays network-first to avoid stale deploys.
-const CACHE_NAME = "bebitter-static-v20260306-1";
+const CACHE_NAME = "bebitter-static-v20260703-1";
 const STATIC_ASSETS = [
   "/images/icons/android-chrome-192x192.png",
   "/images/icons/android-chrome-512x512.png",
@@ -8,6 +8,8 @@ const STATIC_ASSETS = [
   "/images/icons/favicon-32x32.png",
   "/images/logos/BeBitter.svg",
   "/images/logos/BeBitter_Alt.svg",
+  "/images/profile/profile-252.avif",
+  "/images/profile/profile-512.avif",
 ];
 
 const isHtmlRequest = (request) =>

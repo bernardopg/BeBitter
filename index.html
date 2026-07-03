@@ -234,11 +234,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Brand webfonts: Sora (display) + Inter (body), swap to avoid blocking render -->
+  <!-- Brand webfonts: Sora (display) + Inter (body). Carga assíncrona
+       (media=print até onload) para não bloquear o primeiro render;
+       display=swap garante texto visível com fonte de sistema enquanto isso. -->
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    media="print"
+    onload="this.media='all'"
   />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    />
+  </noscript>
 
   <!-- Google tag (gtag.js) via env -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=<%= VITE_GA_TRACKING_ID %>"></script>

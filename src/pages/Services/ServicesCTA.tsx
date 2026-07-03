@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CONFIG } from "@/constants/config";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons/social-icons";
 import { ArrowRight, Rocket } from "lucide-react";
 import { useInView } from "react-intersection-observer";

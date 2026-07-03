@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Code2, Layers, Rocket, Sparkles } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 

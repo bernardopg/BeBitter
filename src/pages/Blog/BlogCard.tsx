@@ -9,7 +9,7 @@ import {
 import { BlogCover } from "@/components/BlogCover";
 import type { BlogPost } from "@/constants/blog-posts";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 

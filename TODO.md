@@ -26,15 +26,24 @@
 
 ## Fase 2 — Performance & Core Web Vitals
 
-- [ ] **Lighthouse CI no GitHub Actions** — orçamento de performance por PR
-      (LCP < 2.0s, INP < 200ms, CLS < 0.1); falhar o job se regredir.
-- [ ] **Migrar imagens públicas para AVIF/WebP com `srcset`** — hoje
-      `optimize:images` existe, mas as tags não usam `<picture>`.
-- [ ] **Font loading** — revisar `font-display` e preload da fonte crítica.
-- [ ] **Reduzir JS inicial** — auditar `manualChunks`; mover framer-motion
-      para import dinâmico nas seções abaixo da dobra.
-- [ ] **Revisar Service Worker** — estratégia stale-while-revalidate para
-      assets versionados; garantir purga na troca de versão.
+- [x] **Lighthouse CI no GitHub Actions** — `scripts/lighthouse-budget.ts`
+      (Lighthouse 13 via API Node + vite preview) roda em todo push/PR
+      (`lighthouse.yml`); orçamento anti-regressão: perf ≥65, a11y ≥90,
+      BP ≥90, SEO ≥95, LCP ≤6.5s, CLS ≤0.1, TBT ≤500ms.
+- [ ] **Meta LCP < 2.5s** — exige pré-render com conteúdo real (SSG das
+      rotas, ex.: vite-ssg ou prerender custom); hoje o SPA pinta só após
+      boot do JS (LCP ~4.4-5s na emulação mobile 4x). Maior alavanca de
+      performance restante.
+- [x] **Imagens** — perfil já servido em AVIF/WebP com `<picture>`;
+      original de 3MB e 6MB de screenshots mortos removidos do deploy;
+      preload responsivo em AVIF (antes preloadava o JPEG de 3MB).
+- [x] **Font loading** — Google Fonts (Inter/Sora) agora assíncrono
+      (media=print até onload + noscript), display=swap mantido.
+- [x] **Reduzir JS inicial** — LazyMotion + `m` (chunk motion 40→27KB gz);
+      widget WhatsApp (300KB) só carrega na primeira interação; animação
+      de digitação isolada em componente-folha (`TypingText`).
+- [x] **Service Worker revisado** — network-first para HTML, SWR para
+      estáticos, purga por versão de cache; perfil AVIF pré-cacheado.
 
 ## Fase 3 — Conteúdo & autoridade orgânica
 
@@ -75,6 +84,12 @@
 ---
 
 ## Concluído (histórico recente)
+
+### 2026-07-03 (Fase 2)
+
+- [x] Fase 2 concluída: orçamento Lighthouse no CI, LazyMotion, WhatsApp
+      on-interaction, fontes assíncronas, imagens saneadas (-9MB), SW ok.
+      Restante: SSG para LCP < 2.5s (movido para item próprio).
 
 ### 2026-07-03 (Fase 1)
 

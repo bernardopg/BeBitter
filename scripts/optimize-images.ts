@@ -14,7 +14,8 @@ const PROJECT_ROOT = join(__dirname, "..");
 
 // Configuration
 const PROFILE_DIR = join(PROJECT_ROOT, "public/images/profile");
-const SOURCE_IMAGE = join(PROFILE_DIR, "profile.jpg");
+// Original de 3MB removido do deploy; variantes regeneram a partir da maior
+const SOURCE_IMAGE = join(PROFILE_DIR, "profile-1024.jpg");
 
 // Image sizes to generate (based on actual usage: 252x252 displayed)
 const SIZES = [

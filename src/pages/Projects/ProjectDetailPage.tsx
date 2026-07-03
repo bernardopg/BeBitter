@@ -12,7 +12,7 @@ import {
 import { useProjects } from "@/contexts/projects-context";
 import { useProjectDetail } from "@/hooks/useProjectDetail";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import {
   AlertCircle,
   ArrowLeft,

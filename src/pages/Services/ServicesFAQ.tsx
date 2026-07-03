@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { SERVICES_FAQ } from "@/constants/services-faq";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { CircleHelp } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 

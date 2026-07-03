@@ -10,6 +10,7 @@ import WebVitals from "@/components/WebVitals";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProjectsProvider } from "@/contexts/ProjectsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { Suspense, lazy, useEffect, useState, useSyncExternalStore } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
@@ -90,9 +91,16 @@ const App = () => {
     getServerViewportSnapshot,
   );
 
-  // Lazy-load the WhatsApp widget after the app is interactive to reduce TBT/INP impact
+  // Widget do WhatsApp (chunk ~300KB) só carrega na primeira interação —
+  // não pesa no primeiro load nem nas métricas de quem só olha a página.
   useEffect(() => {
+    let loaded = false;
     const load = () => {
+      if (loaded) return;
+      loaded = true;
+      events.forEach(([target, event]) =>
+        target.removeEventListener(event, load)
+      );
       import("react-floating-whatsapp").then((mod) => {
         const m = mod as unknown as {
           FloatingWhatsApp?: React.ComponentType<WhatsAppProps>;
@@ -102,23 +110,26 @@ const App = () => {
       });
     };
 
-    const ric = (
-      window as Window & {
-        requestIdleCallback?: (
-          cb: IdleRequestCallback,
-          opts?: { timeout?: number }
-        ) => number;
-      }
-    ).requestIdleCallback;
-    if (typeof ric === "function") {
-      ric(load, { timeout: 3000 });
-    } else {
-      setTimeout(load, 1500);
-    }
+    const events: Array<[EventTarget, string]> = [
+      [window, "scroll"],
+      [window, "pointerdown"],
+      [window, "keydown"],
+      [window, "touchstart"],
+    ];
+    events.forEach(([target, event]) =>
+      target.addEventListener(event, load, { once: true, passive: true })
+    );
+
+    return () =>
+      events.forEach(([target, event]) =>
+        target.removeEventListener(event, load)
+      );
   }, []);
 
   return (
     <ErrorBoundary>
+      {/* LazyMotion + m: só o subconjunto domAnimation entra no bundle */}
+      <LazyMotion features={domAnimation} strict>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <LanguageProvider>
@@ -168,6 +179,7 @@ const App = () => {
           </LanguageProvider>
         </ThemeProvider>
       </QueryClientProvider>
+      </LazyMotion>
     </ErrorBoundary>
   );
 };

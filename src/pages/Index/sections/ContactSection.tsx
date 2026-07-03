@@ -12,7 +12,7 @@ import { CONFIG } from "@/constants/config";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { showSuccess } from "@/utils/toast";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import {
   Calendar,
   ExternalLink,

@@ -1,5 +1,5 @@
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion, useReducedMotion } from "framer-motion";
+import { m as motion, useReducedMotion } from "framer-motion";
 import { Clock } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 

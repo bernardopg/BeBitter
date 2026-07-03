@@ -1,6 +1,7 @@
 import { useAnalytics } from "@/components/Analytics";
 import { Button } from "@/components/ui/button";
 import { ProfileImage } from "@/components/ui/ProfileImage";
+import { TypingText } from "@/components/ui/TypingText";
 import { useProfileImagePreload } from "@/hooks/useProfileImagePreload";
 import { CONFIG } from "@/constants/config";
 import {
@@ -12,7 +13,7 @@ import {
 } from "@/components/icons/social-icons";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import {
   BadgeDollarSign,
   Coffee,
@@ -20,19 +21,20 @@ import {
   MapPin,
   Sparkles,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 export const HeroSection = () => {
   const { t } = useLanguage();
   const { trackButtonClick, trackExternalLink } = useAnalytics();
-  const { registerElement, isVisible, getAnimationProps } = useScrollAnimation();
+  const { registerElement, getAnimationProps } = useScrollAnimation();
   const { preloadProfileImage } = useProfileImagePreload();
 
   const heroRef = useRef<HTMLElement>(null);
-  const [displayText, setDisplayText] = useState("");
-  const [textIndex, setTextIndex] = useState(0);
 
-  const heroInView = isVisible('hero');
+  const typingTexts = useMemo(
+    () => [t("hero.subtitle1"), t("hero.subtitle2"), t("hero.subtitle3")],
+    [t],
+  );
 
   // Preload da imagem crítica
   useEffect(() => {
@@ -44,33 +46,6 @@ export const HeroSection = () => {
       registerElement(heroRef.current, 'hero');
     }
   }, [registerElement]);
-
-  // Typing animation
-  useEffect(() => {
-    const texts = [
-      t("hero.subtitle1"),
-      t("hero.subtitle2"),
-      t("hero.subtitle3"),
-    ];
-
-    const currentText = texts[textIndex] || texts[0];
-
-    if (displayText.length < currentText.length) {
-      const timer = setTimeout(() => {
-        setDisplayText(currentText.slice(0, displayText.length + 1));
-      }, CONFIG.TYPING_SPEED);
-      return () => clearTimeout(timer);
-    } else {
-      const timer = setTimeout(() => {
-        if (displayText.length === 0) {
-          setTextIndex((prev) => (prev + 1) % texts.length);
-        } else {
-          setDisplayText("");
-        }
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [displayText, textIndex, t]);
 
   const handleSocialClick = (platform: string, url: string) => {
     trackExternalLink(url, platform);
@@ -99,14 +74,12 @@ export const HeroSection = () => {
           <motion.div
             className="space-y-6 md:space-y-8 text-center lg:text-left"
             {...getAnimationProps}
-            animate={heroInView ? getAnimationProps.animate : getAnimationProps.initial}
+            animate={getAnimationProps.animate}
           >
             <div className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={
-                  heroInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
-                }
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
               >
@@ -126,9 +99,7 @@ export const HeroSection = () => {
               <motion.h1
                 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
                 initial={{ opacity: 0, y: 20 }}
-                animate={
-                  heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                }
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
                 <span className="gradient-text">{t("hero.title")}</span>
@@ -137,17 +108,16 @@ export const HeroSection = () => {
               <motion.div
                 className="text-xl md:text-2xl text-muted-foreground h-8 flex items-center justify-center lg:justify-start"
                 initial={{ opacity: 0 }}
-                animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                {displayText}
-                <span className="ml-1 animate-pulse">|</span>
+                <TypingText texts={typingTexts} />
               </motion.div>
 
               <motion.p
                 className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
                 initial={{ opacity: 0 }}
-                animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
                 {t("hero.description")}
@@ -156,9 +126,7 @@ export const HeroSection = () => {
               <motion.div
                 className="flex items-center justify-center lg:justify-start gap-2 text-muted-foreground"
                 initial={{ opacity: 0, y: 10 }}
-                animate={
-                  heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }
-                }
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.9 }}
               >
                 <MapPin className="h-4 w-4" />
@@ -170,9 +138,7 @@ export const HeroSection = () => {
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
-              animate={
-                heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-              }
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
             >
               <Button
@@ -208,7 +174,7 @@ export const HeroSection = () => {
             <motion.div
               className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-sm text-muted-foreground"
               initial={{ opacity: 0 }}
-              animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
             >
               {["React", "TypeScript", "Python", "Linux", "Node.js"].map((tech) => (
@@ -223,7 +189,7 @@ export const HeroSection = () => {
             <motion.div
               className="flex gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0 }}
-              animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.3 }}
             >
               <Button
@@ -328,9 +294,7 @@ export const HeroSection = () => {
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={
-              heroInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
-            }
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <div className="relative">

@@ -124,8 +124,7 @@ export const useImageOptimization = (
     return `
       ${IMAGES.PROFILE_IMAGE_JPEG_252} 252w,
       ${IMAGES.PROFILE_IMAGE_JPEG_512} 512w,
-      ${IMAGES.PROFILE_IMAGE_JPEG_1024} 1024w,
-      ${IMAGES.PROFILE_IMAGE} 500w
+      ${IMAGES.PROFILE_IMAGE_JPEG_1024} 1024w
     `.trim().replace(/\s+/g, ' ');
   }, []);
 

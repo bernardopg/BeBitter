@@ -2,7 +2,7 @@ import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
 import { blogPosts } from "@/constants/blog-posts";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { useState } from "react";
 import { BlogCard } from "./BlogCard";
 

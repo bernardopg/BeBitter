@@ -58,7 +58,7 @@ vi.mock("@/utils/toast", () => ({
 }));
 
 vi.mock("framer-motion", () => ({
-  motion: {
+  m: {
     div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }) => <div {...props}>{children}</div>,
     section: ({ children, ...props }: React.HTMLAttributes<HTMLElement> & { children?: React.ReactNode }) => <section {...props}>{children}</section>,
     h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement> & { children?: React.ReactNode }) => <h2 {...props}>{children}</h2>,

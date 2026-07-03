@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useProjects } from "@/contexts/projects-context";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Code, ExternalLink, Rocket, TrendingUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";

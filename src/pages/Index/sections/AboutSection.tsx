@@ -9,7 +9,7 @@ import { useProjects } from "@/contexts/projects-context";
 import { useLanguage } from "@/hooks/useLanguage";
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import {
   Award,
   Code,

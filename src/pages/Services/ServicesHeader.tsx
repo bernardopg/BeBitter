@@ -1,5 +1,5 @@
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Briefcase, Rocket, Users } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 

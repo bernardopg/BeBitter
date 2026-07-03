@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
-import { motion, useReducedMotion } from "framer-motion";
+import { m as motion, useReducedMotion } from "framer-motion";
 import { Code, Lightbulb, Target, Zap } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
