@@ -1,6 +1,5 @@
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
 import { ArrowLeft, Ghost, Home, Mail } from "lucide-react";
 import { useEffect } from "react";
@@ -8,7 +7,6 @@ import { useLocation } from "react-router-dom";
 
 const NotFound = () => {
   const location = useLocation();
-  const { t } = useLanguage();
 
   useEffect(() => {
     console.error(

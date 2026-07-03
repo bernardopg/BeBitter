@@ -5,6 +5,7 @@ import { useProfileImagePreload } from "@/hooks/useProfileImagePreload";
 import { CONFIG } from "@/constants/config";
 import {
   GitHubIcon,
+  GitLabIcon,
   InstagramIcon,
   LinkedInIcon,
   XIcon,
@@ -238,6 +239,22 @@ export const HeroSection = () => {
                   aria-label="GitHub"
                 >
                   <GitHubIcon className="h-5 w-5" />
+                </a>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => handleSocialClick("GitLab", CONFIG.GITLAB_URL)}
+                asChild
+              >
+                <a
+                  href={CONFIG.GITLAB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitLab"
+                >
+                  <GitLabIcon className="h-5 w-5" />
                 </a>
               </Button>
 

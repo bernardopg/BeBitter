@@ -13,10 +13,6 @@ interface SEOHeadProps {
   publisher?: string;
 }
 
-function setMeta(selector: string, value: string) {
-  document.querySelector(selector)?.setAttribute("content", value);
-}
-
 function ensureMeta(name: string, content: string, prop = false) {
   const attr = prop ? "property" : "name";
   let el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);

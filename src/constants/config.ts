@@ -1,6 +1,7 @@
 export const CONFIG = {
   // Analytics
-  GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID || "",
+  // import.meta.env não existe fora do Vite (ex.: scripts tsx) — optional chaining
+  GA_TRACKING_ID: import.meta.env?.VITE_GA_TRACKING_ID || "",
 
   // API URLs
   GITHUB_API_BASE: "https://api.github.com",
@@ -16,10 +17,11 @@ export const CONFIG = {
   PHONE: "5531984916431",
   WHATSAPP_URL: "https://wa.me/5531984916431",
   // Scheduling (prefer self-hosted Cal.com; can be overridden via env)
-  CAL_URL: import.meta.env.VITE_CAL_URL || "https://cal.com/bernardopg",
+  CAL_URL: import.meta.env?.VITE_CAL_URL || "https://cal.com/bernardopg",
 
   // Social Links
   GITHUB_URL: "https://github.com/bernardopg",
+  GITLAB_URL: "https://gitlab.com/bernardopg",
   LINKEDIN_URL: "https://www.linkedin.com/in/bernardopg/",
   INSTAGRAM_URL: "https://instagram.com/be.pgomes",
   X_URL: "https://x.com/cooldeflecha",
@@ -40,16 +42,17 @@ export const CONFIG = {
   MAX_REPOS_FETCH: 100,
 } as const;
 
-// Curadoria: range duplo (produto + range técnico), ordenado por impacto de venda
+// Curadoria: ordenado por relevância (estrelas, completude, atratividade).
+// Os 4 primeiros aparecem na homepage.
 export const FEATURED_REPOSITORIES = [
-  "LASCMMG", // produto full-stack (Node/React/Socket.io) — vendável
-  "mvp-estetoscopio", // educação/saúde com SM-2 — vendável e diferenciado
-  "doctoralia-scrapper", // automação + saúde — vendável
-  "cmmg-calendar", // produto/integração de calendário
-  "AiOverviewControl", // top stars, QML — range técnico
-  "dms-adguard-vpn-plugin", // tooling Linux/QML
-  "ioruba", // hardware + Tauri/React/Rust — range técnico
-  "AutoJoin-for-SteamGifts", // automação browser
+  "AiOverviewControl", // top stars (6★), plugin QML ativo — vitrine técnica
+  "LASCMMG", // produto full-stack completo (Node/React/Socket.io)
+  "ioruba", // hardware + Tauri/React/Rust — único e atrativo
+  "dms-adguard-vpn-plugin", // 4★, tooling Linux/QML
+  "cmmg-calendar", // produto de integração de calendário (TypeScript)
+  "mvp-estetoscopio", // educação/saúde com SM-2 — diferenciado
+  "AutoJoin-for-SteamGifts", // automação browser popular
+  "steam-idler-python", // automação Python ativa
 ] as const;
 
 export const SKILL_CATEGORIES = {

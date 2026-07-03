@@ -19,7 +19,7 @@ export const useImageOptimization = (
   src: string,
   options: UseImageOptimizationOptions = {}
 ) => {
-  const { preload = false, lazy = true, placeholder, onLoad, onError } = options;
+  const { preload = false, lazy = true, onLoad, onError } = options;
   
   const [state, setState] = useState<ImageLoadState>({
     isLoading: true,

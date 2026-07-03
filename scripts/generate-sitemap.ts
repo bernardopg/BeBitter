@@ -3,6 +3,7 @@ import "dotenv/config";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { blogPosts } from "../src/constants/blog-posts";
+import { FEATURED_REPOSITORIES } from "../src/constants/config";
 
 const SITE_URL = process.env.VITE_SITE_URL || "https://bebitterbebetter.com.br";
 
@@ -20,17 +21,8 @@ interface Route {
     | "never";
 }
 
-// Featured repositories for individual project pages
-const FEATURED_REPOS = [
-  "LASCMMG",
-  "mvp-estetoscopio",
-  "doctoralia-scrapper",
-  "cmmg-calendar",
-  "AiOverviewControl",
-  "dms-adguard-vpn-plugin",
-  "ioruba",
-  "AutoJoin-for-SteamGifts",
-];
+// Featured repositories for individual project pages (fonte única: config)
+const FEATURED_REPOS = [...FEATURED_REPOSITORIES];
 
 const routes: Route[] = [
   {

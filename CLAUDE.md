@@ -16,7 +16,7 @@ pnpm lint:fix         # Auto-fix ESLint issues
 pnpm test             # Run tests in watch mode
 pnpm test:run         # Run tests once (CI mode)
 pnpm test:coverage    # Generate coverage report (HTML)
-pnpm ci:check         # lint + test:run + build (full CI check)
+pnpm ci:check         # lint + typecheck + test:run + build (full CI check)
 pnpm build:analyze    # Build + bundle size analysis
 pnpm optimize:images  # Optimize images in public/
 pnpm sitemap:gen      # Regenerate public/sitemap.xml
@@ -81,6 +81,6 @@ All client-side env vars must be prefixed `VITE_`.
 ## CI/CD
 
 GitHub Actions runs on push/PR to `main`:
-- Matrix: Node 20.x and 22.x
-- Steps: `pnpm install` → lint → `test:run` → `build`
+- Node 22.x
+- Steps: `pnpm install --frozen-lockfile` → lint → `typecheck` → `test:run` → `build`
 - `pnpm ci:check` replicates this locally

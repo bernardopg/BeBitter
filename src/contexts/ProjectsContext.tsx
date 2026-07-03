@@ -1,6 +1,6 @@
 import { FEATURED_REPOSITORIES } from "@/constants/config";
 import { useQuery } from "@tanstack/react-query";
-import React, { type ReactNode } from "react";
+import { type ReactNode } from "react";
 import {
   Project,
   ProjectsContext,

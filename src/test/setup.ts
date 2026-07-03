@@ -2,17 +2,17 @@ import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 
 // Mock do requestIdleCallback para testes
-global.requestIdleCallback = (callback: IdleRequestCallback): number => {
+globalThis.requestIdleCallback = (callback: IdleRequestCallback): number => {
   const timeoutId = setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 0);
   return timeoutId as unknown as number;
 };
 
-global.cancelIdleCallback = (id: number) => {
+globalThis.cancelIdleCallback = (id: number) => {
   clearTimeout(id);
 };
 
 // Mock do IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
+globalThis.IntersectionObserver = class IntersectionObserver {
   observe = vi.fn();
   disconnect = vi.fn();
   unobserve = vi.fn();

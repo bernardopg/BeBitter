@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import {
   GitHubIcon,
+  GitLabIcon,
   InstagramIcon,
   LinkedInIcon,
   XIcon,
@@ -18,6 +19,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const socialLinks = [
     { href: CONFIG.GITHUB_URL, label: "GitHub", icon: GitHubIcon },
+    { href: CONFIG.GITLAB_URL, label: "GitLab", icon: GitLabIcon },
     { href: CONFIG.LINKEDIN_URL, label: "LinkedIn", icon: LinkedInIcon },
     { href: CONFIG.INSTAGRAM_URL, label: "Instagram", icon: InstagramIcon },
     { href: CONFIG.X_URL, label: "X", icon: XIcon },

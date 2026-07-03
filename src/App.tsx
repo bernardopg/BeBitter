@@ -1,5 +1,6 @@
 import Analytics from "@/components/Analytics";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import ScrollToTop from "@/components/ScrollToTop";
 import ServiceWorkerManager from "@/components/ServiceWorkerManager";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -127,14 +128,10 @@ const App = () => {
               <Toaster />
               <Sonner />
               <ProjectsProvider>
-              <BrowserRouter
-                future={{
-                  v7_startTransition: true,
-                  v7_relativeSplatPath: true,
-                }}
-              >
+              <BrowserRouter>
                 {/* Analytics precisa estar dentro do Router para usar useLocation */}
                 <Analytics />
+                <ScrollToTop />
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
                     <Route element={<Layout />}>

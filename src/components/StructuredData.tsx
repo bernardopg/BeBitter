@@ -122,6 +122,7 @@ export const StructuredData = ({
         "url": currentUrl,
         "sameAs": [
           CONFIG.GITHUB_URL,
+          CONFIG.GITLAB_URL,
           CONFIG.LINKEDIN_URL,
           CONFIG.INSTAGRAM_URL,
           CONFIG.X_URL,
@@ -203,7 +204,7 @@ export const StructuredData = ({
           "@type": "Person",
           "name": "Bernardo Gomes",
           "url": "https://bebitterbebetter.com.br",
-          "sameAs": [CONFIG.GITHUB_URL, CONFIG.LINKEDIN_URL],
+          "sameAs": [CONFIG.GITHUB_URL, CONFIG.GITLAB_URL, CONFIG.LINKEDIN_URL],
         },
         "address": {
           "@type": "PostalAddress",
@@ -231,7 +232,7 @@ export const StructuredData = ({
           })),
         },
       } as unknown as StructuredDataSchema;
-    } else if (pageType === 'website') {
+    } else {
       structuredData = {
         "@context": "https://schema.org",
         "@type": "WebSite",

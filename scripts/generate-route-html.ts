@@ -216,17 +216,9 @@ async function generateRouteHtml() {
     });
   }
 
-  // Projetos conhecidos do GitHub (estático)
-  const projects = [
-    "LASCMMG",
-    "mvp-estetoscopio",
-    "doctoralia-scrapper",
-    "cmmg-calendar",
-    "AiOverviewControl",
-    "dms-adguard-vpn-plugin",
-    "ioruba",
-    "AutoJoin-for-SteamGifts",
-  ];
+  // Projetos em destaque (fonte única: src/constants/config.ts)
+  const { FEATURED_REPOSITORIES } = await import("../src/constants/config.js");
+  const projects = [...FEATURED_REPOSITORIES];
   for (const proj of projects) {
     routes.push({
       path: `/projects/${proj}`,

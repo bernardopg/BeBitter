@@ -16,9 +16,11 @@ export default function BlogPage() {
     ? blogPosts.filter((p) => p.tags.includes(activeTag))
     : blogPosts;
 
-  const sorted = [...filtered].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  // Destaques primeiro, depois por data (mais recentes acima)
+  const sorted = [...filtered].sort((a, b) => {
+    if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
 
   return (
     <>

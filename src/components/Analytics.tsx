@@ -74,7 +74,7 @@ export const useAnalytics = () => {
       event_category: "User Interaction",
       event_label: buttonName,
       custom_parameters: {
-        button_location: location,
+        button_location: location ?? "unknown",
       },
     });
   };

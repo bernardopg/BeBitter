@@ -1,0 +1,27 @@
+# Bernardo Gomes — BeBitter
+
+> Portfólio de Bernardo Gomes: engenheiro de frontend, criador de automações e
+> estudante de Medicina. React 19, TypeScript, Vite, Tailwind CSS, Python,
+> Linux. Baseado em Belo Horizonte, Brasil.
+
+Site: https://bebitterbebetter.com.br
+Idiomas: pt-BR (padrão), en
+
+## Páginas principais
+
+- [Home](https://bebitterbebetter.com.br/): apresentação, habilidades e projetos em destaque
+- [Projetos](https://bebitterbebetter.com.br/projects): todos os projetos open source (GitHub)
+- [Serviços](https://bebitterbebetter.com.br/services): serviços de desenvolvimento web e automação
+- [Blog](https://bebitterbebetter.com.br/blog): artigos sobre React, TypeScript, performance, IA e Linux
+- [Now](https://bebitterbebetter.com.br/now): no que estou trabalhando agora
+
+## Contato e perfis
+
+- Email: bernardo.gomes@bebitterbebetter.com.br
+- GitHub: https://github.com/bernardopg
+- GitLab: https://gitlab.com/bernardopg
+- LinkedIn: https://www.linkedin.com/in/bernardopg/
+
+## Recursos
+
+- [Sitemap](https://bebitterbebetter.com.br/sitemap.xml)
