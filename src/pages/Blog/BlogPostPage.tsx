@@ -191,6 +191,12 @@ export default function BlogPostPage() {
 
   const canonicalUrl = `https://bebitterbebetter.com.br/blog/${post.slug}`;
 
+  const wordCount = post.content.reduce((total, section) => {
+    const text =
+      "content" in section ? section.content : section.items.join(" ");
+    return total + text.split(/\s+/).filter(Boolean).length;
+  }, 0);
+
   return (
     <>
       <SEOHead
@@ -210,6 +216,9 @@ export default function BlogPostPage() {
         datePublished={post.date}
         dateModified={post.updatedAt ?? post.date}
         author={post.author}
+        keywords={post.tags}
+        wordCount={wordCount}
+        readingTimeMinutes={post.readingTime}
       />
 
       <div className="relative min-h-screen">

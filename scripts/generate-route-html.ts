@@ -9,6 +9,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { ogImageUrlForPath } from "../src/utils/og.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -103,8 +104,7 @@ function injectMeta(html: string, meta: RouteMeta): string {
   // Trailing slash: Apache redireciona diretórios sem slash → com slash (301)
   // Canonical deve apontar para URL final para evitar redirect chain no GSC
   const canonical = routePath === "/" ? BASE_URL + "/" : `${BASE_URL}${routePath}/`;
-  const image =
-    ogImage || `${BASE_URL}/images/icons/android-chrome-512x512.png`;
+  const image = ogImage || ogImageUrlForPath(BASE_URL, routePath);
 
   const safeTitle = escapeHtml(title);
   const safeDesc = escapeHtml(description);
@@ -156,6 +156,12 @@ function injectMeta(html: string, meta: RouteMeta): string {
     `<meta property="og:image" content="${safeImage}"`
   );
 
+  // Substituir og:image:alt
+  html = html.replace(
+    /<meta property="og:image:alt"\s+content="[^"]*"/,
+    `<meta property="og:image:alt" content="${safeTitle}"`
+  );
+
   // Substituir twitter:title
   html = html.replace(
     /<meta name="twitter:title"\s+content="[^"]*"/,
@@ -172,6 +178,12 @@ function injectMeta(html: string, meta: RouteMeta): string {
   html = html.replace(
     /<meta name="twitter:image"\s+content="[^"]*"/,
     `<meta name="twitter:image" content="${safeImage}"`
+  );
+
+  // Substituir twitter:image:alt
+  html = html.replace(
+    /<meta name="twitter:image:alt"\s+content="[^"]*"/,
+    `<meta name="twitter:image:alt" content="${safeTitle}"`
   );
 
   // Substituir hreflang pt-br

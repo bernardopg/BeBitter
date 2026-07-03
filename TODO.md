@@ -5,22 +5,21 @@
 
 ## Fase 1 — SEO técnico & rastreabilidade por IA (curto prazo)
 
-- [ ] **OG images dinâmicas por página/post** — gerar imagens Open Graph
-      (1200×630) por rota no build (satori/resvg); hoje todas as páginas usam
-      o mesmo ícone 512×512.
-- [ ] **Schema.org `BlogPosting` por post** — StructuredData hoje cobre
-      person/website/article/service; emitir `BlogPosting` com `datePublished`,
-      `dateModified`, `wordCount` e `keywords` em cada `/blog/:slug`.
-- [ ] **Schema.org `SoftwareSourceCode`** nas páginas `/projects/:slug`
-      (linguagem, licença, repositório, estrelas).
-- [ ] **FAQ/HowTo schema em `/services`** — rich results no Google.
-- [ ] **`lastmod` real no sitemap** — usar `post.updatedAt ?? post.date` e data
-      de commit por rota em vez de `new Date()` global (hoje todo build
-      "atualiza" tudo, o que o Google penaliza como lastmod não confiável).
-- [ ] **Feed RSS/Atom do blog** (`/feed.xml`) — descoberta por leitores e
-      crawlers de IA; linkar no `<head>`.
+- [x] **OG images dinâmicas por página/post** — geradas no build
+      (`scripts/generate-og-images.ts`, SVG + sharp, 1200×630, sem novas
+      dependências); injetadas por rota no HTML pré-renderizado.
+- [x] **Schema.org `BlogPosting` por post** — `keywords`, `wordCount`,
+      `timeRequired`, `articleSection`, `datePublished/Modified`.
+- [x] **Schema.org `SoftwareSourceCode`** nas páginas `/projects/:slug`
+      (linguagem, licença, repositório, estrelas, tópicos).
+- [x] **FAQ schema em `/services`** — seção visível (accordion PT/EN,
+      `src/constants/services-faq.ts`) + JSON-LD `FAQPage`.
+- [x] **`lastmod` real no sitemap** — posts usam `updatedAt ?? date`.
+      Pendente: lastmod por data de commit para rotas estáticas.
+- [x] **Feed RSS do blog** (`/feed.xml`) — RSS 2.0 gerado no prebuild,
+      linkado no `<head>`.
 - [ ] **Indexar via Google Search Console + Bing Webmaster** após cada release
-      relevante; monitorar cobertura mensalmente.
+      relevante; monitorar cobertura mensalmente. (manual)
 
 ## Fase 2 — Performance & Core Web Vitals
 
@@ -73,6 +72,12 @@
 ---
 
 ## Concluído (histórico recente)
+
+### 2026-07-03 (Fase 1)
+
+- [x] Fase 1 completa (exceto indexação manual no GSC/Bing): OG images
+      dinâmicas, BlogPosting/SoftwareSourceCode/FAQPage schemas, lastmod real,
+      feed RSS.
 
 ### 2026-07-03
 

@@ -1,4 +1,5 @@
 import SEOHead from "@/components/SEOHead";
+import StructuredData from "@/components/StructuredData";
 import { GitHubIcon } from "@/components/icons/social-icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -149,6 +150,24 @@ const ProjectDetailPage = () => {
         robots="index, follow"
         publisher="Bernardo Gomes"
       />
+
+      {project && (
+        <StructuredData
+          pageType="software"
+          title={project.name}
+          description={project.description ?? ""}
+          url={`https://bebitterbebetter.com.br/projects/${slug}`}
+          software={{
+            repoUrl: project.htmlUrl,
+            language: project.language,
+            license: project.license,
+            stars: project.stars,
+            topics: project.topics,
+            dateCreated: project.createdAt,
+            dateModified: project.updatedAt,
+          }}
+        />
+      )}
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
         <div className="container mx-auto px-4 py-12 max-w-4xl">

@@ -11,6 +11,7 @@ const SITE_URL = process.env.VITE_SITE_URL || "https://bebitterbebetter.com.br";
 interface Route {
   path: string;
   priority: string;
+  lastmod?: string;
   changefreq:
     | "always"
     | "hourly"
@@ -61,6 +62,8 @@ const routes: Route[] = [
     path: `/blog/${post.slug}`,
     priority: "0.7",
     changefreq: "monthly" as const,
+    // lastmod real do post — evita "tudo atualizado" a cada build
+    lastmod: `${post.updatedAt ?? post.date}T12:00:00-03:00`,
   })),
 ];
 
@@ -72,7 +75,7 @@ const urls = routes
     return `
   <url>
     <loc>${loc}</loc>
-    <lastmod>${now}</lastmod>
+    <lastmod>${route.lastmod ?? now}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`;

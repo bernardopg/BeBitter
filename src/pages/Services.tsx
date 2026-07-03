@@ -1,7 +1,9 @@
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
+import { SERVICES_FAQ } from "@/constants/services-faq";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ServicesCTA } from "./Services/ServicesCTA";
+import { ServicesFAQ } from "./Services/ServicesFAQ";
 import { ServicesHeader } from "./Services/ServicesHeader";
 import { ServicesList } from "./Services/ServicesList";
 import { ServicesProcess } from "./Services/ServicesProcess";
@@ -30,6 +32,10 @@ const Services = () => {
         title={`${t("services.meta.title")} | Bernardo Gomes`}
         description={t("services.meta.description")}
         url="https://bebitterbebetter.com.br/services"
+        faq={SERVICES_FAQ.map((item) => ({
+          question: language === "en" ? item.questionEn : item.question,
+          answer: language === "en" ? item.answerEn : item.answer,
+        }))}
       />
 
       <div className="relative min-h-screen">
@@ -39,6 +45,7 @@ const Services = () => {
           <ServicesHeader />
           <ServicesList />
           <ServicesProcess />
+          <ServicesFAQ />
           <ServicesCTA />
         </div>
       </div>

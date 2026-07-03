@@ -2,7 +2,7 @@
   "name": "be-bitter-be-better",
   "homepage": "https://bebitterbebetter.com.br",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.6.0",
   "type": "module",
   "packageManager": "pnpm@10.24.0",
   "engines": {
@@ -28,9 +28,11 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "sitemap:gen": "tsx scripts/generate-sitemap.ts",
+    "feed:gen": "tsx scripts/generate-feed.ts",
+    "og:gen": "tsx scripts/generate-og-images.ts",
     "route-html:gen": "tsx scripts/generate-route-html.ts",
     "postbuild": "pnpm route-html:gen",
-    "prebuild": "pnpm sitemap:gen",
+    "prebuild": "pnpm sitemap:gen && pnpm feed:gen && pnpm og:gen",
     "github:harden": "./scripts/harden-github-repo.sh",
     "performance:audit": "echo 'Run lighthouse audit on your deployed site for performance metrics'",
     "optimize:images": "tsx scripts/optimize-images.ts"
