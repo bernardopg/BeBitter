@@ -21,7 +21,8 @@
 - [ ] **Indexar via Google Search Console + Bing Webmaster** após cada release
       relevante; monitorar cobertura mensalmente. (recorrente — feito em
       2026-07-03: sitemap.xml reenviado, feed.xml adicionado, reindexação
-      solicitada para /, /blog/ e /services/; Bing Webmaster pendente)
+      solicitada para /, /blog/ e /services/; Bing coberto via IndexNow —
+      rodar `pnpm indexnow:ping` após cada deploy com conteúdo novo)
 
 ## Fase 2 — Performance & Core Web Vitals
 

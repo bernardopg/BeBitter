@@ -31,6 +31,7 @@
     "feed:gen": "tsx scripts/generate-feed.ts",
     "og:gen": "tsx scripts/generate-og-images.ts",
     "route-html:gen": "tsx scripts/generate-route-html.ts",
+    "indexnow:ping": "tsx scripts/indexnow-ping.ts",
     "postbuild": "pnpm route-html:gen",
     "prebuild": "pnpm sitemap:gen && pnpm feed:gen && pnpm og:gen",
     "github:harden": "./scripts/harden-github-repo.sh",
