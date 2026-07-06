@@ -103,11 +103,11 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^25.9.4",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "6.0.3",
-    "@vitest/ui": "^4.1.9",
+    "@vitest/ui": "^4.1.10",
     "autoprefixer": "^10.5.2",
     "beasties": "^0.4.2",
     "chrome-launcher": "^1.2.1",
@@ -128,6 +128,6 @@
     "vite": "^8.1.3",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.2",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   }
 }
