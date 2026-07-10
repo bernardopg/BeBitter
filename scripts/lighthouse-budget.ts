@@ -60,13 +60,20 @@ async function main() {
   });
 
   const chrome = await launch({
-    chromeFlags: ["--headless=new", "--no-sandbox", "--disable-gpu"],
+    chromeFlags: [
+      "--headless=new",
+      "--no-sandbox",
+      "--disable-gpu",
+      "--disable-dev-shm-usage",
+    ],
   });
 
   let failures = 0;
 
   try {
     await waitForServer(BASE + "/");
+    // Aguarda 2 segundos para estabilizar o servidor e o Chrome
+    await new Promise((r) => setTimeout(r, 2000));
 
     const audit = (url: string) =>
       lighthouse(url, {
@@ -81,12 +88,15 @@ async function main() {
     for (const path of URLS) {
       const url = BASE + path;
       // 1ª navegação após o launch do Chrome falha esporadicamente
-      // (NO_FCP/PAGE_HUNG) — uma retentativa resolve o cold start.
+      // (NO_FCP/PAGE_HUNG) — até 3 retentativas com delay de 2s resolvem o cold start.
       let result = await audit(url);
-      if (!result || result.lhr.runtimeError) {
+      let attempts = 1;
+      while ((!result || result.lhr.runtimeError) && attempts < 3) {
         const code = result?.lhr.runtimeError?.code ?? "sem resultado";
-        console.warn(`⚠️  ${path}: ${code} — retentando...`);
+        console.warn(`⚠️  ${path}: ${code} (tentativa ${attempts}) — aguardando e retentando...`);
+        await new Promise((r) => setTimeout(r, 2000));
         result = await audit(url);
+        attempts++;
       }
 
       if (!result) {
