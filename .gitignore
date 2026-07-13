@@ -56,3 +56,9 @@ public/images/og/
 .claude-terminal
 # Serena tool workspace
 .serena/
+
+# Token Save
+.tokensave/
+.headroom/
+
+AGENTS.md
