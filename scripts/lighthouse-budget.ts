@@ -85,6 +85,10 @@ async function main() {
         maxWaitForLoad: 45_000,
       });
 
+    // Descarta a 1ª navegação: é sempre a mais instável (cold start do
+    // Chrome recém-lançado) e não deve consumir as retentativas da "/" real.
+    await audit(BASE + "/").catch(() => undefined);
+
     for (const path of URLS) {
       const url = BASE + path;
       // 1ª navegação após o launch do Chrome falha esporadicamente
