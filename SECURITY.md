@@ -106,6 +106,12 @@ Valorizamos relatórios sobre:
 - **Auditoria regular** com `pnpm audit`
 - **Renovação proativa** de dependências desatualizadas
 
+#### Exceções aceitas (avaliadas, não aplicáveis)
+
+| Advisory | Pacote | Decisão |
+| --- | --- | --- |
+| [GHSA-qwww-vcr4-c8h2](https://github.com/advisories/GHSA-qwww-vcr4-c8h2) | `react-router` 7.18.2 (via `react-router-dom`) | **Não aplicável.** A falha está no modo RSC; este site é SPA puro (`BrowserRouter`, sem handler de servidor). A correção está em `react-router@8`, e `react-router-dom` não tem release v8 — a v8 unificou os pacotes, exigindo migração de imports. Reavaliar se o projeto adotar SSR/RSC. |
+
 ---
 
 ## 🚀 Medidas de Segurança Implementadas
