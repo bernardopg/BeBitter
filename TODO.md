@@ -70,9 +70,11 @@
 
 ## Fase 5 — Infra & qualidade contínua
 
-- [ ] **Deploy automatizado via GitHub Actions** — hoje o deploy é manual
-      (`pnpm deploy:hostinger` via SSH); mover chave para secret e criar
-      workflow `deploy.yml` disparado por release publicada.
+- [x] **Deploy automatizado via GitHub Actions** — `deploy.yml` dispara em tags
+      `v*` (+ `workflow_dispatch` com `dry_run`), reusa `scripts/deploy.ts`,
+      revalida com `ci:check`, verifica host key via `DEPLOY_SSH_KNOWN_HOSTS` e
+      pinga o IndexNow. Pendente: preencher os secrets no repositório
+      (ver DEPLOY-CHECKLIST.md, Opção 1).
 - [ ] **Testes E2E (Playwright)** — fluxos críticos: navegação, troca de
       idioma/tema, formulário de contato, filtro do blog.
 - [ ] **Aumentar cobertura de testes unitários** — meta 70% em `src/hooks` e

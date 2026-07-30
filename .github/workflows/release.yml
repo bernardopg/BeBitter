@@ -43,7 +43,7 @@ jobs:
         run: pnpm build
 
       - name: Package build output
-        run: tar -czf bebitter-dist-${RELEASE_TAG}.tar.gz -C dist .
+        run: tar -czf "bebitter-dist-${RELEASE_TAG}.tar.gz" -C dist .
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v3

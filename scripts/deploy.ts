@@ -28,6 +28,7 @@ Required env vars (.env.deploy or .env.deploy.local):
 
 Optional:
   DEPLOY_SITE_URL
+  DEPLOY_KEEP_BACKUPS   (default: 5)
 `.trim();
 
 const args = new Set(process.argv.slice(2));
@@ -67,6 +68,7 @@ const deployConfig = {
     process.env.DEPLOY_SITE_URL ||
     process.env.VITE_SITE_URL ||
     "https://bebitterbebetter.com.br",
+  keepBackups: parsePositiveInt(process.env.DEPLOY_KEEP_BACKUPS, 5),
 };
 
 if (!existsSync(deployConfig.keyPath)) {
@@ -136,6 +138,42 @@ if (!dryRun) {
   ]);
 
   verifyHttp(deployConfig.siteUrl);
+  pruneRemoteBackups();
+}
+
+/**
+ * Backups are siblings named `<remoteDir>.backup-YYYYMMDD-HHMMSS`. Since the
+ * suffix is zero-padded, sorting by name descending gives newest first — mtime
+ * is useless here because `cp -a` copies the source timestamps. Keeps the
+ * newest `keepBackups` and drops the rest; never fails the deploy, which has
+ * already succeeded by this point.
+ */
+function pruneRemoteBackups() {
+  if (deployConfig.keepBackups < 1) {
+    console.log("\nBackup pruning disabled (DEPLOY_KEEP_BACKUPS < 1).");
+    return;
+  }
+
+  const backupGlob = `${quoteForShell(deployConfig.remoteDir)}.backup-*`;
+  const stale = `ls -1d ${backupGlob} 2>/dev/null | sort -r | tail -n +${deployConfig.keepBackups + 1}`;
+
+  run("ssh", [
+    ...sshArgs,
+    remoteTarget,
+    [
+      "set -u",
+      `stale=$(${stale})`,
+      // Scoped strictly to the .backup-* glob above; an empty list is a no-op.
+      `if [ -n "$stale" ]; then printf '%s\\n' "$stale" | while IFS= read -r dir; do rm -rf -- "$dir" && printf 'Pruned backup: %s\\n' "$dir"; done; fi`,
+      `printf 'Backups kept: %s\\n' "$(ls -1d ${backupGlob} 2>/dev/null | wc -l)"`,
+    ].join("; "),
+  ]);
+}
+
+function parsePositiveInt(value: string | undefined, fallback: number) {
+  if (!value) return fallback;
+  const parsed = Number.parseInt(value, 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
 }
 
 function run(command: string, commandArgs: string[], captureOutput = false) {

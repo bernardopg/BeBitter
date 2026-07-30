@@ -28,7 +28,64 @@ dist/
 
 ## 🔄 **Processo de Deploy**
 
-### **Opção 1: Deploy Manual (FTP/SFTP)**
+### **Opção 1: GitHub Actions (Recomendado)**
+
+`.github/workflows/deploy.yml` dispara em qualquer tag `v*` e roda o mesmo
+`scripts/deploy.ts` do deploy manual — nenhuma lógica duplicada no YAML.
+
+#### **1. Configurar os secrets do repositório (uma vez):**
+
+| Secret | Exemplo | Observação |
+| --- | --- | --- |
+| `DEPLOY_SSH_HOST` | `bebitterbebetter.com.br` | |
+| `DEPLOY_SSH_PORT` | `65002` | porta SSH padrão da Hostinger |
+| `DEPLOY_SSH_USER` | `u123456789` | |
+| `DEPLOY_SSH_KEY` | conteúdo de `~/.ssh/id_ed25519` | **chave privada inteira**, não o caminho |
+| `DEPLOY_SSH_KNOWN_HOSTS` | saída do `ssh-keyscan` abaixo | obrigatório: sem isso o runner confiaria em qualquer host |
+| `DEPLOY_REMOTE_DIR` | `/home/u123456789/domains/bebitterbebetter.com.br/public_html` | |
+| `VITE_GA_TRACKING_ID` | `G-XXXXXXXXXX` | sem ele o build publica a tag do GA vazia |
+
+Gerar o `known_hosts`:
+
+```bash
+ssh-keyscan -p 65002 bebitterbebetter.com.br
+```
+
+Variáveis opcionais (Settings → Variables, não Secrets):
+`VITE_SITE_URL`, `VITE_CAL_URL`, `DEPLOY_KEEP_BACKUPS` (padrão `5`).
+
+> `VITE_GITHUB_TOKEN` **não** deve ser configurado: tudo com prefixo `VITE_` é
+> embutido no bundle do cliente, então o token ficaria público.
+
+#### **2. Deploy:**
+
+```bash
+# Deploy de produção = publicar uma tag
+pnpm ci:check                  # opcional, o workflow revalida
+git tag v1.8.0 && git push origin v1.8.0
+```
+
+Ou pelo GitHub: **Actions → Deploy → Run workflow**, com a opção
+`dry_run` para um ensaio (`rsync --dry-run`, não altera o servidor).
+
+O workflow faz, nesta ordem: `pnpm ci:check` (lint, typecheck, testes, build)
+→ grava a chave SSH → backup remoto → `rsync --delete` → permissões →
+asserções de arquivo no servidor → smoke test HTTP → poda de backups antigos →
+ping no IndexNow → apaga a chave SSH.
+
+#### **3. Rollback:**
+
+Cada deploy deixa `<DEPLOY_REMOTE_DIR>.backup-YYYYMMDD-HHMMSS` no servidor
+(os 5 mais recentes são mantidos):
+
+```bash
+ssh -p 65002 u123456789@bebitterbebetter.com.br
+mv public_html public_html.falhou && mv public_html.backup-20260730-021500 public_html
+```
+
+---
+
+### **Opção 2: Deploy Manual (FTP/SFTP)**
 
 #### **1. Conectar ao Servidor:**
 
@@ -62,7 +119,7 @@ chmod -R 755 /home/seu_usuario/public_html/
 
 ---
 
-### **Opção 2: Script Automatizado via SSH (Recomendado)**
+### **Opção 3: Script Automatizado via SSH (local)**
 
 #### **1. Configurar as credenciais locais:**
 
@@ -92,10 +149,11 @@ O script faz:
 - sync do conteúdo de `dist/` para a hospedagem com `rsync`
 - ajuste de permissões
 - validação HTTP da home, `robots.txt` e `sitemap.xml`
+- poda dos backups antigos, mantendo os `DEPLOY_KEEP_BACKUPS` mais recentes
 
 ---
 
-### **Opção 3: Deploy Manual via Git + SSH**
+### **Opção 4: Deploy Manual via Git + SSH**
 
 ```bash
 # Conectar via SSH ao servidor

@@ -1,0 +1,146 @@
+name: Deploy
+
+# Automates what `pnpm deploy:hostinger` used to do by hand. The whole deploy
+# lives in scripts/deploy.ts (remote backup -> rsync --delete -> permissions ->
+# remote file assertions -> HTTP smoke test -> backup pruning); this workflow
+# only bridges GitHub secrets into the env vars that script already expects.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Ensaio: roda rsync --dry-run, não altera o servidor"
+        required: false
+        default: false
+        type: boolean
+
+# Never cancel a deploy in flight: an interrupted `rsync --delete` leaves the
+# document root half-written.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Hostinger
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Verify deploy secrets are configured
+        env:
+          DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+          DEPLOY_SSH_PORT: ${{ secrets.DEPLOY_SSH_PORT }}
+          DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+          DEPLOY_REMOTE_DIR: ${{ secrets.DEPLOY_REMOTE_DIR }}
+          VITE_GA_TRACKING_ID: ${{ secrets.VITE_GA_TRACKING_ID }}
+        run: |
+          missing=""
+          for key in DEPLOY_SSH_HOST DEPLOY_SSH_PORT DEPLOY_SSH_USER \
+                     DEPLOY_SSH_KEY DEPLOY_SSH_KNOWN_HOSTS DEPLOY_REMOTE_DIR \
+                     VITE_GA_TRACKING_ID; do
+            [ -n "${!key}" ] || missing="$missing $key"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Secrets ausentes:$missing — veja DEPLOY-CHECKLIST.md"
+            exit 1
+          fi
+          echo "Todos os secrets de deploy estão configurados."
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6.0.9
+        with:
+          version: 10.24.0
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # `ci:check` (lint + typecheck + tests + build) rather than a bare build:
+      # a tag can be cut from any commit, so production re-verifies instead of
+      # trusting that main was green. Runs before the SSH key touches the disk,
+      # so a failing gate never reaches the point where credentials exist.
+      - name: Verify and build
+        env:
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
+          VITE_GA_TRACKING_ID: ${{ secrets.VITE_GA_TRACKING_ID }}
+          VITE_CAL_URL: ${{ vars.VITE_CAL_URL }}
+          # VITE_GITHUB_TOKEN is deliberately absent: anything VITE_-prefixed is
+          # inlined into the client bundle, so setting it would publish the token.
+        run: pnpm ci:check
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Pre-seeding known_hosts is what makes the script's
+          # StrictHostKeyChecking=accept-new meaningful on an ephemeral runner:
+          # a key mismatch now aborts instead of being trusted on first use.
+          printf '%s\n' "$DEPLOY_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy to Hostinger
+        env:
+          DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+          DEPLOY_SSH_PORT: ${{ secrets.DEPLOY_SSH_PORT }}
+          DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
+          DEPLOY_REMOTE_DIR: ${{ secrets.DEPLOY_REMOTE_DIR }}
+          DEPLOY_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
+          DEPLOY_KEEP_BACKUPS: ${{ vars.DEPLOY_KEEP_BACKUPS || '5' }}
+        run: |
+          # Exported here rather than in `env:` because `~` does not expand there.
+          export DEPLOY_SSH_KEY_PATH="$HOME/.ssh/deploy_key"
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            pnpm deploy:hostinger -- --skip-build --dry-run
+          else
+            pnpm deploy:hostinger -- --skip-build
+          fi
+
+      - name: Ping IndexNow
+        if: inputs.dry_run != true
+        env:
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
+        run: pnpm indexnow:ping
+
+      - name: Remove SSH credentials
+        if: always()
+        run: rm -rf ~/.ssh/deploy_key ~/.ssh/known_hosts
+
+      - name: Deploy summary
+        if: always()
+        run: |
+          {
+            echo "### Deploy — ${{ github.ref_name }}"
+            echo
+            echo "| Campo | Valor |"
+            echo "| --- | --- |"
+            echo "| Resultado | ${{ job.status }} |"
+            echo "| Ref | \`${{ github.ref_name }}\` (${GITHUB_SHA:0:7}) |"
+            echo "| Modo | ${{ inputs.dry_run == true && 'dry-run' || 'produção' }} |"
+            echo "| Site | ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }} |"
+            echo
+            echo "Rollback: \`mv <remote_dir>.backup-<timestamp> <remote_dir>\` via SSH."
+          } >> "$GITHUB_STEP_SUMMARY"

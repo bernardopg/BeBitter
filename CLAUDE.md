@@ -84,3 +84,8 @@ GitHub Actions runs on push/PR to `main`:
 - Node 22.x
 - Steps: `pnpm install --frozen-lockfile` → lint → `typecheck` → `test:run` → `build`
 - `pnpm ci:check` replicates this locally
+
+Deploy is automated in `deploy.yml`, triggered by `v*` tags (or manually with a
+`dry_run` option). It runs `ci:check` then delegates the actual deploy to
+`scripts/deploy.ts` — the same script used for local deploys, so deploy logic
+lives in one place. Required secrets are listed in `DEPLOY-CHECKLIST.md`.
