@@ -22,6 +22,11 @@ updates:
       - dependency-name: "react-day-picker"
         versions:
           - ">=9.14.0"
+      # typescript-eslint 8.x declara peer typescript <6.1.0, então TS 7 quebra
+      # o lint (ver 1b13544). Remover quando typescript-eslint suportar TS 7.
+      - dependency-name: "typescript"
+        versions:
+          - ">=7.0.0"
 
   - package-ecosystem: "github-actions"
     directory: "/"

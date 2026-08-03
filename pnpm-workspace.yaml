@@ -7,6 +7,10 @@ overrides:
   "@eslint/plugin-kit": ">=0.7.2"
   "@opentelemetry/core": "^2.8.0"
   brace-expansion: ">=5.0.6"
+  # ponytail: vite 8.2.0 accepts rolldown ~1.2.0; 1.2.2 was published 10h before
+  # this update. Hold at 1.2.1 (5 days old) for the same reason as 4e18840 —
+  # drop this line on the next deliberate update, once 1.2.x has aged.
+  rolldown: "1.2.1"
   # ponytail: typescript-eslint 8.x supports TS <6.1.0 only; pin TS 6 until a
   # typescript-eslint release declares TypeScript 7 support.
   typescript: "^6.0.3"
