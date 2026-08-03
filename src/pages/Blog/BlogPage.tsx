@@ -1,9 +1,12 @@
 import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
+import { Input } from "@/components/ui/input";
 import { blogPosts } from "@/constants/blog-posts";
 import { useLanguage } from "@/hooks/useLanguage";
+import { searchPosts } from "@/utils/blog-search";
 import { m as motion } from "framer-motion";
-import { useState } from "react";
+import { Search, X } from "lucide-react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { BlogCard } from "./BlogCard";
 
 const allTags = Array.from(new Set(blogPosts.flatMap((p) => p.tags))).sort();
@@ -11,16 +14,23 @@ const allTags = Array.from(new Set(blogPosts.flatMap((p) => p.tags))).sort();
 export default function BlogPage() {
   const { t, language } = useLanguage();
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
-  const filtered = activeTag
-    ? blogPosts.filter((p) => p.tags.includes(activeTag))
-    : blogPosts;
+  // Digitar continua fluido mesmo se a lista crescer: o campo atualiza na hora,
+  // a filtragem da grade acompanha em segundo plano.
+  const deferredQuery = useDeferredValue(query);
 
-  // Destaques primeiro, depois por data (mais recentes acima)
-  const sorted = [...filtered].sort((a, b) => {
-    if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  const sorted = useMemo(() => {
+    const byTag = activeTag
+      ? blogPosts.filter((p) => p.tags.includes(activeTag))
+      : blogPosts;
+
+    // Destaques primeiro, depois por data (mais recentes acima)
+    return [...searchPosts(byTag, deferredQuery)].sort((a, b) => {
+      if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  }, [activeTag, deferredQuery]);
 
   return (
     <>
@@ -80,6 +90,40 @@ export default function BlogPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="max-w-md mx-auto mb-8"
+          >
+            <div className="relative">
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                aria-hidden
+              />
+              {/* O "x" nativo do type=search só existe em parte dos navegadores
+                  e não é estilizável — escondemos e usamos o botão abaixo. */}
+              <Input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t("blog.searchPlaceholder")}
+                aria-label={t("blog.searchLabel")}
+                className="pl-9 pr-9 [&::-webkit-search-cancel-button]:appearance-none"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label={t("blog.searchClear")}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
             className="flex flex-wrap gap-2 justify-center mb-10"
           >
@@ -108,11 +152,22 @@ export default function BlogPage() {
             ))}
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sorted.map((post, i) => (
-              <BlogCard key={post.slug} post={post} index={i} />
-            ))}
-          </div>
+          {/* Leitor de tela é avisado do resultado; quem enxerga vê a grade mudar */}
+          <p className="sr-only" role="status" aria-live="polite">
+            {t("blog.resultsCount").replace("{count}", String(sorted.length))}
+          </p>
+
+          {sorted.length === 0 ? (
+            <p className="text-center text-muted-foreground py-16">
+              {t("blog.noResults")}
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sorted.map((post, i) => (
+                <BlogCard key={post.slug} post={post} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

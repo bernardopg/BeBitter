@@ -278,6 +278,11 @@ export const translations = {
     "blog.notFoundDescription": "Este artigo não existe ou foi removido.",
     "blog.featured": "Destaque",
     "blog.filterAll": "Todos",
+    "blog.searchPlaceholder": "Buscar por título, tema ou tag...",
+    "blog.searchLabel": "Buscar artigos",
+    "blog.searchClear": "Limpar busca",
+    "blog.noResults": "Nenhum artigo encontrado. Tente outro termo ou limpe os filtros.",
+    "blog.resultsCount": "{count} artigo(s) encontrado(s)",
   },
   en: {
     // Header
@@ -558,5 +563,10 @@ export const translations = {
     "blog.notFoundDescription": "This article doesn't exist or was removed.",
     "blog.featured": "Featured",
     "blog.filterAll": "All",
+    "blog.searchPlaceholder": "Search by title, topic, or tag...",
+    "blog.searchLabel": "Search articles",
+    "blog.searchClear": "Clear search",
+    "blog.noResults": "No articles found. Try another term or clear the filters.",
+    "blog.resultsCount": "{count} article(s) found",
   },
 };
