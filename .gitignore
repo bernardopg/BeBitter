@@ -54,6 +54,7 @@ public/images/og/
 *~
 
 .claude-terminal
+.claude/
 # Serena tool workspace
 .serena/
 
