@@ -80,10 +80,14 @@ async function main() {
   const files = findRouteHtmlFiles(DIST);
   let done = 0;
   let skipped = 0;
+  let shellTemplate: string | null = null;
 
   for (const file of files) {
     const route = routeFromFile(file);
     const template = fs.readFileSync(file, "utf-8");
+    if (route === "/") {
+      shellTemplate = template;
+    }
 
     if (!EMPTY_ROOT.test(template)) {
       // Sem o container vazio não há onde injetar, e sobrescrever às cegas
@@ -101,7 +105,31 @@ async function main() {
     console.log(`  ✓ ${route}`);
   }
 
+  writeAppShell(shellTemplate);
+
   console.log(`\n✅ ${done} rotas pré-renderizadas${skipped ? ` (${skipped} puladas)` : ""}`);
+}
+
+/**
+ * Guarda o template sem pré-render como app-shell.html.
+ *
+ * O .htaccess serve este arquivo para URLs que não viraram arquivo no build.
+ * São dois casos: 404 de verdade, e rotas legítimas que só existem em runtime
+ * (/projects/<repo> resolvido pela API do GitHub). Nos dois, qualquer markup
+ * pré-renderizado estaria errado — servir a home faria o usuário ver a home
+ * antes do 404, e o React acusaria divergência ao hidratar. Com o #root vazio o
+ * cliente monta do zero, que é o comportamento correto para rota desconhecida.
+ */
+function writeAppShell(template: string | null): void {
+  if (!template) {
+    console.warn("  ! dist/index.html não encontrado — app-shell.html não gerado");
+    return;
+  }
+
+  const shellPath = path.join(DIST, "app-shell.html");
+  fs.writeFileSync(shellPath, template, "utf-8");
+  recompress(shellPath, template);
+  console.log("  ✓ app-shell.html (fallback de rotas não pré-renderizadas)");
 }
 
 main()

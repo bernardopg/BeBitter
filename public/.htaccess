@@ -52,12 +52,15 @@ RewriteRule ^google[a-f0-9]+\.html$ - [L]
 RewriteCond %{HTTP_HOST} ^www\.bebitterbebetter\.com\.br [NC]
 RewriteRule ^(.*)$ https://bebitterbebetter.com.br/$1 [L,R=301]
 
-# Handle Angular and React Router - SPA
-# If the requested resource doesn't exist as a file or directory
-# Serve the index.html file instead
+# SPA fallback
+# O build pré-renderiza cada rota conhecida como arquivo próprio, então o que
+# chega aqui é rota que só existe em runtime (/projects/<repo> vindo da API do
+# GitHub) ou URL inexistente. app-shell.html é o mesmo HTML com o #root vazio:
+# servir /index.html mostraria a home pré-renderizada antes da página certa e
+# faria o React acusar divergência ao hidratar.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
+RewriteRule . /app-shell.html [L]
 
 # Headers de segurança aprimorados
 <IfModule mod_headers.c>

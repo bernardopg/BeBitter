@@ -208,7 +208,12 @@ function verifyHttp(siteUrl: string) {
   const robotsTxt = run("curl", ["-fsSL", `${siteUrl}/robots.txt`], true);
   const sitemapXml = run("curl", ["-fsSL", `${siteUrl}/sitemap.xml`], true);
 
-  assertIncludes(indexHtml, "<div id=\"root\"></div>", "homepage root");
+  // A home é pré-renderizada (scripts/prerender.ts), então #root chega com
+  // conteúdo. Um <div id="root"></div> vazio aqui significa que o passo de
+  // pré-render não rodou ou que o servidor devolveu o app-shell no lugar da
+  // home — nos dois casos o deploy publicou algo pior do que o esperado.
+  assertExcludes(indexHtml, '<div id="root"></div>', "homepage root vazio");
+  assertIncludes(indexHtml, "<h1", "homepage prerendered content");
   assertIncludes(robotsTxt, "Sitemap:", "robots sitemap declaration");
   assertIncludes(sitemapXml, "<urlset", "sitemap urlset");
 
@@ -218,6 +223,13 @@ function verifyHttp(siteUrl: string) {
 function assertIncludes(contents: string, expected: string, label: string) {
   if (!contents.includes(expected)) {
     console.error(`Expected ${label} to include: ${expected}`);
+    process.exit(1);
+  }
+}
+
+function assertExcludes(contents: string, unexpected: string, label: string) {
+  if (contents.includes(unexpected)) {
+    console.error(`Expected ${label} to be absent: ${unexpected}`);
     process.exit(1);
   }
 }
