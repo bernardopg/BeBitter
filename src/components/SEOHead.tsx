@@ -1,6 +1,11 @@
 import { useLanguage } from "@/hooks/useLanguage";
+import { CONFIG } from "@/constants/config";
 import { IMAGES } from "@/constants/images";
 import { useEffect } from "react";
+
+// O pré-render do build roda em Node, onde não há window.location.
+const siteOrigin =
+  typeof window !== "undefined" ? window.location.origin : CONFIG.SITE_URL;
 
 interface SEOHeadProps {
   title?: string;
@@ -38,7 +43,7 @@ const SEOHead = ({
     "healthcare workflows",
     "portfolio",
   ],
-  ogImage = `${window.location.origin}${IMAGES.PROFILE_IMAGE}`,
+  ogImage = `${siteOrigin}${IMAGES.PROFILE_IMAGE}`,
   canonical,
   type = "website",
   robots = "index, follow",

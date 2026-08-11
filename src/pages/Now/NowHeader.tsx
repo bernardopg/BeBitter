@@ -1,27 +1,70 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { m as motion, useReducedMotion } from "framer-motion";
 import { Clock } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+
+/**
+ * Relógio como store externo, não como estado do React.
+ *
+ * Esta rota tem HTML pré-renderizado no build: um `useState(new Date())`
+ * congelaria o horário do build dentro do HTML estático — o usuário veria a
+ * hora errada até hidratar, e o React acusaria divergência. `getServerSnapshot`
+ * devolve null, então o markup sai com placeholder e só o browser mostra hora.
+ */
+let now: number | null = null;
+let tickTimer: number | undefined;
+const clockListeners = new Set<() => void>();
+
+const subscribeToClock = (callback: () => void) => {
+  clockListeners.add(callback);
+
+  if (clockListeners.size === 1) {
+    now = Date.now();
+    const startTicking = () => {
+      tickTimer = window.setInterval(() => {
+        now = Date.now();
+        clockListeners.forEach((listener) => listener());
+      }, 1000);
+    };
+    // O primeiro valor aparece na hidratação; o tique de 1s espera a thread
+    // esvaziar para não competir com o carregamento inicial.
+    const ric = (
+      window as Window & {
+        requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout?: number }) => number;
+      }
+    ).requestIdleCallback;
+    if (typeof ric === "function") {
+      ric(() => startTicking(), { timeout: 2000 });
+    } else {
+      window.setTimeout(startTicking, 1200);
+    }
+  }
+
+  return () => {
+    clockListeners.delete(callback);
+    if (clockListeners.size === 0 && tickTimer) {
+      clearInterval(tickTimer);
+      tickTimer = undefined;
+    }
+  };
+};
+
+const getClockSnapshot = () => now;
+const getServerClockSnapshot = (): number | null => null;
 
 export function NowHeader() {
   const { t, language } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const timestamp = useSyncExternalStore(
+    subscribeToClock,
+    getClockSnapshot,
+    getServerClockSnapshot,
+  );
+  const currentTime = useMemo(
+    () => (timestamp === null ? null : new Date(timestamp)),
+    [timestamp],
+  );
   const [isInteractive, setIsInteractive] = useState(false);
-
-  useEffect(() => {
-    let timer: number | undefined;
-    const start = () => {
-      timer = window.setInterval(() => setCurrentTime(new Date()), 1000);
-    };
-    const ric = (window as Window & { requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout?: number }) => number }).requestIdleCallback;
-    if (typeof ric === "function") {
-      ric(() => start(), { timeout: 2000 });
-    } else {
-      setTimeout(() => start(), 1200);
-    }
-    return () => { if (timer) clearInterval(timer); };
-  }, []);
 
   useEffect(() => {
     const ric = (window as Window & { requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout?: number }) => number }).requestIdleCallback;
@@ -46,7 +89,7 @@ export function NowHeader() {
       </MotionH1>
 
       <MotionP className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-        {t("now.description")} {currentTime.toLocaleDateString(locale)}
+        {t("now.description")} {currentTime?.toLocaleDateString(locale) ?? ""}
       </MotionP>
 
       <MotionDiv
@@ -58,11 +101,11 @@ export function NowHeader() {
           <span className="text-sm font-medium uppercase tracking-wider">{t("now.clockLabel")}</span>
         </div>
         <div className="text-5xl md:text-6xl font-mono font-bold gradient-text tabular-nums">
-          {currentTime.toLocaleTimeString(locale, {
+          {currentTime?.toLocaleTimeString(locale, {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-          })}
+          }) ?? "--:--:--"}
         </div>
       </MotionDiv>
     </MotionDiv>

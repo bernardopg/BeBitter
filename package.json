@@ -33,11 +33,13 @@
     "route-html:gen": "tsx scripts/generate-route-html.ts",
     "indexnow:ping": "tsx scripts/indexnow-ping.ts",
     "lighthouse:budget": "tsx scripts/lighthouse-budget.ts",
-    "postbuild": "pnpm route-html:gen",
+    "postbuild": "pnpm route-html:gen && pnpm build:ssr && pnpm prerender",
     "prebuild": "pnpm sitemap:gen && pnpm feed:gen && pnpm og:gen",
     "github:harden": "./scripts/harden-github-repo.sh",
     "performance:audit": "echo 'Run lighthouse audit on your deployed site for performance metrics'",
-    "optimize:images": "tsx scripts/optimize-images.ts"
+    "optimize:images": "tsx scripts/optimize-images.ts",
+    "build:ssr": "vite build --config vite.config.ssr.ts",
+    "prerender": "tsx scripts/prerender.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.5.7",

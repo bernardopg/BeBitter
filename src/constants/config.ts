@@ -3,6 +3,10 @@ export const CONFIG = {
   // import.meta.env não existe fora do Vite (ex.: scripts tsx) — optional chaining
   GA_TRACKING_ID: import.meta.env?.VITE_GA_TRACKING_ID || "",
 
+  // Origem canônica do site. Usada onde `window.location` não existe — o
+  // pré-render do build roda em Node (ver scripts/prerender.ts).
+  SITE_URL: import.meta.env?.VITE_SITE_URL || "https://bebitterbebetter.com.br",
+
   // API URLs
   GITHUB_API_BASE: "https://api.github.com",
   GITHUB_USERNAME: "bernardopg",

@@ -11,23 +11,22 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProjectsProvider } from "@/contexts/ProjectsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LazyMotion, domAnimation } from "framer-motion";
-import { Suspense, lazy, useEffect, useState, useSyncExternalStore } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import type { ReactNode } from "react";
+import { Suspense, useEffect, useState, useSyncExternalStore } from "react";
+import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-
-// Lazy loading das páginas para reduzir bundle inicial
-const Index = lazy(() => import("./pages/Index"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Now = lazy(() => import("./pages/Now"));
-const Services = lazy(() => import("./pages/Services"));
-const ProjectsPage = lazy(() =>
-  import("./pages/Projects/ProjectsPage").then((m) => ({ default: m.default }))
-);
-const ProjectDetailPage = lazy(() =>
-  import("./pages/Projects/ProjectDetailPage").then((m) => ({ default: m.default }))
-);
-const BlogPage = lazy(() => import("./pages/Blog/BlogPage"));
-const BlogPostPage = lazy(() => import("./pages/Blog/BlogPostPage"));
+// Páginas carregadas sob demanda. Vivem em ./pageLoaders porque o main.tsx
+// resolve a página da rota atual antes de hidratar.
+import {
+  BlogPage,
+  BlogPostPage,
+  IndexPage,
+  NotFoundPage,
+  NowPage,
+  ProjectDetailPage,
+  ProjectsPage,
+  ServicesPage,
+} from "./pageLoaders";
 
 // Configuração otimizada do QueryClient
 const queryClient = new QueryClient({
@@ -63,7 +62,37 @@ const getDesktopViewportSnapshot = () =>
 
 const getServerViewportSnapshot = () => false;
 
-const App = () => {
+/**
+ * Rotas + o que precisa viver dentro de um Router.
+ *
+ * Fica separado dos providers para que o pré-render do build (entry-server)
+ * possa montar a mesma árvore sob um StaticRouter, enquanto o browser usa o
+ * BrowserRouter. Server e client renderizam exatamente estes componentes, o
+ * que é o que mantém a hidratação sem divergência.
+ */
+export const AppRoutes = () => (
+  <>
+    <Analytics />
+    <ScrollToTop />
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/now" element={<NowPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </Suspense>
+  </>
+);
+
+const App = ({ children }: { children: ReactNode }) => {
   type WhatsAppProps = {
     phoneNumber: string;
     accountName?: string;
@@ -138,28 +167,7 @@ const App = () => {
               <WebVitals />
               <Toaster />
               <Sonner />
-              <ProjectsProvider>
-              <BrowserRouter>
-                {/* Analytics precisa estar dentro do Router para usar useLocation */}
-                <Analytics />
-                <ScrollToTop />
-                <Suspense fallback={<PageLoader />}>
-                  <Routes>
-                    <Route element={<Layout />}>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/now" element={<Now />} />
-                      <Route path="/services" element={<Services />} />
-                      <Route path="/projects" element={<ProjectsPage />} />
-                      <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-                      <Route path="/blog" element={<BlogPage />} />
-                      <Route path="/blog/:slug" element={<BlogPostPage />} />
-                      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                      <Route path="*" element={<NotFound />} />
-                    </Route>
-                  </Routes>
-                </Suspense>
-              </BrowserRouter>
-              </ProjectsProvider>
+              <ProjectsProvider>{children}</ProjectsProvider>
               {WhatsAppComp && showWhatsApp && (
                 <WhatsAppComp
                   phoneNumber="5531984916431"
