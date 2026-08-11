@@ -272,6 +272,21 @@
     50% { transform: translateY(-16px); }
   }
 
+  /* ---- Entrada above-the-fold ----
+     Animação de entrada em CSS, não em JS. O HTML pré-renderizado já anima
+     enquanto o bundle carrega, então o conteúdo aparece sem esperar o React —
+     é isso que mantém o LCP baixo. Um equivalente em framer-motion serializaria
+     `opacity: 0` no HTML e o texto ficaria invisível até a hidratação.
+     O atraso em cascata sai de --enter-delay (padrão: nenhum). */
+  .animate-enter {
+    animation: enter-fade-up 0.6s ease-out both;
+    animation-delay: var(--enter-delay, 0s);
+  }
+  @keyframes enter-fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+  }
+
   /* ---- Card hover (works now that --card is a real surface) ---- */
   .card-enhanced {
     position: relative;
@@ -336,6 +351,12 @@
 @media (prefers-reduced-motion: reduce) {
   .gradient-text, .float, .pulse-glow, .shimmer {
     animation: none !important;
+  }
+  /* Entrada sem movimento: aparece direto, sem fade nem deslocamento. */
+  .animate-enter {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
   }
   html {
     scroll-behavior: auto;

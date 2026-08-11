@@ -13,7 +13,6 @@ import {
 } from "@/components/icons/social-icons";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { m as motion } from "framer-motion";
 import {
   BadgeDollarSign,
   Coffee,
@@ -26,7 +25,7 @@ import { useEffect, useMemo, useRef } from "react";
 export const HeroSection = () => {
   const { t } = useLanguage();
   const { trackButtonClick, trackExternalLink } = useAnalytics();
-  const { registerElement, getAnimationProps } = useScrollAnimation();
+  const { registerElement } = useScrollAnimation();
   const { preloadProfileImage } = useProfileImagePreload();
 
   const heroRef = useRef<HTMLElement>(null);
@@ -70,18 +69,14 @@ export const HeroSection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Left Column - Text Content */}
-          <motion.div
-            className="space-y-6 md:space-y-8 text-center lg:text-left"
-            {...getAnimationProps}
-            animate={getAnimationProps.animate}
-          >
+          {/* Left Column - Text Content
+              Entrada em CSS (.animate-enter), não em framer-motion: este bloco
+              é o conteúdo above-the-fold e precisa pintar antes do bundle. */}
+          <div className="space-y-6 md:space-y-8 text-center lg:text-left">
             <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
+              <div
+                style={{ "--enter-delay": "0.05s" } as React.CSSProperties}
+                className="animate-enter flex flex-wrap items-center justify-center lg:justify-start gap-3"
               >
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-500">
                   <span className="relative flex h-2 w-2">
@@ -94,52 +89,43 @@ export const HeroSection = () => {
                   <Sparkles className="h-5 w-5" />
                   {t("hero.greeting")}
                 </span>
-              </motion.div>
+              </div>
 
-              <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+              {/* Candidato a LCP da home — nada de JS entre o HTML e o paint. */}
+              <h1
+                className="animate-enter text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+                style={{ "--enter-delay": "0.1s" } as React.CSSProperties}
               >
                 <span className="gradient-text">{t("hero.title")}</span>
-              </motion.h1>
+              </h1>
 
-              <motion.div
-                className="text-xl md:text-2xl text-muted-foreground h-8 flex items-center justify-center lg:justify-start"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
+              <div
+                className="animate-enter text-xl md:text-2xl text-muted-foreground h-8 flex items-center justify-center lg:justify-start"
+                style={{ "--enter-delay": "0.15s" } as React.CSSProperties}
               >
                 <TypingText texts={typingTexts} />
-              </motion.div>
+              </div>
 
-              <motion.p
-                className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
+              <p
+                className="animate-enter text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+                style={{ "--enter-delay": "0.2s" } as React.CSSProperties}
               >
                 {t("hero.description")}
-              </motion.p>
+              </p>
 
-              <motion.div
-                className="flex items-center justify-center lg:justify-start gap-2 text-muted-foreground"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 }}
+              <div
+                className="animate-enter flex items-center justify-center lg:justify-start gap-2 text-muted-foreground"
+                style={{ "--enter-delay": "0.25s" } as React.CSSProperties}
               >
                 <MapPin className="h-4 w-4" />
                 <span>{t("hero.location")}</span>
-              </motion.div>
+              </div>
             </div>
 
             {/* Action Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.1 }}
+            <div
+              className="animate-enter flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              style={{ "--enter-delay": "0.3s" } as React.CSSProperties}
             >
               <Button
                 size="xl"
@@ -168,14 +154,12 @@ export const HeroSection = () => {
               >
                 {t("hero.cta.secondary")}
               </Button>
-            </motion.div>
+            </div>
 
             {/* Tech trust strip */}
-            <motion.div
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-sm text-muted-foreground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
+            <div
+              className="animate-enter flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-sm text-muted-foreground"
+              style={{ "--enter-delay": "0.35s" } as React.CSSProperties}
             >
               {["React", "TypeScript", "Python", "Linux", "Node.js"].map((tech) => (
                 <span key={tech} className="flex items-center gap-1.5">
@@ -183,14 +167,12 @@ export const HeroSection = () => {
                   {tech}
                 </span>
               ))}
-            </motion.div>
+            </div>
 
             {/* Social Links */}
-            <motion.div
-              className="flex gap-4 justify-center lg:justify-start"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.3 }}
+            <div
+              className="animate-enter flex gap-4 justify-center lg:justify-start"
+              style={{ "--enter-delay": "0.4s" } as React.CSSProperties}
             >
               <Button
                 variant="ghost"
@@ -287,15 +269,13 @@ export const HeroSection = () => {
                   <BadgeDollarSign className="h-5 w-5" />
                 </a>
               </Button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Right Column - Profile Image */}
-          <motion.div
-            className="flex justify-center lg:justify-end"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+          <div
+            className="animate-enter flex justify-center lg:justify-end"
+            style={{ "--enter-delay": "0.15s" } as React.CSSProperties}
           >
             <div className="relative">
               <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 relative">
@@ -323,7 +303,7 @@ export const HeroSection = () => {
                 <div className="absolute top-1/4 -right-8 w-6 h-6 bg-blue-500/20 rounded-full blur-sm float" style={{ animationDelay: '3s' }} />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
