@@ -1,8 +1,10 @@
 import { useAnalytics } from "@/components/Analytics";
 import { Button } from "@/components/ui/button";
-import { ProfileImage } from "@/components/ui/ProfileImage";
+import {
+  PROFILE_IMAGE_SIZES,
+  ProfileImage,
+} from "@/components/ui/ProfileImage";
 import { TypingText } from "@/components/ui/TypingText";
-import { useProfileImagePreload } from "@/hooks/useProfileImagePreload";
 import { CONFIG } from "@/constants/config";
 import {
   GitHubIcon,
@@ -26,7 +28,6 @@ export const HeroSection = () => {
   const { t } = useLanguage();
   const { trackButtonClick, trackExternalLink } = useAnalytics();
   const { registerElement } = useScrollAnimation();
-  const { preloadProfileImage } = useProfileImagePreload();
 
   const heroRef = useRef<HTMLElement>(null);
 
@@ -34,11 +35,6 @@ export const HeroSection = () => {
     () => [t("hero.subtitle1"), t("hero.subtitle2"), t("hero.subtitle3")],
     [t],
   );
-
-  // Preload da imagem crítica
-  useEffect(() => {
-    preloadProfileImage();
-  }, [preloadProfileImage]);
 
   useEffect(() => {
     if (heroRef.current) {
@@ -289,7 +285,7 @@ export const HeroSection = () => {
                     alt={t("hero.profileAlt")}
                     className="w-full h-full object-cover"
                     priority={true}
-                    sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
+                    sizes={PROFILE_IMAGE_SIZES}
                   />
                 </div>
                 

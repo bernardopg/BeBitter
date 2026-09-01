@@ -1,23 +1,44 @@
 import { IMAGES } from "@/constants/images";
-import { useCallback, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+
+/**
+ * Sizes padrão do avatar do hero (containers w-56/64/80/96).
+ * Precisa bater com o `sizes` passado pelo HeroSection para o browser
+ * selecionar o mesmo candidato do srcset que o preload/imagem real.
+ */
+export const PROFILE_IMAGE_SIZES =
+  "(max-width: 640px) 224px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px";
 
 interface ProfileImageProps {
   alt: string;
   className?: string;
+  /** Above-the-fold: renderiza visível sem depender de JS (LCP/correto sem hidratação). */
   priority?: boolean;
   sizes?: string;
   onLoad?: () => void;
   onError?: () => void;
 }
 
+// useLayoutEffect evita flash do placeholder em imagem vinda de cache,
+// mas não existe no servidor (prerender).
+const useIsoLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
 export const ProfileImage = ({
   alt,
   className = "",
   priority = false,
-  sizes = "(max-width: 768px) 252px, (max-width: 1024px) 512px, 252px",
+  sizes = PROFILE_IMAGE_SIZES,
   onLoad,
   onError,
 }: ProfileImageProps) => {
+  const imgRef = useRef<HTMLImageElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -31,34 +52,24 @@ export const ProfileImage = ({
     onError?.();
   }, [onError]);
 
-  // Fallback para caso a imagem principal falhe
-  const fallbackSrc = IMAGES.ANDROID_CHROME_512;
+  // Imagem já completa no mount (cache HTTP/SW, bfcache, restauração):
+  // o evento `load` não re-dispara — sem isto, a foto ficaria invisível
+  // para sempre (opacity-0) em visitas repetidas.
+  useIsoLayoutEffect(() => {
+    if (imgRef.current?.complete) {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Nota: nenhum <link rel="preload"> aqui. A imagem prioritária já está
+  // no HTML pré-renderizado com fetchpriority="high" — o melhor ponto de
+  // descoberta. Preload duplicado via React causava download triplo
+  // (252.avif + 252.webp + arquivo real) e era descartado pelo cache.
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      {/* Preload hint for critical images */}
-      {priority && !hasError && (
-        <>
-          <link
-            rel="preload"
-            as="image"
-            href={IMAGES.PROFILE_IMAGE_AVIF_252}
-            type="image/avif"
-            imageSizes={sizes}
-          />
-          <link
-            rel="preload"
-            as="image"
-            href={IMAGES.PROFILE_IMAGE_WEBP_252}
-            type="image/webp"
-            imageSizes={sizes}
-          />
-        </>
-      )}
-
-      {/* Optimized picture element with modern formats and responsive images */}
+      {/* AVIF — melhor compressão */}
       <picture>
-        {/* AVIF format - best compression */}
         <source
           type="image/avif"
           srcSet={`
@@ -69,7 +80,7 @@ export const ProfileImage = ({
           sizes={sizes}
         />
 
-        {/* WebP format - good compression with wide support */}
+        {/* WebP — compressão boa, suporte amplo */}
         <source
           type="image/webp"
           srcSet={`
@@ -80,7 +91,7 @@ export const ProfileImage = ({
           sizes={sizes}
         />
 
-        {/* JPEG format - fallback for compatibility */}
+        {/* JPEG — compatibilidade */}
         <source
           type="image/jpeg"
           srcSet={`
@@ -91,12 +102,16 @@ export const ProfileImage = ({
           sizes={sizes}
         />
 
-        {/* Fallback img element */}
+        {/* Fallback para browsers sem <picture>/<source> */}
         <img
-          src={hasError ? fallbackSrc : IMAGES.PROFILE_IMAGE_JPEG_252}
+          ref={imgRef}
+          src={IMAGES.PROFILE_IMAGE_JPEG_252}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-500 ${
-            isLoaded ? "opacity-100" : "opacity-0"
+            // Prioridade (above-the-fold): visível desde o primeiro paint —
+            // nunca escondida por opacity-0, com ou sem JS.
+            // Demais: fade-in quando carregar (com resgate p/ cache via ref).
+            priority || isLoaded ? "opacity-100" : "opacity-0"
           }`}
           loading={priority ? "eager" : "lazy"}
           decoding="async"
@@ -105,16 +120,12 @@ export const ProfileImage = ({
           itemProp="image"
           width={252}
           height={252}
-          // Structured data hints
-          data-schema-image="person"
-          // Performance hints
-          data-optimized="true"
-          {...(priority && { fetchPriority: "high" })}
+          {...(priority && { fetchPriority: "high" as const })}
         />
       </picture>
 
-      {/* Loading placeholder */}
-      {!isLoaded && !hasError && (
+      {/* Placeholder de carregamento — só para imagens below-the-fold */}
+      {!priority && !isLoaded && !hasError && (
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/5 animate-pulse">
           <div className="w-full h-full flex items-center justify-center">
             <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
@@ -122,7 +133,7 @@ export const ProfileImage = ({
         </div>
       )}
 
-      {/* Error state */}
+      {/* Estado de erro */}
       {hasError && (
         <div className="absolute inset-0 bg-muted flex items-center justify-center">
           <div className="text-center text-muted-foreground">
@@ -133,6 +144,7 @@ export const ProfileImage = ({
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
