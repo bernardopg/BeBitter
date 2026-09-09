@@ -20,9 +20,380 @@ export interface BlogPost {
   readingTime: number;
 }
 
-// Curadoria enxuta: 12 artigos entre experiências reais, casos práticos e
+// Curadoria enxuta: 16 artigos entre experiências reais, casos práticos e
 // temas atuais. Tags normalizadas em categorias fixas para o filtro do blog.
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "remix-3-rc-2026",
+    title: "Remix 3 RC: O Framework que Largou o React e Apostou nos Primitivos da Web",
+    titleEn: "Remix 3 RC: The Framework That Dropped React and Bet on Web Primitives",
+    excerpt: "O RC do Remix 3 chegou com runtime de UI próprio — sem React —, HMR full-stack, banco no CLI e servidor de assets sem bundle. Release final em 2 de outubro. Analiso a aposta.",
+    excerptEn: "Remix 3 hit RC with its own UI runtime — no React — full-stack HMR, CLI-managed databases and an unbundled asset server. Final release lands October 2. A deep look at the bet.",
+    date: "2026-08-31",
+    author: "Bernardo Gomes",
+    tags: [
+      "Frontend",
+      "React"
+    ],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content: "Hoje, 31 de agosto de 2026, a equipe do Remix publicou o primeiro Release Candidate do Remix 3, quatro meses depois do beta preview. A confirmação que a comunidade React vinha aguardando: o Remix 3 não usa React. Ele traz runtime de UI próprio — manipulação de eventos composível, estilos, animações e componentes built-in — tudo empacotado num único pacote 'remix'. A versão final chega em 2 de outubro, no Remix Jam."
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content: "Fonte: remix.run/blog — 'Remix 3 Release Candidate' (31/08/2026). Foram 350+ commits desde o beta de abril, e o anúncio da 1.0 está marcado para o Remix Jam, em 2 de outubro de 2026."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que é o Remix 3, na prática"
+      },
+      {
+        type: "paragraph",
+        content: "O Remix 3 se define como um framework full-stack 'unapologeticamente construído sobre primitivos da web' — HTML, CSS, HTTP e web standards, sem camadas de abstração pesadas no caminho. Na prática, o pacote único 'remix' inclui: roteador type-safe e mais rápido (com router.mount() para compor aplicações), fluxo completo de banco de dados no CLI, servidor de assets sem bundle, HMR full-stack e a nova UI runtime com componentes próprios."
+      },
+      {
+        type: "list",
+        items: [
+          "Banco de dados como cidadão de primeira classe: migrações, seeds, status checks, resets, wipes e rollbacks direto no CLI",
+          "HMR full-stack: módulos de servidor recarregam e componentes de UI compatíveis atualizam in-place, sem perder estado",
+          "Servidor de assets unbundled: JavaScript, CSS, imagens, fontes e até pacotes npm servidos sem bundle, com preloading embutido",
+          "Roteamento mais rápido e type-safe: matching e geração de URLs otimizados, com inferência de TypeScript melhorada",
+          "UI library própria: tabs, toggles, context menus e outros componentes prontos — sem depender de React Aria ou Radix",
+          "Suporte SPA: mesmo router, middleware e modelo Request-to-Response para apps client-rendered"
+        ]
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "remix.json e o CLI: a nova espinha dorsal"
+      },
+      {
+        type: "paragraph",
+        content: "A configuração do projeto vive num único remix.json — databases, assets e tests — e o CLI assumiu o que antes exigia meia dúzia de ferramentas terceirizadas: ORM, migrator, bundler de dev e runner de testes. O remix doctor inspeciona a saúde do projeto, incluindo os assets alcançáveis pelo browser. É a filosofia de 'um pacote, um arquivo, um CLI' levada ao extremo."
+      },
+      {
+        type: "code",
+        language: "json",
+        content: "{\n  \"databases\": {\n    \"app\": { \"type\": \"sqlite\", \"url\": \"file:./data/app.db\" }\n  },\n  \"assets\": { \"preloading\": true },\n  \"tests\": { \"include\": \"tests/**\" }\n}\n\n// Fluxo de banco documentado no RC (via CLI):\n// remix db migrate · seed · status · reset · wipe · rollback\n// Diagnóstico do projeto:\n// remix doctor"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Por que largar o React? A tese dos primitivos"
+      },
+      {
+        type: "paragraph",
+        content: "A aposta do time é que frameworks gastam energia demais abstraindo o que a plataforma já resolve. O Remix 3 remove a camada React — virtual DOM, reconciler, compiler — e vai direto aos primitivos: elementos, eventos composíveis, CSS. Menos abstração significa menos código gerado, menos hidratação e menos distância entre o que você escreve e o que roda no browser. É a mesma direção que Solid e Qwik perseguem, mas agora vinda do time por trás de um dos frameworks React mais influentes da história."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "Remix 3 é um ecossistema novo: sem React, bibliotecas como React Query, shadcn/ui, framer-motion e a maior parte do npm frontend não funcionam diretamente. O RC pede avaliação, não adoção."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O fator agentes de IA"
+      },
+      {
+        type: "paragraph",
+        content: "O post do RC diz explicitamente que o Remix quer ser produtivo 'out of the gate' no cenário de programação agêntica. Faz sentido: menos abstrações e um único pacote significam menos contexto para o agente carregar, APIs mais previsíveis e menos alucinação de imports. O dev server sem bundle também encurta o ciclo editar-testar que agentes executam centenas de vezes por tarefa. Em 2026, a DX para humanos e a DX para IA convergiram — e o Remix é o primeiro framework desenhado com isso em mente desde o primeiro dia."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "E o React Router?"
+      },
+      {
+        type: "paragraph",
+        content: "Não confunda os produtos: o React Router v8 (junho de 2026) segue como o caminho React do time — major anual 'chato' e previsível, com suporte a Server Components, middleware, type-safe href e Agent Skills. Os dois projetos divergiram de propósito: Remix 3 é a aposta radical; React Router é a estabilidade. Se seu app é React e funciona, você continua no React Router — e o time deixou claro que vai mantê-lo."
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Roteiro sugerido: teste o RC num projeto paralelo agora, aguarde 2 de outubro para avaliar a 1.0 de verdade e não migre nada em produção por FOMO. Reimaginações de framework pedem 6-12 meses de maturidade de ecossistema — Remix 3 é a maior delas desde 2023, e é exatamente por isso que merece acompanhar de perto sem apostar o produto inteiro."
+      }
+    ]
+  },
+  {
+    slug: "agentes-ia-operacao-2026",
+    title: "Operando Agentes de IA: Segurança, Custo e Frotas no Agosto de 2026",
+    titleEn: "Operating AI Agents: Security, Cost and Fleets in August 2026",
+    excerpt: "Agentes de código rodam 6-8h por tarefa e viraram frota. Em agosto, o Claude Code ganhou modo restrito, redação de segredos e métricas de cache por sessão. O guia de operação que faltava.",
+    excerptEn: "Coding agents now run 6-8 hour tasks in fleets. In August, Claude Code shipped restricted mode, secret redaction and per-session cache metrics. The operations guide that was missing.",
+    date: "2026-08-28",
+    author: "Bernardo Gomes",
+    tags: [
+      "IA & Automação"
+    ],
+    readingTime: 11,
+    content: [
+      {
+        type: "paragraph",
+        content: "Em maio publiquei o estado das ferramentas — Claude Code, Cursor e Codex. Desde então a pergunta mudou: deixou de ser 'qual ferramenta usar' e virou 'como operar'. Agentes agora executam tarefas de 6 a 8 horas, em paralelo, com acesso a repositório, terminal e credenciais. Agosto de 2026 foi o mês em que operação virou produto: o changelog do Claude Code teve lançamentos quase diários (da 2.1.229 à 2.1.252) e pelo menos três startups da Y Combinator surgiram só para fornecer infraestrutura a esses agentes."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "O pior cenário não é o agente escrever código ruim — é o agente ser enganado por prompt injection e entregar credenciais. Os fundadores do OneCLI (YC S26) documentaram o padrão: agentes guardam segredos em memória, arquivos locais e logs em texto plano, e podem ser persuadidos a entregá-los."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Modo restrito: menos ferramentas, menos risco"
+      },
+      {
+        type: "paragraph",
+        content: "O Claude Code lançou a flag --restricted (ou CLAUDE_CODE_RESTRICTED=1): remove os built-ins perigosos — Bash e WebFetch, a menos que explicitamente re-habilitados via --tools —, confina as file tools ao diretório de trabalho, recusa bypassPermissions e ignora arquivos locais de configuração de usuário e projeto. É o modo 'agente não confiável': use por padrão em CI, automações e qualquer sessão que toque em produção. No sandbox do macOS, as regras de negação de leitura com wildcard (como **/.env) agora têm precedência dentro das regiões permitidas — renomear o arquivo não burla mais o bloqueio."
+      },
+      {
+        type: "code",
+        language: "bash",
+        content: "# Sessão restrita: sem shell arbitrário, sem fetch externo,\n# arquivos apenas dentro do working directory\nclaude --restricted\n\n# Sandboxing por deny rules: o .env nunca entra no contexto\n# .claude/settings.json\n# {\n#   \"permissions\": {\n#     \"deny\": [\"Read(**/.env*)\", \"Read(**/*credentials*)\"]\n#   }\n# }\n\n# Limita memória de comandos Bash — build fugindo não derruba a sessão\nexport CLAUDE_CODE_TOOL_MEMORY_LIMIT=2g"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Segredos: fora do contexto, injetados no gateway"
+      },
+      {
+        type: "paragraph",
+        content: "A lição de segurança do mês veio do OneCLI (Launch HN, 19/08): o agente nunca segura o segredo de verdade — recebe um placeholder, e a credencial real é injetada no gateway, por requisição, depois da autorização. Ela nunca entra no contexto, na memória nem nos logs. A parte mais interessante é a filosofia: políticas da organização rodam na camada de rede, fora do modelo — prompt é sugestão, o gateway decide. Na mesma direção, o Claude Code ampliou a redação automática de segredos na saída das sessões, cobrindo famílias de tokens do GitLab (glrt-, gloas-, glptt-) e outras credenciais."
+      },
+      {
+        type: "list",
+        items: [
+          "Least privilege por agente: uma VM ou contêiner por sessão — o blast radius de um agente comprometido é um agente",
+          "Credencial via gateway, nunca via prompt: placeholder no contexto, segredo real só na requisição",
+          "Política fora do modelo: bloqueio de endpoints, rate limit e aprovações determinísticas na camada de rede",
+          "Auditoria com identidade: todo agente vinculado a um responsável, todo call logado com 'em nome de quem' foi feito",
+          "Modo restrito por padrão em CI e automações; modo interativo só para desenvolvimento local"
+        ]
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Custo: prompt cache é o novo benchmark"
+      },
+      {
+        type: "paragraph",
+        content: "O /cost do Claude Code agora expõe métricas de cache por sessão: hit ratio, misses, tokens re-cacheados, warm/cold. Por que isso importa: token de cache hit custa uma fração do token normal — em sessões longas de agente, o cache é a diferença entre a conta dobrar ou não. O subagent forking (agora default) herda o prompt cache da conversa pai, o que acabou com o subagente 'frio' 100% mais caro. E o promptCacheTtl separado — 1h na conversa principal, 5m nos subagentes — permite manter cache longo onde ele paga a conta. Para orçamento: spend limit no /usage e o perfil /claude-api cost-optimize, que audita o gasto do projeto e aplica um lever de otimização por vez."
+      },
+      {
+        type: "code",
+        language: "json",
+        content: "{\n  // Settings documentados no changelog do Claude Code (ago/2026)\n  \"promptCacheTtl\": \"1h\",          // conversa principal: cache longo\n  \"subagentPromptCacheTtl\": \"5m\"   // subagentes: cache curto e barato\n}\n// O /cost reporta prompt_cache (hit ratio, re-cacheados, warm/cold)\n// e o status line expõe rate_limits.spend_limit para quem usa gateway"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Frotas: cada agente com sua máquina"
+      },
+      {
+        type: "paragraph",
+        content: "A história de infraestrutura do mês foi o machine0 (YC S26, 18/08): VMs persistentes para agentes, de 1 vCPU/1GB a US$ 0,013/hora até 60 vCPU/240GB e GPUs — de RTX 4000 Ada a 8×H200 —, com suspend, snapshot e resume, e builds reprodutíveis via NixOS flakes ou Ansible. O caso de uso que descrevem: um agente piloto define o escopo e delega para subagentes, cada um na própria VM; um cliente roda centenas de máquinas simultâneas, criadas e destruídas via CLI. O insight é simples e definitivo: fechar o notebook não pode matar o agente no meio de uma tarefa de 8 horas."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O checklist de operação"
+      },
+      {
+        type: "list",
+        items: [
+          "Rode --restricted ou sandbox em tudo que não é desenvolvimento interativo",
+          "Nenhum segredo no contexto: gateway injeta por requisição e a redação automática fica ligada",
+          "Orçamento: spend limit por workspace, com alerta antes de estourar — não depois",
+          "Cache como métrica: acompanhe o hit ratio no /cost e prefira fork de subagente a spawn frio",
+          "Isolamento: VM ou contêiner por agente, com deny rules para .env, credenciais de cloud e chaves SSH",
+          "Hooks de auditoria: eventos PreModelSwitch/PostModelSwitch registram toda troca de modelo",
+          "Trilha de identidade: quem pediu, qual política permitiu e o que o agente tocou — em log consultável"
+        ]
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Trate cada agente como um estagiário com acesso a produção: capacidades mínimas, orçamento próprio e tudo auditado. A diferença é que o estagiário dorme à noite — o agente escala em frota."
+      }
+    ]
+  },
+  {
+    slug: "nextjs-security-release-rce-2026",
+    title: "Next.js: RCE Crítico via Otimização de Imagem e o Security Release de Agosto",
+    titleEn: "Next.js: Critical RCE via Image Optimization and the August Security Release",
+    excerpt: "Duas vulnerabilidades críticas de RCE sem autenticação: libheif na API de imagens (AVIF) e execução em servidores Windows. O que o incidente ensina sobre a superfície de ataque do seu frontend.",
+    excerptEn: "Two critical unauthenticated RCEs: libheif in the image API (AVIF) and execution on Windows servers. What the incident teaches about your frontend's attack surface.",
+    date: "2026-08-25",
+    author: "Bernardo Gomes",
+    tags: [
+      "Segurança",
+      "Frontend"
+    ],
+    readingTime: 11,
+    content: [
+      {
+        type: "paragraph",
+        content: "Em 25 de agosto de 2026, o Next.js publicou um security release antecipado — a data saiu de 26 para 25 de agosto porque uma segunda vulnerabilidade crítica foi identificada durante a preparação. Resultado: duas falhas de execução remota de código (RCE) sem autenticação, corrigidas nas versões 16.3.3 (Active LTS) e 15.5.24 (Maintenance LTS). Se você roda Next.js em produção e não atualizou desde então, pare de ler e atualize: npm install next@16.3.4 (o patch follow-up de 31/08) ou next@15.5.25."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "A falha da API de imagens é explorável sem credencial nenhuma — basta o atacante enviar uma imagem AVIF manipulada ao endpoint de otimização. Qualquer deploy exposto na internet que sirva imagens via next/image está no escopo."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Falha 1: RCE na otimização de imagens (libheif/sharp)"
+      },
+      {
+        type: "paragraph",
+        content: "A primeira vulnerabilidade (GHSA-2xp9-vwfh-vxw4 / GHSA-g89c-p67h-r497) não estava no código JavaScript do Next.js — residia na libheif, biblioteca em C usada pelo sharp para decodificar AVIF. Uma imagem AVIF com dados manipulados levava à execução remota de código no processo do servidor. O fix das versões patchadas desabilitou a otimização AVIF até a correção do upstream se propagar pelo ecossistema."
+      },
+      {
+        type: "paragraph",
+        content: "O padrão é velho conhecido: imagem é input não autenticado e parsers nativos são a superfície de ataque. ImageTragick (ImageMagick, 2016) e o overflow do libwebp (CVE-2023-4863, o bug que afetou todos os browsers em 2023) seguiram o mesmo roteiro. A diferença em 2026: seu app JavaScript moderno carrega dezenas de dependências nativas — sharp, bcrypt, canvas, sqlite — e a superfície C/C++ do seu 'app JS' é real e auditável."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Falha 2: RCE em servidores Windows"
+      },
+      {
+        type: "paragraph",
+        content: "A segunda (CVE-2026-75604 / GHSA-p293-qw3h-jr36) afeta aplicações que usam Pages Router e App Router juntos, sem Cache Components, em servidores com filesystem Windows — e também leva a RCE sem autenticação. Linux e macOS não são afetados. Não há workaround documentado: a única mitigação é atualizar. Deploys Next em Windows são minoria, mas existem — frequentemente dentro de corporações — e ficaram expostos sem plano B."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "A mudança silenciosa: security releases agendadas"
+      },
+      {
+        type: "paragraph",
+        content: "Este foi o segundo release do novo programa de segurança do Next.js (anunciado em julho): datas agendadas com aviso prévio, no modelo que curl e OpenSSL consagraram. O anúncio da release de 26/08 foi publicado dias antes, dando tempo de planejar a janela de patch — e a descoberta da segunda falha moveu tudo um dia mais cedo, com os dois fixes empacotados juntos para que os times atualizassem uma única vez. A lição operacional: acompanhe o blog oficial do Next.js e trate patch de segurança como processo, não como incêndio."
+      },
+      {
+        type: "code",
+        language: "bash",
+        content: "# Atualize imediatamente\nnpm install next@16.3.4   # Next 16 (Active LTS)\nnpm install next@15.5.25  # Next 15 (Maintenance LTS)\n\n# pnpm — atualize em todo o workspace e commit o lockfile\npnpm up next@16.3.4 --recursive\npnpm install  # reconcilia o lockfile com os overrides antes do CI"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Checklist: o que fazer além do upgrade"
+      },
+      {
+        type: "list",
+        items: [
+          "Enquanto o sharp do seu lockfile não trouxer libheif corrigida, evite depender de AVIF no pipeline de imagens — os builds patchados do Next já desabilitam a otimização AVIF, e defesa em profundidade não faz mal",
+          "Rode pnpm audit --audit-level high no CI — mas lembre: audit enxerga CVEs conhecidas em pacotes JS, não regressões em libs nativas empacotadas",
+          "Considere minimumReleaseAge no gerenciador de pacotes: o pnpm 11 passou a recusar versões publicadas há menos de ~24h por padrão — janela mínima contra releases envenenados",
+          "Se roda Node em Windows: migre para Linux ou contêiner. A superfície de plataforma é mantida por muito menos gente",
+          "Monitore os advisories do Next.js (GHSA) e o blog oficial — o programa de releases agendados publica as datas com antecedência",
+          "WAF na frente do endpoint de imagens ajuda contra varredura automatizada, mas não substitui o patch"
+        ]
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "O tempo médio entre a publicação de uma CVE e a exploração automatizada caiu para horas. Security release com data marcada é o novo normal — insira a janela de patch no calendário operacional, igual você faz com a renovação do certificado TLS."
+      }
+    ]
+  },
+  {
+    slug: "typescript-7-migracao-2026",
+    title: "TypeScript 7: Guia Real de Migração Para o Compilador Nativo em Go",
+    titleEn: "TypeScript 7: A Real-World Migration Guide to the Go-Native Compiler",
+    excerpt: "O TS 7 é 8 a 12x mais rápido e o 7.0.2 já é a versão latest no npm. O problema: typescript-eslint ainda exige TS < 6.1. Como adotar o compilador nativo hoje, sem quebrar o toolchain.",
+    excerptEn: "TS 7 is 8-12x faster and 7.0.2 is already the latest on npm. The catch: typescript-eslint still requires TS < 6.1. How to adopt the native compiler today without breaking your toolchain.",
+    date: "2026-08-21",
+    author: "Bernardo Gomes",
+    tags: [
+      "TypeScript",
+      "Performance"
+    ],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content: "Em 8 de julho de 2026, a Microsoft anunciou o TypeScript 7: o port nativo do compilador em Go, quase três anos depois da revelação do projeto. O 7.0.2 — primeira versão estável da linha 7 — já é a dist-tag 'latest' no npm, e builds diários da 7.1 já circulam. Quase dois meses depois, o pânico da migração virou checklist. Este post é o checklist."
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content: "Fonte: devblogs.microsoft.com — 'Announcing TypeScript 7.0' (08/07/2026). Benchmarks oficiais em codebases open source: VS Code 11,9x, Sentry 8,9x, Bluesky 8,7x, Playwright 8,7x e tldraw 7,7x de speedup em build completo."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Os números que importam"
+      },
+      {
+        type: "list",
+        items: [
+          "Build completo 8-12x mais rápido: VS Code caiu de 125,7s para 10,6s; Sentry de 139,8s para 15,7s",
+          "Memória 6-26% menor nos mesmos projetos: o Bluesky foi de 1,8GB para 1,3GB",
+          "Primeiro erro no editor (abrir o projeto até ver o squiggle): 17,5s → 1,3s no codebase do VS Code",
+          "Loop de agentes de IA: o tsc é a ferramenta mais chamada por IA em automação de PRs — 8x de feedback loop muda o custo de cada iteração"
+        ]
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que mudou tecnicamente"
+      },
+      {
+        type: "paragraph",
+        content: "O executável tsc virou binário nativo com multithreading e memória compartilhada — npm install -D typescript entrega o novo compilador como qualquer outro release. O language server abandonou o protocolo próprio do tsserver e adota LSP, o mesmo protocolo do rust-analyzer e do gopls. O time portou a estrutura e a lógica do código original fielmente para manter resultados compatíveis entre os dois compiladores — o que significa, na prática: mesmos erros, mesma semântica, velocidade diferente."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "Editor: o VS Code usa uma extensão dedicada para o TS 7 — o suporte via tsserver legado não ativa sozinho; o Visual Studio habilita automaticamente por workspace. Se seu editor ainda roda o TS 6, você está com 1x de velocidade. Configure a extensão antes de culpar o compilador."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O elefante na sala: o ecossistema ainda está no TS 6"
+      },
+      {
+        type: "paragraph",
+        content: "O typescript-eslint — peça central de qualquer setup sério de lint type-aware — declara no peer range 'typescript >=4.8.4 <6.1.0'. Ou seja: o 7.0.2 atual não é suportado pelas regras que exigem informação de tipos, e o mesmo vale para ferramentas que consomem a API interna do compilador (ts-jest, transformers customizados, alguns plugins de bundler). O conselho real de adoção em agosto de 2026 é: compile com 7, lint com 6 — os dois vivem lado a lado sem conflito."
+      },
+      {
+        type: "code",
+        language: "yaml",
+        content: "# pnpm-workspace.yaml — setup real deste site\n# TS 6.0.3 pinado porque o typescript-eslint declara peer <6.1.0,\n# enquanto o build do projeto já roda no compilador nativo\noverrides:\n  typescript: ^6.0.3\n\n# Quando o typescript-eslint publicar peer range com >=7,\n# a migração é deletar estas duas linhas"
+      },
+      {
+        type: "paragraph",
+        content: "Neste portfólio, o override acima existe exatamente por isso: o pin do TS 6 mantém o lint type-aware estável enquanto o ecossistema alcança o 7. É uma decisião consciente de renunciar temporariamente ao ganho de build em troca de zero surpresa no CI — e a saída do pin é uma linha, não um projeto."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Plano de migração em 5 passos"
+      },
+      {
+        type: "list",
+        items: [
+          "Inventário: liste tudo que consome o TypeScript no repo — eslint, ts-jest/vitest, ts-node, transformers, plugins do bundler",
+          "Shadow job no CI: rode o tsc 7 em paralelo com o build atual e compare erros e saídas por uma semana",
+          "Editor primeiro: instale a extensão do TS 7 — ganho imediato de até 12x no loop local, com risco zero para o build",
+          "Build com 7, lint com 6: mantenha o typescript no range aceito pelo typescript-eslint até o peer range atualizar",
+          "Remova o pin: quando suas ferramentas declararem suporte a 7, delete o override e rode a suíte inteira"
+        ]
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "O ganho mais subestimado não é humano: agentes de IA chamam o compilador dezenas de vezes por tarefa. Um tsc 8x mais rápido encurta o loop de cada iteração do Claude Code ou Cursor — migrar o toolchain virou investimento em produtividade de IA."
+      }
+    ]
+  },
   {
     slug: "react-server-components-producao-2026",
     title: "React Server Components em Produção: O Que Ninguém Te Conta em 2026",
