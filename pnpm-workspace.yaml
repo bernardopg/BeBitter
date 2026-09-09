@@ -16,3 +16,9 @@ overrides:
   # ponytail: typescript-eslint 8.x supports TS <6.1.0 only; pin TS 6 until a
   # typescript-eslint release declares TypeScript 7 support.
   typescript: "^6.0.3"
+  # ponytail: vitest 5.0.0 restructured @vitest/expect internals; @testing-library/jest-dom's
+  # type augmentation (toBeInTheDocument, toHaveClass, ...) stops resolving under TS, breaking
+  # `pnpm typecheck` across every test file. Pin vitest/@vitest/ui at 4.x until jest-dom (or a
+  # vitest patch) restores the Assertion interface these types merge into.
+  vitest: "^4.1.11"
+  "@vitest/ui": "^4.1.11"

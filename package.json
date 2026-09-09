@@ -110,7 +110,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "6.1.1",
-    "@vitest/ui": "^5.0.0",
+    "@vitest/ui": "^4.1.11",
     "autoprefixer": "^10.5.4",
     "beasties": "^0.5.3",
     "chrome-launcher": "^1.2.1",
@@ -131,6 +131,6 @@
     "vite": "^8.2.2",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.2",
-    "vitest": "^5.0.0"
+    "vitest": "^4.1.11"
   }
 }
