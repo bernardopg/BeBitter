@@ -2,7 +2,7 @@
   "name": "be-bitter-be-better",
   "homepage": "https://bebitterbebetter.com.br",
   "private": true,
-  "version": "1.9.3",
+  "version": "1.9.4",
   "type": "module",
   "packageManager": "pnpm@10.24.0",
   "engines": {
