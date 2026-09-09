@@ -27,6 +27,15 @@ updates:
       - dependency-name: "typescript"
         versions:
           - ">=7.0.0"
+      # vitest 5.0.0 quebra a augmentation de tipos do @testing-library/jest-dom
+      # (toBeInTheDocument, toHaveClass, ...) no `pnpm typecheck`. Remover quando
+      # jest-dom (ou um patch do vitest) suportar vitest 5.
+      - dependency-name: "vitest"
+        versions:
+          - ">=5.0.0"
+      - dependency-name: "@vitest/ui"
+        versions:
+          - ">=5.0.0"
 
   - package-ecosystem: "github-actions"
     directory: "/"
