@@ -20,9 +20,435 @@ export interface BlogPost {
   readingTime: number;
 }
 
-// Curadoria enxuta: 16 artigos entre experiências reais, casos práticos e
+// Curadoria enxuta: 22 artigos entre experiências reais, casos práticos e
 // temas atuais. Tags normalizadas em categorias fixas para o filtro do blog.
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "shai-hulud-npm-worm-defesa-2026",
+    title: "Shai-Hulud: O Worm que Continua Infectando o npm e Como Proteger Sua Cadeia de Suprimentos",
+    titleEn: "Shai-Hulud: The Worm Still Infecting npm and How to Protect Your Supply Chain",
+    excerpt: "Mais de 1.280 pacotes npm com 2+ bilhões de downloads/mês comprometidos, se espalhando sozinho a cada poucos minutos. Um ano depois da primeira onda, o Shai-Hulud voltou — e o que fazer no seu pipeline hoje.",
+    excerptEn: "1,280+ npm packages with 2+ billion monthly downloads compromised, self-spreading every few minutes. A year after the first wave, Shai-Hulud is back — what to actually do in your pipeline today.",
+    date: "2026-09-02",
+    author: "Bernardo Gomes",
+    tags: [
+      "Segurança",
+      "Backend"
+    ],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content: "Em 4 de agosto de 2026, um atacante comprometeu a conta do GitHub de jaredwray, mantenedor do keyv — biblioteca de armazenamento chave-valor com cerca de 127 milhões de downloads semanais no npm — e publicou uma versão maliciosa. Em minutos, o malware se auto-replicou para outros pacotes do mesmo mantenedor (flat-cache, file-entry-cache, cacheable, cache-manager) e, de lá, para dependentes de outros mantenedores. Pesquisadores da Aikido Security batizaram a nova onda de 'Shai-Hulud: Here We Go Again' — o mesmo nome do worm que abalou o npm em setembro de 2025."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "Fonte: DevOps.com / Aikido Security, Ilyas Makari e Charlie Eriksen (04/08/2026). No pico, o worm infectou 50 a 100 pacotes novos a cada poucos minutos, chegando a mais de 1.280 pacotes com 2+ bilhões de instalações mensais combinadas — incluindo dependências usadas por Deliveroo, ServiceTitan, Picsart e Qlik."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Como o worm se espalha sozinho"
+      },
+      {
+        type: "paragraph",
+        content: "O mecanismo é o que torna esse ataque diferente de um typosquatting comum: cada pacote infectado recebe dois arquivos — setup.mjs e Math_Symbol.js — injetados via CI comprometido, com release cortado imediatamente e assinatura de provenance legítima (porque o workflow que publicou era, de fato, o workflow oficial do mantenedor). O Math_Symbol.js, com 728KB, varre o sistema com cerca de 200 padrões glob procurando chaves privadas, tokens do GitHub e npm, credenciais AWS, segredos do Kubernetes e do HashiCorp Vault, tokens do Stripe e do Slack, configurações de VPN e de IDE. Ao encontrar um token npm ou GitHub com permissão de publicação, o worm usa a própria credencial da vítima para infectar os pacotes que ela mantém — e o ciclo recomeça."
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content: "Provenance do npm confirma onde e como um pacote foi construído — não que o código-fonte por trás seja confiável. Neste ataque, os arquivos maliciosos foram enviados através de uma conta de mantenedor comprometida e publicados pelo workflow legítimo, o que dá aos pacotes envenenados uma assinatura de provenance tecnicamente válida."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que fazer agora, na prática"
+      },
+      {
+        type: "list",
+        items: [
+          "Trave ou reverta versões suspeitas de keyv, flat-cache, file-entry-cache e demais pacotes da árvore do jaredwray — geralmente entram como dependência transitiva, então audite o lockfile inteiro, não só as diretas",
+          "Rotacione qualquer token npm, PAT do GitHub, chave de nuvem e segredo de CI/Vault usado em máquinas que rodaram npm install após o horário de exposição — o custo de rotacionar é sempre menor que o de um vazamento",
+          "Use --ignore-scripts no CI: isso bloqueia toda uma classe de malware que depende de hooks de instalação (preinstall/postinstall) para executar",
+          "Adicione overrides no seu gerenciador de pacotes (pnpm-workspace.yaml, package.json resolutions ou npm overrides) fixando versões conhecidas-boas de dependências sensíveis — é a mesma técnica que já usamos neste projeto para travar TypeScript e Vitest em versões estáveis",
+          "Audite lockfiles e logs de CI em busca de versões maliciosas, incluindo em devDependencies — o worm não distingue produção de desenvolvimento",
+          "Prefira pnpm com minimumReleaseAge (ou equivalente) para exigir que um pacote tenha algumas horas de idade antes de ser instalável — a maioria dos worms é detectada e removida do registro em menos de 24h"
+        ]
+      },
+      {
+        type: "code",
+        language: "yaml",
+        content: "# pnpm-workspace.yaml — mitigação de defesa em profundidade\n# contra pacotes recém-publicados e dependências comprometidas\nminimumReleaseAge: 1440   # minutos (24h) antes de um pacote virar instalável\n\noverrides:\n  # trave em versão auditada manualmente até a árvore do keyv normalizar\n  keyv: \"4.5.4\"\n  flat-cache: \"3.2.0\""
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Por que isso não vai parar de acontecer"
+      },
+      {
+        type: "paragraph",
+        content: "O npm tem mais de 3 milhões de pacotes e depende de um modelo de confiança onde qualquer mantenedor pode publicar código que roda, sem sandbox, na máquina de milhões de desenvolvedores e em pipelines de CI com acesso a produção. Isso não é uma falha pontual: é a arquitetura. Desde a primeira onda do Shai-Hulud em setembro de 2025, houve pelo menos três variantes documentadas — incluindo o 'Mini Shai-Hulud' que atingiu pacotes do TanStack em maio de 2026 e o 'ChainDrop' identificado pela Datadog em agosto. O padrão se repete: conta de mantenedor comprometida (geralmente por phishing ou token vazado), publicação de release maliciosa, propagação worm-like via credenciais roubadas da própria vítima."
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Trate toda dependência transitiva como superfície de ataque, não como detalhe de implementação. Um SBOM atualizado, overrides para pacotes sensíveis e rotação de credenciais como rotina — não como resposta a incidente — são o que separa 'li sobre isso' de 'não fui afetado'."
+      }
+    ]
+  },
+  {
+    slug: "kubernetes-1-37-garhwal-dra-2026",
+    title: "Kubernetes 1.37 'Garhwal': Alocação Dinâmica de Recursos Vira GA e Muda Como Você Pede GPU",
+    titleEn: "Kubernetes 1.37 'Garhwal': Dynamic Resource Allocation Goes GA and Changes How You Request GPUs",
+    excerpt: "O Kubernetes 1.37 saiu em 26 de agosto com 67 melhorias, e a atualização de DRA publicada em 3 de setembro promoveu a API para GA. O que muda pra quem roda workloads de IA e GPU compartilhada.",
+    excerptEn: "Kubernetes 1.37 shipped August 26 with 67 enhancements, and the DRA update published September 3 promoted the API to GA. What changes for teams running AI and shared-GPU workloads.",
+    date: "2026-09-04",
+    author: "Bernardo Gomes",
+    tags: [
+      "DevOps & Linux",
+      "Backend"
+    ],
+    readingTime: 9,
+    content: [
+      {
+        type: "paragraph",
+        content: "O Kubernetes 1.37, codinome 'Garhwal', foi lançado em 26 de agosto de 2026 com 67 melhorias entre stable, beta e alpha. Uma semana depois, em 3 de setembro, o blog oficial publicou um post dedicado só à Dynamic Resource Allocation (DRA) anunciando a graduação da API para General Availability — a mudança mais relevante do ciclo para quem roda cargas de IA/ML em cluster."
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content: "Fonte: kubernetes.io/blog — 'Kubernetes v1.37: Garhwal' (26/08/2026) e 'Kubernetes v1.37: DRA Updates' (03/09/2026). O release anterior, 1.36 'Haru' (abril/2026), já havia aposentado o Ingress-Nginx em favor da Gateway API — contexto que se soma às mudanças de rede que vêm se acumulando release após release."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que é DRA e por que GA importa"
+      },
+      {
+        type: "paragraph",
+        content: "Dynamic Resource Allocation resolve um problema que o modelo antigo de requests/limits nunca resolveu bem: pedir hardware especializado — GPU, FPGA, NIC de alta performance — de forma flexível, compartilhada entre pods e com reconfiguração em tempo de execução. Antes do DRA, compartilhar uma GPU entre múltiplos pods exigia device plugins customizados e workarounds frágeis por fabricante. Com a API estável, drivers de terceiros (NVIDIA, Intel, etc.) podem expor exatamente as capacidades que seus dispositivos suportam, e o scheduler do Kubernetes decide alocação com base nisso — nativamente, sem gambiarra."
+      },
+      {
+        type: "list",
+        items: [
+          "GPU fracionada e compartilhada entre pods sem device plugin proprietário obrigatório",
+          "Alocação declarativa via ResourceClaim e ResourceClass, seguindo o mesmo espírito de PersistentVolumeClaim para storage",
+          "Reconfiguração em runtime: um claim pode ser atualizado sem recriar o pod inteiro",
+          "Melhor telemetria de uso de hardware especializado, essencial para custo de clusters de treinamento e inferência de IA"
+        ]
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Outras mudanças do 1.37 que afetam operação do dia a dia"
+      },
+      {
+        type: "paragraph",
+        content: "Além do DRA, o ciclo trouxe melhorias na inicialização do API server (redução de tempo de boot em clusters grandes), suporte expandido a KYAML (uma variante de YAML mais previsível para manifests) e PVCs baseados em manifesto para fluxos GitOps. A recomendação prática de quem já testou em produção: o 1.37 em si costuma ser tranquilo de adotar, mas o prazo real que importa é o suporte a containerd — versões antigas do runtime ficam incompatíveis com features que dependem de CRI mais recente, e é isso que quebra upgrades silenciosamente."
+      },
+      {
+        type: "code",
+        language: "yaml",
+        content: "# Exemplo simplificado de ResourceClaim (DRA GA, k8s 1.37)\napiVersion: resource.k8s.io/v1\nkind: ResourceClaim\nmetadata:\n  name: gpu-fracionada\nspec:\n  devices:\n    requests:\n      - name: gpu\n        deviceClassName: nvidia-shared\n        count: 1"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Checklist de upgrade"
+      },
+      {
+        type: "list",
+        items: [
+          "Confirme a versão do containerd/CRI antes de planejar o upgrade — é o requisito mais comum de quebrar silenciosamente",
+          "Se você já usa device plugins customizados para GPU, mapeie a migração para ResourceClaim/ResourceClass antes de depender de DRA em produção",
+          "Revise Ingress: se ainda não migrou do Ingress-Nginx (aposentado desde o 1.36), a Gateway API é o caminho oficial daqui pra frente",
+          "Rode o upgrade primeiro num cluster de staging com carga representativa — DRA GA não significa zero surpresa em clusters heterogêneos"
+        ]
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Se seu cluster não roda cargas de GPU/hardware especializado, o 1.37 é um upgrade de rotina. Se roda — treinamento de modelo, inferência, renderização — vale o tempo de avaliar DRA GA agora: é a peça que faltava para parar de depender de plugins de fabricante e ganhar portabilidade real entre clouds."
+      }
+    ]
+  },
+  {
+    slug: "vite-8-rolldown-rust-bundler-2026",
+    title: "Vite 8 e o Rolldown: Como é Trocar Todo o Bundler por Rust em Produção",
+    titleEn: "Vite 8 and Rolldown: What It's Actually Like to Swap Your Entire Bundler for Rust in Production",
+    excerpt: "Vite 8 unificou esbuild e Rollup num único bundler em Rust — builds até 30x mais rápidos. Testei a migração neste site e documento o que quebrou, o que ganhou e por que ainda seguramos uma versão do Rolldown.",
+    excerptEn: "Vite 8 unified esbuild and Rollup into a single Rust-based bundler — builds up to 30x faster. I tested the migration on this very site and document what broke, what improved, and why we're pinning a Rolldown version.",
+    date: "2026-09-05",
+    author: "Bernardo Gomes",
+    tags: [
+      "Performance",
+      "Frontend"
+    ],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content: "Em março de 2026 o Vite 8 saiu do beta com uma mudança estrutural: substituiu a dupla esbuild (dev) + Rollup (produção) por um único bundler, o Rolldown, escrito em Rust. A promessa é de 10 a 30x de ganho em builds completos, e depois de rodar essa combinação em produção neste próprio site, dá pra confirmar: o ganho é real, mas a migração tem armadilhas específicas que a maioria dos guias não menciona."
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content: "Fonte: vite.dev/blog — 'Vite 8.0 is out!' (março/2026) e 'Vite 8.1 is out!' (releases subsequentes). O Rolldown é um bundler compatível com a API do Rollup mas desenhado desde o início para também substituir o papel do esbuild — unificando as duas ferramentas que o Vite historicamente combinava."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que muda tecnicamente"
+      },
+      {
+        type: "list",
+        items: [
+          "Um bundler só: sem mais esbuild pro dev server e Rollup pra build de produção — o Rolldown cobre os dois papéis",
+          "Transforms via Oxc (também em Rust) e Lightning CSS, no lugar do PostCSS puro em alguns caminhos",
+          "API de plugin compatível com Rollup na maioria dos casos, mas plugins que dependem de hooks internos ou de comportamento específico do esbuild podem quebrar silenciosamente",
+          "Builds de 10 a 30x mais rápidos em projetos grandes — o ganho é proporcional ao tamanho do grafo de módulos, então projetos pequenos sentem menos diferença"
+        ]
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que quebrou na migração real"
+      },
+      {
+        type: "paragraph",
+        content: "Três configurações costumam quebrar sem aviso claro: plugins que manipulam a saída via hooks específicos do Rollup que o Rolldown ainda não replica 1:1, opções de manualChunks com lógica muito específica de código de terceiros, e transforms customizados de CSS que assumiam o comportamento do PostCSS puro. Nenhum desses é um bug do Vite 8 — é o preço esperado de trocar a implementação por baixo de uma API que parecia estável."
+      },
+      {
+        type: "code",
+        language: "bash",
+        content: "# Migração recomendada: passo intermediário com rolldown-vite\n# antes de saltar direto pro Vite 8\nnpm install rolldown-vite@latest\n# valida se o projeto builda igual com Rolldown, ainda na API do Vite 7\n\n# depois do rolldown-vite passar limpo:\nnpm install vite@8"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Por que travamos uma versão específica do Rolldown"
+      },
+      {
+        type: "paragraph",
+        content: "Neste projeto, o pnpm-workspace.yaml trava explicitamente uma versão do Rolldown com um comentário direto: 'vite 8.2.0 aceita rolldown ~1.2.0; a 1.2.2 foi publicada 10h antes desta atualização. Segurar em 1.2.1 (5 dias) pelo mesmo motivo do commit anterior — remover este pin na próxima atualização deliberada, uma vez que a 1.2.x tenha amadurecido'. É a mesma lógica de minimumReleaseAge do post sobre o Shai-Hulud: numa ferramenta nova, dar alguns dias de idade a cada versão antes de adotá-la reduz a chance de herdar uma regressão — ou pior, uma versão comprometida — publicada há poucas horas."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "Rolldown ainda é jovem (menos de dois anos de vida pública) e o próprio time do Vite recomenda o caminho intermediário via rolldown-vite antes do salto direto para o Vite 8 em projetos grandes. Não pule a etapa de validação em CI achando que 'é só trocar a versão'."
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Se o seu build de produção já passa de 30 segundos, o Vite 8 provavelmente compensa o esforço de migração. Se passa de 2 minutos, o ganho de tempo de CI sozinho já paga a tarde investida em ajustar os três ou quatro pontos de atrito que a troca de bundler costuma expor."
+      }
+    ]
+  },
+  {
+    slug: "css-anchor-positioning-baseline-2026",
+    title: "CSS Anchor Positioning Chegou ao Baseline: Hora de Apagar Sua Lib de Tooltip",
+    titleEn: "CSS Anchor Positioning Reached Baseline: Time to Delete Your Tooltip Library",
+    excerpt: "Com Firefox 147 em janeiro, CSS Anchor Positioning fechou o ciclo de interoperabilidade nos três motores. Junto com Trusted Types (Baseline em fevereiro), são duas features nativas que substituem bibliotecas inteiras.",
+    excerptEn: "With Firefox 147 shipping in January, CSS Anchor Positioning closed the interoperability loop across all three engines. Together with Trusted Types (Baseline in February), two native features that replace entire libraries.",
+    date: "2026-09-07",
+    author: "Bernardo Gomes",
+    tags: [
+      "UI/UX",
+      "Frontend"
+    ],
+    readingTime: 9,
+    content: [
+      {
+        type: "paragraph",
+        content: "Baseline é a forma que a web.dev e o web-platform-dx adotaram para dizer 'essa feature é segura de usar em produção sem polyfill' — Widely Available significa suporte consistente nos três motores principais por pelo menos 30 meses. Em janeiro de 2026, o Firefox 147 embarcou CSS Anchor Positioning sem flag, fechando o ciclo que Chrome e Safari já haviam completado. Resultado prático: dá pra apagar a biblioteca de posicionamento de tooltip/popover do seu bundle."
+      },
+      {
+        type: "callout",
+        variant: "info",
+        content: "Fonte: web.dev/baseline e cobertura da comunidade sobre o Firefox 147 (lançado 13/01/2026). Cobertura estimada de ~91% dos navegadores globais em uso, segundo levantamentos de suporte publicados após o lançamento."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que o CSS Anchor Positioning resolve"
+      },
+      {
+        type: "paragraph",
+        content: "Antes: para posicionar um tooltip, dropdown ou popover relativo a outro elemento — inclusive com flip automático quando bate na borda da viewport — você dependia de bibliotecas como Popper.js/Floating UI, calculando posição via JavaScript a cada scroll e resize. Agora, isso é CSS puro: você ancora um elemento a outro via anchor-name e position-anchor, e o navegador cuida do posicionamento e do flip de borda nativamente, sem listener de scroll, sem reflow forçado por JS."
+      },
+      {
+        type: "code",
+        language: "css",
+        content: "/* Elemento âncora */\n.botao-info {\n  anchor-name: --info-anchor;\n}\n\n/* Tooltip posicionado relativo à âncora, com fallback nativo de borda */\n.tooltip {\n  position: absolute;\n  position-anchor: --info-anchor;\n  top: anchor(bottom);\n  left: anchor(center);\n  position-try-fallbacks: flip-block, flip-inline;\n}"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Trusted Types: Baseline em fevereiro, DOM XSS de graça"
+      },
+      {
+        type: "paragraph",
+        content: "Trusted Types chegou ao status Baseline Newly Available em fevereiro de 2026 — um pouco menos badalado que o Anchor Positioning, mas com impacto de segurança direto. A API bloqueia, no nível do navegador, atribuições perigosas a sinks de DOM (innerHTML, document.write, eval) a menos que passem por uma política explícita — fechando de forma estrutural a classe mais comum de XSS baseado em DOM, sem depender só de escaping manual espalhado pelo código."
+      },
+      {
+        type: "list",
+        items: [
+          "Anchor Positioning: elimina a dependência de JS para posicionar tooltips/popovers/dropdowns com flip de borda",
+          "Trusted Types: bloqueia sinks de DOM perigosos por política, reduzindo XSS estrutural sem reescrever toda a base de código",
+          "Ambos são 'newly available' — funcionam nos três motores, mas ainda vale checar a versão mínima suportada se seu público usa navegadores desatualizados",
+          "Nenhum dos dois exige polyfill para o caso comum; o fallback gracioso (sem posicionamento inteligente, sem bloqueio de sink) já é aceitável em navegadores muito antigos"
+        ]
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quando ainda vale manter a biblioteca JS"
+      },
+      {
+        type: "paragraph",
+        content: "Se seu produto depende de suporte a navegadores legados fora da janela de Baseline, ou se você precisa de lógica de posicionamento muito além do que anchor()/position-try-fallbacks cobre (por exemplo, posicionamento relativo a múltiplas âncoras dinâmicas simultâneas), a biblioteca ainda tem lugar. Para o caso comum — 90%+ dos tooltips, dropdowns e popovers de qualquer aplicação — CSS nativo já resolve com menos JavaScript, menos reflow e menos superfície de bug."
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Audite seu bundle: se a única razão pra carregar Floating UI ou Popper é um tooltip simples, esse é o candidato mais barato de remoção de dependência que você vai encontrar este trimestre. Menos JS no caminho crítico é ganho direto de performance sem tocar em lógica de negócio."
+      }
+    ]
+  },
+  {
+    slug: "seo-ai-overviews-geo-2026",
+    title: "SEO em 2026: O que Sobra do Tráfego Orgânico Depois do AI Overviews",
+    titleEn: "SEO in 2026: What's Left of Organic Traffic After AI Overviews",
+    excerpt: "CTR de posição 1 caiu de 1,76% para 0,61% em buscas com AI Overview. Analiso os números reais de 2026, o que muda na prática pra quem escreve conteúdo técnico e por que llms.txt virou parte do checklist.",
+    excerptEn: "Position-1 CTR dropped from 1.76% to 0.61% on AI Overview searches. A look at the real 2026 numbers, what actually changes for technical content, and why llms.txt is now part of the checklist.",
+    date: "2026-09-08",
+    author: "Bernardo Gomes",
+    tags: [
+      "SEO",
+      "IA & Automação"
+    ],
+    readingTime: 10,
+    content: [
+      {
+        type: "paragraph",
+        content: "Os números de 2026 confirmam o que a maioria de quem escreve conteúdo técnico já sentia no dia a dia: o AI Overviews do Google mudou a economia do clique. Um estudo da Seer Interactive mostrou o CTR orgânico em buscas com AI Overview caindo de 1,76% para 0,61% na posição 1 — uma queda de mais de 65% no clique que antes ia direto pro seu site. A Ahrefs, em atualização de dezembro de 2025, já apontava redução de até 58% no CTR de conteúdo bem posicionado quando um AI Overview aparece acima dos resultados orgânicos."
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        content: "Fonte: Seer Interactive e Ahrefs (dados consolidados em estudos de 2026). Um levantamento da AuthorityTech sobre 46 milhões de observações apontou queda média de 15% no tráfego orgânico geral — mas com um detalhe importante: visitantes que chegam via referência de IA convertem 42% melhor e geram 37% mais receita por sessão do que o tráfego orgânico tradicional."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O clique caiu, mas nem todo clique valia o mesmo"
+      },
+      {
+        type: "paragraph",
+        content: "O dado mais contraintuitivo de 2026 é esse: menos volume de clique, mas o clique que sobra é mais qualificado. Faz sentido — quem clica através de um resumo de IA já filtrou a pergunta genérica e está buscando profundidade, não a resposta rápida que o próprio Overview já entregou. Isso muda a métrica que importa: otimizar para volume de clique bruto perde relevância; otimizar para ser a fonte citada dentro do resumo — e para converter bem o visitante qualificado que ainda clica — ganha peso."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "GEO na prática: o que realmente mudou no conteúdo"
+      },
+      {
+        type: "list",
+        items: [
+          "Estrutura clara com respostas diretas no topo da seção — os modelos de IA extraem melhor conteúdo que responde a pergunta antes de justificar",
+          "Dados e fontes citáveis explicitamente (nome, data, número) — o mesmo padrão que este blog já usa nos callouts de fonte, e que facilita tanto o leitor humano quanto a extração por IA",
+          "Schema.org estruturado (Article, FAQPage, BlogPosting) continua relevante — motores de IA generativa também consomem dados estruturados, não só o HTML renderizado",
+          "llms.txt como sinalização explícita de quais páginas e que contexto você quer que agentes de IA priorizem — ainda não é padrão universal, mas a adoção cresceu ao longo de 2026",
+          "Conteúdo de nicho técnico com experiência real (o 'E' de EEAT) resiste melhor: é o tipo de conteúdo que um resumo genérico de IA não substitui, porque exige julgamento e contexto específico"
+        ]
+      },
+      {
+        type: "code",
+        language: "text",
+        content: "# llms.txt — sinalização para crawlers de agentes de IA\n# (já publicado neste site desde 2026-07-03)\n\n# BeBitter — Bernardo Gomes\n> Portfólio e blog técnico sobre desenvolvimento web,\n> performance e automação.\n\n## Conteúdo prioritário\n- /blog: artigos técnicos com fontes citadas e código real\n- /projects: estudos de caso de projetos reais, com stack e resultado"
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "O que não mudou"
+      },
+      {
+        type: "paragraph",
+        content: "Performance (Core Web Vitals), sitemap e feed atualizados, dados estruturados corretos e conteúdo original continuam sendo a base — o AI Overviews não substitui rastreamento e indexação, só muda o que acontece depois que o Google já decidiu que sua página é relevante. Quem não tinha SEO técnico em ordem antes de 2026 não ganhou nada com o pânico do AI Overviews; quem tinha, só precisou ajustar a métrica de sucesso."
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Pare de medir só CTR e posição média. Meça conversão do tráfego que ainda chega, participação em citações de AI Overview (quando a ferramenta de analytics conseguir capturar) e tempo de permanência em conteúdo técnico profundo — é aí que o jogo de 2026 realmente se decide."
+      }
+    ]
+  },
+  {
+    slug: "runtimes-js-bun-deno-node-2026",
+    title: "A Guerra dos Runtimes JavaScript Ficou Chata (E Isso é Ótimo)",
+    titleEn: "The JavaScript Runtime War Got Boring (And That's Great)",
+    excerpt: "Bun 2.0 chegou a 99,4% de compatibilidade com a API do Node, o Deno seguiu absorvendo npm nativamente e o próprio Node incorporou TypeScript sem transpilação. Em 2026, a escolha de runtime parou de ser ideológica.",
+    excerptEn: "Bun 2.0 hit 99.4% Node API compatibility, Deno kept absorbing npm natively, and Node itself embraced TypeScript without transpilation. In 2026, picking a runtime stopped being ideological.",
+    date: "2026-09-09",
+    author: "Bernardo Gomes",
+    tags: [
+      "Backend"
+    ],
+    readingTime: 9,
+    content: [
+      {
+        type: "paragraph",
+        content: "Por anos, escolher entre Node.js, Deno e Bun foi uma declaração de valores tanto quanto uma decisão técnica. Em 2026 essa fase acabou: os três runtimes convergiram para o mesmo conjunto de garantias básicas — compatibilidade com o ecossistema npm, TypeScript sem etapa de build separada e performance competitiva — e a escolha virou, finalmente, sobre requisitos concretos do projeto."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Bun 2.0: o Node de verdade, mais rápido"
+      },
+      {
+        type: "paragraph",
+        content: "A Oven lançou o Bun 2.0 em maio de 2026 com estabilidade de verdade no Windows (historicamente o ponto fraco do runtime), compatibilidade de API com o Node em torno de 99,4% e suporte nativo a S3, encerrando a era em que 'testar se seu projeto roda no Bun' era um passo obrigatório antes de qualquer deploy. Builds e cold start seguem sensivelmente mais rápidos que o Node em benchmarks de I/O e HTTP — o diferencial que sempre foi a proposta de valor do Bun continua de pé."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Deno: menos sobre segurança, mais sobre compatibilidade"
+      },
+      {
+        type: "paragraph",
+        content: "O Deno, que nasceu com o discurso de sandbox por padrão e permissões explícitas, passou os últimos ciclos investindo pesado em compatibilidade retroativa: modo node_modules completo, resolução de package.json e suporte a workspaces monorepo praticamente equivalente ao Node. A proposta original de segurança por padrão não desapareceu — continua lá para quem ativamente escolhe esse modelo — mas deixou de ser a única porta de entrada. Hoje dá pra rodar um projeto Node legado no Deno sem reescrever nada, o que era impensável nas primeiras versões."
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Node.js: o incumbente absorveu as boas ideias"
+      },
+      {
+        type: "paragraph",
+        content: "O Node também não ficou parado. TypeScript nativo — rodar arquivos .ts diretamente, sem transpilação prévia via ts-node ou tsx — deixou de ser experimental e virou capacidade padrão amplamente adotada em 2026, fechando uma das maiores vantagens de DX que Bun e Deno tinham sobre ele. Some a isso o ecossistema mais maduro do mercado (nenhum runtime novo replica 15 anos de pacotes, tooling e conhecimento acumulado) e o argumento 'só uso Node porque é o padrão' deixou de ser preguiça e virou, de novo, uma escolha racional."
+      },
+      {
+        type: "list",
+        items: [
+          "Escolha Bun quando: performance de I/O/HTTP é crítica, você já não depende de bibliotecas nativas exóticas e quer o menor tempo de cold start",
+          "Escolha Deno quando: segurança por permissão explícita importa de verdade (múltiplos tenants, código de terceiros em produção) ou você já está no ecossistema Deno Deploy/edge",
+          "Escolha Node quando: seu time e sua infraestrutura já são Node, a superfície de risco de migrar não compensa o ganho, ou você depende de módulos nativos C++ com suporte só ao Node-API tradicional",
+          "Em todos os três: TypeScript direto, sem build step, já é expectativa padrão — se sua stack ainda exige transpilação manual só pra rodar localmente, vale revisar"
+        ]
+      },
+      {
+        type: "code",
+        language: "bash",
+        content: "# 2026: TypeScript nativo nos três runtimes, sem transpilação prévia\nnode app.ts        # Node.js — suporte nativo amplamente adotado\ndeno run app.ts    # Deno — nativo desde a v1\nbun run app.ts     # Bun — nativo desde o início"
+      },
+      {
+        type: "callout",
+        variant: "tip",
+        content: "Se você está começando um projeto novo hoje, a pergunta certa não é mais 'qual runtime é o futuro' — é 'qual desses três já resolve meu problema de infraestrutura, equipe e módulos nativos com menor atrito'. A convergência de 2026 tornou essa pergunta chata de responder, e chato, aqui, é sinônimo de maduro."
+      }
+    ]
+  },
   {
     slug: "remix-3-rc-2026",
     title: "Remix 3 RC: O Framework que Largou o React e Apostou nos Primitivos da Web",
