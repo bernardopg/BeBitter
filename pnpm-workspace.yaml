@@ -1,7 +1,7 @@
-onlyBuiltDependencies:
-  - "@swc/core"
-  - esbuild
-  - sharp
+allowBuilds:
+  "@swc/core": true
+  esbuild: true
+  sharp: true
 
 overrides:
   "@eslint/plugin-kit": ">=0.7.2"
