@@ -28,6 +28,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v6.1.0
         with:
+          version: 12.9.1
           run_install: false
 
       - name: Setup Node.js
@@ -46,7 +47,7 @@ jobs:
         run: tar -czf "bebitter-dist-${RELEASE_TAG}.tar.gz" -C dist .
 
       - name: Publish GitHub release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v3.0.3
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_TAG }}
