@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-BeBitter is a portfolio website SPA for Bernardo Gomes, built with React 19, TypeScript (strict), Vite 6, and Tailwind CSS. Package manager: **pnpm** (Node >=20 <23).
+BeBitter is a portfolio website SPA for Bernardo Gomes, built with React 19, TypeScript (strict), Vite 8, and Tailwind CSS. Package manager: **pnpm** (Node >=24).
 
 ## Common Commands
 
@@ -81,7 +81,7 @@ All client-side env vars must be prefixed `VITE_`.
 ## CI/CD
 
 GitHub Actions runs on push/PR to `main`:
-- Node 22.x
+- Node 24.x
 - Steps: `pnpm install --frozen-lockfile` → lint → `typecheck` → `test:run` → `build`
 - `pnpm ci:check` replicates this locally
 

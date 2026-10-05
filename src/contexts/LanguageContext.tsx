@@ -1,19 +1,6 @@
-import React, { createContext, useSyncExternalStore } from "react";
+import React, { useSyncExternalStore } from "react";
 import { translations } from "../constants/translations";
-
-type Language = "pt" | "en";
-
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
-}
-
-const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
-);
-
-export { LanguageContext };
+import { LanguageContext, type Language } from "./language-context";
 
 /**
  * Idioma do HTML pré-renderizado. O build roda em Node, sem localStorage, então

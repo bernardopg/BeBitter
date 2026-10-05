@@ -4,7 +4,7 @@ import path from "path";
 import { defineConfig, loadEnv } from "vite";
 import viteCompression from "vite-plugin-compression";
 import { createHtmlPlugin } from "vite-plugin-html";
-import criticalCSS from "./scripts/vite-plugin-critical-css";
+import criticalCSS from "./scripts/vite-plugin-critical-css.ts";
 
 export default defineConfig(({ mode }) => {
   // Carrega variáveis de ambiente
@@ -111,7 +111,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        "@": path.resolve(import.meta.dirname, "./src"),
       },
     },
     build: {

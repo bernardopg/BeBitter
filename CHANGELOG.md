@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.9.8
+
+### Fixed
+
+- Lint limpo: `LanguageContext` movido para `src/contexts/language-context.ts` (mesmo padrão de `projects-context.ts`), eliminando o warning `react-refresh/only-export-components`.
+- `vite.config.ts` e `vitest.config.ts` compatíveis com `configLoader: 'native'`: `import.meta.dirname` no lugar de `__dirname` e import do plugin de critical CSS com extensão `.ts`.
+- CHANGELOG: restaurado o cabeçalho `## 1.9.6`, sobrescrito por engano no release 1.9.7.
+- `CLAUDE.md`: versão de Node atualizada (>=24, CI em 24.x).
+
+### Validation
+
+- `pnpm ci:check` sem warnings (lint, typecheck, 36/36 testes, build).
+
 ## 1.9.7
 
 ### Updated
@@ -15,6 +28,8 @@
 
 - `pnpm lint` (1 pre-existing `react-refresh` warning), `pnpm typecheck`, `pnpm test:run` (36/36), `pnpm build` (35 rotas prerenderizadas).
 - Supersedes/closes Dependabot PRs #124 (runtime), #125 (tooling) and #126 (framer-motion 14).
+
+## 1.9.6
 
 ### Updated
 
