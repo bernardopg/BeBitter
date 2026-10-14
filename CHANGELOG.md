@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.9.9
+Updated
+- Dependabot: PRs #127 (runtime, 31 pacotes), #128 (tooling, 5 pacotes), #129 (`actions/setup-node` 7.1.0) e #130 (`codeql-action` 4.38.3) mergeados.
+- Runtime adicionais: `@radix-ui/react-toggle-group` 1.2.1, `@radix-ui/react-tooltip` 1.4.1, `@tanstack/react-query` 5.104.2, `dompurify` 3.4.17, `framer-motion` 14.2.0, `lucide-react` 1.56.0, `react-hook-form` 7.90.0, `react-resizable-panels` 4.14.5, `zod` 4.6.7.
+- Tooling adicionais: `@testing-library/user-event` 14.6.8, `beasties` 0.5.5, `postcss` 8.5.30, `typescript-eslint` 8.71.2.
+- Package manager: pnpm 12.9.1 -> 12.13.0 (`packageManager` + workflows `ci`/`deploy`/`lighthouse`/`release`).
+- Pins mantidos por decisão: `vitest`/`@vitest/ui` 4.x (incompatibilidade jest-dom) e `typescript` 6.x (typescript-eslint sem suporte a TS 7) via `pnpm-workspace.yaml`.
+### Validation
+- `pnpm ci:check` sem warnings (lint, typecheck, 36/36 testes, build, 35 rotas pré-renderizadas).
+
 ## 1.9.8
 
 ### Fixed
