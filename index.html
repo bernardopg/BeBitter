@@ -193,10 +193,10 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "BeBitter",
-    "url": "<%= VITE_SITE_URL %>",
+    "url": "%VITE_SITE_URL%",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "<%= VITE_SITE_URL %>/?q={search_term_string}",
+      "target": "%VITE_SITE_URL%/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -251,7 +251,7 @@
   </noscript>
 
   <!-- Google tag (gtag.js) via env -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= VITE_GA_TRACKING_ID %>"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_TRACKING_ID%"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }

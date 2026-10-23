@@ -13,12 +13,12 @@
   </p>
 
   <p>
-    <img alt="Node 20-22" src="https://img.shields.io/badge/node-20--22-339933?style=flat-square&logo=node.js&logoColor=white" />
-    <img alt="pnpm 10" src="https://img.shields.io/badge/pnpm-10-F69220?style=flat-square&logo=pnpm&logoColor=white" />
+    <img alt="Node 24" src="https://img.shields.io/badge/node-24-339933?style=flat-square&logo=node.js&logoColor=white" />
+    <img alt="pnpm 12" src="https://img.shields.io/badge/pnpm-12-F69220?style=flat-square&logo=pnpm&logoColor=white" />
     <img alt="React 19" src="https://img.shields.io/badge/react-19-61DAFB?style=flat-square&logo=react&logoColor=111827" />
-    <img alt="TypeScript 5.9" src="https://img.shields.io/badge/typescript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+    <img alt="TypeScript 6" src="https://img.shields.io/badge/typescript-6-3178C6?style=flat-square&logo=typescript&logoColor=white" />
     <img alt="Vite 8" src="https://img.shields.io/badge/vite-8-646CFF?style=flat-square&logo=vite&logoColor=white" />
-    <img alt="Tailwind CSS 4.2" src="https://img.shields.io/badge/tailwindcss-4.2-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
+    <img alt="Tailwind CSS 4.3" src="https://img.shields.io/badge/tailwindcss-4.3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
   </p>
 </div>
 
@@ -61,11 +61,11 @@ O stack principal usa React 19, TypeScript, Vite 8, Tailwind CSS 4, Radix UI e T
 
 | Área | Ferramentas |
 | --- | --- |
-| Frontend | React 19, React Router 7, TypeScript 5.9 |
-| UI | Tailwind CSS 4.2, Radix UI, shadcn/ui, Framer Motion |
+| Frontend | React 19, React Router 7, TypeScript 6 |
+| UI | Tailwind CSS 4.3, Radix UI, shadcn/ui, Framer Motion |
 | Dados | TanStack Query, React Context, GitHub REST API |
 | Formulários | React Hook Form, Zod |
-| Qualidade | ESLint 10, Vitest 4, Testing Library, CodeQL |
+| Qualidade | ESLint 10, Vitest 5, Testing Library, CodeQL |
 | Build | Vite 8, Critters, gzip, Brotli |
 | Deploy | SSH + rsync para Hostinger |
 
