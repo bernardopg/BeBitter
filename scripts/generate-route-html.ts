@@ -9,6 +9,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { blogPosts } from "../src/constants/blog-posts";
 import { ogImageUrlForPath } from "../src/utils/og.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -22,6 +23,7 @@ interface RouteMeta {
   description: string;
   ogType?: string;
   ogImage?: string;
+  article?: { date: string; updatedAt?: string; author: string };
 }
 
 // Rotas estáticas conhecidas
@@ -51,45 +53,6 @@ const staticRoutes: RouteMeta[] = [
       "Artigos técnicos sobre React, TypeScript, performance web, IA em 2026 e automação. Conteúdo em PT-BR para desenvolvedores.",
   },
 ];
-
-// Dados dos posts do blog (extraídos do blog-posts.ts em build time)
-interface BlogPostMeta {
-  slug: string;
-  title: string;
-  titleEn: string;
-  excerpt: string;
-  tags: string[];
-  author: string;
-}
-
-async function getBlogPosts(): Promise<BlogPostMeta[]> {
-  // Importa o módulo compilado se disponível, senão lê o source
-  try {
-    const mod = await import("../src/constants/blog-posts.js");
-    return mod.blogPosts;
-  } catch {
-    // Fallback: parsear o TS source
-    const src = fs.readFileSync(
-      path.join(ROOT, "src/constants/blog-posts.ts"),
-      "utf-8"
-    );
-    const slugs = [...src.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const titles = [...src.matchAll(/title:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const excerpts = [...src.matchAll(/excerpt:\s*\n\s*"([^"]+)"/g)].map(
-      (m) => m[1]
-    );
-    return slugs
-      .filter((s) => !["slug", "string"].includes(s))
-      .map((slug, i) => ({
-        slug,
-        title: titles[i] ?? slug,
-        titleEn: titles[i] ?? slug,
-        excerpt: excerpts[i] ?? "",
-        tags: [],
-        author: "Bernardo Gomes",
-      }));
-  }
-}
 
 function escapeHtml(str: string): string {
   return str
@@ -204,6 +167,18 @@ function injectMeta(html: string, meta: RouteMeta): string {
     `<link rel="alternate" hreflang="x-default" href="${safeCanonical}"`
   );
 
+  if (meta.article) {
+    const article = {
+      "@context": "https://schema.org", "@type": "BlogPosting",
+      headline: meta.title.replace(/ \| Bernardo Gomes$/, ""), description,
+      url: canonical, mainEntityOfPage: canonical, inLanguage: "pt-BR",
+      datePublished: meta.article.date, dateModified: meta.article.updatedAt ?? meta.article.date,
+      author: { "@type": "Person", name: meta.article.author }, image,
+    };
+    const json = JSON.stringify(article).replace(/</g, "\\u003c");
+    html = html.replace("</head>", `<script type="application/ld+json">${json}</script>\n</head>`);
+    html = html.replace(/\s*<link rel="alternate" hreflang="(?:pt-br|en|x-default)"[^>]*\/>/g, "");
+  }
   return html;
 }
 
@@ -218,13 +193,14 @@ async function generateRouteHtml() {
   const routes: RouteMeta[] = [...staticRoutes];
 
   // Adicionar rotas de blog
-  const posts = await getBlogPosts();
+  const posts = blogPosts;
   for (const post of posts) {
     routes.push({
       path: `/blog/${post.slug}`,
-      title: `${post.titleEn || post.title} | Bernardo Gomes`,
+      title: `${post.title} | Bernardo Gomes`,
       description: post.excerpt || post.title,
       ogType: "article",
+      article: post,
     });
   }
 

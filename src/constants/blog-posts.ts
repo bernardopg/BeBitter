@@ -1,3 +1,5 @@
+import { newPosts } from "./blog-posts-2026";
+
 export type ContentSection =
   | { type: "heading"; level: 2 | 3; content: string }
   | { type: "paragraph"; content: string }
@@ -18,11 +20,11 @@ export interface BlogPost {
   tags: string[];
   featured?: boolean;
   readingTime: number;
+  sources?: { title: string; url: string }[];
 }
 
-// Curadoria enxuta: 22 artigos entre experiências reais, casos práticos e
-// temas atuais. Tags normalizadas em categorias fixas para o filtro do blog.
 export const blogPosts: BlogPost[] = [
+  ...newPosts,
   {
     slug: "shai-hulud-npm-worm-defesa-2026",
     title: "Shai-Hulud: O Worm que Continua Infectando o npm e Como Proteger Sua Cadeia de Suprimentos",

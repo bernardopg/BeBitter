@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { blogPosts, type ContentSection } from "@/constants/blog-posts";
 import { useLanguage } from "@/hooks/useLanguage";
+import { ogImageUrlForPath } from "@/utils/og";
 import { m as motion } from "framer-motion";
 import { ArrowLeft, Clock } from "lucide-react";
 import { useEffect, useRef } from "react";
@@ -184,12 +185,12 @@ export default function BlogPostPage() {
   const excerpt =
     language === "en" && post.excerptEn ? post.excerptEn : post.excerpt;
 
-  const formattedDate = new Date(post.date).toLocaleDateString(
+  const formattedDate = new Date(`${post.date}T12:00:00`).toLocaleDateString(
     language === "en" ? "en-US" : "pt-BR",
     { year: "numeric", month: "long", day: "numeric" },
   );
 
-  const canonicalUrl = `https://bebitterbebetter.com.br/blog/${post.slug}`;
+  const canonicalUrl = `https://bebitterbebetter.com.br/blog/${post.slug}/`;
 
   const wordCount = post.content.reduce((total, section) => {
     const text =
@@ -200,18 +201,19 @@ export default function BlogPostPage() {
   return (
     <>
       <SEOHead
-        title={`${post.titleEn || post.title} | Bernardo Gomes`}
-        description={post.excerptEn || post.excerpt}
+        title={`${post.title} | Bernardo Gomes`}
+        description={post.excerpt}
         keywords={post.tags}
         canonical={canonicalUrl}
+        ogImage={ogImageUrlForPath(CONFIG.SITE_URL, `/blog/${post.slug}`)}
         type="article"
         robots="index, follow"
         publisher="Bernardo Gomes"
       />
       <StructuredData
         pageType="article"
-        title={post.titleEn || post.title}
-        description={post.excerptEn || post.excerpt}
+        title={post.title}
+        description={post.excerpt}
         url={canonicalUrl}
         datePublished={post.date}
         dateModified={post.updatedAt ?? post.date}
@@ -272,8 +274,18 @@ export default function BlogPostPage() {
               </div>
             </header>
 
-            <article>
+            <article lang="pt-BR">
               {post.content.map((section, i) => renderSection(section, i))}
+              {post.sources && (
+                <section aria-labelledby="sources-heading">
+                  <h2 id="sources-heading" className="text-2xl font-bold mt-10 mb-4">Fontes</h2>
+                  <ul className="list-disc list-inside space-y-2">
+                    {post.sources.map((source) => (
+                      <li key={source.url}><a className="text-primary underline" href={source.url}>{source.title}</a></li>
+                    ))}
+                  </ul>
+                </section>
+              )}
             </article>
 
             <footer className="mt-12 pt-8 border-t border-border">

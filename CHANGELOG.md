@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.11
+
+- Cinco artigos sobre WebMCP, passkeys, OIDC, WCAG 2.2 e busca textual no PostgreSQL, com fontes primárias.
+- README atualizado e metadados de artigos gerados diretamente dos dados do blog.
+- Atualizações de dotenv, Framer Motion, React Hook Form e React Resizable Panels.
+
 ## 1.9.9
 Updated
 - Dependabot: PRs #127 (runtime, 31 pacotes), #128 (tooling, 5 pacotes), #129 (`actions/setup-node` 7.1.0) e #130 (`codeql-action` 4.38.3) mergeados.
