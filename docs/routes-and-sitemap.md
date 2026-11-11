@@ -1,19 +1,23 @@
-# Routes and Sitemap
+# Rotas e sitemap
 
-## Como o sitemap e gerado
+## Como o sitemap é gerado
 
-O sitemap do projeto e gerado por [scripts/generate-sitemap.ts](../scripts/generate-sitemap.ts) e executado automaticamente no `prebuild`.
+O sitemap é gerado por [scripts/generate-sitemap.ts](../scripts/generate-sitemap.ts) no `prebuild` e gravado em `public/sitemap.xml` (gitignored; o Vite copia para o `dist`).
 
-Arquivo gerado:
+As listas vêm das fontes únicas do projeto:
 
-- [public/sitemap.xml](../public/sitemap.xml)
+- páginas de projeto: `FEATURED_REPOSITORIES` em [src/constants/config.ts](../src/constants/config.ts)
+- posts: `blogPosts` em [src/constants/blog-posts.ts](../src/constants/blog-posts.ts)
+
+Toda URL sai com barra final (`/projects/`, `/blog/<slug>/`), igual ao que o Apache serve para os diretórios pré-renderizados.
 
 ## Estado atual
 
-No build atual, o sitemap contem 11 URLs.
+O build atual gera 40 URLs: 4 páginas principais, `/blog`, 8 projetos e 27 posts.
 
 ```bash
-rg -c '<url>' public/sitemap.xml
+pnpm sitemap:gen
+grep -c '<url>' public/sitemap.xml
 ```
 
 ## Rotas principais
@@ -21,34 +25,48 @@ rg -c '<url>' public/sitemap.xml
 | Rota | Tipo | Changefreq | Prioridade |
 | --- | --- | --- | --- |
 | `/` | landing page | `weekly` | `1.0` |
-| `/projects` | catalogo de projetos | `weekly` | `0.9` |
-| `/services` | servicos | `monthly` | `0.9` |
-| `/now` | atualizacoes pessoais | `weekly` | `0.8` |
+| `/projects` | catálogo de projetos | `weekly` | `0.9` |
+| `/services` | serviços | `monthly` | `0.9` |
+| `/now` | atualizações pessoais | `weekly` | `0.8` |
+| `/blog` | índice do blog | `weekly` | `0.8` |
 
-## Paginas de projeto presentes no sitemap atual
+## Páginas de projeto
 
-| Slug | URL |
+Publicadas com `changefreq=monthly` e `priority=0.7`, na ordem de `FEATURED_REPOSITORIES`:
+
+| Repositório | URL |
 | --- | --- |
-| `BeBitter` | `/projects/BeBitter` |
-| `doctoralia-scrapper` | `/projects/doctoralia-scrapper` |
+| `AiOverviewControl` | `/projects/AiOverviewControl` |
+| `LASCMMG` | `/projects/LASCMMG` |
+| `ioruba` | `/projects/ioruba` |
+| `dms-adguard-vpn-plugin` | `/projects/dms-adguard-vpn-plugin` |
 | `cmmg-calendar` | `/projects/cmmg-calendar` |
 | `mvp-estetoscopio` | `/projects/mvp-estetoscopio` |
-| `arduino-audio-controller` | `/projects/arduino-audio-controller` |
-| `dms-adguard-vpn-plugin` | `/projects/dms-adguard-vpn-plugin` |
-| `AutoJoin-for-SteamGifts` | `/projects/AutoJoin-for-SteamGifts` |
+| `GiftPilot` | `/projects/GiftPilot` |
+| `steam-idler-python` | `/projects/steam-idler-python` |
 
-Essas URLs sao publicadas com `changefreq=monthly` e `priority=0.7`.
+Repositórios fora da curadoria continuam acessíveis em `/projects/<repo>`, renderizados em runtime a partir de `app-shell.html`.
 
-## Validacao rapida
+## Posts
+
+Cada post vira `/blog/<slug>` com `priority=0.7`. O `lastmod` usa `updatedAt` (ou `date`) do post, em vez do horário do build.
+
+## Pré-render
+
+Depois do `vite build`, `route-html:gen` cria `dist/<rota>/index.html` com `<title>`, description, canonical e `og:*` corretos, e `prerender` injeta o HTML renderizado pelo build SSR dentro do `#root`. Rotas fora dessa lista caem no `app-shell.html` pelo fallback do `.htaccess`.
+
+## Redirecionamentos
+
+| De | Para | Motivo |
+| --- | --- | --- |
+| `/projects/AutoJoin-for-SteamGifts` | `/projects/GiftPilot/` (301) | repositório renomeado no GitHub |
+
+Ao renomear um repositório da curadoria, atualize `FEATURED_REPOSITORIES` e adicione o 301 em [public/.htaccess](../public/.htaccess), antes do fallback da SPA.
+
+## Validação rápida
 
 ```bash
-pnpm sitemap:gen
-curl -fsSL https://bebitterbebetter.com.br/sitemap.xml
+pnpm build
+curl -fsSL https://bebitterbebetter.com.br/sitemap.xml | grep -c '<url>'
 curl -fsSL https://bebitterbebetter.com.br/robots.txt
 ```
-
-## Observacoes
-
-- `lastmod` reflete o momento do build.
-- O sitemap cobre apenas rotas publicas renderizadas pelo portfolio.
-- Sempre que o catalogo de projetos mudar, o arquivo gerado pode ganhar ou perder entradas.

@@ -1,20 +1,21 @@
-# Documentacao
+# Documentação
 
-Este repositorio mantem a primeira pagina enxuta e move detalhes tecnicos para documentos auxiliares.
+O [README](../README.md) apresenta o projeto; os detalhes técnicos ficam aqui.
 
 ## Guias principais
 
-- [Technical Overview](technical-overview.md)
-- [Routes and Sitemap](routes-and-sitemap.md)
+- [Visão técnica](technical-overview.md): stack, estrutura, fontes de dados, build e entrega
+- [Rotas e sitemap](routes-and-sitemap.md): rotas públicas, pré-render e redirecionamentos
 
 ## Guias operacionais
 
-- [Deploy checklist](../DEPLOY-CHECKLIST.md)
-- [Security notes](../SECURITY.md)
-- [Performance optimization](../PERFORMANCE-OPTIMIZATION.md)
-- [SEO checklist](../SEO-CHECKLIST.md)
-- [Build and deploy scripts](../scripts/README.md)
+- [Checklist de deploy](../DEPLOY-CHECKLIST.md)
+- [Política de segurança](../SECURITY.md)
+- [Otimização de performance](../PERFORMANCE-OPTIMIZATION.md)
+- [Checklist de SEO](../SEO-CHECKLIST.md)
+- [Scripts de build e deploy](../scripts/README.md)
+- [Changelog](../CHANGELOG.md)
 
-## Observacao
+## Observação
 
-Os documentos historicos em raiz foram mantidos para evitar quebrar links existentes em issues, PRs e referencias externas.
+Os documentos históricos na raiz foram mantidos para não quebrar links em issues, PRs e referências externas.

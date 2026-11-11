@@ -50,7 +50,7 @@ pnpm vitest run src/path/to/file.test.tsx
 
 ### Build Optimizations
 
-Vite is configured with manual chunk splitting (vendor, ui, router, query), SWC transpilation, Terser minification, Gzip + Brotli compression, and a custom critical-CSS inlining plugin (`scripts/vite-plugin-critical-css.ts`). A custom Service Worker handles offline caching (production only).
+Vite 8 (Rolldown) is configured with manual chunk splitting (vendor, ui, router, query, motion, icons), `@vitejs/plugin-react`, esbuild minification, Gzip + Brotli compression, and a custom critical-CSS inlining plugin (`scripts/vite-plugin-critical-css.ts`, Beasties). `postbuild` generates per-route HTML and pre-renders every known route through an SSR build (`scripts/prerender.ts`). A custom Service Worker handles offline caching (production only).
 
 ### Environment Variables
 
