@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.9.13
+
+### Changed
+
+- README reescrito em inglês como página de portfólio: banner próprio, capacidades, projetos selecionados, screenshots do site, destaques de engenharia, diagrama do pipeline de release e contato. Assets em `.github/assets/readme/` (fora do `dist`).
+- Documentação atualizada para a stack atual: `docs/technical-overview.md`, `docs/routes-and-sitemap.md`, `docs/README.md`, `scripts/README.md` (cobre os 12 scripts) e `CLAUDE.md`.
+
+### Fixed
+
+- Blog em inglês exibia tags em português ("Segurança", "IA & Automação", "Saúde"…). `src/constants/blog-tags.ts` traduz o rótulo em filtros, cards, badges e capas; a busca casa os dois idiomas.
+- Projeto `AutoJoin-for-SteamGifts` renomeado para `GiftPilot` no GitHub: curadoria atualizada e 301 de `/projects/AutoJoin-for-SteamGifts` para `/projects/GiftPilot/`.
+
+### Validation
+
+- `pnpm ci:check` sem warnings (lint, typecheck, 40/40 testes, build, 40 rotas pré-renderizadas); CI, CodeQL e Lighthouse verdes na `main`.
+
 ## 1.9.12
 
 ### Updated
