@@ -52,6 +52,9 @@ RewriteRule ^google[a-f0-9]+\.html$ - [L]
 RewriteCond %{HTTP_HOST} ^www\.bebitterbebetter\.com\.br [NC]
 RewriteRule ^(.*)$ https://bebitterbebetter.com.br/$1 [L,R=301]
 
+# Repositórios renomeados no GitHub: mantém links antigos e ranking de busca.
+RewriteRule ^projects/AutoJoin-for-SteamGifts/?$ /projects/GiftPilot/ [L,R=301]
+
 # SPA fallback
 # O build pré-renderiza cada rota conhecida como arquivo próprio, então o que
 # chega aqui é rota que só existe em runtime (/projects/<repo> vindo da API do

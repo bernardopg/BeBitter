@@ -55,7 +55,7 @@ export const FEATURED_REPOSITORIES = [
   "dms-adguard-vpn-plugin", // 4★, tooling Linux/QML
   "cmmg-calendar", // produto de integração de calendário (TypeScript)
   "mvp-estetoscopio", // educação/saúde com SM-2 — diferenciado
-  "AutoJoin-for-SteamGifts", // automação browser popular
+  "GiftPilot", // extensão MV3 para SteamGifts (ex-AutoJoin-for-SteamGifts)
   "steam-idler-python", // automação Python ativa
 ] as const;
 
