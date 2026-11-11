@@ -2,6 +2,7 @@ import SEOHead from "@/components/SEOHead";
 import StructuredData from "@/components/StructuredData";
 import { Input } from "@/components/ui/input";
 import { blogPosts } from "@/constants/blog-posts";
+import { blogTagLabel } from "@/constants/blog-tags";
 import { useLanguage } from "@/hooks/useLanguage";
 import { searchPosts } from "@/utils/blog-search";
 import { m as motion } from "framer-motion";
@@ -19,6 +20,15 @@ export default function BlogPage() {
   // Digitar continua fluido mesmo se a lista crescer: o campo atualiza na hora,
   // a filtragem da grade acompanha em segundo plano.
   const deferredQuery = useDeferredValue(query);
+
+  // Ordena pelo rótulo exibido, que muda com o idioma.
+  const sortedTags = useMemo(
+    () =>
+      [...allTags].sort((a, b) =>
+        blogTagLabel(a, language).localeCompare(blogTagLabel(b, language), language),
+      ),
+    [language],
+  );
 
   const sorted = useMemo(() => {
     const byTag = activeTag
@@ -137,7 +147,7 @@ export default function BlogPage() {
             >
               {t("blog.filterAll")}
             </button>
-            {allTags.map((tag) => (
+            {sortedTags.map((tag) => (
               <button
                 key={tag}
                 onClick={() => setActiveTag(tag === activeTag ? null : tag)}
@@ -147,7 +157,7 @@ export default function BlogPage() {
                     : "bg-muted text-muted-foreground hover:bg-muted/80"
                 }`}
               >
-                {tag}
+                {blogTagLabel(tag, language)}
               </button>
             ))}
           </motion.div>

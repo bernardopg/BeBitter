@@ -6,6 +6,7 @@ import StructuredData from "@/components/StructuredData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { blogPosts, type ContentSection } from "@/constants/blog-posts";
+import { blogTagLabel } from "@/constants/blog-tags";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ogImageUrlForPath } from "@/utils/og";
 import { m as motion } from "framer-motion";
@@ -241,6 +242,7 @@ export default function BlogPostPage() {
             <BlogCover
               slug={post.slug}
               tags={post.tags}
+              primaryTag={post.tags[0] && blogTagLabel(post.tags[0], language)}
               className="mb-8 aspect-[2/1] w-full rounded-2xl border"
               iconClassName="h-56 w-56"
             />
@@ -249,7 +251,7 @@ export default function BlogPostPage() {
               <div className="flex flex-wrap gap-2 mb-4">
                 {post.tags.map((tag) => (
                   <Badge key={tag} variant="secondary">
-                    {tag}
+                    {blogTagLabel(tag, language)}
                   </Badge>
                 ))}
               </div>

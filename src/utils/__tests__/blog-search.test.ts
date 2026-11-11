@@ -72,6 +72,16 @@ describe("searchPosts", () => {
     ]);
   });
 
+  it("matches a Portuguese tag by its English label", () => {
+    const secure = post({ slug: "csp", tags: ["Segurança"] });
+    expect(searchPosts([...posts, secure], "security").map((p) => p.slug)).toEqual([
+      "csp",
+    ]);
+    expect(searchPosts([...posts, secure], "seguranca").map((p) => p.slug)).toEqual([
+      "csp",
+    ]);
+  });
+
   it("requires every term to match, each in any field", () => {
     expect(searchPosts(posts, "react migracao").map((p) => p.slug)).toEqual([
       "react-19",
