@@ -7,7 +7,7 @@
  * Uso: pnpm build && pnpm lighthouse:budget
  */
 import { spawn } from "node:child_process";
-import { launch } from "chrome-launcher";
+import { Launcher, launch } from "chrome-launcher";
 import lighthouse from "lighthouse";
 
 const PORT = 4173;
@@ -59,8 +59,20 @@ async function main() {
     detached: false,
   });
 
+  // chrome-launcher 1.2.3 deixou de desabilitar RenderDocument; com ele ligado
+  // o Lighthouse perde o nó raiz do trace ("LanternError: rootNode not found")
+  // e trava em Target.setAutoAttach. Reaplica a flag sobre os defaults.
+  const defaultFlags = Launcher.defaultFlags().map((flag) =>
+    flag.startsWith("--disable-features=") && !flag.includes("RenderDocument")
+      ? `${flag},RenderDocument`
+      : flag,
+  );
+
   const chrome = await launch({
+    ignoreDefaultFlags: true,
     chromeFlags: [
+      ...defaultFlags,
+      "--disable-setuid-sandbox",
       "--headless=new",
       "--no-sandbox",
       "--disable-gpu",

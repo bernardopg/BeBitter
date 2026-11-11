@@ -5,6 +5,7 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - "@vitejs/plugin-react@6.1.2"
+  - minimatch@11.0.7
 
 overrides:
   "@eslint/plugin-kit": ">=0.7.2"
@@ -19,3 +20,10 @@ overrides:
   typescript: "^6.0.3"
   # Security fixes for the selector parser used by Tailwind Typography.
   postcss-selector-parser: "^7.1.7"
+  # GHSA-g3hv-75wg-m249 (ReDoS) sem patch na linha 10.x: eslint,
+  # @eslint/config-array e typescript-estree só usam minimatch()/Minimatch#match,
+  # que seguem no 11. minimatch@3 (jsx-a11y) fica fora da faixa vulnerável.
+  "minimatch@>=7.0.0 <11.0.1": "^11.0.7"
+  # GHSA-3g3m-2fjr-6pw4: glob 13 vem de @sentry/bundler-plugins (via lighthouse);
+  # a própria linha 11.12 já depende de glob ^14.0.3.
+  "glob@>=9.0.0 <14.0.2": "^14.0.4"
