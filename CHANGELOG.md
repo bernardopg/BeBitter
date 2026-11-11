@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.9.12
+
+### Updated
+
+- Runtime: `@hookform/resolvers` 7.0.3 (major; breaking só no resolver typebox, não usado), `@tanstack/react-query` 5.106.1, `framer-motion` 14.10.0, `lucide-react` 1.70.0, `react-resizable-panels` 4.18.1, `react-router-dom` 7.18.5.
+- Tooling: `@tailwindcss/postcss`/`tailwindcss` 4.3.4, `@vitejs/plugin-react` 6.2.1, `vitest`/`@vitest/ui` 5.1.0, `chrome-launcher` 1.2.3, `eslint` 10.14.0, `globals` 17.14.0, `jsdom` 31.0.0 (major), `vite` 8.3.6, `@types/node` 26.6.6, `autoprefixer` 10.6.2, `lighthouse` 13.6.0, `postcss` 8.5.32, `typescript-eslint` 8.72.1.
+- Workflows: `github/codeql-action` 4.39.3, `pnpm/action-setup` 6.1.1.
+- Dependabot: PRs #137, #138, #139, #141, #142 mergeados; #140 substituído por #144; #143 superado pelo override de `glob`.
+
+### Security
+
+- Overrides em `pnpm-workspace.yaml` para os alertas Dependabot #50 (`glob` 13 → ^14.0.4, GHSA-3g3m-2fjr-6pw4) e #51 (`minimatch` 7–10 → ^11.0.7, GHSA-g3hv-75wg-m249).
+
+### Fixed
+
+- `scripts/lighthouse-budget.ts`: `chrome-launcher` 1.2.3 deixou de desabilitar `RenderDocument`, o que travava o Lighthouse (`LanternError: rootNode not found` / `Target.setAutoAttach timed out`). A flag é reaplicada sobre `Launcher.defaultFlags()`.
+
+### Validation
+
+- `pnpm ci:check` sem warnings (lint, typecheck, 36/36 testes, build, 40 rotas pré-renderizadas); Performance budget verde no CI.
+
 ## 1.9.11
 
 - Cinco artigos sobre WebMCP, passkeys, OIDC, WCAG 2.2 e busca textual no PostgreSQL, com fontes primárias.
