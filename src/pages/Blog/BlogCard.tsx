@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { BlogCover } from "@/components/BlogCover";
 import type { BlogPost } from "@/constants/blog-posts";
+import { blogTagLabel } from "@/constants/blog-tags";
 import { useLanguage } from "@/hooks/useLanguage";
 import { m as motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
@@ -42,6 +43,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
           <BlogCover
             slug={post.slug}
             tags={post.tags}
+            primaryTag={post.tags[0] && blogTagLabel(post.tags[0], language)}
             className="aspect-[16/9] w-full transition-transform duration-500 group-hover:scale-[1.03]"
             iconClassName="h-40 w-40"
           />
@@ -79,7 +81,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
           <div className="flex flex-wrap gap-1">
             {post.tags.slice(0, 3).map((tag) => (
               <Badge key={tag} variant="secondary" className="text-xs">
-                {tag}
+                {blogTagLabel(tag, language)}
               </Badge>
             ))}
           </div>

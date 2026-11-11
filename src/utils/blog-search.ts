@@ -1,4 +1,5 @@
 import type { BlogPost } from "@/constants/blog-posts";
+import { blogTagSearchTerms } from "@/constants/blog-tags";
 
 /**
  * Busca client-side nos posts do blog.
@@ -29,7 +30,13 @@ export function searchPosts(posts: BlogPost[], query: string): BlogPost[] {
 
   return posts.filter((post) => {
     const haystack = normalize(
-      [post.title, post.titleEn, post.excerpt, post.excerptEn, ...post.tags].join(" "),
+      [
+        post.title,
+        post.titleEn,
+        post.excerpt,
+        post.excerptEn,
+        ...post.tags.flatMap(blogTagSearchTerms),
+      ].join(" "),
     );
     return terms.every((term) => haystack.includes(term));
   });
