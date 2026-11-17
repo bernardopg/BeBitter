@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.9.14
+
+### Updated
+
+- Runtime: `@hookform/resolvers` 7.0.6, `@tanstack/react-query` 5.107.1, `dompurify` 3.4.18, `framer-motion` 14.14.0, `lucide-react` 1.73.0, `react-hook-form` 7.92.0, `react-resizable-panels` 4.24.0.
+- Tooling: `@testing-library/user-event` 14.6.11, `@vitejs/plugin-react` 6.3.0, `dotenv` 18.0.10, `eslint` 10.15.0, `eslint-plugin-react-refresh` 0.5.8, `jsdom` 31.0.1, `postcss` 8.5.33, `typescript-eslint` 8.72.2, `vite` 8.3.8.
+- Plataforma: pnpm 12.21.0 e Node 26.13.1 (Active LTS) em `.node-version`, usado por todos os workflows.
+- Workflows: `softprops/action-gh-release` 3.0.4.
+- Dependabot: #146, #147 e #148 consolidados em #149.
+
+### Notes
+
+- TypeScript segue em 6.x: `typescript-eslint` 8.x ainda declara `typescript <6.1.0`.
+
+### Validation
+
+- `pnpm ci:check` local (40/40 testes); CI, CodeQL, dependency review e Lighthouse verdes no #149.
+
 ## 1.9.13
 
 ### Changed
