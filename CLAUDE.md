@@ -81,7 +81,7 @@ All client-side env vars must be prefixed `VITE_`.
 ## CI/CD
 
 GitHub Actions runs on push/PR to `main`:
-- Node 24.x
+- Node 26.x (LTS, from `.node-version`)
 - Steps: `pnpm install --frozen-lockfile` → lint → `typecheck` → `test:run` → `build`
 - `pnpm ci:check` replicates this locally
 

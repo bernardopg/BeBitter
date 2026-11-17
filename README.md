@@ -207,7 +207,7 @@ flowchart LR
 | **Build** | Vite 8 (Rolldown) · SSR pre-render · custom critical-CSS plugin · gzip/Brotli |
 | **Quality** | ESLint 10 (flat config, jsx-a11y) · Vitest · Testing Library · Lighthouse |
 | **Delivery** | GitHub Actions · CodeQL · Dependabot · SSH + rsync to Hostinger |
-| **Runtime** | Node 24 · pnpm 12 |
+| **Runtime** | Node 26 LTS · pnpm 12 |
 
 <br />
 
