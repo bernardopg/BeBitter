@@ -5,15 +5,15 @@
 > Linux. Baseado em Belo Horizonte, Brasil.
 
 Site: https://bebitterbebetter.com.br
-Idiomas: pt-BR (padrão), en
+Artigos em português (pt-BR). A interface também tem rótulos em inglês.
 
 ## Páginas principais
 
 - [Home](https://bebitterbebetter.com.br/): apresentação, habilidades e projetos em destaque
-- [Projetos](https://bebitterbebetter.com.br/projects): todos os projetos open source (GitHub)
-- [Serviços](https://bebitterbebetter.com.br/services): serviços de desenvolvimento web e automação
-- [Blog](https://bebitterbebetter.com.br/blog): artigos sobre React, TypeScript, performance, IA e Linux
-- [Now](https://bebitterbebetter.com.br/now): no que estou trabalhando agora
+- [Projetos](https://bebitterbebetter.com.br/projects/): todos os projetos open source (GitHub)
+- [Serviços](https://bebitterbebetter.com.br/services/): serviços de desenvolvimento web e automação
+- [Blog](https://bebitterbebetter.com.br/blog/): artigos sobre React, TypeScript, performance, IA e Linux
+- [Now](https://bebitterbebetter.com.br/now/): no que estou trabalhando agora
 
 ## Contato e perfis
 
@@ -25,3 +25,4 @@ Idiomas: pt-BR (padrão), en
 ## Recursos
 
 - [Sitemap](https://bebitterbebetter.com.br/sitemap.xml)
+- [RSS do blog](https://bebitterbebetter.com.br/feed.xml)

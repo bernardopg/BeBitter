@@ -39,7 +39,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
       transition={{ duration: 0.4, delay: index * 0.05 }}
     >
       <Card className="card-enhanced card-glow h-full flex flex-col overflow-hidden rounded-xl">
-        <Link to={`/blog/${post.slug}`} className="block" aria-label={title}>
+        <Link to={`/blog/${post.slug}/`} className="block" aria-label={title}>
           <BlogCover
             slug={post.slug}
             tags={post.tags}
@@ -91,7 +91,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
             size="sm"
             className="group p-0 h-auto text-primary"
           >
-            <Link to={`/blog/${post.slug}`}>
+            <Link to={`/blog/${post.slug}/`}>
               {t("blog.readMore")}
               <ArrowRight className="ml-1 h-3 w-3 group-hover:translate-x-1 transition-transform" />
             </Link>

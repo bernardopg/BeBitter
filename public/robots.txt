@@ -1,41 +1,6 @@
-# robots.txt para bebitterbebetter.com.br
-# Atualizado: Outubro 2025
-
-# Permitir todos os bots em todas as páginas
+# Rastreamento público. O grupo geral permite a descoberta de páginas e assets.
+# Busca e treinamento são controles distintos nos provedores que os separam.
 User-agent: *
 Allow: /
 
-# Bots de AI/LLM - permitir crawling
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: CCBot
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-# Google específico
-User-agent: Googlebot
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-
-# Permitir assets estáticos para renderização e indexação corretas
-Allow: /assets/
-Allow: /*.js$
-Allow: /*.css$
-Allow: /*.json$
-
-# Sitemap (gerado automaticamente no build)
 Sitemap: https://bebitterbebetter.com.br/sitemap.xml
-
-# Crawl-delay (opcional, para evitar sobrecarga)
-# Crawl-delay: 1

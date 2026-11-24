@@ -71,3 +71,14 @@ test("renders an article with its schema and tracks a related reading", async ({
     reference_target: "wcag-22-acessibilidade-checklist-produto",
   }));
 });
+
+test("lists articles from newest to oldest even when older posts are featured", async ({ page }) => {
+  await page.goto("/blog/");
+  const dates = page.locator("main time[datetime]");
+  await expect(dates.first()).toBeVisible();
+  const published = await dates.evaluateAll((elements) =>
+    elements.map((element) => element.getAttribute("datetime") ?? ""),
+  );
+  expect(new Set(published).size).toBeGreaterThan(1);
+  expect(published).toEqual([...published].sort().reverse());
+});
