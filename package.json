@@ -32,14 +32,13 @@
     "og:gen": "tsx scripts/generate-og-images.ts",
     "route-html:gen": "tsx scripts/generate-route-html.ts",
     "indexnow:ping": "tsx scripts/indexnow-ping.ts",
-    "lighthouse:budget": "tsx scripts/lighthouse-budget.ts",
     "postbuild": "pnpm route-html:gen && pnpm build:ssr && pnpm prerender",
     "prebuild": "pnpm sitemap:gen && pnpm feed:gen && pnpm og:gen",
     "github:harden": "./scripts/harden-github-repo.sh",
-    "performance:audit": "echo 'Run lighthouse audit on your deployed site for performance metrics'",
     "optimize:images": "tsx scripts/optimize-images.ts",
     "build:ssr": "vite build --config vite.config.ssr.ts",
-    "prerender": "tsx scripts/prerender.ts"
+    "prerender": "tsx scripts/prerender.ts",
+    "test:site": "tsx scripts/check-bundle-size.ts && playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.6",
@@ -100,6 +99,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@eslint/plugin-kit": "^0.7.3",
+    "@playwright/test": "1.65.1",
     "@tailwindcss/postcss": "^4.3.5",
     "@tailwindcss/typography": "^0.5.20",
     "@testing-library/dom": "^10.4.2",
@@ -113,7 +113,6 @@
     "@vitest/ui": "^5.1.0",
     "autoprefixer": "^10.6.2",
     "beasties": "^0.5.5",
-    "chrome-launcher": "^1.2.3",
     "dotenv": "^18.0.10",
     "eslint": "^10.15.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -121,7 +120,6 @@
     "eslint-plugin-react-refresh": "^0.5.8",
     "globals": "^17.14.0",
     "jsdom": "^31.0.1",
-    "lighthouse": "^13.6.0",
     "postcss": "^8.5.33",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.5",

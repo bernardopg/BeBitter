@@ -63,3 +63,7 @@ public/images/og/
 .headroom/
 
 AGENTS.md
+
+# Playwright reports
+/test-results/
+/playwright-report/

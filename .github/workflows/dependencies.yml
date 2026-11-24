@@ -1,0 +1,43 @@
+name: Dependabot queue
+
+on:
+  workflow_run:
+    workflows: [CI, CodeQL, Dependency Review, Production delivery]
+    types: [completed]
+  schedule:
+    - cron: '41 */2 * * *'
+  workflow_dispatch:
+
+permissions: {}
+concurrency:
+  group: bebitter-dependency-queue
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    # This job runs only the scripts from main. PR code, caches and artifacts
+    # never enter the job that can merge PRs and dispatch production delivery.
+    if: >-
+      github.repository == 'bernardopg/BeBitter' &&
+      github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      actions: write
+      checks: read
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Reconcile Dependency PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+        run: bash scripts/dependabot-queue.sh

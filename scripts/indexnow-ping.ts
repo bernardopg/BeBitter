@@ -4,30 +4,28 @@
  * sobre as URLs do site. Não requer conta — apenas a chave pública em
  * public/<KEY>.txt (deve estar publicada antes do ping).
  *
- * Uso: pnpm indexnow:ping (rodar após cada deploy com conteúdo novo)
+ * Uso: pnpm indexnow:ping (rodar após publicar o build de dist/)
  */
-import "dotenv/config";
-import { blogPosts } from "../src/constants/blog-posts";
-import { FEATURED_REPOSITORIES } from "../src/constants/config";
+import { existsSync, readFileSync } from "node:fs";
+import { loadEnvFile } from "node:process";
 
-const SITE_URL = process.env.VITE_SITE_URL || "https://bebitterbebetter.com.br";
+if (existsSync(".env")) loadEnvFile(".env");
+
+const SITE_URL = (process.env.VITE_SITE_URL || "https://bebitterbebetter.com.br").replace(/\/$/, "");
 const HOST = new URL(SITE_URL).host;
 const KEY = "1be9dd1a7dd9a81e9806ea5fe68e37ef";
 const KEY_LOCATION = `${SITE_URL}/${KEY}.txt`;
 
-const urls = [
-  `${SITE_URL}/`,
-  `${SITE_URL}/projects/`,
-  `${SITE_URL}/services/`,
-  `${SITE_URL}/blog/`,
-  `${SITE_URL}/now/`,
-  ...FEATURED_REPOSITORIES.map((repo) => `${SITE_URL}/projects/${repo}/`),
-  ...blogPosts.map((post) => `${SITE_URL}/blog/${post.slug}/`),
-];
-
 async function main() {
+  const sitemap = readFileSync("dist/sitemap.xml", "utf8");
+  const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((match) => match[1].replaceAll("&amp;", "&"));
+  if (!urls.length || urls.some((url) => new URL(url).host !== HOST)) {
+    throw new Error("sitemap.xml vazio ou fora do domínio de produção");
+  }
+
   // Confere que a chave está publicada antes de pingar
-  const keyCheck = await fetch(KEY_LOCATION);
+  const keyCheck = await fetch(KEY_LOCATION, { signal: AbortSignal.timeout(15_000) });
   if (!keyCheck.ok || (await keyCheck.text()).trim() !== KEY) {
     console.error(`❌ Chave IndexNow não publicada em ${KEY_LOCATION} — faça o deploy primeiro.`);
     process.exit(1);
@@ -35,6 +33,7 @@ async function main() {
 
   const res = await fetch("https://api.indexnow.org/indexnow", {
     method: "POST",
+    signal: AbortSignal.timeout(15_000),
     headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify({
       host: HOST,

@@ -49,3 +49,13 @@ jobs:
 
       - name: Build project
         run: pnpm build
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Browser smoke tests and bundle budget
+        run: pnpm test:site
+
+      - name: Validate GitHub Actions workflows
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" -w /repo \
+            rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667

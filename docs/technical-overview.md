@@ -19,7 +19,7 @@ BeBitter é o portfólio público de Bernardo Gomes. O mesmo código entrega:
 | Formulários | React Hook Form, Zod |
 | Testes | Vitest 5, Testing Library, jsdom |
 | Build | Vite 8 (Rolldown), `@vitejs/plugin-react`, plugin próprio de CSS crítico, `vite-plugin-compression` (gzip + Brotli) |
-| Qualidade | ESLint 10 (flat config, `jsx-a11y`), Lighthouse 13 |
+| Qualidade | ESLint 10 (flat config, `jsx-a11y`), Playwright (Chromium), orçamento gzip |
 | Runtime | Node 24 (`.node-version`), pnpm 12 (`packageManager`) |
 | Deploy | GitHub Actions + SSH/rsync para Hostinger |
 
@@ -52,7 +52,7 @@ src/
 ├── utils/           # segurança, busca do blog, OG, performance
 ├── entry-server.tsx # entrada SSR usada só pelo pré-render
 └── main.tsx         # entrada do cliente (hidratação)
-scripts/             # geradores de build, pré-render, deploy e orçamento Lighthouse
+scripts/             # geradores de build, pré-render, deploy e orçamento de bundles
 ```
 
 ## Fontes únicas de dados
@@ -65,7 +65,7 @@ scripts/             # geradores de build, pré-render, deploy e orçamento Ligh
 ## Integrações
 
 - GitHub REST API para listar repositórios e montar páginas de projeto (cache de 5 min via TanStack Query)
-- Google Analytics via componente dedicado (fora da auditoria Lighthouse)
+- Google Analytics via componente dedicado
 - Service worker próprio para cache offline (somente produção)
 - Cal.com para agendamento e WhatsApp como contato principal
 
@@ -79,17 +79,16 @@ scripts/             # geradores de build, pré-render, deploy e orçamento Ligh
 
 O resultado são 40 rotas pré-renderizadas mais `app-shell.html`, usado como fallback para rotas que só existem em runtime.
 
-Uma tag `v*` dispara dois workflows:
-
-- [release.yml](../.github/workflows/release.yml): GitHub Release com tarball do `dist`
-- [deploy.yml](../.github/workflows/deploy.yml): roda `ci:check` e delega a [scripts/deploy.ts](../scripts/deploy.ts), o mesmo script do deploy local, que faz backup remoto de `public_html`, `rsync --delete`, ajuste de permissões e verificação de `index.html`, `robots.txt` e `sitemap.xml`
+O [workflow de produção](../.github/workflows/deploy.yml) valida cada revisão
+da `main`, publica o tarball testado na Hostinger e verifica o site antes de
+anexar o mesmo artefato à release do GitHub.
 
 ## Qualidade e segurança
 
 - `pnpm ci:check` roda lint, typecheck, testes e build
-- [ci.yml](../.github/workflows/ci.yml) executa o mesmo fluxo em Node 24
-- [lighthouse.yml](../.github/workflows/lighthouse.yml) aplica o orçamento de performance (`pnpm lighthouse:budget`) em `/`, `/blog/` e `/services/`
-- CodeQL e Dependency Review em PRs; Dependabot agrupa atualizações de runtime, tooling e Actions
+- [ci.yml](../.github/workflows/ci.yml) executa o mesmo fluxo na versão de Node em `.node-version`
+- [CI](../.github/workflows/ci.yml) testa navegação, idioma e menu móvel no Chromium e mede os bundles compactados (`pnpm test:site`).
+- CodeQL e Dependency Review em PRs; Dependabot agrupa atualizações de npm e GitHub Actions por ecossistema
 - Overrides de segurança e exceções de `minimumReleaseAge` (pnpm 12 segura versões recém-publicadas) ficam em [pnpm-workspace.yaml](../pnpm-workspace.yaml)
 - HTML de README vindo do GitHub é sanitizado com DOMPurify em [src/utils/security.ts](../src/utils/security.ts)
 - HSTS com preload e headers de segurança em [public/.htaccess](../public/.htaccess)

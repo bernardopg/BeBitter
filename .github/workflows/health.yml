@@ -1,0 +1,47 @@
+name: Production health
+on:
+  schedule:
+    - cron: '27 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: bebitter-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    if: github.repository == 'bernardopg/BeBitter' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check public pages, assets and certificate
+        id: health
+        run: |
+          set -euo pipefail
+          site=bebitterbebetter.com.br
+          bash scripts/check-site.sh "https://$site"
+          timeout 15 openssl s_client -servername "$site" -connect "$site:443" </dev/null 2>/dev/null |
+            openssl x509 -noout -checkend 1209600
+      - name: Reconcile health incident
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESULT: ${{ steps.health.outcome }}
+        run: |
+          title='BeBitter: site indisponível ou degradado'
+          if [[ "$RESULT" == success ]]; then
+            bash scripts/automation-issue.sh "$title"
+          else
+            bash scripts/automation-issue.sh "$title" "Falha nas rotas, assets ou TLS do site. Veja a [verificação]($RUN_URL)."
+          fi
