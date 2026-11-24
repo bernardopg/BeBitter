@@ -1,7 +1,8 @@
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { config as loadEnv } from "dotenv";
+import { setTimeout as delay } from "node:timers/promises";
+import { parseEnv } from "node:util";
 
 const rootDir = process.cwd();
 const envFiles = [".env", ".env.local", ".env.deploy", ".env.deploy.local"];
@@ -9,7 +10,7 @@ const envFiles = [".env", ".env.local", ".env.deploy", ".env.deploy.local"];
 for (const file of envFiles) {
   const envPath = path.resolve(rootDir, file);
   if (existsSync(envPath)) {
-    loadEnv({ path: envPath, override: true });
+    Object.assign(process.env, parseEnv(readFileSync(envPath, "utf8")));
   }
 }
 
@@ -71,103 +72,103 @@ const deployConfig = {
   keepBackups: parsePositiveInt(process.env.DEPLOY_KEEP_BACKUPS, 5),
 };
 
-if (!existsSync(deployConfig.keyPath)) {
-  console.error(`SSH key not found: ${deployConfig.keyPath}`);
-  process.exit(1);
+const productionHost = "bebitterbebetter.com.br";
+const expectedDir = `/domains/${productionHost}/public_html`;
+const remoteDir = deployConfig.remoteDir.replace(/\/$/, "");
+if (
+  !existsSync(deployConfig.keyPath) ||
+  !/^u[0-9]+$/.test(deployConfig.user) ||
+  !/^[0-9]{1,5}$/.test(deployConfig.port) ||
+  !/^[a-zA-Z0-9][a-zA-Z0-9.-]+$/.test(deployConfig.host) ||
+  !/^\/(?:[a-zA-Z0-9_-]+\/)+[a-zA-Z0-9.-]+\/public_html$/.test(remoteDir) ||
+  !remoteDir.endsWith(expectedDir) ||
+  new URL(deployConfig.siteUrl).origin !== `https://${productionHost}`
+) {
+  throw new Error("Invalid SSH configuration or deploy target for BeBitter");
 }
 
 const remoteTarget = `${deployConfig.user}@${deployConfig.host}`;
 const sshArgs = [
-  "-i",
-  deployConfig.keyPath,
-  "-p",
-  deployConfig.port,
-  "-o",
-  "StrictHostKeyChecking=accept-new",
+  "-i", deployConfig.keyPath,
+  "-p", deployConfig.port,
+  "-o", "BatchMode=yes",
+  "-o", "IdentitiesOnly=yes",
+  "-o", "StrictHostKeyChecking=yes",
+  "-o", "ConnectTimeout=20",
 ];
-const sshTransport = `ssh -i ${quoteForShell(deployConfig.keyPath)} -p ${quoteForShell(deployConfig.port)} -o StrictHostKeyChecking=accept-new`;
-const backupSuffix = formatTimestamp(new Date());
-const backupDir = `${deployConfig.remoteDir}.backup-${backupSuffix}`;
-
-if (!skipBuild) {
-  run("pnpm", ["build"]);
-}
-
-if (!dryRun) {
-  run("ssh", [
-    ...sshArgs,
-    remoteTarget,
-    [
-      "set -eu",
-      `test -d ${quoteForShell(deployConfig.remoteDir)}`,
-      `test ! -e ${quoteForShell(backupDir)}`,
-      `cp -a ${quoteForShell(deployConfig.remoteDir)} ${quoteForShell(backupDir)}`,
-      `printf 'Remote backup created: %s\\n' ${quoteForShell(backupDir)}`,
-    ].join("; "),
-  ]);
-}
-
-const rsyncArgs = [
-  "-az",
-  "--delete",
-  "--checksum",
-  "--human-readable",
-  "--itemize-changes",
-  ...(dryRun ? ["--dry-run"] : []),
-  "-e",
-  sshTransport,
-  "dist/",
-  `${remoteTarget}:${deployConfig.remoteDir}/`,
+const sshTransport = ["ssh", ...sshArgs].map(quoteForShell).join(" ");
+const destination = quoteForShell(remoteDir);
+const backupDir = `${remoteDir}.backup-${formatTimestamp(new Date())}`;
+const backup = quoteForShell(backupDir);
+const lock = quoteForShell(`${remoteDir}.deploy-lock`);
+const verifyTarget = [
+  `test -d ${destination}`,
+  `test "$(realpath -- ${destination})" = "$(realpath -- "$HOME")${expectedDir}"`,
+  `test "${remoteDir}" = "$(realpath -- ${destination})"`,
 ];
 
-run("rsync", rsyncArgs);
-
-if (!dryRun) {
-  run("ssh", [
-    ...sshArgs,
-    remoteTarget,
-    [
-      "set -eu",
-      `chmod -R u=rwX,go=rX ${quoteForShell(deployConfig.remoteDir)}`,
-      `test -f ${quoteForShell(path.posix.join(deployConfig.remoteDir, "index.html"))}`,
-      `test -f ${quoteForShell(path.posix.join(deployConfig.remoteDir, ".htaccess"))}`,
-      `test -f ${quoteForShell(path.posix.join(deployConfig.remoteDir, "robots.txt"))}`,
-      `test -f ${quoteForShell(path.posix.join(deployConfig.remoteDir, "sitemap.xml"))}`,
-      "printf 'Remote verification passed.\\n'",
-    ].join("; "),
-  ]);
-
-  verifyHttp(deployConfig.siteUrl);
-  pruneRemoteBackups();
+function remote(...commands: string[]) {
+  run("ssh", [...sshArgs, remoteTarget, ["set -eu", ...verifyTarget, ...commands].join("; ")]);
 }
 
-/**
- * Backups are siblings named `<remoteDir>.backup-YYYYMMDD-HHMMSS`. Since the
- * suffix is zero-padded, sorting by name descending gives newest first — mtime
- * is useless here because `cp -a` copies the source timestamps. Keeps the
- * newest `keepBackups` and drops the rest; never fails the deploy, which has
- * already succeeded by this point.
- */
-function pruneRemoteBackups() {
-  if (deployConfig.keepBackups < 1) {
-    console.log("\nBackup pruning disabled (DEPLOY_KEEP_BACKUPS < 1).");
-    return;
+async function upload() {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      run("rsync", [
+        "-az", "--checksum", "--delay-updates", "--delete-delay",
+        "--exclude=/.well-known", "--itemize-changes", "--timeout=45",
+        ...(dryRun ? ["--dry-run"] : []),
+        "-e", sshTransport, "dist/", `${remoteTarget}:${remoteDir}/`,
+      ]);
+      return;
+    } catch (error) {
+      if (attempt === 3) throw error;
+      await delay(attempt * 5_000);
+    }
   }
+}
 
-  const backupGlob = `${quoteForShell(deployConfig.remoteDir)}.backup-*`;
-  const stale = `ls -1d ${backupGlob} 2>/dev/null | sort -r | tail -n +${deployConfig.keepBackups + 1}`;
+if (!skipBuild) run("pnpm", ["build"]);
+for (const file of ["index.html", ".htaccess", "robots.txt", "sitemap.xml", "feed.xml"]) {
+  if (!existsSync(path.join(rootDir, "dist", file))) throw new Error(`Missing dist/${file}`);
+}
 
-  run("ssh", [
-    ...sshArgs,
-    remoteTarget,
-    [
-      "set -u",
-      `stale=$(${stale})`,
-      // Scoped strictly to the .backup-* glob above; an empty list is a no-op.
-      `if [ -n "$stale" ]; then printf '%s\\n' "$stale" | while IFS= read -r dir; do rm -rf -- "$dir" && printf 'Pruned backup: %s\\n' "$dir"; done; fi`,
-      `printf 'Backups kept: %s\\n' "$(ls -1d ${backupGlob} 2>/dev/null | wc -l)"`,
-    ].join("; "),
-  ]);
+if (dryRun) {
+  remote();
+  await upload();
+} else {
+  remote(`mkdir -- ${lock}`);
+  try {
+    remote(`test ! -e ${backup}`, `cp -a -- ${destination} ${backup}`);
+    console.log(`Backup: ${backupDir}`);
+    try {
+      await upload();
+      run("bash", ["scripts/check-site.sh", deployConfig.siteUrl, "dist"]);
+    } catch (error) {
+      console.error("Deploy failed. Restoring BeBitter from its backup.");
+      try {
+        remote(`rsync -a --checksum --delay-updates --delete-delay --exclude=/.well-known -- ${backup}/ ${destination}/`);
+        run("bash", ["scripts/check-site.sh", deployConfig.siteUrl]);
+      } catch (rollbackError) {
+        throw new AggregateError([error, rollbackError], "Deploy and rollback verification failed", { cause: rollbackError });
+      }
+      throw error;
+    }
+
+    if (deployConfig.keepBackups > 0) {
+      const backupGlob = `${destination}.backup-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]`;
+      try {
+        remote(
+          `stale=$(ls -1d ${backupGlob} 2>/dev/null | sort -r | tail -n +${deployConfig.keepBackups + 1})`,
+          `if [ -n "$stale" ]; then printf '%s\\n' "$stale" | while IFS= read -r dir; do rm -rf -- "$dir"; done; fi`,
+        );
+      } catch (error) {
+        console.warn("Could not prune BeBitter backups:", error);
+      }
+    }
+  } finally {
+    remote(`rmdir -- ${lock}`);
+  }
 }
 
 function parsePositiveInt(value: string | undefined, fallback: number) {
@@ -176,61 +177,11 @@ function parsePositiveInt(value: string | undefined, fallback: number) {
   return Number.isNaN(parsed) ? fallback : parsed;
 }
 
-function run(command: string, commandArgs: string[], captureOutput = false) {
-  const printableArgs = commandArgs.map((arg) =>
-    /\s/.test(arg) ? quoteForShell(arg) : arg
-  );
-  console.log(`\n$ ${command} ${printableArgs.join(" ")}`);
-
-  const result = spawnSync(command, commandArgs, {
-    cwd: rootDir,
-    encoding: "utf8",
-    stdio: captureOutput ? ["inherit", "pipe", "pipe"] : "inherit",
-  });
-
+function run(command: string, commandArgs: string[]) {
+  const result = spawnSync(command, commandArgs, { cwd: rootDir, stdio: "inherit" });
+  if (result.error) throw result.error;
   if (result.status !== 0) {
-    if (captureOutput) {
-      if (result.stdout) process.stdout.write(result.stdout);
-      if (result.stderr) process.stderr.write(result.stderr);
-    }
-    process.exit(result.status ?? 1);
-  }
-
-  return captureOutput ? result.stdout : "";
-}
-
-function verifyHttp(siteUrl: string) {
-  const indexHtml = run(
-    "curl",
-    ["-fsSL", "-H", "Cache-Control: no-cache", siteUrl],
-    true
-  );
-  const robotsTxt = run("curl", ["-fsSL", `${siteUrl}/robots.txt`], true);
-  const sitemapXml = run("curl", ["-fsSL", `${siteUrl}/sitemap.xml`], true);
-
-  // A home é pré-renderizada (scripts/prerender.ts), então #root chega com
-  // conteúdo. Um <div id="root"></div> vazio aqui significa que o passo de
-  // pré-render não rodou ou que o servidor devolveu o app-shell no lugar da
-  // home — nos dois casos o deploy publicou algo pior do que o esperado.
-  assertExcludes(indexHtml, '<div id="root"></div>', "homepage root vazio");
-  assertIncludes(indexHtml, "<h1", "homepage prerendered content");
-  assertIncludes(robotsTxt, "Sitemap:", "robots sitemap declaration");
-  assertIncludes(sitemapXml, "<urlset", "sitemap urlset");
-
-  console.log("\nHTTP verification passed.");
-}
-
-function assertIncludes(contents: string, expected: string, label: string) {
-  if (!contents.includes(expected)) {
-    console.error(`Expected ${label} to include: ${expected}`);
-    process.exit(1);
-  }
-}
-
-function assertExcludes(contents: string, unexpected: string, label: string) {
-  if (contents.includes(unexpected)) {
-    console.error(`Expected ${label} to be absent: ${unexpected}`);
-    process.exit(1);
+    throw new Error(`${command} failed (${result.signal ?? result.status})`);
   }
 }
 

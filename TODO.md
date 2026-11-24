@@ -26,10 +26,7 @@
 
 ## Fase 2 — Performance & Core Web Vitals
 
-- [x] **Lighthouse CI no GitHub Actions** — `scripts/lighthouse-budget.ts`
-      (Lighthouse 13 via API Node + vite preview) roda em todo push/PR
-      (`lighthouse.yml`); orçamento anti-regressão: perf ≥65, a11y ≥90,
-      BP ≥90, SEO ≥95, LCP ≤6.5s, CLS ≤0.1, TBT ≤500ms.
+- [x] **Orçamento gzip e smoke tests no Chromium** no CI com `pnpm test:site`.
 - [ ] **Meta LCP < 2.5s** — exige pré-render com conteúdo real (SSG das
       rotas, ex.: vite-ssg ou prerender custom); hoje o SPA pinta só após
       boot do JS (LCP ~4.4-5s na emulação mobile 4x). Maior alavanca de
@@ -70,13 +67,10 @@
 
 ## Fase 5 — Infra & qualidade contínua
 
-- [x] **Deploy automatizado via GitHub Actions** — `deploy.yml` dispara em tags
-      `v*` (+ `workflow_dispatch` com `dry_run`), reusa `scripts/deploy.ts`,
-      revalida com `ci:check`, verifica host key via `DEPLOY_SSH_KNOWN_HOSTS` e
-      pinga o IndexNow. Pendente: preencher os secrets no repositório
-      (ver DEPLOY-CHECKLIST.md, Opção 1).
-- [ ] **Testes E2E (Playwright)** — fluxos críticos: navegação, troca de
-      idioma/tema, formulário de contato, filtro do blog.
+- [x] **Deploy automatizado via GitHub Actions** — entrega da `main` na Hostinger,
+      verificação HTTPS, rollback por backup e release com o artefato validado.
+- [x] **Smoke tests com Playwright** — navegação, idioma e menu móvel.
+- [ ] **Ampliar testes E2E** — tema, formulário de contato e filtro do blog.
 - [ ] **Aumentar cobertura de testes unitários** — meta 70% em `src/hooks` e
       `src/contexts`.
 - [ ] **Renovate ou dependabot mensal agrupado** — reduzir ruído de PRs.

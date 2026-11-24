@@ -205,7 +205,7 @@ pnpm preview
 3. **Monitor**
    - Set up Core Web Vitals monitoring
    - Track real user metrics (RUM)
-   - Use Lighthouse CI in build pipeline
+   - Use the gzip bundle budget in CI (`pnpm test:site`)
 
 ---
 

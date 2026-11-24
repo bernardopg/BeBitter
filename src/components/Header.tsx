@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
@@ -54,24 +54,28 @@ const Header = () => {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              <Link to="/" className="mr-6 flex items-center space-x-2 mb-6">
-                 <Image imageKey="BEBITTER_LOGO_ALT" alt="BeBitter Logo" className="h-6 w-auto" />
-                <span className="font-bold">{t("hero.title")}</span>
-              </Link>
+            <SheetContent side="left" aria-describedby={undefined}>
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <SheetClose asChild>
+                <Link to="/" className="mr-6 flex items-center space-x-2 mb-6">
+                  <Image imageKey="BEBITTER_LOGO_ALT" alt="BeBitter Logo" className="h-6 w-auto" />
+                  <span className="font-bold">{t("hero.title")}</span>
+                </Link>
+              </SheetClose>
               <div className="flex flex-col space-y-4">
                 {navLinks.map((link) => (
-                  <NavLink
-                    key={link.to}
-                    to={link.to}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-foreground"
-                        : "text-muted-foreground transition-colors hover:text-foreground"
-                    }
-                  >
-                    {link.label}
-                  </NavLink>
+                  <SheetClose asChild key={link.to}>
+                    <NavLink
+                      to={link.to}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-foreground"
+                          : "text-muted-foreground transition-colors hover:text-foreground"
+                      }
+                    >
+                      {link.label}
+                    </NavLink>
+                  </SheetClose>
                 ))}
               </div>
             </SheetContent>

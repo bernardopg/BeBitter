@@ -4,37 +4,38 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "tuesday"
       time: "08:00"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 2
-    labels:
-      - "dependencies"
-      - "npm"
+    open-pull-requests-limit: 1
+    labels: ["dependencies", "npm"]
     commit-message:
       prefix: "chore(deps)"
     groups:
-      runtime-dependencies:
-        dependency-type: "production"
-      tooling-and-tests:
-        dependency-type: "development"
+      npm:
+        patterns: ["*"]
+      npm-security:
+        applies-to: "security-updates"
+        patterns: ["*"]
     ignore:
-      # typescript-eslint 8.x declara peer typescript <6.1.0, então TS 7 quebra
-      # o lint (ver 1b13544). Remover quando typescript-eslint suportar TS 7.
+      # typescript-eslint 8.x does not support TypeScript 7.
       - dependency-name: "typescript"
-        versions:
-          - ">=7.0.0"
+        versions: [">=7.0.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "08:30"
+      day: "thursday"
+      time: "08:00"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 2
-    labels:
-      - "dependencies"
-      - "github-actions"
+    open-pull-requests-limit: 1
+    labels: ["dependencies", "github-actions"]
     commit-message:
       prefix: "chore(ci)"
+    groups:
+      github-actions:
+        patterns: ["*"]
+      github-actions-security:
+        applies-to: "security-updates"
+        patterns: ["*"]

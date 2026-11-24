@@ -17,7 +17,6 @@
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fbebitterbebetter.com.br&style=for-the-badge&label=site&up_message=online&labelColor=0a0a14&color=7c3aed)](https://bebitterbebetter.com.br)
 [![CI](https://img.shields.io/github/actions/workflow/status/bernardopg/BeBitter/ci.yml?branch=main&style=for-the-badge&label=CI&labelColor=0a0a14)](https://github.com/bernardopg/BeBitter/actions/workflows/ci.yml)
-[![Lighthouse budget](https://img.shields.io/github/actions/workflow/status/bernardopg/BeBitter/lighthouse.yml?branch=main&style=for-the-badge&label=Lighthouse%20budget&labelColor=0a0a14)](https://github.com/bernardopg/BeBitter/actions/workflows/lighthouse.yml)
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/bernardopg/BeBitter/codeql-eslint-nodejs.yml?branch=main&style=for-the-badge&label=CodeQL&labelColor=0a0a14)](https://github.com/bernardopg/BeBitter/actions/workflows/codeql-eslint-nodejs.yml)
 [![Release](https://img.shields.io/github/v/release/bernardopg/BeBitter?style=for-the-badge&labelColor=0a0a14&color=0ea5e9)](https://github.com/bernardopg/BeBitter/releases)
 
@@ -33,7 +32,7 @@ Most of my work sits where product engineering meets operations: interfaces peop
 
 I'm also a **medical student**. That shapes how I build software: clear flows, attention to operational detail, and respect for the people at the other end of the screen.
 
-> **This repository is my portfolio, and it's also the proof.** The site you'd visit is the same codebase you're reading: pre-rendered, bilingual, accessibility-checked, performance-budgeted, and shipped by a tag-driven pipeline.
+> **This repository is my portfolio, and it's also the proof.** The site you'd visit is the same codebase you're reading: pre-rendered, bilingual, accessibility-checked, performance-budgeted, and shipped by an automated pipeline from the main branch.
 
 <br />
 
@@ -144,7 +143,7 @@ This is a deliberately small site run with the discipline of a product team.
         <li><b>40 routes pre-rendered</b> to static HTML through an SSR build, so content paints before JS boots</li>
         <li>Critical CSS inlined by a custom Vite plugin</li>
         <li>Gzip + Brotli assets, manual vendor chunking, lazy routes</li>
-        <li><b>Lighthouse budget gate</b> on every PR (LCP, CLS, TBT, and category scores)</li>
+        <li><b>Chromium smoke tests and a bundle-size budget</b> on every PR</li>
       </ul>
     </td>
     <td width="33%" valign="top">
@@ -162,7 +161,7 @@ This is a deliberately small site run with the discipline of a product team.
         <li>GitHub README HTML <b>sanitized with DOMPurify</b> before rendering</li>
         <li>CodeQL, Dependency Review, Dependabot, and audited <code>pnpm</code> overrides</li>
         <li>HSTS preload and hardened response headers</li>
-        <li><b>Tag-driven release and deploy</b> with remote backup and post-deploy checks</li>
+        <li><b>Automatic release and deploy from main</b> with remote backup and post-deploy checks</li>
       </ul>
     </td>
   </tr>
@@ -182,15 +181,14 @@ flowchart LR
     subgraph Gates["Pull request"]
         E["lint · typecheck · tests"]
         F["CodeQL · dependency review"]
-        G["Lighthouse budget"]
+        G["Chromium • gzip budget"]
     end
-    subgraph Ship["git tag v*"]
-        H["GitHub Release<br/>+ dist tarball"]
-        I["Deploy<br/>backup · rsync · health check"]
+    subgraph Ship["main"]
+        I["Hostinger<br/>backup · upload · smoke check"] --> H["GitHub Release<br/>+ deployed tarball"]
     end
     A --> B
     D --> E & F & G
-    E & F & G --> H & I
+    E & F & G --> I
     I --> J(("bebitterbebetter<br/>.com.br"))
 ```
 
@@ -205,7 +203,7 @@ flowchart LR
 | **Data** | TanStack Query · GitHub REST API · React Context |
 | **Forms** | React Hook Form · Zod |
 | **Build** | Vite 8 (Rolldown) · SSR pre-render · custom critical-CSS plugin · gzip/Brotli |
-| **Quality** | ESLint 10 (flat config, jsx-a11y) · Vitest · Testing Library · Lighthouse |
+| **Quality** | ESLint 10 (flat config, jsx-a11y) · Vitest · Testing Library · Playwright |
 | **Delivery** | GitHub Actions · CodeQL · Dependabot · SSH + rsync to Hostinger |
 | **Runtime** | Node 26 LTS · pnpm 12 |
 
@@ -241,13 +239,13 @@ pnpm dev                  # http://localhost:8080
 | `pnpm ci:check` | Lint, typecheck, tests, and production build (mirrors CI) |
 | `pnpm build` | Sitemap, RSS, and OG images, then Vite build and pre-render |
 | `pnpm test` | Vitest in watch mode |
-| `pnpm lighthouse:budget` | Audits `/`, `/blog/`, and `/services/` against the performance budget |
+| `pnpm test:site` | Runs Chromium navigation smoke tests and checks the gzip bundle budget after a build |
 | `pnpm security:audit` | `pnpm audit` at high severity |
 
 > [!IMPORTANT]
 > `VITE_*` variables are inlined into the client bundle. Never put secrets in them.
 
-Publishing is tag-driven: pushing a `v*` tag runs the [release](.github/workflows/release.yml) and [deploy](.github/workflows/deploy.yml) workflows. Setup, manual runs, and rollback are covered in [`DEPLOY-CHECKLIST.md`](DEPLOY-CHECKLIST.md).
+The [production workflow](.github/workflows/deploy.yml) validates each new `main` revision, deploys the tested archive to Hostinger, then publishes it as a GitHub release. Dependabot updates are grouped and merged one at a time after the required checks. See [operations and recovery](DEPLOY-CHECKLIST.md).
 
 <details>
 <summary><b>Project structure</b></summary>
@@ -260,7 +258,7 @@ src/
 ├── hooks/        # GitHub API, animations, utilities
 ├── pages/        # routes: Index, Projects, Services, Blog, Now
 └── utils/        # security, performance, toast helpers
-scripts/          # build-time generators, pre-render, deploy, Lighthouse budget
+scripts/          # build-time generators, pre-render, deploy, bundle budget
 ```
 
 </details>

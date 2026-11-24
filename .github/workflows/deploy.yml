@@ -1,145 +1,186 @@
-name: Deploy
+name: Production delivery
+run-name: ${{ inputs.dry_run && 'Dry run' || 'Production' }} ${{ github.sha }}
 
-# Automates what `pnpm deploy:hostinger` used to do by hand. The whole deploy
-# lives in scripts/deploy.ts (remote backup -> rsync --delete -> permissions ->
-# remote file assertions -> HTTP smoke test -> backup pruning); this workflow
-# only bridges GitHub secrets into the env vars that script already expects.
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Ensaio: roda rsync --dry-run, não altera o servidor"
-        required: false
-        default: false
+        description: Validate and preview the Hostinger upload without writing files
         type: boolean
+        default: false
 
-# Never cancel a deploy in flight: an interrupted `rsync --delete` leaves the
-# document root half-written.
+permissions: {}
 concurrency:
-  group: deploy-production
+  group: bebitter-production
   cancel-in-progress: false
 
-permissions:
-  contents: read
-
 jobs:
-  deploy:
-    name: Deploy to Hostinger
+  build:
+    if: github.repository == 'bernardopg/BeBitter' && github.ref == 'refs/heads/main'
+    name: Validate production build
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment:
-      name: production
-      url: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
-
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7.0.1
-
-      - name: Verify deploy secrets are configured
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Reuse the published archive on redeploy
+        id: archive
         env:
-          DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
-          DEPLOY_SSH_PORT: ${{ secrets.DEPLOY_SSH_PORT }}
-          DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
-          DEPLOY_REMOTE_DIR: ${{ secrets.DEPLOY_REMOTE_DIR }}
-          VITE_GA_TRACKING_ID: ${{ secrets.VITE_GA_TRACKING_ID }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          missing=""
-          for key in DEPLOY_SSH_HOST DEPLOY_SSH_PORT DEPLOY_SSH_USER \
-                     DEPLOY_SSH_KEY DEPLOY_SSH_KNOWN_HOSTS DEPLOY_REMOTE_DIR \
-                     VITE_GA_TRACKING_ID; do
-            [ -n "${!key}" ] || missing="$missing $key"
-          done
-          if [ -n "$missing" ]; then
-            echo "::error::Secrets ausentes:$missing — veja DEPLOY-CHECKLIST.md"
-            exit 1
+          set -euo pipefail
+          tag=$(bash scripts/publish-release.sh --tag-at-head)
+          if [[ -n "$tag" ]] && release=$(gh release view "$tag" --json assets 2>/dev/null); then
+            asset="bebitter-dist-$tag.tar.gz"
+            if jq -e --arg asset "$asset" 'any(.assets[]; .name == $asset and .size > 0)' <<< "$release" >/dev/null; then
+              gh release download "$tag" --pattern "$asset" --output bebitter-dist.tar.gz
+              revision=$(tar -xOf bebitter-dist.tar.gz ./deploy-revision.txt)
+              [[ "$revision" == "$GITHUB_SHA" ]]
+              echo "reused=true" >> "$GITHUB_OUTPUT"
+            fi
           fi
-          echo "Todos os secrets de deploy estão configurados."
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6.1.1
+      - uses: pnpm/action-setup@v6.1.1
+        if: steps.archive.outputs.reused != 'true'
+      - uses: actions/setup-node@v7.1.0
+        if: steps.archive.outputs.reused != 'true'
         with:
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7.1.0
-        with:
-          node-version-file: ".node-version"
-          cache: "pnpm"
-
-      - name: Install dependencies
+          node-version-file: .node-version
+          cache: pnpm
+      - if: steps.archive.outputs.reused != 'true'
         run: pnpm install --frozen-lockfile
-
-      # `ci:check` (lint + typecheck + tests + build) rather than a bare build:
-      # a tag can be cut from any commit, so production re-verifies instead of
-      # trusting that main was green. Runs before the SSH key touches the disk,
-      # so a failing gate never reaches the point where credentials exist.
-      - name: Verify and build
+      - name: Build with production settings
+        if: steps.archive.outputs.reused != 'true'
         env:
-          VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
+          VITE_SITE_URL: https://bebitterbebetter.com.br
           VITE_GA_TRACKING_ID: ${{ secrets.VITE_GA_TRACKING_ID }}
           VITE_CAL_URL: ${{ vars.VITE_CAL_URL }}
-          # VITE_GITHUB_TOKEN is deliberately absent: anything VITE_-prefixed is
-          # inlined into the client bundle, so setting it would publish the token.
         run: pnpm ci:check
-
-      - name: Configure SSH
-        env:
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+      - if: steps.archive.outputs.reused != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+      - if: steps.archive.outputs.reused != 'true'
+        run: pnpm test:site
+      - name: Package tested files
+        if: steps.archive.outputs.reused != 'true'
         run: |
-          install -d -m 700 ~/.ssh
-          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          # Pre-seeding known_hosts is what makes the script's
-          # StrictHostKeyChecking=accept-new meaningful on an ephemeral runner:
-          # a key mismatch now aborts instead of being trusted on first use.
-          printf '%s\n' "$DEPLOY_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
+          printf '%s\n' "$GITHUB_SHA" > dist/deploy-revision.txt
+          tar -czf bebitter-dist.tar.gz -C dist .
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: production-dist
+          path: bebitter-dist.tar.gz
+          if-no-files-found: error
+          retention-days: 14
 
-      - name: Deploy to Hostinger
+  deploy:
+    needs: build
+    name: Publish tested files to Hostinger
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://bebitterbebetter.com.br
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .node-version
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: production-dist
+      - name: Deploy and verify public site
         env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
           DEPLOY_SSH_PORT: ${{ secrets.DEPLOY_SSH_PORT }}
           DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
           DEPLOY_REMOTE_DIR: ${{ secrets.DEPLOY_REMOTE_DIR }}
-          DEPLOY_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
           DEPLOY_KEEP_BACKUPS: ${{ vars.DEPLOY_KEEP_BACKUPS || '5' }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
-          # Exported here rather than in `env:` because `~` does not expand there.
-          export DEPLOY_SSH_KEY_PATH="$HOME/.ssh/deploy_key"
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            pnpm deploy:hostinger -- --skip-build --dry-run
-          else
-            pnpm deploy:hostinger -- --skip-build
+          set -euo pipefail
+          if [[ "$(gh api "repos/$GH_REPO/branches/main" --jq .commit.sha)" != "$GITHUB_SHA" ]]; then
+            echo "::error::A main avançou. Execute o deploy para o commit atual."
+            exit 1
           fi
-
-      - name: Ping IndexNow
+          mkdir dist
+          tar -xzf bebitter-dist.tar.gz -C dist
+          grep -Fxq "$GITHUB_SHA" dist/deploy-revision.txt
+          umask 077
+          mkdir -p ~/.ssh
+          export DEPLOY_SSH_KEY_PATH="$RUNNER_TEMP/bebitter-deploy-key"
+          trap 'rm -f "$DEPLOY_SSH_KEY_PATH" ~/.ssh/known_hosts' EXIT
+          printf '%s\n' "${SSH_KEY:?Missing DEPLOY_SSH_KEY}" > "$DEPLOY_SSH_KEY_PATH"
+          printf '%s\n' "${SSH_KNOWN_HOSTS:?Missing DEPLOY_SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+          unset SSH_KEY SSH_KNOWN_HOSTS GH_TOKEN
+          args=(--skip-build)
+          if [[ "$DRY_RUN" == true ]]; then args+=(--dry-run); fi
+          node scripts/deploy.ts "${args[@]}"
+      - name: Notify IndexNow
         if: inputs.dry_run != true
+        continue-on-error: true
         env:
-          VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }}
-        run: pnpm indexnow:ping
+          VITE_SITE_URL: https://bebitterbebetter.com.br
+        run: node scripts/indexnow-ping.ts
 
-      - name: Remove SSH credentials
-        if: always()
-        run: rm -rf ~/.ssh/deploy_key ~/.ssh/known_hosts
+  release:
+    needs: deploy
+    if: inputs.dry_run != true
+    name: Publish GitHub release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: production-dist
+      - name: Tag and attach the deployed archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: bash scripts/publish-release.sh
 
-      - name: Deploy summary
-        if: always()
+  notify:
+    needs: [build, deploy, release]
+    if: always() && github.repository == 'bernardopg/BeBitter' && github.ref == 'refs/heads/main' && inputs.dry_run != true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Report delivery problems
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESULT: ${{ needs.release.result }}
         run: |
-          {
-            echo "### Deploy — ${{ github.ref_name }}"
-            echo
-            echo "| Campo | Valor |"
-            echo "| --- | --- |"
-            echo "| Resultado | ${{ job.status }} |"
-            echo "| Ref | \`${{ github.ref_name }}\` (${GITHUB_SHA:0:7}) |"
-            echo "| Modo | ${{ inputs.dry_run == true && 'dry-run' || 'produção' }} |"
-            echo "| Site | ${{ vars.VITE_SITE_URL || 'https://bebitterbebetter.com.br' }} |"
-            echo
-            echo "Rollback: \`mv <remote_dir>.backup-<timestamp> <remote_dir>\` via SSH."
-          } >> "$GITHUB_STEP_SUMMARY"
+          title='BeBitter: entrega de produção bloqueada'
+          if [[ "$RESULT" == success ]]; then
+            bash scripts/automation-issue.sh "$title"
+          elif [[ "$(gh api "repos/$GH_REPO/branches/main" --jq .commit.sha)" == "$GITHUB_SHA" ]]; then
+            bash scripts/automation-issue.sh "$title" "Falha na entrega de $GITHUB_SHA. Veja [$GITHUB_RUN_ID]($RUN_URL). Após corrigir, rode **Production delivery** na main."
+          fi

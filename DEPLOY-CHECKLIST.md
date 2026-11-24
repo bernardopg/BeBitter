@@ -1,172 +1,61 @@
-# 🚀 Deploy Checklist - BeBitter
+# Entrega e operação do BeBitter
 
-## 📋 **Pré-Deploy**
+## Atualizações de dependências
 
-### ✅ **Verificações Locais:**
+O Dependabot agrupa os pacotes npm em um PR às terças-feiras e as GitHub Actions em um PR às quintas-feiras, no horário de São Paulo. O limite de um PR por ecossistema vale para atualizações de versão. Correções de segurança têm agrupamento separado e são abertas quando detectadas.
 
-- [x] Build executado com sucesso (`pnpm build`)
-- [x] Sitemap gerado automaticamente
-- [x] robots.txt otimizado
-- [x] Google Search Console metatag adicionada
-- [x] GA Tracking ID configurado no `.env.local`
-- [x] Testes locais passando
-- [x] Lint sem erros
+O workflow [Dependabot queue](.github/workflows/dependencies.yml) roda ao terminar o CI ou a entrega de produção, a cada duas horas e sob demanda na `main`. O workflow usa o token temporário do GitHub Actions. Ele aceita PRs do Dependabot do próprio repositório, com commits atribuídos ao bot e arquivos compatíveis com o ecossistema. Upgrades de versão passam pelos mesmos checks.
 
-### 📦 **Arquivos Prontos para Deploy:**
+1. Confere os checks obrigatórios de CI, Dependency Review e CodeQL no SHA atual. O CI inclui lint, typecheck, testes unitários, build, validação dos workflows, navegação no Chromium e tamanho dos bundles.
+2. Mescla via squash com o SHA verificado, sob a proteção estrita da `main`. O GitHub remove a branch remota após o merge.
+3. Dispara a entrega na `main` explicitamente. A fila só libera o próximo merge quando o commit atual tem deploy e release bem-sucedidos.
+4. Atualiza branches que ficaram atrás por rebase e aguarda os novos checks. Verifica se a atualização continua sem conflitos e se permanece combinável com a base atual.
 
-```text
-dist/
-├── index.html (6.04 KB) ✅ Com metatag GSC
-├── robots.txt ✅ Otimizado com AI bots
-├── sitemap.xml ✅ Priority 0.9 para /now
-├── assets/ ✅ CSS/JS otimizados
-├── images/ ✅ Imagens otimizadas
-└── sw.js ✅ Service Worker
-```
+Conflitos, checks reprovados e bloqueios ficam em uma issue atribuída ao dono do repositório. A issue é atualizada conforme os bloqueios mudam e fecha quando são resolvidos. Um PR com problema pode aguardar enquanto outro elegível avança. Para regenerar um PR com conflito, comente `@dependabot recreate` no PR após verificar se contém alterações manuais que precisam ser preservadas.
 
----
-
-## 🔄 **Processo de Deploy**
-
-### **Opção 1: GitHub Actions (Recomendado)**
-
-`.github/workflows/deploy.yml` dispara em qualquer tag `v*` e roda o mesmo
-`scripts/deploy.ts` do deploy manual — nenhuma lógica duplicada no YAML.
-
-#### **1. Configurar os secrets do repositório (uma vez):**
-
-| Secret | Exemplo | Observação |
-| --- | --- | --- |
-| `DEPLOY_SSH_HOST` | `bebitterbebetter.com.br` | |
-| `DEPLOY_SSH_PORT` | `65002` | porta SSH padrão da Hostinger |
-| `DEPLOY_SSH_USER` | `u123456789` | |
-| `DEPLOY_SSH_KEY` | conteúdo de `~/.ssh/id_ed25519` | **chave privada inteira**, não o caminho |
-| `DEPLOY_SSH_KNOWN_HOSTS` | saída do `ssh-keyscan` abaixo | obrigatório: sem isso o runner confiaria em qualquer host |
-| `DEPLOY_REMOTE_DIR` | `/home/u123456789/domains/bebitterbebetter.com.br/public_html` | |
-| `VITE_GA_TRACKING_ID` | `G-XXXXXXXXXX` | sem ele o build publica a tag do GA vazia |
-
-Gerar o `known_hosts`:
+Os testes do site usam [Playwright](https://playwright.dev/docs/ci-intro) com o Chromium em modo headless. Cobrem hidratação, troca de idioma, navegação e menu móvel. O orçamento determinístico em `scripts/check-bundle-size.ts` limita JS e CSS da home a 250 KiB gzip e o conjunto de JS e CSS a 620 KiB gzip. As verificações cobrem peso e funcionamento, sem medir LCP, CLS ou TBT. Para reproduzir:
 
 ```bash
-ssh-keyscan -p 65002 bebitterbebetter.com.br
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm ci:check
+pnpm test:site
 ```
 
-Variáveis opcionais (Settings → Variables, não Secrets):
-`VITE_SITE_URL`, `VITE_CAL_URL`, `DEPLOY_KEEP_BACKUPS` (padrão `5`).
+## Production delivery
 
-> `VITE_GITHUB_TOKEN` **não** deve ser configurado: tudo com prefixo `VITE_` é
-> embutido no bundle do cliente, então o token ficaria público.
+Pushes à `main` e merges feitos pela fila disparam [Production delivery](.github/workflows/deploy.yml). O workflow valida um build com as configurações de produção e empacota `dist`. O deploy e a release usam o mesmo arquivo, com o SHA escrito em `deploy-revision.txt`.
 
-#### **2. Deploy:**
+O script confere o caminho remoto real `$HOME/domains/bebitterbebetter.com.br/public_html` antes de acessar os arquivos. O deploy usa um lock específico do BeBitter, faz backup, sincroniza com rsync preservando `.well-known` e verifica rotas, metadados, SHA e os bytes dos assets da página inicial via HTTPS. Depois da verificação, publica uma release GitHub com o tarball. Se o upload ou a verificação pública falhar, restaura o backup e verifica o site novamente.
+
+A versão da release avança um patch a partir da tag SemVer mais alta. Uma tag SemVer que já aponta para o mesmo SHA é reutilizada, inclusive ao repetir uma publicação interrompida. `package.json` e `CHANGELOG.md` continuam com o versionamento editorial do código-fonte. As releases automáticas têm notas geradas pelo GitHub a partir dos commits.
+
+| Secret | Uso |
+| --- | --- |
+| `DEPLOY_SSH_HOST`, `DEPLOY_SSH_PORT`, `DEPLOY_SSH_USER` | Conexão SSH da Hostinger |
+| `DEPLOY_SSH_KEY`, `DEPLOY_SSH_KNOWN_HOSTS` | Chave privada de deploy e chave pública verificada do servidor |
+| `DEPLOY_REMOTE_DIR` | Caminho absoluto de `domains/bebitterbebetter.com.br/public_html` |
+| `VITE_GA_TRACKING_ID` | ID de medição usado no build público |
+
+Variáveis opcionais no GitHub incluem `VITE_CAL_URL` e `DEPLOY_KEEP_BACKUPS` (cinco por padrão, zero desativa a poda). O prefixo `VITE_` torna o valor público no bundle. Mantenha tokens e senhas fora dessas variáveis.
+
+Para validar o acesso e simular a sincronização, abra **Actions → Production delivery → Run workflow**, selecione `main` e marque `dry_run`. Para repetir uma entrega após corrigir uma falha, execute na `main` com `dry_run` desmarcado.
+
+## Saúde e recuperação
+
+[Production health](.github/workflows/health.yml) verifica o site a cada seis horas. Valida home, blog, serviços, página Now, robots.txt, sitemap, RSS, assets e validade do TLS. Uma falha abre uma issue atribuída ao dono. A recuperação fecha essa issue automaticamente.
+
+Cada deploy mantém um backup em `public_html.backup-AAAAMMDD-HHMMSS` no diretório do domínio. Se a sessão for interrompida e sobrar `public_html.deploy-lock`, confirme que nenhum deploy está em execução antes de remover o diretório vazio do lock. Para restaurar manualmente, use SSH com o host e a chave verificados:
 
 ```bash
-# Deploy de produção = publicar uma tag
-pnpm ci:check                  # opcional, o workflow revalida
-git tag v1.8.0 && git push origin v1.8.0
+cd ~/domains/bebitterbebetter.com.br
+rsync -a --checksum --delay-updates --delete-delay --exclude=/.well-known \
+  public_html.backup-AAAAMMDD-HHMMSS/ public_html/
 ```
 
-Ou pelo GitHub: **Actions → Deploy → Run workflow**, com a opção
-`dry_run` para um ensaio (`rsync --dry-run`, não altera o servidor).
+Confirme a recuperação localmente com `bash scripts/check-site.sh https://bebitterbebetter.com.br`. Corrija ou reverta o commit na `main` para que o site restaurado e a próxima entrega voltem a corresponder.
 
-O workflow faz, nesta ordem: `pnpm ci:check` (lint, typecheck, testes, build)
-→ grava a chave SSH → backup remoto → `rsync --delete` → permissões →
-asserções de arquivo no servidor → smoke test HTTP → poda de backups antigos →
-ping no IndexNow → apaga a chave SSH.
-
-#### **3. Rollback:**
-
-Cada deploy deixa `<DEPLOY_REMOTE_DIR>.backup-YYYYMMDD-HHMMSS` no servidor
-(os 5 mais recentes são mantidos):
-
-```bash
-ssh -p 65002 u123456789@bebitterbebetter.com.br
-mv public_html public_html.falhou && mv public_html.backup-20260730-021500 public_html
-```
-
----
-
-### **Opção 2: Deploy Manual (FTP/SFTP)**
-
-#### **1. Conectar ao Servidor:**
-
-```bash
-# Via FTP (use FileZilla, Cyberduck, ou similar)
-Host: ftp.bebitterbebetter.com.br (ou IP do Hostinger)
-Username: seu_usuario
-Password: sua_senha
-Port: 21 (FTP) ou 22 (SFTP)
-```
-
-#### **2. Fazer Upload:**
-
-```bash
-# Fazer backup da versão atual (importante!)
-# No servidor, renomeie a pasta atual:
-# public_html → public_html.backup-2025-10-01
-
-# Upload dos arquivos:
-1. Acesse a pasta: /home/seu_usuario/public_html/
-2. Faça upload de TODO o conteúdo da pasta dist/
-3. Preserve a estrutura de pastas
-```
-
-#### **3. Verificar Permissões:**
-
-```bash
-# No terminal SSH ou painel do Hostinger:
-chmod -R 755 /home/seu_usuario/public_html/
-```
-
----
-
-### **Opção 3: Script Automatizado via SSH (local)**
-
-#### **1. Configurar as credenciais locais:**
-
-```bash
-# Criar arquivo local ignorado pelo Git
-cp .env.deploy.example .env.deploy
-
-# Preencher com:
-# DEPLOY_SSH_HOST
-# DEPLOY_SSH_PORT
-# DEPLOY_SSH_USER
-# DEPLOY_SSH_KEY_PATH
-# DEPLOY_REMOTE_DIR=/home/USUARIO/domains/SEU-DOMINIO/public_html
-```
-
-#### **2. Deploy no Servidor:**
-
-```bash
-# Executar no terminal local
-pnpm deploy:hostinger
-```
-
-O script faz:
-
-- `pnpm build`
-- backup remoto de `public_html`
-- sync do conteúdo de `dist/` para a hospedagem com `rsync`
-- ajuste de permissões
-- validação HTTP da home, `robots.txt` e `sitemap.xml`
-- poda dos backups antigos, mantendo os `DEPLOY_KEEP_BACKUPS` mais recentes
-
----
-
-### **Opção 4: Deploy Manual via Git + SSH**
-
-```bash
-# Conectar via SSH ao servidor
-ssh usuario@bebitterbebetter.com.br
-
-# Build local ou no servidor
-pnpm build
-
-# Copiar para public_html
-rsync -az dist/ usuario@host:/home/usuario/public_html/
-```
-
----
+Para deploy manual com o mesmo script, copie `.env.deploy.example` para `.env.deploy`, configure a chave no `known_hosts` com a identidade verificada do servidor e rode `pnpm deploy:hostinger -- --dry-run` primeiro. O deploy manual usa o build do checkout local.
 
 ## ✅ **Pós-Deploy - Verificações**
 
@@ -323,6 +212,3 @@ Se precisar de ajuda com o deploy:
 - **Logs**: Verificar logs do servidor para erros
 
 ---
-
-**Última atualização:** Outubro 2025
-**Status:** ⏳ Aguardando deploy em produção
