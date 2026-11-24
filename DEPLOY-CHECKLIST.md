@@ -66,10 +66,8 @@ Para deploy manual com o mesmo script, copie `.env.deploy.example` para `.env.de
 curl https://bebitterbebetter.com.br/robots.txt
 
 # Deve mostrar:
-# - Comentários informativos
-# - Bots de AI (GPTBot, Claude, CCBot)
-# - Google específico
-# ✅ CORRETO se mostrar a versão otimizada
+# - Grupo User-agent: * com Allow: /
+# - Sitemap com a URL HTTPS de produção
 ```
 
 ```bash
@@ -77,9 +75,9 @@ curl https://bebitterbebetter.com.br/robots.txt
 curl https://bebitterbebetter.com.br/sitemap.xml
 
 # Deve mostrar:
-# - <priority>0.9</priority> para /now
+# - URLs canônicas de páginas e artigos
 # - xmlns:xhtml namespace
-# - Data atual (2025-10-01)
+# - lastmod dos artigos com a data de publicação ou revisão
 # ✅ CORRETO se mostrar a versão nova
 ```
 

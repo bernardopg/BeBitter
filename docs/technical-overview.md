@@ -110,3 +110,17 @@ cp .env.deploy.example .env.deploy
 ```
 
 As variáveis e secrets de deploy estão descritos em [DEPLOY-CHECKLIST.md](../DEPLOY-CHECKLIST.md) e em [scripts/deploy.ts](../scripts/deploy.ts).
+
+### Descoberta dos artigos
+
+A lista do blog, o RSS e o catálogo de artigos em `/llms.txt` ordenam as
+publicações da mais recente para a mais antiga. Uma revisão editorial conserva
+a data de publicação e informa a data da mudança em `BlogPosting` e no sitemap.
+O build gera o catálogo a partir dos mesmos slugs, títulos e resumos que o blog
+usa no HTML pré-renderizado. As referências e leituras relacionadas viram
+links HTML mesmo com JavaScript desativado.
+
+O Search Console permite inspecionar o estado de indexação e o canonical
+escolhido pelo Google. AI Overviews e AI Mode seguem as regras de elegibilidade
+da busca. `llms.txt` é um catálogo opcional para consumidores que o consultam.
+[Google Search Central](https://developers.google.com/search/docs/appearance/ai-features) · [Proposta llms.txt](https://llmstxt.org/)

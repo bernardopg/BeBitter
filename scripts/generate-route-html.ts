@@ -9,7 +9,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { blogPosts } from "../src/constants/blog-posts";
+import { blogPosts, type BlogPost } from "../src/constants/blog-posts";
 import { articleImageUrls, ogImageUrlForPath } from "../src/utils/og.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -23,7 +23,7 @@ interface RouteMeta {
   description: string;
   ogType?: string;
   ogImage?: string;
-  article?: { date: string; updatedAt?: string; author: string };
+  article?: BlogPost;
 }
 
 // Rotas estáticas conhecidas
@@ -175,6 +175,7 @@ function injectMeta(html: string, meta: RouteMeta): string {
       datePublished: meta.article.date, dateModified: meta.article.updatedAt ?? meta.article.date,
       author: { "@type": "Person", name: meta.article.author, url: `${BASE_URL}/` },
       image: articleImageUrls(BASE_URL, routePath),
+      ...(meta.article.sources?.length ? { citation: meta.article.sources.map(({ url }) => url) } : {}),
     };
     const json = JSON.stringify(article).replace(/</g, "\\u003c");
     html = html.replace("</head>", `<script type="application/ld+json">${json}</script>\n</head>`);
@@ -191,11 +192,20 @@ async function generateRouteHtml() {
   }
 
   const baseHtml = fs.readFileSync(baseHtmlPath, "utf-8");
+  const llmsIntro = fs.readFileSync(path.join(ROOT, "public", "llms.txt"), "utf-8").trimEnd();
+  const articleLinks = [...blogPosts]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .map((post) => `- [${post.title}](${BASE_URL}/blog/${post.slug}/): ${post.excerpt}`);
+  fs.writeFileSync(path.join(DIST, "llms.txt"), [
+    llmsIntro,
+    "## Artigos em português (mais recentes primeiro)",
+    articleLinks.join("\n"),
+    "",
+  ].join("\n\n"));
   const routes: RouteMeta[] = [...staticRoutes];
 
   // Adicionar rotas de blog
-  const posts = blogPosts;
-  for (const post of posts) {
+  for (const post of blogPosts) {
     routes.push({
       path: `/blog/${post.slug}`,
       title: `${post.title} | Bernardo Gomes`,

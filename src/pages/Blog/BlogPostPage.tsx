@@ -198,9 +198,9 @@ export default function BlogPostPage() {
   const excerpt =
     language === "en" && post.excerptEn ? post.excerptEn : post.excerpt;
 
-  const formattedDate = new Date(`${post.date}T12:00:00`).toLocaleDateString(
+  const formatDate = (date: string) => new Date(`${date}T12:00:00Z`).toLocaleDateString(
     language === "en" ? "en-US" : "pt-BR",
-    { year: "numeric", month: "long", day: "numeric" },
+    { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
   );
 
   const canonicalUrl = `https://bebitterbebetter.com.br/blog/${post.slug}/`;
@@ -245,6 +245,7 @@ export default function BlogPostPage() {
         dateModified={post.updatedAt ?? post.date}
         author={post.author}
         keywords={post.tags}
+        citations={post.sources?.map(({ url }) => url)}
         wordCount={wordCount}
         readingTimeMinutes={post.readingTime}
       />
@@ -287,8 +288,14 @@ export default function BlogPostPage() {
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-t border-border pt-4">
                 <span>
                   {t("blog.publishedOn")}{" "}
-                  <time dateTime={post.date}>{formattedDate}</time>
+                  <time dateTime={post.date}>{formatDate(post.date)}</time>
                 </span>
+                {post.updatedAt && post.updatedAt !== post.date && (
+                  <span>
+                    {language === "en" ? "Updated on" : "Atualizado em"}{" "}
+                    <time dateTime={post.updatedAt}>{formatDate(post.updatedAt)}</time>
+                  </span>
+                )}
                 <span>·</span>
                 <span className="flex items-center gap-1">
                   <Clock className="h-3.5 w-3.5" />

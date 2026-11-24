@@ -1,3 +1,4 @@
+import { editorialReviews } from "./blog-editorial-review";
 import { newPosts } from "./blog-posts-2026";
 import { novemberPosts } from "./blog-posts-november-2026";
 
@@ -26,7 +27,7 @@ export interface BlogPost {
   related?: string[];
 }
 
-export const blogPosts: BlogPost[] = [
+const catalog: BlogPost[] = [
   ...novemberPosts,
   ...newPosts,
   {
@@ -156,7 +157,7 @@ export const blogPosts: BlogPost[] = [
       {
         type: "code",
         language: "yaml",
-        content: "# Exemplo simplificado de ResourceClaim (DRA GA, k8s 1.37)\napiVersion: resource.k8s.io/v1\nkind: ResourceClaim\nmetadata:\n  name: gpu-fracionada\nspec:\n  devices:\n    requests:\n      - name: gpu\n        deviceClassName: nvidia-shared\n        count: 1"
+        content: "# Exemplo simplificado de ResourceClaim (API resource.k8s.io/v1)\napiVersion: resource.k8s.io/v1\nkind: ResourceClaim\nmetadata:\n  name: gpu-fracionada\nspec:\n  devices:\n    requests:\n      - name: gpu\n        exactly:\n          deviceClassName: nvidia-shared\n          allocationMode: ExactCount\n          count: 1"
       },
       {
         type: "heading",
@@ -324,71 +325,29 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "seo-ai-overviews-geo-2026",
-    title: "SEO em 2026: O que Sobra do Tráfego Orgânico Depois do AI Overviews",
-    titleEn: "SEO in 2026: What's Left of Organic Traffic After AI Overviews",
-    excerpt: "CTR de posição 1 caiu de 1,76% para 0,61% em buscas com AI Overview. Analiso os números reais de 2026, o que muda na prática pra quem escreve conteúdo técnico e por que llms.txt virou parte do checklist.",
-    excerptEn: "Position-1 CTR dropped from 1.76% to 0.61% on AI Overview searches. A look at the real 2026 numbers, what actually changes for technical content, and why llms.txt is now part of the checklist.",
+    title: "SEO para AI Overviews: rastreamento, conteúdo e medição",
+    titleEn: "SEO for AI Overviews: crawling, content and measurement",
+    excerpt: "Entenda os requisitos do Google para AI Overviews, o papel de llms.txt e como verificar rastreamento, indexação, cliques e referências de IA.",
+    excerptEn: "Understand Google’s requirements for AI Overviews, what llms.txt does, and how to check crawling, indexing, clicks and AI referrals.",
     date: "2026-09-08",
     author: "Bernardo Gomes",
-    tags: [
-      "SEO",
-      "IA & Automação"
-    ],
-    readingTime: 10,
+    tags: ["SEO", "IA & Automação"],
+    readingTime: 4,
     content: [
-      {
-        type: "paragraph",
-        content: "Os números de 2026 confirmam o que a maioria de quem escreve conteúdo técnico já sentia no dia a dia: o AI Overviews do Google mudou a economia do clique. Um estudo da Seer Interactive mostrou o CTR orgânico em buscas com AI Overview caindo de 1,76% para 0,61% na posição 1 — uma queda de mais de 65% no clique que antes ia direto pro seu site. A Ahrefs, em atualização de dezembro de 2025, já apontava redução de até 58% no CTR de conteúdo bem posicionado quando um AI Overview aparece acima dos resultados orgânicos."
-      },
-      {
-        type: "callout",
-        variant: "warning",
-        content: "Fonte: Seer Interactive e Ahrefs (dados consolidados em estudos de 2026). Um levantamento da AuthorityTech sobre 46 milhões de observações apontou queda média de 15% no tráfego orgânico geral — mas com um detalhe importante: visitantes que chegam via referência de IA convertem 42% melhor e geram 37% mais receita por sessão do que o tráfego orgânico tradicional."
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "O clique caiu, mas nem todo clique valia o mesmo"
-      },
-      {
-        type: "paragraph",
-        content: "O dado mais contraintuitivo de 2026 é esse: menos volume de clique, mas o clique que sobra é mais qualificado. Faz sentido — quem clica através de um resumo de IA já filtrou a pergunta genérica e está buscando profundidade, não a resposta rápida que o próprio Overview já entregou. Isso muda a métrica que importa: otimizar para volume de clique bruto perde relevância; otimizar para ser a fonte citada dentro do resumo — e para converter bem o visitante qualificado que ainda clica — ganha peso."
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "GEO na prática: o que realmente mudou no conteúdo"
-      },
-      {
-        type: "list",
-        items: [
-          "Estrutura clara com respostas diretas no topo da seção — os modelos de IA extraem melhor conteúdo que responde a pergunta antes de justificar",
-          "Dados e fontes citáveis explicitamente (nome, data, número) — o mesmo padrão que este blog já usa nos callouts de fonte, e que facilita tanto o leitor humano quanto a extração por IA",
-          "Schema.org estruturado (Article, FAQPage, BlogPosting) continua relevante — motores de IA generativa também consomem dados estruturados, não só o HTML renderizado",
-          "llms.txt como sinalização explícita de quais páginas e que contexto você quer que agentes de IA priorizem — ainda não é padrão universal, mas a adoção cresceu ao longo de 2026",
-          "Conteúdo de nicho técnico com experiência real (o 'E' de EEAT) resiste melhor: é o tipo de conteúdo que um resumo genérico de IA não substitui, porque exige julgamento e contexto específico"
-        ]
-      },
-      {
-        type: "code",
-        language: "text",
-        content: "# llms.txt — sinalização para crawlers de agentes de IA\n# (já publicado neste site desde 2026-07-03)\n\n# BeBitter — Bernardo Gomes\n> Portfólio e blog técnico sobre desenvolvimento web,\n> performance e automação.\n\n## Conteúdo prioritário\n- /blog: artigos técnicos com fontes citadas e código real\n- /projects: estudos de caso de projetos reais, com stack e resultado"
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "O que não mudou"
-      },
-      {
-        type: "paragraph",
-        content: "Performance (Core Web Vitals), sitemap e feed atualizados, dados estruturados corretos e conteúdo original continuam sendo a base — o AI Overviews não substitui rastreamento e indexação, só muda o que acontece depois que o Google já decidiu que sua página é relevante. Quem não tinha SEO técnico em ordem antes de 2026 não ganhou nada com o pânico do AI Overviews; quem tinha, só precisou ajustar a métrica de sucesso."
-      },
-      {
-        type: "callout",
-        variant: "tip",
-        content: "Pare de medir só CTR e posição média. Meça conversão do tráfego que ainda chega, participação em citações de AI Overview (quando a ferramenta de analytics conseguir capturar) e tempo de permanência em conteúdo técnico profundo — é aí que o jogo de 2026 realmente se decide."
-      }
-    ]
+      { type: "paragraph", content: "Para uma página aparecer como link de apoio em AI Overviews ou AI Mode, o Google exige que ela esteja indexada e apta a exibir um snippet na busca. Use a inspeção de URL no Search Console para verificar o estado da página e do canonical. O Google aplica as mesmas práticas fundamentais de SEO a essas experiências." },
+      { type: "heading", level: 2, content: "O que vale revisar em cada artigo" },
+      { type: "list", items: [
+        "Devolva HTTP 200 na URL canônica e disponibilize o título, a resposta principal, os exemplos e as referências como texto no HTML.",
+        "Inclua links internos descritivos no contexto em que a leitura complementa a explicação. Um link de outro site é um backlink externo e depende da decisão editorial desse site.",
+        "Cite a documentação que sustenta uma afirmação. Separe medições feitas no seu projeto de estimativas, limites oficiais e resultados de terceiros.",
+        "Mantenha BlogPosting coerente com página, título, autoria, imagens e datas. O Google não exige um schema especial para AI Overviews."
+      ] },
+      { type: "heading", level: 2, content: "Para que serve llms.txt" },
+      { type: "paragraph", content: "llms.txt é uma proposta de diretório em Markdown com links e descrições. Ele pode ajudar ferramentas que decidam consultá-lo, mas o Google não exige esse arquivo. Use o mecanismo adequado para cada verificação: sitemap divulga URLs, robots.txt controla rastreamento por agente e os controles de snippet afetam quanto conteúdo o Google pode mostrar. Em serviços de IA, confira a documentação do provedor para distinguir rastreadores de busca, coleta para treinamento e acessos solicitados por uma pessoa." },
+      { type: "heading", level: 2, content: "Como medir sem confundir descoberta com resultado" },
+      { type: "paragraph", content: "Confira URL indexada e canonical escolhido no Search Console. O relatório de desempenho da busca Web inclui tráfego das funcionalidades de IA do Google. Use a cobertura que o relatório realmente oferece, sem atribuir cada clique a um AI Overview. Para outros mecanismos, verifique as referências quando reportadas pelo navegador e compare a qualidade das visitas com eventos que importam para o site." },
+      { type: "paragraph", content: "Exemplo: se um guia agrupa muitas impressões para uma consulta, abra a página e verifique se a resposta aparece antes dos detalhes. Depois acompanhe o par página e consulta em janelas comparáveis. Mudanças no CTR podem refletir composição das consultas, sazonalidade, dispositivo e posição. A série é uma evidência de tendência, sem isolar sozinha o efeito de uma experiência de IA." },
+    ],
   },
   {
     slug: "runtimes-js-bun-deno-node-2026",
@@ -674,7 +633,7 @@ export const blogPosts: BlogPost[] = [
       {
         type: "callout",
         variant: "warning",
-        content: "A falha da API de imagens é explorável sem credencial nenhuma — basta o atacante enviar uma imagem AVIF manipulada ao endpoint de otimização. Qualquer deploy exposto na internet que sirva imagens via next/image está no escopo."
+        content: "A falha da API de imagens é explorável sem credencial nenhuma — basta o atacante enviar uma imagem AVIF manipulada ao endpoint de otimização. O escopo depende da versão e da configuração. Compare seu deploy com os pré-requisitos listados no aviso oficial."
       },
       {
         type: "heading",
@@ -683,7 +642,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        content: "A primeira vulnerabilidade (GHSA-2xp9-vwfh-vxw4 / GHSA-g89c-p67h-r497) não estava no código JavaScript do Next.js — residia na libheif, biblioteca em C usada pelo sharp para decodificar AVIF. Uma imagem AVIF com dados manipulados levava à execução remota de código no processo do servidor. O fix das versões patchadas desabilitou a otimização AVIF até a correção do upstream se propagar pelo ecossistema."
+        content: "A primeira vulnerabilidade (GHSA-2xp9-vwfh-vxw4) não estava no código JavaScript do Next.js — residia na libheif, biblioteca em C usada pelo sharp para decodificar AVIF. Uma imagem AVIF com dados manipulados levava à execução remota de código no processo do servidor. O fix das versões patchadas desabilitou a otimização AVIF até a correção do upstream se propagar pelo ecossistema."
       },
       {
         type: "paragraph",
@@ -739,8 +698,8 @@ export const blogPosts: BlogPost[] = [
     slug: "typescript-7-migracao-2026",
     title: "TypeScript 7: Guia Real de Migração Para o Compilador Nativo em Go",
     titleEn: "TypeScript 7: A Real-World Migration Guide to the Go-Native Compiler",
-    excerpt: "O TS 7 é 8 a 12x mais rápido e o 7.0.2 já é a versão latest no npm. O problema: typescript-eslint ainda exige TS < 6.1. Como adotar o compilador nativo hoje, sem quebrar o toolchain.",
-    excerptEn: "TS 7 is 8-12x faster and 7.0.2 is already the latest on npm. The catch: typescript-eslint still requires TS < 6.1. How to adopt the native compiler today without breaking your toolchain.",
+    excerpt: "Planeje a migração ao compilador nativo do TypeScript 7 e valide os diagnósticos, a compatibilidade do typescript-eslint e os plugins do seu projeto.",
+    excerptEn: "Plan the migration to the TypeScript 7 native compiler and verify diagnostics, typescript-eslint support, and plugin compatibility.",
     date: "2026-08-21",
     author: "Bernardo Gomes",
     tags: [
@@ -1004,92 +963,41 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "core-web-vitals-2026-lcp-inp",
-    title: "Core Web Vitals em 2026: LCP Ficou Mais Rígido e INP é o Novo Gargalo",
-    titleEn: "Core Web Vitals in 2026: LCP Got Stricter and INP Is the New Bottleneck",
-    excerpt: "Google apertou o threshold do LCP de 2,5s para 2,0s em março de 2026. INP abaixo de 200ms é obrigatório. Como medir, priorizar e corrigir na prática.",
-    excerptEn: "Google tightened the LCP threshold from 2.5s to 2.0s in March 2026. INP below 200ms is mandatory. How to measure, prioritize, and fix in practice.",
+    title: "Core Web Vitals: como medir e melhorar LCP, INP e CLS",
+    titleEn: "Core Web Vitals: how to measure and improve LCP, INP and CLS",
+    excerpt: "Use dados de campo no percentil 75 e diagnósticos no navegador para corrigir LCP, INP e CLS em um site React.",
+    excerptEn: "Use 75th-percentile field data and browser diagnostics to improve LCP, INP and CLS on a React site.",
     date: "2026-05-20",
     author: "Bernardo Gomes",
-    tags: [
-      "Performance",
-      "SEO"
-    ],
-    readingTime: 10,
+    tags: ["Performance", "SEO"],
+    readingTime: 4,
     content: [
-      {
-        type: "paragraph",
-        content: "Na atualização de março de 2026, o Google apertou o threshold do LCP (Largest Contentful Paint) de 2,5s para 2,0s. Para sites que estavam confortavelmente no verde com 2,3s, a mudança foi brutal — foram para vermelho da noite para o dia. Junto com isso, INP (Interaction to Next Paint) substituiu definitivamente o FID como métrica de responsividade."
-      },
-      {
-        type: "callout",
-        variant: "warning",
-        content: "Thresholds atuais de 2026: LCP bom < 2,0s (era 2,5s), INP bom < 200ms, CLS bom < 0,1. Fonte: Google Search Central Documentation, atualizado em março de 2026."
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Por que o LCP ficou mais difícil"
-      },
-      {
-        type: "paragraph",
-        content: "LCP mede quanto tempo leva para o maior elemento visível na viewport ser renderizado. Na maioria dos sites, esse elemento é uma imagem hero ou o H1 principal. O Google justificou o novo threshold com dados do Chrome UX Report mostrando que redes móveis melhoraram significativamente — 2,0s é realista para 75% dos usuários em 2026."
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "INP: a métrica que mais derruba sites React"
-      },
-      {
-        type: "paragraph",
-        content: "INP mede a latência de todas as interações do usuário — não só a primeira como o FID fazia. Para sites React, INP é traiçoeiro: um evento onClick que dispara um setState que re-renderiza 50 componentes pode facilmente passar de 500ms. O threshold de 200ms é exigente."
-      },
-      {
-        type: "code",
-        language: "typescript",
-        content: "// Medindo INP no seu app React\nimport { onINP } from \"web-vitals\";\n\nonINP(({ value, rating, entries }) => {\n  // rating: 'good' | 'needs-improvement' | 'poor'\n  if (rating !== \"good\") {\n    // entries mostra qual interação causou o problema\n    const worstEntry = entries.reduce((a, b) =>\n      a.duration > b.duration ? a : b\n    );\n    console.warn(\"INP ruim:\", {\n      duration: value,\n      element: worstEntry.target,\n      type: worstEntry.name, // 'click', 'keydown', etc.\n    });\n  }\n}, { reportAllChanges: true });"
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Padrões para corrigir INP em React"
-      },
-      {
-        type: "list",
-        items: [
-          "useTransition: marque atualizações de estado não-urgentes como transição — React as adia sem bloquear a interação",
-          "useDeferredValue: para buscas e filtros, defira o valor que aciona re-renders pesados",
-          "Virtualization: listas longas (>100 itens) precisam de virtualização — use tanstack/virtual",
-          "Evite re-renders em cascata: useCallback + useMemo onde o profiler mostrar gargalos reais, não preventivamente",
-          "Quebre handlers grandes: divida onClick em microtasks com scheduler.yield() (API experimental Chrome 2026)"
-        ]
-      },
-      {
-        type: "code",
-        language: "typescript",
-        content: "// useTransition para manter INP bom em filtros\nimport { useTransition, useState } from \"react\";\n\nfunction ProductFilter({ products }) {\n  const [filter, setFilter] = useState(\"\");\n  const [isPending, startTransition] = useTransition();\n\n  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    // Atualização do input: urgente (sem transição)\n    const value = e.target.value;\n\n    // Filtragem da lista: não-urgente (pode esperar)\n    startTransition(() => {\n      setFilter(value);\n    });\n  };\n\n  const filtered = products.filter(p =>\n    p.name.toLowerCase().includes(filter.toLowerCase())\n  );\n\n  return (\n    <>\n      <input onChange={handleChange} />\n      <div style={{ opacity: isPending ? 0.7 : 1 }}>\n        {filtered.map(p => <ProductCard key={p.id} product={p} />)}\n      </div>\n    </>\n  );\n}"
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "Ferramentas de medição em 2026"
-      },
-      {
-        type: "paragraph",
-        content: "Para medir Core Web Vitals em campo (dados reais de usuários): Google Search Console (gratuito, 28 dias de histórico), biblioteca web-vitals (npm, reporta para seu analytics), e PageSpeed Insights com dados do Chrome UX Report. Para lab (dados sintéticos): Lighthouse no DevTools, WebPageTest para comparações detalhadas. O Google recomenda priorizar dados de campo sobre lab."
-      },
-      {
-        type: "callout",
-        variant: "tip",
-        content: "O CrUX (Chrome UX Report) agora tem granularidade por segmento de dispositivo — você pode ver CWV separados por mobile, tablet e desktop. Útil para identificar se o problema é específico de um segmento."
-      }
-    ]
+      { type: "paragraph", content: "Os limites oficiais da categoria boa são LCP de até 2,5 segundos, INP de até 200 milissegundos e CLS de até 0,1. Use o percentil 75 das visitas e compare dados de dispositivos equivalentes. Um teste local ajuda a encontrar a causa de uma regressão. Dados de campo mostram com que frequência usuários reais encontram o problema." },
+      { type: "heading", level: 2, content: "Como investigar cada métrica" },
+      { type: "list", items: [
+        "LCP mede quando o maior elemento elegível na área visível é renderizado. Identifique o elemento no DevTools e confira quando seu recurso começa a baixar e quanto tempo ele leva para aparecer.",
+        "INP avalia a responsividade das interações ao longo da visita. Grave uma interação lenta e separe atraso de entrada, execução do handler e a próxima pintura.",
+        "CLS mede deslocamentos inesperados. Reserve espaço para imagens e conteúdo tardio e observe as fontes durante a renderização."
+      ] },
+      { type: "heading", level: 2, content: "Exemplo: filtro pesado em React" },
+      { type: "paragraph", content: "Mantenha o estado do input síncrono. Passe um valor deferido para a lista e meça novamente o fluxo. Para que isso ajude, a lista precisa conseguir evitar trabalho quando o valor deferido ainda não mudou. Se o custo real for filtrar ou renderizar milhares de itens, inspecione a lista e considere virtualização ou mover o cálculo para outra etapa." },
+      { type: "code", language: "tsx", content: `const [query, setQuery] = useState('');
+const deferredQuery = useDeferredValue(query);
+
+return <>
+  <input value={query} onChange={(event) => setQuery(event.target.value)} />
+  <MemoizedResults query={deferredQuery} />
+</>;` },
+      { type: "heading", level: 2, content: "Como comparar antes e depois" },
+      { type: "paragraph", content: "Comece pelo relatório do Search Console ou pelo PageSpeed Insights. Quando não houver amostra suficiente para uma URL no CrUX, confira se o relatório usa dados do domínio inteiro. Complemente com a biblioteca web-vitals sem registrar textos digitados ou identificadores pessoais. Compare a mesma rota e o mesmo segmento depois que houver volume suficiente no ambiente novo." },
+    ],
   },
   {
     slug: "seguranca-frontend-2026",
     title: "Segurança Frontend em 2026: CSP, Trusted Types e os Ataques que Cresceram",
     titleEn: "Frontend Security in 2026: CSP, Trusted Types and the Attacks That Grew",
-    excerpt: "XSS continua no topo do OWASP 2026. Supply chain attacks cresceram 300% desde 2022. Content Security Policy e Trusted Types são suas melhores defesas — como configurar de verdade.",
-    excerptEn: "XSS remains at the top of OWASP 2026. Supply chain attacks grew 300% since 2022. Content Security Policy and Trusted Types are your best defenses — how to configure them for real.",
+    excerpt: "Veja como combinar Content Security Policy, Trusted Types e práticas de cadeia de suprimentos para reduzir riscos no frontend.",
+    excerptEn: "Learn how to combine Content Security Policy, Trusted Types and dependency review to reduce frontend security risks.",
     date: "2026-05-01",
     author: "Bernardo Gomes",
     tags: [
@@ -1100,12 +1008,7 @@ export const blogPosts: BlogPost[] = [
     content: [
       {
         type: "paragraph",
-        content: "XSS (Cross-Site Scripting) voltou ao topo da lista OWASP em 2026 após anos sendo eclipsado por outras categorias. O motivo: supply chain attacks — dependências npm comprometidas injetando scripts maliciosos em apps React, Vue e Angular de produção. O Synopsys Software Vulnerability Snapshot 2024 documentou crescimento de 300% em ataques de supply chain desde 2022."
-      },
-      {
-        type: "callout",
-        variant: "warning",
-        content: "Em março de 2026, o pacote @xz/utils (850.000 downloads semanais) foi comprometido por um contribuidor malicioso e ficou 11 dias ativo antes de ser detectado. Qualquer app que instalou versões 2.1.3 a 2.2.1 estava em risco."
+        content: "Uma aplicação pode executar código indesejado por dois caminhos diferentes: dados não confiáveis chegam a uma operação sensível no DOM, ou uma dependência introduz código no artefato. CSP e Trusted Types reduzem riscos no navegador. Revisão de dependências, isolamento do CI e verificação do que foi publicado ajudam a proteger o processo de build."
       },
       {
         type: "heading",
@@ -1114,7 +1017,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        content: "CSP define quais recursos o browser pode carregar e de onde. Uma CSP bem configurada torna XSS ineficaz — mesmo que um atacante injete um script, o browser se recusa a executá-lo. Em 2026, CSP com nonce é o padrão recomendado para SPAs."
+        content: "CSP restringe o carregamento de recursos e a execução de scripts no navegador. Em uma página dinâmica, um nonce precisa ser imprevisível por resposta e combinar com o atributo do script autorizado. Em hospedagem estática, avalie hashes para scripts inline fixos ou mova esses scripts para arquivos sob uma política apropriada."
       },
       {
         type: "code",
@@ -1124,16 +1027,16 @@ export const blogPosts: BlogPost[] = [
       {
         type: "heading",
         level: 2,
-        content: "Trusted Types: XSS impossível para DOM manipulation"
+        content: "Trusted Types: proteção para operações sensíveis do DOM"
       },
       {
         type: "paragraph",
-        content: "Trusted Types é uma API do browser (Chrome, Edge — Firefox em progresso) que impede atribuição direta de strings para innerHTML, outerHTML, e outros sinks perigosos. Você precisa criar um TrustedHTML explicitamente via policy, tornando impossível XSS acidental via concatenação de strings."
+        content: "Trusted Types restringe valores em operações sensíveis do DOM quando a diretiva está em vigor e o navegador oferece suporte. Revise as policies autorizadas, pois uma policy que devolve HTML sem sanitizar mantém o risco."
       },
       {
         type: "code",
         language: "typescript",
-        content: "// Trusted Types — proteção contra DOM XSS\n// Ativa no CSP:\n// require-trusted-types-for 'script'; trusted-types default dompurify\n\n// No código TypeScript:\nconst policy = window.trustedTypes?.createPolicy(\"default\", {\n  createHTML: (input: string) => {\n    // DOMPurify sanitiza antes de criar TrustedHTML\n    return DOMPurify.sanitize(input, { RETURN_TRUSTED_TYPE: true });\n  },\n});\n\n// Agora innerHTML aceita apenas TrustedHTML\nelement.innerHTML = policy?.createHTML(userContent) ?? \"\";\n// Se tentar: element.innerHTML = userContent; — o browser bloqueia"
+        content: "// Exemplo: política my-html autorizada pelo CSP.\nconst policy = window.trustedTypes?.createPolicy(\"my-html\", {\n  createHTML: (input) => DOMPurify.sanitize(input, {\n    RETURN_TRUSTED_TYPE: false,\n  }),\n});\n\nelement.innerHTML = policy\n  ? policy.createHTML(userContent)\n  : DOMPurify.sanitize(userContent);"
       },
       {
         type: "heading",
@@ -1154,7 +1057,7 @@ export const blogPosts: BlogPost[] = [
       {
         type: "code",
         language: "yaml",
-        content: "# .github/workflows/security.yml\nname: Security Audit\non: [push, pull_request]\n\njobs:\n  audit:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: pnpm/action-setup@v4\n      - name: Install dependencies\n        run: pnpm install --frozen-lockfile\n      - name: Security audit\n        run: pnpm audit --audit-level high\n      - name: Check for known malware\n        run: npx socket-security@latest scan . --strict"
+        content: "# .github/workflows/security.yml\nname: Security Audit\non: [push, pull_request]\n\njobs:\n  audit:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: pnpm/action-setup@v4\n      - name: Install dependencies\n        run: pnpm install --frozen-lockfile\n      - name: Security audit\n        run: pnpm audit --audit-level high"
       },
       {
         type: "callout",
@@ -1900,3 +1803,20 @@ export const blogPosts: BlogPost[] = [
     ]
   }
 ];
+
+export const blogPosts = catalog.map((post): BlogPost => {
+  const review = editorialReviews[post.slug];
+  if (!review) return post;
+
+  return {
+    ...post,
+    updatedAt: "2026-11-24",
+    sources: review.sources ?? post.sources,
+    related: review.related,
+    content: [
+      ...post.content,
+      { type: "heading", level: 2, content: "Como aplicar hoje" },
+      { type: "paragraph", content: review.note },
+    ],
+  };
+});

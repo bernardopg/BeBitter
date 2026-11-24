@@ -95,6 +95,7 @@ interface StructuredDataProps {
   dateModified?: string;
   author?: string;
   keywords?: string[];
+  citations?: string[];
   wordCount?: number;
   readingTimeMinutes?: number;
   software?: SoftwareMeta;
@@ -110,6 +111,7 @@ export const StructuredData = ({
   dateModified,
   author,
   keywords,
+  citations,
   wordCount,
   readingTimeMinutes,
   software,
@@ -212,6 +214,7 @@ export const StructuredData = ({
           "@type": "WebPage",
           "@id": currentUrl,
         },
+        ...(citations?.length ? { citation: citations } : {}),
         ...(keywords?.length ? { "keywords": keywords.join(", ") } : {}),
         ...(wordCount ? { "wordCount": wordCount } : {}),
         ...(readingTimeMinutes
@@ -403,7 +406,7 @@ export const StructuredData = ({
     updateOrCreateMeta('twitter:creator', '@cooldeflecha');
     updateOrCreateMeta('twitter:site', '@cooldeflecha');
 
-  }, [pageType, title, description, url, language, datePublished, dateModified, author, keywords, wordCount, readingTimeMinutes, software, faq]);
+  }, [pageType, title, description, url, language, datePublished, dateModified, author, keywords, citations, wordCount, readingTimeMinutes, software, faq]);
 
   return null;
 };
