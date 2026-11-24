@@ -24,7 +24,7 @@ pnpm test:site
 
 ## Production delivery
 
-Pushes à `main` e merges feitos pela fila disparam [Production delivery](.github/workflows/deploy.yml). O workflow valida um build com as configurações de produção e empacota `dist`. O deploy e a release usam o mesmo arquivo, com o SHA escrito em `deploy-revision.txt`.
+Pushes à `main` e merges feitos pela fila disparam [Production delivery](.github/workflows/deploy.yml). O workflow valida um build com as configurações de produção e empacota `dist`. O deploy e a release baixam o mesmo artefato pela API do GitHub, verificam seu SHA-256 e comparam `deploy-revision.txt` com o commit da execução.
 
 O script confere o caminho remoto real `$HOME/domains/bebitterbebetter.com.br/public_html` antes de acessar os arquivos. O deploy usa um lock específico do BeBitter, faz backup, sincroniza com rsync preservando `.well-known` e verifica rotas, metadados, SHA e os bytes dos assets da página inicial via HTTPS. Depois da verificação, publica uma release GitHub com o tarball. Se o upload ou a verificação pública falhar, restaura o backup e verifica o site novamente.
 
