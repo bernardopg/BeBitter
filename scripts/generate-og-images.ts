@@ -10,7 +10,7 @@ import { resolve } from "node:path";
 import sharp from "sharp";
 import { blogPosts } from "../src/constants/blog-posts";
 import { FEATURED_REPOSITORIES } from "../src/constants/config";
-import { ogImageNameForPath } from "../src/utils/og";
+import { articleImageVariants, ogImageNameForPath } from "../src/utils/og";
 
 const OUT_DIR = resolve("public/images/og");
 
@@ -160,10 +160,22 @@ async function main() {
   for (const spec of specs) {
     const name = ogImageNameForPath(spec.path);
     const svg = buildSvg(spec);
-    await sharp(Buffer.from(svg))
-      .png({ compressionLevel: 9, palette: true })
-      .toFile(resolve(OUT_DIR, `${name}.png`));
+    const cover = sharp(Buffer.from(svg)).png({ compressionLevel: 9, palette: true });
+    await cover.toFile(resolve(OUT_DIR, `${name}.png`));
     count++;
+    if (spec.path.startsWith("/blog/")) {
+      for (const { suffix, height } of articleImageVariants) {
+        const padding = height - 630;
+        await cover.clone().extend({
+          top: Math.floor(padding / 2),
+          bottom: Math.ceil(padding / 2),
+          left: 0,
+          right: 0,
+          background: "#0e0d17",
+        }).toFile(resolve(OUT_DIR, `${name}-${suffix}.png`));
+        count++;
+      }
+    }
   }
 
   console.log(`✅ ${count} imagens OG geradas em public/images/og/`);

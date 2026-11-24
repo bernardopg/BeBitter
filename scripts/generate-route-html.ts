@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { blogPosts } from "../src/constants/blog-posts";
-import { ogImageUrlForPath } from "../src/utils/og.js";
+import { articleImageUrls, ogImageUrlForPath } from "../src/utils/og.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -171,9 +171,10 @@ function injectMeta(html: string, meta: RouteMeta): string {
     const article = {
       "@context": "https://schema.org", "@type": "BlogPosting",
       headline: meta.title.replace(/ \| Bernardo Gomes$/, ""), description,
-      url: canonical, mainEntityOfPage: canonical, inLanguage: "pt-BR",
+      url: canonical, mainEntityOfPage: { "@type": "WebPage", "@id": canonical }, inLanguage: "pt-BR",
       datePublished: meta.article.date, dateModified: meta.article.updatedAt ?? meta.article.date,
-      author: { "@type": "Person", name: meta.article.author }, image,
+      author: { "@type": "Person", name: meta.article.author, url: `${BASE_URL}/` },
+      image: articleImageUrls(BASE_URL, routePath),
     };
     const json = JSON.stringify(article).replace(/</g, "\\u003c");
     html = html.replace("</head>", `<script type="application/ld+json">${json}</script>\n</head>`);

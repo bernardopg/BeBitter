@@ -76,6 +76,18 @@ function renderSection(section: ContentSection, index: number) {
         </ul>
       );
 
+    case "diagram":
+      return (
+        <figure key={index} className="my-8 rounded-xl border border-border bg-muted/30 p-5">
+          <figcaption className="mb-4 font-semibold">{section.caption}</figcaption>
+          <ol className="ml-5 list-decimal space-y-2 text-sm text-foreground marker:font-semibold">
+            {section.steps.map((step) => (
+              <li key={step} className="rounded-md bg-background px-3 py-2">{step}</li>
+            ))}
+          </ol>
+        </figure>
+      );
+
     case "callout": {
       const styles = {
         info: "bg-blue-500/10 border-blue-500/30 text-blue-400",
@@ -193,9 +205,22 @@ export default function BlogPostPage() {
 
   const canonicalUrl = `https://bebitterbebetter.com.br/blog/${post.slug}/`;
 
+  const relatedPosts = post.related?.map((slug) => blogPosts.find((entry) => entry.slug === slug));
+  const trackReference = (kind: "source" | "related", target: string) => {
+    trackEvent({
+      event_name: "blog_reference_click",
+      event_category: "Blog Engagement",
+      event_label: post.slug,
+      custom_parameters: { reference_kind: kind, reference_target: target },
+    });
+  };
+
   const wordCount = post.content.reduce((total, section) => {
-    const text =
-      "content" in section ? section.content : section.items.join(" ");
+    const text = "content" in section
+      ? section.content
+      : section.type === "diagram"
+        ? [section.caption, ...section.steps].join(" ")
+        : section.items.join(" ");
     return total + text.split(/\s+/).filter(Boolean).length;
   }, 0);
 
@@ -283,11 +308,31 @@ export default function BlogPostPage() {
                   <h2 id="sources-heading" className="text-2xl font-bold mt-10 mb-4">Fontes</h2>
                   <ul className="list-disc list-inside space-y-2">
                     {post.sources.map((source) => (
-                      <li key={source.url}><a className="text-primary underline" href={source.url}>{source.title}</a></li>
+                      <li key={source.url}>
+                        <a className="text-primary underline" href={source.url}
+                          onClick={() => trackReference("source", new URL(source.url).hostname)}>
+                          {source.title}
+                        </a>
+                      </li>
                     ))}
                   </ul>
                 </section>
               )}
+              {relatedPosts?.length ? (
+                <section aria-labelledby="related-heading">
+                  <h2 id="related-heading" className="text-2xl font-bold mt-10 mb-4">Leia também</h2>
+                  <ul className="list-disc list-inside space-y-2">
+                    {relatedPosts.map((related) => related && (
+                      <li key={related.slug}>
+                        <Link className="text-primary underline" to={`/blog/${related.slug}/`}
+                          onClick={() => trackReference("related", related.slug)}>
+                          {related.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
             </article>
 
             <footer className="mt-12 pt-8 border-t border-border">

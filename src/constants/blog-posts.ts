@@ -1,10 +1,12 @@
 import { newPosts } from "./blog-posts-2026";
+import { novemberPosts } from "./blog-posts-november-2026";
 
 export type ContentSection =
   | { type: "heading"; level: 2 | 3; content: string }
   | { type: "paragraph"; content: string }
   | { type: "code"; language: string; content: string }
   | { type: "list"; items: string[] }
+  | { type: "diagram"; caption: string; steps: string[] }
   | { type: "callout"; variant: "info" | "warning" | "tip"; content: string };
 
 export interface BlogPost {
@@ -21,9 +23,11 @@ export interface BlogPost {
   featured?: boolean;
   readingTime: number;
   sources?: { title: string; url: string }[];
+  related?: string[];
 }
 
 export const blogPosts: BlogPost[] = [
+  ...novemberPosts,
   ...newPosts,
   {
     slug: "shai-hulud-npm-worm-defesa-2026",

@@ -1,7 +1,7 @@
 import { IMAGES } from "@/constants/images";
 import { CONFIG } from "@/constants/config";
 import { useLanguage } from "@/hooks/useLanguage";
-import { ogImageUrlForPath } from "@/utils/og";
+import { articleImageUrls, ogImageUrlForPath } from "@/utils/og";
 import { useEffect } from "react";
 
 interface ImageObject {
@@ -199,14 +199,14 @@ export const StructuredData = ({
         "author": {
           "@type": "Person",
           "name": author ?? "Bernardo Gomes",
-          "url": "https://bebitterbebetter.com.br",
+          "url": "https://bebitterbebetter.com.br/",
         },
         "publisher": {
           "@type": "Person",
           "name": "Bernardo Gomes",
           "image": profileImageUrl,
         },
-        "image": profileImageUrl,
+        "image": articleImageUrls(new URL(currentUrl).origin, new URL(currentUrl).pathname),
         "inLanguage": "pt-BR",
         "mainEntityOfPage": {
           "@type": "WebPage",

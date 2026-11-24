@@ -64,9 +64,7 @@ const Analytics = () => {
 
 // Hook para eventos personalizados
 export const useAnalytics = () => {
-  const trackEvent = (event: AnalyticsEvent) => {
-    sendGTMEvent(event);
-  };
+  const trackEvent = sendGTMEvent;
 
   const trackButtonClick = (buttonName: string, location?: string) => {
     trackEvent({
