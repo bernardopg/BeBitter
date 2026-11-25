@@ -116,6 +116,20 @@ function remote(...commands: string[]) {
 const subdomainDirs = ["browser", "idler"];
 const keepRemote = [".well-known", ...subdomainDirs].map((dir) => `--exclude=/${dir}`);
 
+// Fails the deploy if a subdomain root lost files during the sync, after
+// copying it back from the backup taken before the upload.
+function verifySubdomains() {
+  remote(...subdomainDirs.map((dir) => {
+    const kept = quoteForShell(`${remoteDir}/${dir}`);
+    const saved = quoteForShell(`${backupDir}/${dir}`);
+    return [
+      `if [ -d ${saved} ] && [ "$(find ${saved} -type f | wc -l)" != "$(find ${kept} -type f 2>/dev/null | wc -l)" ]`,
+      `then rm -rf -- ${kept}; cp -a -- ${saved} ${kept}`,
+      `echo "Subdomain ${dir} changed during the deploy; restored it from the backup" >&2; exit 1; fi`,
+    ].join("; ");
+  }));
+}
+
 async function upload() {
   for (let attempt = 1; ; attempt++) {
     try {
@@ -148,6 +162,7 @@ if (dryRun) {
     console.log(`Backup: ${backupDir}`);
     try {
       await upload();
+      verifySubdomains();
       run("bash", ["scripts/check-site.sh", deployConfig.siteUrl, "dist"]);
     } catch (error) {
       console.error("Deploy failed. Restoring BeBitter from its backup.");
