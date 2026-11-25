@@ -116,16 +116,18 @@ function remote(...commands: string[]) {
 const subdomainDirs = ["browser", "idler"];
 const keepRemote = [".well-known", ...subdomainDirs].map((dir) => `--exclude=/${dir}`);
 
-// Fails the deploy if a subdomain root lost files during the sync, after
-// copying it back from the backup taken before the upload.
+// The sync excludes the subdomain roots, so it can only lose one by deleting
+// it. Fails the deploy if a root that existed in the backup is now missing or
+// empty, after copying it back. A root that still has files is never touched:
+// its own project may have deployed meanwhile, and its content is newer.
 function verifySubdomains() {
   remote(...subdomainDirs.map((dir) => {
     const kept = quoteForShell(`${remoteDir}/${dir}`);
     const saved = quoteForShell(`${backupDir}/${dir}`);
     return [
-      `if [ -d ${saved} ] && [ "$(find ${saved} -type f | wc -l)" != "$(find ${kept} -type f 2>/dev/null | wc -l)" ]`,
+      `if [ -d ${saved} ] && [ -n "$(find ${saved} -type f -print -quit)" ] && [ -z "$(find ${kept} -type f -print -quit 2>/dev/null)" ]`,
       `then rm -rf -- ${kept}; cp -a -- ${saved} ${kept}`,
-      `echo "Subdomain ${dir} changed during the deploy; restored it from the backup" >&2; exit 1; fi`,
+      `echo "Subdomain ${dir} was removed during the deploy; restored it from the backup" >&2; exit 1; fi`,
     ].join("; ");
   }));
 }
