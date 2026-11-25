@@ -111,12 +111,17 @@ function remote(...commands: string[]) {
   run("ssh", [...sshArgs, remoteTarget, ["set -eu", ...verifyTarget, ...commands].join("; ")]);
 }
 
+// Subdomains whose document roots Hostinger keeps inside public_html. They are
+// deployed by their own projects, so the BeBitter sync must never delete them.
+const subdomainDirs = ["browser", "idler"];
+const keepRemote = [".well-known", ...subdomainDirs].map((dir) => `--exclude=/${dir}`);
+
 async function upload() {
   for (let attempt = 1; ; attempt++) {
     try {
       run("rsync", [
         "-az", "--checksum", "--delay-updates", "--delete-delay",
-        "--exclude=/.well-known", "--itemize-changes", "--timeout=45",
+        ...keepRemote, "--itemize-changes", "--timeout=45",
         ...(dryRun ? ["--dry-run"] : []),
         "-e", sshTransport, "dist/", `${remoteTarget}:${remoteDir}/`,
       ]);
@@ -147,7 +152,7 @@ if (dryRun) {
     } catch (error) {
       console.error("Deploy failed. Restoring BeBitter from its backup.");
       try {
-        remote(`rsync -a --checksum --delay-updates --delete-delay --exclude=/.well-known -- ${backup}/ ${destination}/`);
+        remote(`rsync -a --checksum --delay-updates --delete-delay ${keepRemote.join(" ")} -- ${backup}/ ${destination}/`);
         run("bash", ["scripts/check-site.sh", deployConfig.siteUrl]);
       } catch (rollbackError) {
         throw new AggregateError([error, rollbackError], "Deploy and rollback verification failed", { cause: rollbackError });
