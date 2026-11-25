@@ -111,12 +111,33 @@ function remote(...commands: string[]) {
   run("ssh", [...sshArgs, remoteTarget, ["set -eu", ...verifyTarget, ...commands].join("; ")]);
 }
 
+// Subdomains whose document roots Hostinger keeps inside public_html. They are
+// deployed by their own projects, so the BeBitter sync must never delete them.
+const subdomainDirs = ["browser", "idler"];
+const keepRemote = [".well-known", ...subdomainDirs].map((dir) => `--exclude=/${dir}`);
+
+// The sync excludes the subdomain roots, so it can only lose one by deleting
+// it. Fails the deploy if a root that existed in the backup is now missing or
+// empty, after copying it back. A root that still has files is never touched:
+// its own project may have deployed meanwhile, and its content is newer.
+function verifySubdomains() {
+  remote(...subdomainDirs.map((dir) => {
+    const kept = quoteForShell(`${remoteDir}/${dir}`);
+    const saved = quoteForShell(`${backupDir}/${dir}`);
+    return [
+      `if [ -d ${saved} ] && [ -n "$(find ${saved} -type f -print -quit)" ] && [ -z "$(find ${kept} -type f -print -quit 2>/dev/null)" ]`,
+      `then rm -rf -- ${kept}; cp -a -- ${saved} ${kept}`,
+      `echo "Subdomain ${dir} was removed during the deploy; restored it from the backup" >&2; exit 1; fi`,
+    ].join("; ");
+  }));
+}
+
 async function upload() {
   for (let attempt = 1; ; attempt++) {
     try {
       run("rsync", [
         "-az", "--checksum", "--delay-updates", "--delete-delay",
-        "--exclude=/.well-known", "--itemize-changes", "--timeout=45",
+        ...keepRemote, "--itemize-changes", "--timeout=45",
         ...(dryRun ? ["--dry-run"] : []),
         "-e", sshTransport, "dist/", `${remoteTarget}:${remoteDir}/`,
       ]);
@@ -143,11 +164,12 @@ if (dryRun) {
     console.log(`Backup: ${backupDir}`);
     try {
       await upload();
+      verifySubdomains();
       run("bash", ["scripts/check-site.sh", deployConfig.siteUrl, "dist"]);
     } catch (error) {
       console.error("Deploy failed. Restoring BeBitter from its backup.");
       try {
-        remote(`rsync -a --checksum --delay-updates --delete-delay --exclude=/.well-known -- ${backup}/ ${destination}/`);
+        remote(`rsync -a --checksum --delay-updates --delete-delay ${keepRemote.join(" ")} -- ${backup}/ ${destination}/`);
         run("bash", ["scripts/check-site.sh", deployConfig.siteUrl]);
       } catch (rollbackError) {
         throw new AggregateError([error, rollbackError], "Deploy and rollback verification failed", { cause: rollbackError });

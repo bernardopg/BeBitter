@@ -26,7 +26,7 @@ pnpm test:site
 
 Pushes à `main` e merges feitos pela fila disparam [Production delivery](.github/workflows/deploy.yml). O workflow valida um build com as configurações de produção e empacota `dist`. O deploy e a release baixam o mesmo artefato pela API do GitHub, verificam seu SHA-256 e comparam `deploy-revision.txt` com o commit da execução.
 
-O script confere o caminho remoto real `$HOME/domains/bebitterbebetter.com.br/public_html` antes de acessar os arquivos. O deploy usa um lock específico do BeBitter, faz backup, sincroniza com rsync preservando `.well-known` e verifica rotas, metadados, SHA e os bytes dos assets da página inicial via HTTPS. Depois da verificação, publica uma release GitHub com o tarball. Se o upload ou a verificação pública falhar, restaura o backup e verifica o site novamente.
+O script confere o caminho remoto real `$HOME/domains/bebitterbebetter.com.br/public_html` antes de acessar os arquivos. O deploy usa um lock específico do BeBitter, faz backup, sincroniza com rsync preservando `.well-known` e as raízes dos subdomínios dentro de `public_html` (`browser/`, do Bitter Browser, e `idler/`), confere que nenhum desses diretórios sumiu ou ficou vazio (se isso acontecer, restaura-o do backup e falha; um diretório com conteúdo nunca é sobrescrito, porque o projeto dele pode ter publicado no meio-tempo), e verifica rotas, metadados, SHA e os bytes dos assets da página inicial via HTTPS. Depois da verificação, publica uma release GitHub com o tarball. Se o upload ou a verificação pública falhar, restaura o backup e verifica o site novamente.
 
 A versão da release avança um patch a partir da tag SemVer mais alta. Uma tag SemVer que já aponta para o mesmo SHA é reutilizada, inclusive ao repetir uma publicação interrompida. `package.json` e `CHANGELOG.md` continuam com o versionamento editorial do código-fonte. As releases automáticas têm notas geradas pelo GitHub a partir dos commits.
 
@@ -49,7 +49,7 @@ Cada deploy mantém um backup em `public_html.backup-AAAAMMDD-HHMMSS` no diretó
 
 ```bash
 cd ~/domains/bebitterbebetter.com.br
-rsync -a --checksum --delay-updates --delete-delay --exclude=/.well-known \
+rsync -a --checksum --delay-updates --delete-delay --exclude=/.well-known --exclude=/browser --exclude=/idler \
   public_html.backup-AAAAMMDD-HHMMSS/ public_html/
 ```
 
